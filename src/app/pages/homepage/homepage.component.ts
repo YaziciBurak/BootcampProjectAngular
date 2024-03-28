@@ -1,13 +1,11 @@
 import { Component, OnChanges, OnDestroy, OnInit } from '@angular/core';
 import { RouterModule, RouterOutlet } from '@angular/router';
-import { NavbarComponent } from '../../component/navbar/navbar.component';
+import { NavbarComponent } from '../../components/navbar/navbar.component';
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { GetlistApplicationResponse } from '../../models/responses/application/getlist-application-response';
 import { GetlistBootcampResponse } from '../../models/responses/bootcamp/getlist-bootcamp-response';
 import { GetlistBootcampstateResponse } from '../../models/responses/bootcampstate/getlist-bootcampstate-response';
 import { DataResult } from '../../dataresult';
-
 
 @Component({
   selector: 'app-homepage',
@@ -18,7 +16,6 @@ import { DataResult } from '../../dataresult';
 })
 export class HomepageComponent implements OnInit{
 
-  applicationList:GetlistApplicationResponse[] = [];
   bootcampList:GetlistBootcampResponse[] = [];
   bootcampState:GetlistBootcampstateResponse[] = [];
   

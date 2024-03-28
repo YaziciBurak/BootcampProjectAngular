@@ -6,11 +6,7 @@
                     <span class="fs-5 d-none d-sm-inline">Menu</span>
                 </a>
                 <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
-                    <li class="nav-item">
-                        <a routerLink="/homepage" class="nav-link align-middle text-dark px-0">
-                            <span class="fs-4 bi-house"></span> <span class="ms-1 d-none d-sm-inline">Home</span>
-                        </a>
-                    </li>
+                  
                     <li>
                         <a routerLink="#submenu2" data-bs-toggle="collapse" class="nav-link text-dark px-0 align-middle ">
                             <i class="fs-4 bi-bootstrap"></i> <span class="ms-1 d-none d-sm-inline">Bootstrap</span></a>
@@ -45,8 +41,8 @@
         </div>
         <div class="col py-3">
 
-            <table class="table table-striped">
-                <thead>
+            <table class="table table-bordered">
+                <thead >
                   <tr>
                     <th>Id</th>
                     <th>Name</th>
@@ -66,9 +62,11 @@
                     <td>{{ bootcamp.bootcampStateName}}</td>
                     <td>{{ bootcamp.startDate| date: 'dd/MM/yyyy'}}</td>
                     <td>{{ bootcamp.endDate| date: 'dd/MM/yyyy'}}</td>
+                 
                   </tr>
                 </tbody>
               </table>       
+            
         </div>
     </div>
 </div>
