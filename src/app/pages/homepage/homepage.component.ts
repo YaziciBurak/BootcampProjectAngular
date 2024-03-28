@@ -4,6 +4,9 @@ import { NavbarComponent } from '../../component/navbar/navbar.component';
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { GetlistApplicationResponse } from '../../models/responses/application/getlist-application-response';
+import { GetlistBootcampResponse } from '../../models/responses/bootcamp/getlist-bootcamp-response';
+import { GetlistBootcampstateResponse } from '../../models/responses/bootcampstate/getlist-bootcampstate-response';
+import { DataResult } from '../../dataresult';
 
 
 @Component({
@@ -16,56 +19,37 @@ import { GetlistApplicationResponse } from '../../models/responses/application/g
 export class HomepageComponent implements OnInit{
 
   applicationList:GetlistApplicationResponse[] = [];
-
+  bootcampList:GetlistBootcampResponse[] = [];
+  bootcampState:GetlistBootcampstateResponse[] = [];
+  
   constructor(private httpClient:HttpClient){}
 
   ngOnInit(): void {
     this.getListModels();
   }
-
-  getListModels(){
-    this.httpClient.get<GetlistApplicationResponse[]>("http://localhost:5190/api/Models")
+  ngOnInit1(): void {
+    this.getListModels1();
+  }
+ getListModels(){
+    this.httpClient.get<DataResult<GetlistBootcampResponse[]>>("http://localhost:5278/api/Bootcamps")
     .subscribe({
-      next:(response:GetlistApplicationResponse[])=>{
+      next:(response:DataResult<GetlistBootcampResponse[]>)=>{
         console.log("Cevap geldi :",response);
-        this.applicationList=response;
+        this.bootcampList=response.data;
       },
       error:(error)=>{console.log("cevap hatalı :",error)},
       complete:()=>{console.log("istek sonlandı")}
     })
   }
-
-  getTodos1(){
-
-    console.log("Öncesi")
-    this.asyncOperation()
-    .then((response:string)=>{
-      console.log("Doğru çalıştı : ",response)
+  getListModels1(){
+    this.httpClient.get<GetlistBootcampstateResponse[]>("http://localhost:5278/api/BootcampStates")
+    .subscribe({
+      next:(response:GetlistBootcampstateResponse[])=>{
+        console.log("Cevap geldi :",response);
+        this.bootcampState=response;
+      },
+      error:(error)=>{console.log("cevap hatalı :",error)},
+      complete:()=>{console.log("istek sonlandı")}
     })
-    .catch((error)=>{
-      console.log("Hata :",error)
-    })
-    .finally(()=>{
-      console.log("Başarılı veya başarısız");
-    })
-    console.log("sonrası")
   }
-
-  async getTodos2(){
-    try {
-      let values = await this.asyncOperation();
-      console.log(values);
-    } catch (error) {
-      console.log("hata :",error)
-    }
   }
-
-  asyncOperation():Promise<string>{
-    //callback function
-    return new Promise((resolve,reject)=>{
-      setTimeout(()=>{
-        reject("çalıştı");
-      })
-    });
-  }
-}
