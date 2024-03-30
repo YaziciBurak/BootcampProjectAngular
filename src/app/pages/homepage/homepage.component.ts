@@ -1,10 +1,10 @@
 import { Component, OnChanges, OnDestroy, OnInit } from '@angular/core';
 import { RouterModule, RouterOutlet } from '@angular/router';
-import { NavbarComponent } from '../../components/navbar/navbar.component';
+import { NavbarComponent } from '../../shared/components/navbar/navbar.component'; 
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { GetlistBootcampResponse } from '../../models/responses/bootcamp/getlist-bootcamp-response';
-import { GetlistBootcampstateResponse } from '../../models/responses/bootcampstate/getlist-bootcampstate-response';
+import { GetlistBootcampResponse } from '../../features/models/responses/bootcamp/getlist-bootcamp-response'; 
+import { GetlistBootcampstateResponse } from '../../features/models/responses/bootcampstate/getlist-bootcampstate-response'; 
 import { DataResult } from '../../dataresult';
 
 @Component({
