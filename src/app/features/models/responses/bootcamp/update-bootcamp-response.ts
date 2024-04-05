@@ -1,4 +1,4 @@
-export interface UpdateBootcampesponse {
+export interface UpdateBootcampResponse {
     id:number;
     name:string;
     instructorId:string;

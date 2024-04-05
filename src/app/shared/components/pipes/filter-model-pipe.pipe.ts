@@ -2,9 +2,9 @@ import { GetlistBootcampResponse } from "../../../../app/features/models/respons
 import { Pipe, PipeTransform } from "@angular/core";
 
 @Pipe({
-    name:'filterPipe'
+    name:'filterBootcampPipe'
 })
-export class FilterModelPipe implements PipeTransform{
+export class FilterBootcampPipe implements PipeTransform{
 
     transform(value: GetlistBootcampResponse[],filterText:string):GetlistBootcampResponse[] {
         filterText=filterText?filterText.toLocaleLowerCase():""
