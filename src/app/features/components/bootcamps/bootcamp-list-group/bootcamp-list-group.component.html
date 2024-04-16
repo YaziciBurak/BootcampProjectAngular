@@ -1,19 +1,43 @@
+<section class="flex gap-4">
+    <!-- Instructor aside bileşeni -->
+    <aside class="w-1/4 bg-gray-50 flex flex-col shadow-md p-2">
+        <app-instructor ></app-instructor>
+    </aside>
 
+    <!-- Bootcamp bileşenleri -->
+    <div class="flex-1 grid grid-cols-3 gap-6">
+        <ng-container *ngFor="let bootcamp of bootcampList.items">
+            <div class="bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-white relative p-4">
+                <div class="p-8">
+                    <a>
+                        <h5 class="mb-2 text-2xl font-bold text-gray-900 dark:text-white text-center">{{ bootcamp.name }}</h5>
+                    </a>
+                    <p class="text-gray-700 dark:text-gray-400 mb-2 text-ellipsis">{{ bootcamp.bootcampStateName }}</p>
 
-<div *ngFor="let bootcamp of bootcampList.items" class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-white">
-    <a >
-        <img class="rounded-t-lg" src="/docs/images/blog/image-1.jpg" alt="" />
-    </a>
-    <div class="p-5">
-        <a >
-            <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{bootcamp.name}}</h5>
-        </a>
-        <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
-        <a  class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-            Read more
-             <svg class="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
-                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
-            </svg>
-        </a>
+                    <div class="flex flex-col items-center mt-2">
+                        <button [routerLink]="['/bootcampDetails', bootcamp.id.toString()]" type="button" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-sm" [ngClass]="{'expired': isExpired(bootcamp.endDate), 'notExpired': !isExpired(bootcamp.endDate)}">
+                            Bootcamp Detayları
+                        </button>
+                        <p class="mt-2 text-sm text-gray-500 dark:text-gray-300">
+                            Eğitmen: {{ bootcamp.instructorFirstName }} {{ bootcamp.instructorLastName }}
+                        </p>
+                    </div>
+
+                    <div class="flex flex-col text-sm text-gray-500 dark:text-gray-300 absolute bottom-0 right-0 p-2">
+                        <p>Başlangıç Tarihi: {{ bootcamp.startDate | date:'shortDate' }}</p>
+                        <p>Bitiş Tarihi: {{ bootcamp.endDate | date:'shortDate' }}</p>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
     </div>
+</section>
+
+<div class="w-full flex justify-center my-4" *ngIf="bootcampList.hasNext || bootcampList.hasPrevious">
+    <button *ngIf="bootcampList.hasPrevious" (click)="onPreviousPageClicked()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mx-2">
+        Önceki Sayfa
+    </button>
+    <button *ngIf="bootcampList.hasNext" (click)="onViewMoreClicked()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mx-2">
+        Sonraki Sayfa
+    </button>
 </div>

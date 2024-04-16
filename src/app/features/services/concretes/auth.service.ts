@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AuthBaseService } from '../abstracts/auth-base.service';
 import { Observable, catchError, map } from 'rxjs';
-import { UserForRegisterRequest } from '../../models/requests/users/user-for-register-request';
+import { ApplicantForRegisterRequest } from '../../models/requests/users/applicant-for-register-request';
 import { UserForRegisterResponse } from '../../models/responses/users/user-for-register-response';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
@@ -25,10 +25,15 @@ export class AuthService extends AuthBaseService {
   private readonly apiUrl:string = `${environment.API_URL}/auth`
   constructor(private httpClient:HttpClient,private storageService:LocalStorageService) {super() }
 
-  override register(userforRegisterRequest: UserForRegisterRequest)
+  override register(userforRegisterRequest: ApplicantForRegisterRequest)
       :Observable<UserForRegisterResponse> {
     return this.httpClient.post<UserForRegisterResponse>(`${this.apiUrl}/register`,userforRegisterRequest)
   }
+
+  override RegisterApplicant(userforRegisterRequest: ApplicantForRegisterRequest)
+  :Observable<UserForRegisterResponse> {
+return this.httpClient.post<UserForRegisterResponse>(`${this.apiUrl}/RegisterApplicant`,userforRegisterRequest)
+}
 
   login(userLoginRequest:UserForLoginRequest)
                         :Observable<AccessTokenModel<TokenModel>>

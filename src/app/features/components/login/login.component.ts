@@ -32,7 +32,7 @@ loginForm!:FormGroup
         let loginModel:UserForLoginRequest = Object.assign({},this.loginForm.value);
         this.authService.login(loginModel).subscribe(response=>{
           alert(response.accessToken.expiration);
-          this.router.navigate(['home-page'])
+          this.router.navigate(['homepage'])
         }
         ,(error:any)=>{
           alert(error.error)

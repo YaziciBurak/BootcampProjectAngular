@@ -5,17 +5,21 @@ import { CommonModule } from '@angular/common';
 import { BootcampListItemDto } from '../../../models/responses/bootcamp/bootcamp-list-item-dto';
 import { BootcampService } from '../../../services/concretes/bootcamp.service';
 import { PageRequest } from '../../../../core/models/page-request'; 
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
+import { InstructorComponent } from '../../instructor/instructor.component';
 
 
 @Component({
   selector: 'app-bootcamp-list-group',
   standalone: true,
-  imports: [RouterModule,CommonModule],
+  imports: [RouterModule,CommonModule,InstructorComponent,HttpClientModule,FormsModule],
   templateUrl: './bootcamp-list-group.component.html',
-  styleUrl: './bootcamp-list-group.component.scss'
+  styleUrl: './bootcamp-list-group.component.css'
 })
 export class BootcampListGroupComponent implements OnInit {
   
+  dateNow = Date.now;
   currentPageNumber!:number;
   bootcampList:BootcampListItemDto={
     index:0,
@@ -33,16 +37,18 @@ export class BootcampListGroupComponent implements OnInit {
       if(params["instructorId"]){
         this.getBootcampListByInstructor({page:0,pageSize:this.PAGE_SIZE},params["instructorId"])
       }else{this.getList({page:0,pageSize:this.PAGE_SIZE})}
-    })
-    
+    }) 
+  }
+
+  isExpired(endDate: Date): boolean {
+    return new Date(endDate) < new Date(); 
   }
 
   getList(pageRequest:PageRequest){
     this.bootcampService.getList(pageRequest).subscribe((response)=>{
       this.bootcampList=response;
       this.updateCurrentPageNumber();
-    })
-    
+    })   
   }
 
   getBootcampListByInstructor(pageRequest: PageRequest, instructorId: string) {
@@ -52,12 +58,14 @@ export class BootcampListGroupComponent implements OnInit {
     })
   }
 
+  
+
   onViewMoreClicked(): void {
     const nextPageIndex = this.bootcampList.index + 1;
     const pageSize = this.bootcampList.size;
-
     this.getList({ page: nextPageIndex, pageSize })
     this.updateCurrentPageNumber();
+    
   }
 
   onPreviousPageClicked(): void {
@@ -70,6 +78,8 @@ export class BootcampListGroupComponent implements OnInit {
   updateCurrentPageNumber(): void {
     this.currentPageNumber = this.bootcampList.index + 1;
   }
-
+  lowerCurrentPageNumber(): void {
+    this.currentPageNumber = this.bootcampList.index - 1;
+  }
   
 }

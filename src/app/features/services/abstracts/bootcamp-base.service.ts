@@ -14,8 +14,8 @@ import { BootcampListItemDto } from '../../models/responses/bootcamp/bootcamp-li
 export abstract class BootcampBaseService {
 
   abstract getList(pageRequest:PageRequest): Observable<BootcampListItemDto>;
-  abstract getById(bootcampId:string):Observable<GetbyidBootcampResponse>;
-  abstract delete(id: string): Observable<DeleteBootcampResponse>;
+  abstract getById(bootcampId:number):Observable<GetbyidBootcampResponse>;
+  abstract delete(id: number): Observable<DeleteBootcampResponse>;
   abstract update(applicant: UpdateBootcampRequest): Observable<UpdateBootcampResponse>;
   abstract create(applicant: CreateBootcampRequest): Observable<CreateBootcampResponse>;
   abstract getListBootcampByInstructorId(pageRequest:PageRequest,instructorId: string):Observable<BootcampListItemDto>;
