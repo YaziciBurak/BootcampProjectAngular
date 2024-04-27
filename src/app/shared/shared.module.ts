@@ -6,9 +6,10 @@ import { NavbarComponent } from "./components/navbar/navbar.component";
 import { FilterInstructorPipe } from "./components/pipes/filter-instructor-pipe.pipe";
 
 
+
 @NgModule({
     declarations:[FilterBootcampPipe,FilterInstructorPipe],
-    exports:[NavbarComponent,FilterBootcampPipe,FilterInstructorPipe],
+    exports:[NavbarComponent,FilterBootcampPipe,FilterInstructorPipe,CommonModule],
     imports:[MenubarModule,CommonModule,NavbarComponent]
 
 })

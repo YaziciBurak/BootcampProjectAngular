@@ -1,0 +1,20 @@
+/* İsteğe bağlı, tablo stilleri */
+.table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  .table th,
+  .table td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #e2e8f0;
+  }
+  
+  .table th {
+    background-color: #edf2f7;
+    color: #2d3748;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+  

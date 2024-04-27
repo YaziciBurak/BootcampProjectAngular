@@ -2,9 +2,9 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { Component,OnInit } from '@angular/core';
 import { RouterModule,ActivatedRoute } from '@angular/router';
-import { BootcampListGroupComponent } from '../bootcamps/bootcamp-list-group/bootcamp-list-group.component';
-import { GetbyidBootcampResponse } from '../../models/responses/bootcamp/getbyid-bootcamp-response';
-import { BootcampService } from '../../services/concretes/bootcamp.service';
+import { BootcampListGroupComponent } from '../bootcamp-list-group.component'; 
+import { GetbyidBootcampResponse } from '../../../../models/responses/bootcamp/getbyid-bootcamp-response'; 
+import { BootcampService } from '../../../../services/concretes/bootcamp.service'; 
 
 @Component({
   selector: 'app-bootcamp-details',

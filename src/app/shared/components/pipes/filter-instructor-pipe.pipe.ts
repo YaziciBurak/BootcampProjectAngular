@@ -15,6 +15,5 @@ export class FilterInstructorPipe implements PipeTransform{
             const fullName = `${instructor.firstName} ${instructor.lastName}`.toLowerCase();
             return fullName.includes(searchText);
         });
-
 }
 }

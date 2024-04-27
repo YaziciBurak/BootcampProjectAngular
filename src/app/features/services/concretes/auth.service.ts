@@ -22,7 +22,7 @@ export class AuthService extends AuthBaseService {
   claims:string[]=[]
 
 
-  private readonly apiUrl:string = `${environment.API_URL}/auth`
+  private readonly apiUrl:string = `${environment.API_URL}/Auth`
   constructor(private httpClient:HttpClient,private storageService:LocalStorageService) {super() }
 
   override register(userforRegisterRequest: ApplicantForRegisterRequest)
@@ -30,9 +30,9 @@ export class AuthService extends AuthBaseService {
     return this.httpClient.post<UserForRegisterResponse>(`${this.apiUrl}/register`,userforRegisterRequest)
   }
 
-  override RegisterApplicant(userforRegisterRequest: ApplicantForRegisterRequest)
+  override RegisterApplicant(applicantforRegisterRequest: ApplicantForRegisterRequest)
   :Observable<UserForRegisterResponse> {
-return this.httpClient.post<UserForRegisterResponse>(`${this.apiUrl}/RegisterApplicant`,userforRegisterRequest)
+return this.httpClient.post<UserForRegisterResponse>(`${this.apiUrl}/RegisterApplicant`,applicantforRegisterRequest)
 }
 
   login(userLoginRequest:UserForLoginRequest)
@@ -80,12 +80,6 @@ return this.httpClient.post<UserForRegisterResponse>(`${this.apiUrl}/RegisterApp
     return this.fullname=decoded[propUserName];
   }
 
-  // getUserName():string{
-  //   console.log(this.fullname)
-  //   return this.fullname;
-  // }
-  
-
   getCurrentUserId():string{
     var decoded = this.getDecodedToken();
     var propUserId = Object.keys(decoded).filter(x=>x.endsWith("/nameidentifier"))[0]
@@ -111,11 +105,10 @@ return this.httpClient.post<UserForRegisterResponse>(`${this.apiUrl}/RegisterApp
   }
 
   isAdmin(){
-    if(this.claims.includes("admin")){
+    if(this.claims.includes("Admin")){
       return true;
     }
     return false;
   }
-  
   
 }

@@ -26,9 +26,6 @@ export class BootcampService extends BootcampBaseService {
       pageIndex: pageRequest.page,
       pageSize: pageRequest.pageSize
     };
-
-    
-
     return this.http.get<BootcampListItemDto>(this.apiUrl,{
       params:newRequest
     }).pipe(
@@ -49,15 +46,15 @@ export class BootcampService extends BootcampBaseService {
 
 
   delete(id: number): Observable<DeleteBootcampResponse> {
-    return this.http.delete<DeleteBootcampResponse>('apiUrl/delete/' + id);
+    return this.http.delete<DeleteBootcampResponse>(`apiUrl/delete/` + id);
   }
 
   update(applicant: UpdateBootcampRequest): Observable<UpdateBootcampResponse> {
-    return this.http.put<UpdateBootcampResponse>('apiUrl/update', applicant);
+    return this.http.put<UpdateBootcampResponse>(`apiUrl/update`, applicant);
   }
 
   create(applicant: CreateBootcampRequest): Observable<CreateBootcampResponse> {
-    return this.http.post<CreateBootcampResponse>('apiUrl/create', applicant);
+    return this.http.post<CreateBootcampResponse>(`apiUrl/create`, applicant);
   }
 
   override getById(bootcampId: number): Observable<GetbyidBootcampResponse> {
@@ -94,8 +91,6 @@ override getListBootcampByInstructorId(pageRequest:PageRequest,instructorId: str
     pageSize:pageRequest.pageSize,
     instructorId:instructorId
 };
-
-
 return this.http.get<BootcampListItemDto>(`${this.apiUrl}/getbootcampbyinstructorid`,{
   params:newRequest
 }).pipe(

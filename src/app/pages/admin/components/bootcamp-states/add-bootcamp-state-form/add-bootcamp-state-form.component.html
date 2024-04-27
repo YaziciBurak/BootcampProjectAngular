@@ -1,0 +1,19 @@
+<form [formGroup]="bootcampStateForm" (ngSubmit)="onFormSubmit()" class="max-w-md mx-auto mt-6">
+    <div *ngIf="formMessage" class="text-red-500">{{ formMessage }}</div>
+    <div class="mb-4">
+      <label for="nameInput" class="block text-base font-semibold text-gray-900 mb-1">Bootcamp State Adı:</label>
+      <input formControlName="name" type="text" id="nameInput" placeholder="İsmi buraya giriniz"
+             class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full h-10 px-3 py-2 text-base 
+                    placeholder-gray-400 border-gray-300 rounded-md shadow-sm focus:outline-none 
+                    focus:ring-2  focus:border-transparent">
+    </div>
+    <div class="flex justify-between">
+      <button  type="submit" class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:bg-indigo-700">
+        Bootcamp State Ekle
+      </button>
+      <button routerLink="/admin/bootcampState"  type="button" class="w-full bg-gray-400 text-gray-800 py-2 px-4 rounded-md hover:bg-gray-500 focus:outline-none focus:bg-gray-500 ml-2">
+        İptal
+      </button>
+    </div>
+  </form>
+  
