@@ -75,10 +75,10 @@ loadBootcampStates() {
 }
 
 handleDeleteSuccess() {
-  this.loadBootcampStates(); // Verileri yeniden getir
-  this.formMessage = "Başarıyla Silindi"; // Başarılı mesajı
+  this.loadBootcampStates();
+  this.formMessage = "Başarıyla Silindi"; 
   setTimeout(() => {
-    this.formMessage = ""; // Mesajı 3 saniye sonra kaldır
+    this.formMessage = "";
   }, 3000);
 }
 update() {
@@ -87,8 +87,8 @@ update() {
     name: this.bootcampStateForm.value.name };
   this.bootcampStateService.update(request).subscribe({
     next: (response) => {
-      this.showUpdateModal = false; // Modal'ı kapat
-      this.loadBootcampStates(); // Verileri yeniden getir
+      this.showUpdateModal = false; 
+      this.loadBootcampStates();
     },
     error: (error) => {
       console.error('Güncelleme işlemi başarısız:', error);
@@ -96,13 +96,11 @@ update() {
   });
 }
 openUpdateModal(bootcampState: any) {
-  // İlgili application state'i backend'den getir
   this.bootcampStateService.getById(bootcampState.id).subscribe({
     next: (response) => {
-      // Backend'den gelen verileri formda kullan
       this.selectedBootcampState = { ...response };
       this.bootcampStateForm.patchValue({ name: this.selectedBootcampState.name }); // Modal içindeki formu güncelle
-      this.showUpdateModal = true; // Modal'ı aç
+      this.showUpdateModal = true; 
       return bootcampState.id;
     },
     error: (error) => {

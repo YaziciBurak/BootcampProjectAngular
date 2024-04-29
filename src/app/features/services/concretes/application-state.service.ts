@@ -51,7 +51,7 @@ export class ApplicationStateService extends ApplicationStateBaseService {
      return this.httpClient.delete<DeleteApplicationstateResponse>(`${this.apiUrl}/`+id)
    }
    override update(request: UpdateApplicationstateRequest): Observable<UpdateApplicationstateResponse> {
-    return this.httpClient.put<UpdateApplicationstateResponse>(`${this.apiUrl}`, request);
+    return this.httpClient.put<UpdateApplicationstateResponse>(`${this.apiUrl}`, request); 
   }
 
   override getById(applicationStateId: number): Observable<GetbyidApplicationstateResponse> {

@@ -13,7 +13,10 @@
                         <h5 class="mb-2 text-2xl font-bold text-gray-900 dark:text-white text-center">{{ bootcamp.name }}</h5>
                     </a>
                     <p class="text-gray-700 dark:text-gray-400 mb-2 text-ellipsis">{{ bootcamp.bootcampStateName }}</p>
-
+                    <div class="hidden shrink-0 grow-0 basis-auto lg:flex lg:w-6/12 xl:w-4/12">
+                        <img [src]="bootcamp.bootcampImagePath" alt="Bootcamp Image"
+                          class="w-full rounded-t-lg lg:rounded-tr-none lg:rounded-bl-lg" />
+                      </div>
                     <div class="flex flex-col items-center mt-2">
                         <button [routerLink]="['/bootcampDetails', bootcamp.id.toString()]" type="button" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-sm" [ngClass]="{'expired': isExpired(bootcamp.endDate), 'notExpired': !isExpired(bootcamp.endDate)}">
                             Bootcamp Detayları
@@ -22,6 +25,7 @@
                             Eğitmen: {{ bootcamp.instructorFirstName }} {{ bootcamp.instructorLastName }}
                         </p>
                     </div>
+                   
 
                     <div class="flex flex-col text-sm text-gray-500 dark:text-gray-300 absolute bottom-0 right-0 p-2">
                         <p>Başlangıç Tarihi: {{ bootcamp.startDate | date:'shortDate' }}</p>
