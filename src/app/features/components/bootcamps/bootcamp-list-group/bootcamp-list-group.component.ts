@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router'; 
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { BootcampListItemDto } from '../../../models/responses/bootcamp/bootcamp-list-item-dto';
@@ -8,7 +8,6 @@ import { PageRequest } from '../../../../core/models/page-request';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { InstructorComponent } from '../../instructor/instructor.component';
-
 
 @Component({
   selector: 'app-bootcamp-list-group',
@@ -74,7 +73,7 @@ export class BootcampListGroupComponent implements OnInit {
     this.getList({ page: previousPageIndex, pageSize });
     this.updateCurrentPageNumber();
   }
-
+//yorum satırıdır
   updateCurrentPageNumber(): void {
     this.currentPageNumber = this.bootcampList.index + 1;
   }
