@@ -75,7 +75,7 @@ export class BootcampService extends BootcampBaseService {
           bootcampStateId: response.bootcampStateId,
           bootcampStateName: response.bootcampStateName,
           bootcampImageId: response.bootcampImageId,
-          bootcampImageImagePath: response.bootcampImageImagePath,
+          bootcampImagePath: response.bootcampImagePath,
           startDate: response.startDate,
           endDate: response.endDate
         };

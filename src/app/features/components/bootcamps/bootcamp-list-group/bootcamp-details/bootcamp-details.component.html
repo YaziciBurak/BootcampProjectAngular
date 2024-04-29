@@ -6,30 +6,26 @@
       class="block rounded-lg bg-white shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] dark:bg-gray-900">
       <div class="flex flex-wrap items-center">
         <div class="hidden shrink-0 grow-0 basis-auto lg:flex lg:w-6/12 xl:w-4/12">
-          <img src="" alt="Bootcamp Image"
+          <img [src]="getByIdBootcampResponse.bootcampImagePath" alt="Bootcamp Image"
             class="w-full rounded-t-lg lg:rounded-tr-none lg:rounded-bl-lg" />
         </div>
         <div class="w-full shrink-0 grow-0 basis-auto lg:w-6/12 xl:w-8/12">
           <div *ngIf="getByIdBootcampResponse" class="px-8 py-16 md:px-16">
             <!-- Sağ üst köşede bootcampState bilgisini göster -->
             <div class="text-right text-neutral-500 dark:text-neutral-300 mb-2">
-              Bootcamp Durumu: {{getByIdBootcampResponse.bootcampStateName}}
+           <b>   Bootcamp Durumu: {{getByIdBootcampResponse.bootcampStateName}} </b>
             </div>
-            <h1 class="mb-4 text-2xl font-bold text-emerald-600">
-              {{getByIdBootcampResponse.name}}
+           
+            <P class="mb-4 text-2xl font-bold text-emerald-600">
+              <i> {{getByIdBootcampResponse.name}} </i>
+            </P>
+            <h1>
+              Course Details
             </h1>
-            <p class="mb-6 text-neutral-500 dark:text-neutral-300">
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-              Earum maxime voluptas ipsam aliquam itaque cupiditate
-              provident architecto expedita harum culpa odit, inventore rem
-              molestias laborum repudiandae corporis pariatur quo eius iste!
-              Quaerat, assumenda voluptates! Molestias, recusandae? Maxime
-              fuga omnis ducimus.
-            </p>
             <p class="text-neutral-500 dark:text-neutral-300">
               Commodi ut nisi assumenda alias maxime necessitatibus ad rem
               repellat explicabo, reiciendis illum suscipit iusto? Provident
-              dignissimos similique, reiciendis inventore accusantium unde
+              dignissimos similique, <b>reiciendis</b> inventore accusantium unde
               mollitia, deleniti quae atque error id perspiciatis illum.
               Laboriosam aperiam ab illo dignissimos obcaecati corporis
               similique a odio, optio iste quis placeat alias amet rerum

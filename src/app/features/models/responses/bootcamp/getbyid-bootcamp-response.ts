@@ -7,7 +7,7 @@ export interface GetbyidBootcampResponse {
     bootcampStateId:number;
     bootcampStateName: string;
     bootcampImageId: number;
-    bootcampImageImagePath:string;
+    bootcampImagePath:string;
     startDate:Date;
     endDate:Date;
 }
