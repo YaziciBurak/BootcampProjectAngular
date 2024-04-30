@@ -18,7 +18,7 @@ import { CreateBootcampResponse } from '../../models/responses/bootcamp/create-b
 export class BootcampService extends BootcampBaseService {
   private readonly apiUrl:string = `${environment.API_URL}/bootcamps`
 
-  constructor(private http: HttpClient) { super(); }
+  constructor(private httpClient: HttpClient) { super(); }
   
  
   override getList(pageRequest: PageRequest): Observable<BootcampListItemDto> {
@@ -26,7 +26,7 @@ export class BootcampService extends BootcampBaseService {
       pageIndex: pageRequest.page,
       pageSize: pageRequest.pageSize
     };
-    return this.http.get<BootcampListItemDto>(this.apiUrl,{
+    return this.httpClient.get<BootcampListItemDto>(this.apiUrl,{
       params:newRequest
     }).pipe(
       map((response)=>{
@@ -46,15 +46,15 @@ export class BootcampService extends BootcampBaseService {
 
 
   delete(id: number): Observable<DeleteBootcampResponse> {
-    return this.http.delete<DeleteBootcampResponse>(`apiUrl/delete/` + id);
+    return this.httpClient.delete<DeleteBootcampResponse>( `${this.apiUrl}/`+ id);
   }
 
-  update(applicant: UpdateBootcampRequest): Observable<UpdateBootcampResponse> {
-    return this.http.put<UpdateBootcampResponse>(`apiUrl/update`, applicant);
+  update(bootcamp: UpdateBootcampRequest): Observable<UpdateBootcampResponse> {
+    return this.httpClient.put<UpdateBootcampResponse>(`${this.apiUrl}`, bootcamp);
   }
 
-  create(applicant: CreateBootcampRequest): Observable<CreateBootcampResponse> {
-    return this.http.post<CreateBootcampResponse>(`apiUrl/create`, applicant);
+  create(bootcamp: CreateBootcampRequest): Observable<CreateBootcampResponse> {
+    return this.httpClient.post<CreateBootcampResponse>(`${this.apiUrl}`, bootcamp);
   }
 
   override getById(bootcampId: number): Observable<GetbyidBootcampResponse> {
@@ -62,7 +62,7 @@ export class BootcampService extends BootcampBaseService {
       id: bootcampId
     };
   
-    return this.http.get<GetbyidBootcampResponse>(`${this.apiUrl}/${bootcampId}`, {
+    return this.httpClient.get<GetbyidBootcampResponse>(`${this.apiUrl}/${bootcampId}`, {
       params: newRequest
     }).pipe(
       map((response) => {
@@ -91,7 +91,7 @@ override getListBootcampByInstructorId(pageRequest:PageRequest,instructorId: str
     pageSize:pageRequest.pageSize,
     instructorId:instructorId
 };
-return this.http.get<BootcampListItemDto>(`${this.apiUrl}/getbootcampbyinstructorid`,{
+return this.httpClient.get<BootcampListItemDto>(`${this.apiUrl}/${instructorId}`,{
   params:newRequest
 }).pipe(
   map((response)=>{

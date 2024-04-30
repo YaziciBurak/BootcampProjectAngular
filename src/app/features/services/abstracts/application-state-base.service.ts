@@ -17,7 +17,8 @@ export abstract class ApplicationStateBaseService {
 
   abstract getList(pageRequest:PageRequest):Observable<ApplicationstateListItemDto>;
   abstract getById(applicationStateId:number):Observable<GetbyidApplicationstateResponse>;
-  abstract add(request:CreateApplicationstateRequest):Observable<CreateApplicationstateResponse>;
+  abstract create(request:CreateApplicationstateRequest):Observable<CreateApplicationstateResponse>;
   abstract delete(id:number):Observable<DeleteApplicationstateResponse>;
-  abstract update(request:UpdateApplicationstateRequest):Observable<UpdateApplicationstateResponse>
+  abstract update(request:UpdateApplicationstateRequest):Observable<UpdateApplicationstateResponse>;
+  abstract getListAll():Observable<ApplicationstateListItemDto>;
 }
