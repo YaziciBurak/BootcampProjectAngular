@@ -71,4 +71,27 @@ export class BootcampStateService extends BootcampStateBaseService{
       })
     );
   }
+  override getListAll(): Observable<BootcampstateListItemDto> {
+    const newRequest: {[key: string]: string | number} = {
+      page: 0,
+      pageSize: 100
+    };
+
+    return this.httpClient.get<BootcampstateListItemDto>(this.apiUrl, {
+      params: newRequest
+    }).pipe(
+      map((response)=>{
+        const newResponse:BootcampstateListItemDto={
+          index:0,
+          size:100,
+          count:response.count,
+          hasNext:response.hasNext,
+          hasPrevious:response.hasPrevious,
+          items:response.items,
+          pages:response.pages
+        };
+        return newResponse;
+      })
+    )
+  }
 }

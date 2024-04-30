@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
@@ -18,7 +18,7 @@ import { InstructorListItemDto } from '../../models/responses/instructor/instruc
 })
 export class InstructorComponent implements OnInit{
 
-  @Input() selectedInstructorId!:string; 
+  @Input() selectedInstructorId:string; 
   @Output() instructorSelected = new EventEmitter<string>(); 
   instructors!:InstructorListItemDto;
   currentInstructor!:GetlistInstructorResponse;

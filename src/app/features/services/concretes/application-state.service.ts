@@ -44,7 +44,7 @@ export class ApplicationStateService extends ApplicationStateBaseService {
     )
   }
 
-  override add(request: CreateApplicationstateRequest): Observable<CreateApplicationstateResponse> {
+  override create(request: CreateApplicationstateRequest): Observable<CreateApplicationstateResponse> {
      return this.httpClient.post<CreateApplicationstateResponse>(this.apiUrl, request);
    }
    override delete(id: number): Observable<DeleteApplicationstateResponse> {
@@ -69,5 +69,28 @@ export class ApplicationStateService extends ApplicationStateBaseService {
         return newResponse;
       })
     );
+  }
+  override getListAll(): Observable<ApplicationstateListItemDto> {
+    const newRequest: {[key: string]: string | number} = {
+      page: 0,
+      pageSize: 100
+    };
+
+    return this.httpClient.get<ApplicationstateListItemDto>(this.apiUrl, {
+      params: newRequest
+    }).pipe(
+      map((response)=>{
+        const newResponse:ApplicationstateListItemDto={
+          index:0,
+          size:100,
+          count:response.count,
+          hasNext:response.hasNext,
+          hasPrevious:response.hasPrevious,
+          items:response.items,
+          pages:response.pages
+        };
+        return newResponse;
+      })
+    )
   }
 }

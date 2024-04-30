@@ -19,4 +19,5 @@ export abstract class BootcampBaseService {
   abstract update(applicant: UpdateBootcampRequest): Observable<UpdateBootcampResponse>;
   abstract create(applicant: CreateBootcampRequest): Observable<CreateBootcampResponse>;
   abstract getListBootcampByInstructorId(pageRequest:PageRequest,instructorId: string):Observable<BootcampListItemDto>;
+  
 }

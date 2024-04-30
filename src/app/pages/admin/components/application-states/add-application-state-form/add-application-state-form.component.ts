@@ -34,7 +34,7 @@ export class AddApplicationStateFormComponent implements OnInit{
   add() {
     if(this.applicationStateForm.valid) {
       let applicationState:CreateApplicationstateRequest = Object.assign({},this.applicationStateForm.value);
-      this.applicationStateService.add(applicationState).subscribe({
+      this.applicationStateService.create(applicationState).subscribe({
         next:(response)=>{
           alert("Ekleme Başarılı!")
         },

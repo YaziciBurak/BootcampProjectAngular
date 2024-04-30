@@ -4,6 +4,9 @@ import { BootcampStateListGroupComponent } from './components/bootcamp-states/bo
 import { AddBootcampStateFormComponent } from './components/bootcamp-states/add-bootcamp-state-form/add-bootcamp-state-form.component'; 
 import { ApplicationStateListComponent } from './components/application-states/application-state-list.component';
 import { AddApplicationStateFormComponent } from './components/application-states/add-application-state-form/add-application-state-form.component';
+import { BlacklistComponent } from './components/blacklist/blacklist.component';
+import { AdminBootcampsComponent } from './components/admin-bootcamps/admin-bootcamps.component';
+
 
 
 export const AdminRoutes: Routes = [
@@ -11,7 +14,9 @@ export const AdminRoutes: Routes = [
     { path: 'bootcampState', component: BootcampStateListGroupComponent },
     { path: 'addBootcampState', component: AddBootcampStateFormComponent },
     { path:'applicationState', component:ApplicationStateListComponent},
-    { path:'addAppliactionState', component:AddApplicationStateFormComponent}
+    { path:'addAppliactionState', component:AddApplicationStateFormComponent},
+    { path:'admin-bootcamp', component:AdminBootcampsComponent},
+    { path: 'blacklist', component:BlacklistComponent}
   ]},
 
 ];

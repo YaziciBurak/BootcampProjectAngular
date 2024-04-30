@@ -6,6 +6,7 @@ import { GetlistInstructorResponse } from '../../models/responses/instructor/get
 import { GetbyidInstructorResponse } from '../../models/responses/instructor/getbyid-instructor-response';
 import { environment } from '../../../../environments/environment';
 import { InstructorListItemDto } from '../../models/responses/instructor/instructor-list-item-dto';
+import { PageRequest } from '../../../core/models/page-request';
 
 @Injectable({
   providedIn: 'root'
@@ -13,15 +14,34 @@ import { InstructorListItemDto } from '../../models/responses/instructor/instruc
 export class InstructorService extends InstructorBaseService{
 
   private readonly apiUrl:string = `${environment.API_URL}/instructors`
-  apiGetByIdUrl=""
+  
+  
   constructor(private httpClient:HttpClient) {super() }
 
-  override getList(): Observable<GetlistInstructorResponse[]> {
-    return this.httpClient.get<GetlistInstructorResponse[]>(this.apiUrl);
+  override getList(pageRequest: PageRequest): Observable<InstructorListItemDto> {
+    const newRequest: {[key: string]: string | number} = {
+      pageIndex: pageRequest.page,
+      pageSize: pageRequest.pageSize
+    };
+    return this.httpClient.get<InstructorListItemDto>(this.apiUrl,{
+      params:newRequest
+    }).pipe(
+      map((response)=>{
+        const newResponse:InstructorListItemDto={
+          index:pageRequest.page,
+          size:pageRequest.pageSize,
+          count:response.count,
+          hasNext:response.hasNext,
+          hasPrevious:response.hasPrevious,
+          items:response.items,
+          pages:response.pages
+        };
+        return newResponse;
+      })
+    )
   }
-  override getById(): Observable<GetbyidInstructorResponse> {
-    return this.httpClient.get<GetbyidInstructorResponse>(this.apiUrl);
-  }
+
+  
   override getListAll(): Observable<InstructorListItemDto> {
     const newRequest: {[key: string]: string | number} = {
       page: 0,
@@ -44,5 +64,31 @@ export class InstructorService extends InstructorBaseService{
         return newResponse;
       })
     )
+  }
+  
+  override getById(instructorId: string): Observable<GetbyidInstructorResponse> {
+    const newRequest: {[key: string]: string | number} = {
+      id: instructorId
+    };
+  
+    return this.httpClient.get<GetbyidInstructorResponse>(`${this.apiUrl}/${instructorId}`, {
+      params: newRequest
+    }).pipe(
+      map((response) => {
+        const newResponse: GetbyidInstructorResponse = {
+          id: response.id,
+          userName: response.userName,
+          firstName: response.firstName,
+          lastName: response.lastName,
+          companyName: response.companyName,
+          dateOfBirth: response.dateOfBirth,
+          nationalIdentity: response.nationalIdentity,
+          email: response.email,
+          password: response.password,
+          updatedDate: response.updatedDate
+        };
+        return newResponse;
+      })
+    );
   }
 }
