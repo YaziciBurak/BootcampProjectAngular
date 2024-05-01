@@ -10,6 +10,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { UserForLoginRequest } from '../../models/requests/users/user-for-login-request';
 import { AccessTokenModel } from '../../models/responses/users/access-token-model';
 import { TokenModel } from '../../models/responses/users/token-model';
+import { EmployeeForRegisterRequest } from '../../models/requests/users/employee-for-register-request';
 
 @Injectable({
   providedIn: 'root'
@@ -33,6 +34,10 @@ export class AuthService extends AuthBaseService {
   override RegisterApplicant(applicantforRegisterRequest: ApplicantForRegisterRequest)
   :Observable<UserForRegisterResponse> {
 return this.httpClient.post<UserForRegisterResponse>(`${this.apiUrl}/RegisterApplicant`,applicantforRegisterRequest)
+}
+override RegisterEmployee(employeeforRegisterRequest: EmployeeForRegisterRequest)
+  :Observable<UserForRegisterResponse> {
+return this.httpClient.post<UserForRegisterResponse>(`${this.apiUrl}/RegisterEmployee`,employeeforRegisterRequest)
 }
 
   login(userLoginRequest:UserForLoginRequest)

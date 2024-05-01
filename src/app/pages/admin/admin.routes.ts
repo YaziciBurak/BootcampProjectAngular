@@ -6,6 +6,8 @@ import { ApplicationStateListComponent } from './components/application-states/a
 import { AddApplicationStateFormComponent } from './components/application-states/add-application-state-form/add-application-state-form.component';
 import { BlacklistComponent } from './components/blacklist/blacklist.component';
 import { AdminBootcampsComponent } from './components/admin-bootcamps/admin-bootcamps.component';
+import { EmployeeListGroupComponent } from './components/employee/employee-list-group.component';
+import { AddEmployeeFormComponent } from './components/employee/add-employee-form/add-employee-form.component';
 
 
 
@@ -16,7 +18,9 @@ export const AdminRoutes: Routes = [
     { path:'applicationState', component:ApplicationStateListComponent},
     { path:'addAppliactionState', component:AddApplicationStateFormComponent},
     { path:'admin-bootcamp', component:AdminBootcampsComponent},
-    { path: 'blacklist', component:BlacklistComponent}
+    { path: 'blacklist', component:BlacklistComponent},
+    { path: 'employee', component:EmployeeListGroupComponent},
+    { path: 'addEmployee', component: AddEmployeeFormComponent },
   ]},
 
 ];
