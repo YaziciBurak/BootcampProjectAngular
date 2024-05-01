@@ -3,5 +3,5 @@ export interface DeleteEmployeeResponse {
     userName: string;
     firstName:string;
     lastName:string;
-    Position :string;
+    position :string;
 }

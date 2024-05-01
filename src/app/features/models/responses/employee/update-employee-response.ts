@@ -3,7 +3,7 @@ export interface UpdateEmployeeResponse {
     userName: string;
     firstName:string;
     lastName:string;
-    Position :string;
+    position :string;
     dateOfBirth: Date;
     nationalIdentity:string;
     email:string;
