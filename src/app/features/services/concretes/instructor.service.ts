@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { InstructorBaseService } from '../abstracts/instructor-base.service';
-import { GetlistInstructorResponse } from '../../models/responses/instructor/getlist-instructor-response';
 import { GetbyidInstructorResponse } from '../../models/responses/instructor/getbyid-instructor-response';
 import { environment } from '../../../../environments/environment';
 import { InstructorListItemDto } from '../../models/responses/instructor/instructor-list-item-dto';
