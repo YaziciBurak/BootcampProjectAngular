@@ -8,6 +8,8 @@ import { BlacklistComponent } from './components/blacklist/blacklist.component';
 import { AdminBootcampsComponent } from './components/admin-bootcamps/admin-bootcamps.component';
 import { EmployeeListGroupComponent } from './components/employee/employee-list-group.component';
 import { AddEmployeeFormComponent } from './components/employee/add-employee-form/add-employee-form.component';
+import { InstructorListGroupComponent } from './components/instructor/instructor-list-group/instructor-list-group.component';
+import { AddInstructorFormComponent } from './components/instructor/add-instructor-form/add-instructor-form/add-instructor-form.component';
 
 
 
@@ -21,6 +23,8 @@ export const AdminRoutes: Routes = [
     { path: 'blacklist', component:BlacklistComponent},
     { path: 'employee', component:EmployeeListGroupComponent},
     { path: 'addEmployee', component: AddEmployeeFormComponent },
+    { path: 'instructor', component:InstructorListGroupComponent},
+    { path: 'addInstructor', component: AddInstructorFormComponent },
   ]},
 
 ];

@@ -11,6 +11,7 @@ import { UserForLoginRequest } from '../../models/requests/users/user-for-login-
 import { AccessTokenModel } from '../../models/responses/users/access-token-model';
 import { TokenModel } from '../../models/responses/users/token-model';
 import { EmployeeForRegisterRequest } from '../../models/requests/users/employee-for-register-request';
+import { InstructorForRegisterRequest } from '../../models/requests/users/instructor-for-register-request';
 
 @Injectable({
   providedIn: 'root'
@@ -39,7 +40,10 @@ override RegisterEmployee(employeeforRegisterRequest: EmployeeForRegisterRequest
   :Observable<UserForRegisterResponse> {
 return this.httpClient.post<UserForRegisterResponse>(`${this.apiUrl}/RegisterEmployee`,employeeforRegisterRequest)
 }
-
+override RegisterInstructor(instructorforRegisterRequest: InstructorForRegisterRequest)
+  :Observable<UserForRegisterResponse> {
+return this.httpClient.post<UserForRegisterResponse>(`${this.apiUrl}/RegisterInstructor`,instructorforRegisterRequest)
+}
   login(userLoginRequest:UserForLoginRequest)
                         :Observable<AccessTokenModel<TokenModel>>
 
