@@ -3,6 +3,7 @@ import { ApplicantForRegisterRequest } from "../../models/requests/users/applica
 import { Observable } from "rxjs";
 import { UserForRegisterResponse } from "../../models/responses/users/user-for-register-response";
 import { EmployeeForRegisterRequest } from "../../models/requests/users/employee-for-register-request";
+import { InstructorForRegisterRequest } from "../../models/requests/users/instructor-for-register-request";
 
 @Injectable()
 export abstract class AuthBaseService{
@@ -13,6 +14,9 @@ export abstract class AuthBaseService{
                      :Observable<UserForRegisterResponse>
 
     abstract RegisterEmployee(userforRegisterRequest:EmployeeForRegisterRequest)
+                     :Observable<UserForRegisterResponse>
+                     
+    abstract RegisterInstructor(userforRegisterRequest:InstructorForRegisterRequest)
                      :Observable<UserForRegisterResponse>
                      
                      
