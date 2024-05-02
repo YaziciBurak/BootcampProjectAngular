@@ -7,15 +7,14 @@ import { AddApplicationStateFormComponent } from './components/application-state
 import { AdminBootcampsComponent } from './components/admin-bootcamps/admin-bootcamps.component';
 import { EmployeeListGroupComponent } from './components/employee/employee-list-group.component';
 import { AddEmployeeFormComponent } from './components/employee/add-employee-form/add-employee-form.component';
-
 import { QuestionsComponent } from './components/questions/questions.component';
 import { BlacklistComponent } from './components/blacklist/blacklist.component';
-
 import { InstructorListGroupComponent } from './components/instructor/instructor-list-group/instructor-list-group.component';
 import { AddInstructorFormComponent } from './components/instructor/add-instructor-form/add-instructor-form/add-instructor-form.component';
-
-
-
+import { QuizComponent } from './components/quiz/quiz.component';
+import { ApplicantsComponent } from './components/applicants/applicants.component';
+import { QuizQuestionsComponent } from './components/quiz-questions/quiz-questions.component';
+import { ResultsComponent } from './components/results/results.component';
 
 export const AdminRoutes: Routes = [
   { path: "", component: AdminComponent, children: [   
@@ -26,15 +25,15 @@ export const AdminRoutes: Routes = [
     { path:'admin-bootcamp', component:AdminBootcampsComponent},
     { path: 'blacklist', component:BlacklistComponent},
     { path: 'questions', component:QuestionsComponent},
+    { path: 'quiz', component:QuizComponent},
     { path: 'employee', component:EmployeeListGroupComponent},
-
-    { path: 'addEmployee', component: AddEmployeeFormComponent }
-
+    { path: 'applicant', component:ApplicantsComponent},
+    { path: 'quiz-questions', component:QuizQuestionsComponent},
+    { path: 'result', component:ResultsComponent},
     { path: 'addEmployee', component: AddEmployeeFormComponent },
     { path: 'instructor', component:InstructorListGroupComponent},
-    { path: 'addInstructor', component: AddInstructorFormComponent },
-
+    { path: 'addInstructor', component: AddInstructorFormComponent }
+    
   ]},
-
 ];
 

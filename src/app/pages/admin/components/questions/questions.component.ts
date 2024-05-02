@@ -26,17 +26,10 @@ export class QuestionsComponent implements OnInit{
   showUpdateModal: boolean = false;
   showCreateModal: boolean = false;
   bootcampList: BootcampListItemDto;
+  questionList:QuestionListItemDto;
 
-  questionList:QuestionListItemDto = {
-    index: 0,
-    size: 0,
-    count: 0,
-    hasNext: false,
-    hasPrevious: false,
-    pages: 0,
-    items: []
-  }
   constructor(private questionService:QuestionService,private bootcampService:BootcampService,private formBuilder:FormBuilder,private change:ChangeDetectorRef) {}
+ 
   ngOnInit(): void {
     this.loadQuestions();
     this.updateForm();
@@ -97,6 +90,7 @@ export class QuestionsComponent implements OnInit{
       });
     }
   }
+
   handleDeleteSuccess() {
     this.loadQuestions();
     this.formMessage = "Başarıyla Silindi";
@@ -187,8 +181,8 @@ export class QuestionsComponent implements OnInit{
   closeModal() {
     this.showUpdateModal = false;
     this.showCreateModal = false;
-  
   }
+  
   getShortenedText(text: string): string {
     const maxLength = 20;
     if (text.length > maxLength) {

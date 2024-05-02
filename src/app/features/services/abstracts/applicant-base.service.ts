@@ -1,14 +1,16 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { GetlistApplicantResponse } from '../../models/responses/applicant/getlist-applicant-response';
+import { PageRequest } from '../../../core/models/page-request';
 import { GetbyidApplicantResponse } from '../../models/responses/applicant/getbyid-applicant-response';
-import { CreateApplicantRequest } from '../../models/requests/applicant/create-applicant-request';
+import { UpdateApplicantRequest } from '../../models/requests/applicant/update-applicant-request';
+import { UpdateApplicantResponse } from '../../models/responses/applicant/update-applicant-response';
+import { ApplicantListItemDto } from '../../models/responses/applicant/applicant-list-item-dto';
 
 
 @Injectable()
 export abstract class ApplicantBaseService {
 
-  abstract getList():Observable<GetlistApplicantResponse[]>;
-  abstract getById():Observable<GetbyidApplicantResponse>;
-  abstract create():Observable<CreateApplicantRequest>;
+  abstract getList(pageRequest:PageRequest):Observable<ApplicantListItemDto>;
+  abstract getById(id:number):Observable<GetbyidApplicantResponse>;
+  abstract update(request:UpdateApplicantRequest):Observable<UpdateApplicantResponse>;
 }

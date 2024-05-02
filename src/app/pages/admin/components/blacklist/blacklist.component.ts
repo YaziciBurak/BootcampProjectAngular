@@ -21,15 +21,7 @@ export class BlacklistComponent implements OnInit{
   selectedBlacklist: any;
   showUpdateModal: boolean = false;
   
-  blacklistList: BlackListListItemDto = {
-    index: 0,
-    size: 0,
-    count: 0,
-    hasNext: false,
-    hasPrevious: false,
-    pages: 0,
-    items: []
-  };
+  blacklistList: BlackListListItemDto;
 
   constructor(
     private blacklistService: BlacklistService,

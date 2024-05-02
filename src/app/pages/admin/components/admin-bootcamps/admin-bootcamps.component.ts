@@ -30,16 +30,7 @@ export class AdminBootcampsComponent implements OnInit{
   showCreateModal: boolean = false;
   bootcampStateList: BootcampstateListItemDto;
   instructorList: InstructorListItemDto;
-  
-  bootcampList: BootcampListItemDto = {
-    index: 0,
-    size: 0,
-    count: 0,
-    hasNext: false,
-    hasPrevious: false,
-    pages: 0,
-    items: []
-  };
+  bootcampList: BootcampListItemDto;
 
   constructor(
     private bootcampService: BootcampService,
@@ -78,7 +69,7 @@ export class AdminBootcampsComponent implements OnInit{
 
   
   loadBootcamps() {
-    const pageRequest: PageRequest = { page: 0, pageSize: 20 };
+    const pageRequest: PageRequest = { page: 0, pageSize: 25 };
     this.getBootcamps(pageRequest);
      this.getInstructors();
      this.getBootcampStates();

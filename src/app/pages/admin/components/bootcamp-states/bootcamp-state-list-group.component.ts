@@ -21,16 +21,8 @@ export class BootcampStateListGroupComponent implements OnInit{
   bootcampStateForm:FormGroup;
   selectedBootcampState:any;
   showUpdateModal: boolean = false;
-
-  bootcampStateList:BootcampstateListItemDto={
-    index:0,
-    size:0,
-    count:0,
-    hasNext:false,
-    hasPrevious:false,
-    pages:0,
-    items:[]
-  };
+  bootcampStateList:BootcampstateListItemDto;
+  
   constructor(private bootcampStateService: BootcampStateService ,private formBuilder:FormBuilder) {}
 
 

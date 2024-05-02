@@ -23,15 +23,7 @@ export class ApplicationStateListComponent implements OnInit {
   selectedAppState: any;
   showUpdateModal: boolean = false;
   
-  applicationStateList: ApplicationstateListItemDto = {
-    index: 0,
-    size: 0,
-    count: 0,
-    hasNext: false,
-    hasPrevious: false,
-    pages: 0,
-    items: []
-  };
+  applicationStateList: ApplicationstateListItemDto;
 
   constructor(
     private applicationStateService: ApplicationStateService,
