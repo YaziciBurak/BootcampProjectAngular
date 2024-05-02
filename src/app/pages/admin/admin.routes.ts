@@ -7,8 +7,13 @@ import { AddApplicationStateFormComponent } from './components/application-state
 import { AdminBootcampsComponent } from './components/admin-bootcamps/admin-bootcamps.component';
 import { EmployeeListGroupComponent } from './components/employee/employee-list-group.component';
 import { AddEmployeeFormComponent } from './components/employee/add-employee-form/add-employee-form.component';
+
 import { QuestionsComponent } from './components/questions/questions.component';
 import { BlacklistComponent } from './components/blacklist/blacklist.component';
+
+import { InstructorListGroupComponent } from './components/instructor/instructor-list-group/instructor-list-group.component';
+import { AddInstructorFormComponent } from './components/instructor/add-instructor-form/add-instructor-form/add-instructor-form.component';
+
 
 
 
@@ -22,7 +27,13 @@ export const AdminRoutes: Routes = [
     { path: 'blacklist', component:BlacklistComponent},
     { path: 'questions', component:QuestionsComponent},
     { path: 'employee', component:EmployeeListGroupComponent},
+
     { path: 'addEmployee', component: AddEmployeeFormComponent }
+
+    { path: 'addEmployee', component: AddEmployeeFormComponent },
+    { path: 'instructor', component:InstructorListGroupComponent},
+    { path: 'addInstructor', component: AddInstructorFormComponent },
+
   ]},
 
 ];
