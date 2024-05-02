@@ -22,8 +22,6 @@ import { CreateBootcampRequest } from '../../../../features/models/requests/boot
   styleUrl: './admin-bootcamps.component.css'
 })
 export class AdminBootcampsComponent implements OnInit{
-  @Input() selectedInstructorId:string; 
-  @Output() instructorSelected = new EventEmitter<string>(); 
   formMessage: string | null = null;
   bootcampUpdateForm: FormGroup;
   bootcampCreateForm:FormGroup;
@@ -177,7 +175,7 @@ export class AdminBootcampsComponent implements OnInit{
     };
     this.bootcampService.update(request).subscribe({
       next: (response) => {
-          this.closeModal; // Modal'ı kapat
+          this.closeModal(); // Modal'ı kapat
           this.loadBootcamps(); // Verileri yeniden getir
       },
       error: (error) => {
@@ -215,4 +213,6 @@ export class AdminBootcampsComponent implements OnInit{
     this.showUpdateModal = false;
     this.showCreateModal = false;
   }
+ 
+
 }
