@@ -5,7 +5,7 @@ export interface UpdateQuestionRequest {
     answerA:string;
     answerB:string;
     answerC:string;
-    asnwerD:string;
+    answerD:string;
     correctAnswer:string;
 
 }
