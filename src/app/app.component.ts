@@ -5,12 +5,13 @@ import { LoginComponent } from './features/components/login/login.component';
 import { SharedModule } from 'primeng/api';
 import { RegisterComponent } from './features/components/register/register.component';
 import { CommonModule } from '@angular/common';
+import { HomepageComponent } from './pages/homepage/homepage.component';
 
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet,NavbarComponent,CommonModule,RouterModule,LoginComponent,SharedModule,RegisterComponent],
+  imports: [RouterOutlet,NavbarComponent,CommonModule,RouterModule,LoginComponent,SharedModule,RegisterComponent, HomepageComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

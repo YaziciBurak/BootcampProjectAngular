@@ -13,7 +13,7 @@ import { AuthService } from '../../../features/services/concretes/auth.service';
   standalone: true,
   imports: [RouterModule,HttpClientModule,LoginComponent,RegisterComponent,BootcampListGroupComponent,CommonModule],
   templateUrl: './navbar.component.html',
-  styleUrl: './navbar.component.scss'
+  styleUrl: './navbar.component.css'
 })
 export class NavbarComponent {
   isLoggedIn!: boolean; 

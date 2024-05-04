@@ -28,8 +28,6 @@ export const AdminRoutes: Routes = [
     { path: 'questions', component:QuestionsComponent},
     { path: 'employee', component:EmployeeListGroupComponent},
 
-    { path: 'addEmployee', component: AddEmployeeFormComponent }
-
     { path: 'addEmployee', component: AddEmployeeFormComponent },
     { path: 'instructor', component:InstructorListGroupComponent},
     { path: 'addInstructor', component: AddInstructorFormComponent },
