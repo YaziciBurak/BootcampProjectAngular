@@ -102,7 +102,7 @@ add() {
     let question:CreateQuizRequest = Object.assign({},this.quizCreateForm.value);
     this.quizService.create(question).subscribe({
       next:(response)=>{
-        alert("Ekleme Başarılı!")
+        this.handleCreateSuccess();
       },
       error:(error)=>{
         this.formMessage="Eklenemedi";
@@ -116,6 +116,13 @@ add() {
       }
       });
     }
+  }
+  handleCreateSuccess() {
+    this.loadQuizzes();
+    this.formMessage = "Başarıyla Eklendi"; 
+    setTimeout(() => {
+      this.formMessage = "";
+    }, 3000);
   }
   
   openAddModal() {

@@ -48,7 +48,7 @@ export class ApplicantService extends ApplicantBaseService {
     )
   }
 
-  override getById(id: number): Observable<GetbyidApplicantResponse> {
+  override getById(id: string): Observable<GetbyidApplicantResponse> {
     const newRequest: {[key: string]: string | number} = {
       id: id
     };

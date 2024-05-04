@@ -104,7 +104,7 @@ export class QuestionsComponent implements OnInit{
       let question:CreateQuestionRequest = Object.assign({},this.questionCreateForm.value);
       this.questionService.create(question).subscribe({
         next:(response)=>{
-          alert("Ekleme Başarılı!")
+          this.handleCreateSuccess();
         },
         error:(error)=>{
           this.formMessage="Eklenemedi";
@@ -118,6 +118,13 @@ export class QuestionsComponent implements OnInit{
         }
         });
       }
+    }
+    handleCreateSuccess() {
+      this.loadQuestions();
+      this.formMessage = "Başarıyla Eklendi"; 
+      setTimeout(() => {
+        this.formMessage = "";
+      }, 3000);
     }
 
     update() {
