@@ -1,49 +1,54 @@
-import { Component, OnInit } from '@angular/core';
+import { CommonModule} from '@angular/common';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { InstructorListItemDto } from '../../../../../features/models/responses/instructor/instructor-list-item-dto';
-import { InstructorService } from '../../../../../features/services/concretes/instructor.service';
-import { PageRequest } from '../../../../../core/models/page-request';
-import { UpdateInstructorRequest } from '../../../../../features/models/requests/instructor/update-instructor-request';
-import { formatDate } from '../../../../../core/helpers/format-date';
-import { HttpClientModule } from '@angular/common/http';
-import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
-
+import { InstructorListItemDto } from '../../../../features/models/responses/instructor/instructor-list-item-dto';
+import { InstructorService } from '../../../../features/services/concretes/instructor.service';
+import { PageRequest } from '../../../../core/models/page-request';
+import { UpdateInstructorRequest } from '../../../../features/models/requests/instructor/update-instructor-request';
+import { formatDate } from '../../../../core/helpers/format-date';
+import { AuthService } from '../../../../features/services/concretes/auth.service';
 
 @Component({
-  selector: 'app-instructor-list-group',
+  selector: 'app-instructor',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule, HttpClientModule, CommonModule, RouterModule],
-  templateUrl: './instructor-list-group.component.html',
-  styleUrl: './instructor-list-group.component.css'
+  imports: [FormsModule,ReactiveFormsModule,CommonModule],
+  templateUrl: './instructor.component.html',
+  styleUrl: './instructor.component.css'
 })
-export class InstructorListGroupComponent implements OnInit{
+export class InstructorComponent implements OnInit{
+   
   formMessage: string | null = null;
   instructorUpdateForm: FormGroup;
   instructorCreateForm: FormGroup;
   selectedInstructor: any;
   showUpdateModal: boolean = false;
   showCreateModal: boolean = false;
+  instructorList: InstructorListItemDto;
 
-  instructorList: InstructorListItemDto = {
-    index: 0,
-    size: 0,
-    count: 0,
-    hasNext: false,
-    hasPrevious: false,
-    pages: 0,
-    items: []
-
-};
-constructor(private instructorService: InstructorService, private formBuilder: FormBuilder) { }
-
-
-
+  constructor(
+    private instructorService:InstructorService,
+    private formBuilder:FormBuilder,
+    private authService:AuthService,
+    private change:ChangeDetectorRef
+  ) {}
+  
   ngOnInit(): void {
     this.loadInstructors();
     this.updateForm();
     this.createForm();
   }
+
+  loadInstructors() {
+    const pageRequest: PageRequest = {page: 0,pageSize: 20};
+    this.getInstructors(pageRequest);
+  }
+
+  getInstructors(pageRequest: PageRequest) {
+    this.instructorService.getList(pageRequest).subscribe((response) => {
+      this.instructorList = response;
+    })
+  }
+
   updateForm() {
     this.instructorUpdateForm = this.formBuilder.group({
       firstName: ["", Validators.required],
@@ -68,19 +73,33 @@ constructor(private instructorService: InstructorService, private formBuilder: F
       password: ["", Validators.required]
     })
   }
-
-  loadInstructors() {
-    const pageRequest: PageRequest = {
-      page: 0,
-      pageSize: 20
-    };
-    this.getInstructors(pageRequest);
-  }
-  getInstructors(pageRequest: PageRequest) {
-    this.instructorService.getList(pageRequest).subscribe((response) => {
-      this.instructorList = response;
-    })
-  }
+  add() {
+    if(this.instructorCreateForm.valid) {
+      let instructor= Object.assign({},this.instructorCreateForm.value);
+      this.authService.RegisterInstructor(instructor).subscribe({
+        next:(response)=>{
+          this.handleCreateSuccess();
+        },
+        error:(error)=>{
+          this.formMessage="Eklenemedi";
+          this.change.markForCheck();
+        },
+        complete:()=>{
+          this.formMessage="Başarıyla Eklendi";
+          this.change.markForCheck();
+          this.closeModal();
+          this.loadInstructors();
+        }
+        });
+      }
+    }
+    handleCreateSuccess() {
+      this.loadInstructors();
+      this.formMessage = "Başarıyla Eklendi"; 
+      setTimeout(() => {
+        this.formMessage = "";
+      }, 3000);
+    }
 
   delete(id: string) {
     if (confirm('Bu uygulama durumunu silmek istediğinizden emin misiniz?')) {
@@ -94,7 +113,6 @@ constructor(private instructorService: InstructorService, private formBuilder: F
       });
     }
   }
-
   handleDeleteSuccess() {
     this.loadInstructors();
     this.formMessage = "Başarıyla Silindi";
@@ -135,6 +153,7 @@ constructor(private instructorService: InstructorService, private formBuilder: F
       }
     });
   }
+
   openUpdateModal(instructor: any) {
     this.instructorService.getById(instructor.id).subscribe({
       next: (response) => {
@@ -159,11 +178,13 @@ constructor(private instructorService: InstructorService, private formBuilder: F
       }
     });
   }
+
+  openAddModal() {
+    this.instructorCreateForm.reset();
+    this.showCreateModal = true;
+  }
   closeModal() {
     this.showUpdateModal = false;
     this.showCreateModal = false;
   }
 }
-
-
-

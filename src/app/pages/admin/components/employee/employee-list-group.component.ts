@@ -1,19 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormGroup, FormsModule, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { EmployeeListItemDto } from '../../../../features/models/responses/employee/employee-list-item-dto';
-
 import { formatDate } from '../../../../core/helpers/format-date';
 import { PageRequest } from '../../../../core/models/page-request';
 import { EmployeeService } from '../../../../features/services/concretes/employee.service';
 import { UpdateEmployeeRequest } from '../../../../features/models/requests/employee/update-employeere-quest';
-import { RouterModule } from '@angular/router';
-import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../../../../features/services/concretes/auth.service';
+
 
 @Component({
   selector: 'app-employee-list-group',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule, HttpClientModule, CommonModule, RouterModule],
+  imports: [FormsModule, ReactiveFormsModule,CommonModule],
   templateUrl: './employee-list-group.component.html',
   styleUrl: './employee-list-group.component.css'
 })
@@ -24,17 +23,15 @@ export class EmployeeListGroupComponent implements OnInit {
   selectedEmployee: any;
   showUpdateModal: boolean = false;
   showCreateModal: boolean = false;
+  employeeList: EmployeeListItemDto;
 
-  employeeList: EmployeeListItemDto = {
-    index: 0,
-    size: 0,
-    count: 0,
-    hasNext: false,
-    hasPrevious: false,
-    pages: 0,
-    items: []
-  };
-  constructor(private employeeService: EmployeeService, private formBuilder: FormBuilder) { }
+  constructor(
+    private employeeService: EmployeeService,
+    private formBuilder: FormBuilder,
+    private authService:AuthService,
+    private change:ChangeDetectorRef 
+
+    ) { }
 
 
 
@@ -83,6 +80,34 @@ export class EmployeeListGroupComponent implements OnInit {
       this.employeeList = response;
     })
   }
+
+  add() {
+    if(this.employeeCreateForm.valid) {
+      let employee= Object.assign({},this.employeeCreateForm.value);
+      this.authService.RegisterEmployee(employee).subscribe({
+        next:(response)=>{
+          this.handleCreateSuccess();
+        },
+        error:(error)=>{
+          this.formMessage="Eklenemedi";
+          this.change.markForCheck();
+        },
+        complete:()=>{
+          this.formMessage="Başarıyla Eklendi";
+          this.change.markForCheck();
+          this.closeModal();
+          this.loadEmployees();
+        }
+        });
+      }
+    }
+    handleCreateSuccess() {
+      this.loadEmployees();
+      this.formMessage = "Başarıyla Eklendi"; 
+      setTimeout(() => {
+        this.formMessage = "";
+      }, 3000);
+    }
 
   delete(id: string) {
     if (confirm('Bu uygulama durumunu silmek istediğinizden emin misiniz?')) {
@@ -161,10 +186,14 @@ export class EmployeeListGroupComponent implements OnInit {
       }
     });
   }
-  closeModal() {
-    this.showUpdateModal = false;
-    this.showCreateModal = false;
-  }
+openAddModal() {
+  this.employeeCreateForm.reset();
+  this.showCreateModal = true;
+}
+closeModal() {
+  this.showUpdateModal = false;
+  this.showCreateModal = false;
+}
 }
 
 

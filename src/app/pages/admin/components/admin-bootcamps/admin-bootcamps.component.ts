@@ -22,7 +22,7 @@ import { CreateBootcampRequest } from '../../../../features/models/requests/boot
   styleUrl: './admin-bootcamps.component.css'
 })
 export class AdminBootcampsComponent implements OnInit{
-  formMessage: string | null = null;
+  formMessage:string | null = null;
   bootcampUpdateForm: FormGroup;
   bootcampCreateForm:FormGroup;
   selectedBootcamp: any;
@@ -72,8 +72,7 @@ export class AdminBootcampsComponent implements OnInit{
     const pageRequest: PageRequest = { page: 0, pageSize: 25 };
     this.getBootcamps(pageRequest);
      this.getInstructors();
-     this.getBootcampStates();
-     
+     this.getBootcampStates();  
   }
 
   getBootcamps(pageRequest: PageRequest) {
@@ -121,7 +120,7 @@ export class AdminBootcampsComponent implements OnInit{
       let bootcamp:CreateBootcampRequest = Object.assign({},this.bootcampCreateForm.value);
       this.bootcampService.create(bootcamp).subscribe({
         next:(response)=>{
-          alert("Ekleme Başarılı!")
+          this.handleCreateSuccess();
         },
         error:(error)=>{
           this.formMessage="Eklenemedi";
@@ -135,6 +134,13 @@ export class AdminBootcampsComponent implements OnInit{
         }
         });
       }
+    }
+    handleCreateSuccess() {
+      this.loadBootcamps();
+      this.formMessage = "Başarıyla Eklendi"; 
+      setTimeout(() => {
+        this.formMessage = "";
+      }, 3000);
     }
   
   update() {
@@ -198,12 +204,8 @@ export class AdminBootcampsComponent implements OnInit{
     this.bootcampCreateForm.reset();
     this.showCreateModal = true;
   }
-  
-
   closeModal() {
     this.showUpdateModal = false;
     this.showCreateModal = false;
   }
- 
-
 }

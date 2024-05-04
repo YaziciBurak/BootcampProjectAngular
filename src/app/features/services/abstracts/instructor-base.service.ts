@@ -15,7 +15,7 @@ export abstract class InstructorBaseService {
 
     abstract getList(pageRequest:PageRequest):Observable<InstructorListItemDto>;
     abstract getById(id:string):Observable<GetbyidInstructorResponse>;
-    abstract add(request:InstructorForRegisterRequest):Observable<UserForRegisterResponse>
+    abstract create(request:InstructorForRegisterRequest):Observable<UserForRegisterResponse>
     abstract delete(id:string):Observable<DeleteInstructorResponse>
     abstract update(request:UpdateInstructorRequest):Observable<UpdateInstructorResponse>
     abstract getListAll():Observable<InstructorListItemDto>;

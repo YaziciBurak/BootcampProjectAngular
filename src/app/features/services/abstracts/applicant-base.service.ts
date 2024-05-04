@@ -11,6 +11,6 @@ import { ApplicantListItemDto } from '../../models/responses/applicant/applicant
 export abstract class ApplicantBaseService {
 
   abstract getList(pageRequest:PageRequest):Observable<ApplicantListItemDto>;
-  abstract getById(id:number):Observable<GetbyidApplicantResponse>;
+  abstract getById(id:string):Observable<GetbyidApplicantResponse>;
   abstract update(request:UpdateApplicantRequest):Observable<UpdateApplicantResponse>;
 }

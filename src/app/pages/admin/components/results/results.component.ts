@@ -65,7 +65,7 @@ export class ResultsComponent implements OnInit{
       let question:CreateResultRequest = Object.assign({},this.resultCreateForm.value);
       this.resultService.create(question).subscribe({
         next:(response)=>{
-          alert("Ekleme Başarılı!")
+          this.handleCreateSuccess();
         },
         error:(error)=>{
           this.formMessage="Eklenemedi";
@@ -79,6 +79,13 @@ export class ResultsComponent implements OnInit{
         }
         });
       }
+    }
+    handleCreateSuccess() {
+      this.loadResults();
+      this.formMessage = "Başarıyla Eklendi"; 
+      setTimeout(() => {
+        this.formMessage = "";
+      }, 3000);
     }
 
     openAddModal() {

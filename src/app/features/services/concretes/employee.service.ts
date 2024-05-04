@@ -72,7 +72,7 @@ export class EmployeeService extends EmployeeBaseService{
       })
     );
   }
-  override add(request: EmployeeForRegisterRequest): Observable<UserForRegisterResponse> {
+  override create(request: EmployeeForRegisterRequest): Observable<UserForRegisterResponse> {
     return this.httpClient.post<UserForRegisterResponse>(`${this.apiUrlAuth}/RegisterEmployee`, request);
   }
   override delete(id: string): Observable<DeleteEmployeeResponse> {

@@ -45,7 +45,7 @@ export class BootcampStateService extends BootcampStateBaseService{
       })
     )
   }
-  override add(request: CreateBootcampstateRequest): Observable<CreateBootcampstateResponse> {
+  override create(request: CreateBootcampstateRequest): Observable<CreateBootcampstateResponse> {
     return this.httpClient.post<CreateBootcampstateResponse>(this.apiUrl, request);
   }
   override delete(id: number): Observable<DeleteBootcampstateResponse> {
