@@ -1,51 +1,54 @@
-<nav class="bg-white border-gray-200 dark:bg-gray-900">
-    <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-2">
-      <!-- Logo ve Öğrenke metni -->
-      <div class="flex items-center space-x-3 rtl:space-x-reverse">
-          <img src="https://flowbite.com/docs/images/logo.svg" class="h-8" alt="Flowbite Logo" />
-          <span routerLink="homepage" class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white hover:cursor-pointer">Öğrenke</span>
-          <!-- Home, About ve Services bağlantıları -->
-          <a routerLink="homepage" class="py-2 px-3 text-gray-900 md:hover:text-blue-700 dark:text-white md:dark:hover:text-blue-500">Ana Sayfa</a>
-          <a routerLink="bootcamps" class="py-2 px-3 text-gray-900 md:hover:text-blue-700 dark:text-white md:dark:hover:text-blue-500">Kurslar</a>
-          <a routerLink="application-state" class="py-2 px-3 text-gray-900 md:hover:text-blue-700 dark:text-white md:dark:hover:text-blue-500">Detaylar</a>
-      </div>
-      <!-- Menü açma düğmesi -->
-      <button data-collapse-toggle="navbar-default" type="button" class="inline-flex items-center p-2 w-10 h-10 justify-between text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-default" aria-expanded="false">
-          <span class="sr-only">Open main menu</span>
-          <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
-              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15"/>
-          </svg>
+<div
+  class="flex flex-col md:flex-row lg:flex-row content-center flex-wrap gap-5 text-slate-900 pt-12 pb-6 px-20"
+>
+  <div
+    class="flex flex-col md:flex-row lg:flex-row justify-center md:justify-start lg:justify-start gap-5 text-base font-medium"
+  >
+    <img
+      loading="lazy"
+      src="https://cdn.builder.io/api/v1/image/assets/TEMP/41934e332f401213ad6f646af99e9a2b39a7228ba0d51defd350f4238c225073?apiKey=d64f73725dfb4ccb8c714d58677398b5&"
+      class="shrink-0 my-auto max-w-full aspect-[4] w-[153px]"
+    />
+    <div class="flex gap-10 px-5 max-md:flex-wrap max-md:max-w-full">
+      <button class="my-auto hover:text-indigo-600 capitalize text-lg">
+        Home
       </button>
-      <!-- Menünün geri kalan kısmı -->
-      <div class="hidden w-full md:block md:w-auto" id="navbar-default">
-          <ul *ngIf="isLoggedIn; else loggedOutNav" class="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
-              <!-- Arama alanı -->
-              <li class="flex items-center">
-                  <input type="text" class="py-1 px-2 w-40 rounded focus:outline-none focus:ring-2 focus:ring-gray-200 dark:bg-gray-700 dark:text-white dark:focus:ring-gray-600" placeholder="Search" />
-                  <button class="py-1 px-2 ml-2 bg-blue-700 text-white rounded hover:bg-blue-800 focus:ring-2 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"  (click)="toggleSearch()" >Search</button>
-              </li>
-              <!-- Profile ve Logout bağlantıları -->
-              <li class="flex items-center">
-                  <a routerLink='profile' class="py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Profile</a>
-                  <a (click)="logOut()" class="py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent ml-4">Logout</a>
-                  <a *ngIf="isAdmin" routerLink="admin" class="py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent ml-4">Admin Panel</a>
-             </li>
-          </ul>
-          <ng-template #loggedOutNav>
-              <ul class="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
-                  <!-- Arama alanı -->
-                  <li class="flex items-center">
-                      <input type="text" class="py-1 px-2 w-40 rounded focus:outline-none focus:ring-2 focus:ring-gray-200 dark:bg-gray-700 dark:text-white dark:focus:ring-gray-600" placeholder="Search" />
-                      <button class="py-1 px-2 ml-2 bg-blue-700 text-white rounded hover:bg-blue-800 focus:ring-2 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"  (click)="toggleSearch()" >Search</button>
-                  </li>
-                  <!-- Login ve Register bağlantıları -->
-                  <li class="flex items-center">
-                      <a routerLink='login' class="py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Login</a>
-                      <a routerLink="register" class="py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent ml-4">Register</a>
-                  </li>
-              </ul>
-          </ng-template>
+      <button class="hover:text-indigo-600 capitalize text-lg">Courses</button>
+      <button class="hover:text-indigo-600 capitalize text-lg">
+        Instructors
+      </button>
+      <button class="hover:text-indigo-600 capitalize text-lg">FAQ</button>
+
+      <div
+        class="flex justify-end md:justify-end lg:justify-end gap-1.5 px-4 items-center w-96 self-stretch border border-gray-300 rounded-full text-slate-400 max-md:flex-wrap"
+      >
+        <img
+          loading="lazy"
+          src="https://cdn.builder.io/api/v1/image/assets/TEMP/6fb19ccbcd1cf2cdf5d007e41fb1c65e35035f592fd6f53a07bba76e3e5321ce?apiKey=d64f73725dfb4ccb8c714d58677398b5&"
+          class="shrink-0 w-4 h-4 fill-indigo-600"
+        />
+        <input
+        type="text"
+        placeholder="Search For Course . . ."
+        class="flex-auto outline-none border-white bg-transparent text-opacity-20 font-thin" 
+         />
+       
       </div>
     </div>
-  </nav>
-  
+  </div>
+  <div
+    class="flex flex-row gap-5  md:justify-end lg:justify-end md:ml-auto lg:ml-auto items-start text-base font-bold"
+  >
+    <button
+      class="px-5 py-3 bg-amber-400 border border-blue-950 border-opacity-20 rounded-[50px] hover:brightness-110"
+    >
+      Kayıt Ol
+    </button>
+
+    <button
+      class="px-5 py-3 bg-amber-400 border border-solid border-blue-950 border-opacity-20 rounded-[50px] hover:brightness-110"
+    >
+      Giriş Yap
+    </button>
+  </div>
+</div>

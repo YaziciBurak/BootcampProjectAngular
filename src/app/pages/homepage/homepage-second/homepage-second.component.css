@@ -1,0 +1,54 @@
+.hp2a {
+  font: 500 18px/162% Inter, sans-serif;
+}
+
+.hp2b {
+  font: 600 40px/133% Poppins, sans-serif;
+}
+
+.hp2c {
+  font: 400 18px/31px Inter, sans-serif;
+}
+
+.homepage-feature-card-1 {
+  border-radius: 21.997px;
+  box-shadow: 8.799px 8.799px 0px 0px #c9e4e9;
+  border-color: rgba(201, 228, 233, 1);
+  border-style: solid;
+  border-width: 1px;
+  background-color: #f1fdff;
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  width: 100%;
+  padding: 24px 56px 50px;
+}
+
+.homepage-feature-card-2 {
+  border-radius: 21.997px;
+  box-shadow: 8.799px 8.799px 0px 0px #d9d5f1;
+  border-color: rgba(200, 193, 237, 1);
+  border-style: solid;
+  border-width: 1px;
+  background-color: #edeaff;
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  width: 100%;
+  padding: 24px 56px 50px;
+}
+
+
+.homepage-feature-card-3 {
+  border-radius: 21.997px;
+  box-shadow: 8.799px 8.799px 0px 0px #e5decb;
+  border-color: rgba(235, 224, 196, 1);
+  border-style: solid;
+  border-width: 1px;
+  background-color: #fff7e2;
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  width: 100%;
+  padding: 24px 57px 50px;
+}

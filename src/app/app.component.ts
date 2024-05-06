@@ -5,12 +5,14 @@ import { LoginComponent } from './features/components/login/login.component';
 import { SharedModule } from 'primeng/api';
 import { RegisterComponent } from './features/components/register/register.component';
 import { CommonModule } from '@angular/common';
+import { HomepageComponent } from './pages/homepage/homepage.component';
+import { initFlowbite } from 'flowbite';
 
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet,NavbarComponent,CommonModule,RouterModule,LoginComponent,SharedModule,RegisterComponent],
+  imports: [RouterOutlet,NavbarComponent,CommonModule,RouterModule,LoginComponent,SharedModule,RegisterComponent, HomepageComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
@@ -20,6 +22,7 @@ export class AppComponent implements OnInit {
   constructor(private router:Router) {} 
 
   ngOnInit(): void {
+    initFlowbite();
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         // Eğer admin paneline gidiyorsak navbar'ı gizle
