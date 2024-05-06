@@ -14,12 +14,14 @@ import { HomepageInstructorlistComponent } from './homepage-instructorlist/homep
 import { HomepageStatisticsComponent } from './homepage-statistics/homepage-statistics.component';
 import { HomepageFaqComponent } from './homepage-faq/homepage-faq.component';
 
+import { FooterComponent } from '../../shared/components/footer/footer.component';
+
 @Component({
   selector: 'app-homepage',
   standalone: true,
   imports: [RouterOutlet, RouterModule, CommonModule, HttpClientModule, NavbarComponent, BootcampListGroupComponent, HomepageIllustrationComponent,
     HomepageSecondComponent, HomepageTickerComponent, HomepageBootcamplistComponent, HomepageSubscribeComponent, HomepageInstructorlistComponent,
-    HomepageStatisticsComponent, HomepageFaqComponent
+    HomepageStatisticsComponent, HomepageFaqComponent, FooterComponent
   ],
   templateUrl: './homepage.component.html',
   styleUrl: './homepage.component.css'
