@@ -10,10 +10,10 @@
       class="shrink-0 my-auto max-w-full aspect-[4] w-[153px]"
     />
     <div class="flex gap-10 px-5 max-md:flex-wrap max-md:max-w-full">
-      <button class="my-auto hover:text-indigo-600 capitalize text-lg">
+      <button routerLink="homepage" class="my-auto hover:text-indigo-600 capitalize text-lg">
         Home
       </button>
-      <button class="hover:text-indigo-600 capitalize text-lg">Courses</button>
+      <button routerLink="bootcamps" class="hover:text-indigo-600 capitalize text-lg">Courses</button>
       <button class="hover:text-indigo-600 capitalize text-lg">
         Instructors
       </button>
@@ -39,13 +39,13 @@
   <div
     class="flex flex-row gap-5  md:justify-end lg:justify-end md:ml-auto lg:ml-auto items-start text-base font-bold"
   >
-    <button
+    <button routerLink="/register"
       class="px-5 py-3 bg-amber-400 border border-blue-950 border-opacity-20 rounded-[50px] hover:brightness-110"
     >
       Kayıt Ol
     </button>
 
-    <button
+    <button routerLink="/login"
       class="px-5 py-3 bg-amber-400 border border-solid border-blue-950 border-opacity-20 rounded-[50px] hover:brightness-110"
     >
       Giriş Yap
