@@ -46,8 +46,6 @@ export class NavbarComponent {
     return this.authService.getCurrentUserId();
    }
 
-
-
    async getMenuItems(){
     const isUserLoggedIn = await this.authService.loggedIn();
     if(isUserLoggedIn){

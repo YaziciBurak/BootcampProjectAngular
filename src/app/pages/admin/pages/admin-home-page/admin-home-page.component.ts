@@ -1,18 +1,16 @@
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { RouterModule, RouterOutlet } from '@angular/router';
-import { AdminHomePageComponent } from './pages/admin-home-page/admin-home-page.component';
+import { RouterModule } from '@angular/router';
 
 @Component({
-  selector: 'app-admin',
+  selector: 'app-admin-home-page',
   standalone: true,
-  imports: [RouterOutlet,HttpClientModule,RouterModule,CommonModule,AdminHomePageComponent],
-  templateUrl: './admin.component.html',
-  styleUrl: './admin.component.css'
+  imports: [CommonModule,RouterModule,HttpClientModule],
+  templateUrl: './admin-home-page.component.html',
+  styleUrl: './admin-home-page.component.css'
 })
-export class AdminComponent {
-
+export class AdminHomePageComponent {
   isDropdownOpen: boolean = false;
   isQuizDropDownOpen: boolean = false;
 
@@ -28,5 +26,4 @@ toggleQuizDropDown() {
       this.isDropdownOpen = false; 
   }
 }
-  
 }

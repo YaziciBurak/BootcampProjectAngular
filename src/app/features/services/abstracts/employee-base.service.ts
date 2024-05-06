@@ -15,7 +15,7 @@ export abstract class EmployeeBaseService {
 
   abstract getList(pageRequest:PageRequest):Observable<EmployeeListItemDto>;
   abstract getById(id:string):Observable<GetbyidEmployeeResponse>;
-  abstract add(request:EmployeeForRegisterRequest):Observable<UserForRegisterResponse>
+  abstract create(request:EmployeeForRegisterRequest):Observable<UserForRegisterResponse>
   abstract delete(id:string):Observable<DeleteEmployeeResponse>
   abstract update(request:UpdateEmployeeRequest):Observable<UpdateEmployeeResponse>
   abstract getListAll():Observable<EmployeeListItemDto>;

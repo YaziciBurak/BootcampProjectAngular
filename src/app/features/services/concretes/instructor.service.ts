@@ -69,7 +69,7 @@ export class InstructorService extends InstructorBaseService{
       })
     );
   }
-  override add(request: InstructorForRegisterRequest): Observable<UserForRegisterResponse> {
+  override create(request: InstructorForRegisterRequest): Observable<UserForRegisterResponse> {
     return this.httpClient.post<UserForRegisterResponse>(`${this.apiUrlAuth}/RegisterInstructor`, request);
   }
   override delete(id: string): Observable<DeleteInstructorResponse> {

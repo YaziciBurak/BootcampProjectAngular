@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { BootcampstateListItemDto } from '../../../../features/models/responses/bootcampstate/bootcampstate-list-item-dto'; 
 import { BootcampStateService } from '../../../../features/services/concretes/bootcamp-state.service'; 
 import { PageRequest } from '../../../../core/models/page-request'; 
@@ -8,6 +8,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { SharedModule } from 'primeng/api';
 import { UpdateBootcampstateRequest } from '../../../../features/models/requests/bootcampstate/update-bootcampstate-request';
+import { CreateBootcampstateRequest } from '../../../../features/models/requests/bootcampstate/create-bootcampstate-request';
 
 @Component({
   selector: 'app-bootcamp-state-list-group',
@@ -18,32 +19,36 @@ import { UpdateBootcampstateRequest } from '../../../../features/models/requests
 })
 export class BootcampStateListGroupComponent implements OnInit{
   formMessage:string | null=null;
-  bootcampStateForm:FormGroup;
+  bootcampStateUpdateForm:FormGroup;
+  bootcampStateCreateForm:FormGroup;
   selectedBootcampState:any;
   showUpdateModal: boolean = false;
-
-  bootcampStateList:BootcampstateListItemDto={
-    index:0,
-    size:0,
-    count:0,
-    hasNext:false,
-    hasPrevious:false,
-    pages:0,
-    items:[]
-  };
-  constructor(private bootcampStateService: BootcampStateService ,private formBuilder:FormBuilder) {}
+  showCreateModal: boolean = false;
+  bootcampStateList:BootcampstateListItemDto;
+  
+  constructor(
+    private bootcampStateService: BootcampStateService,
+    private formBuilder:FormBuilder,
+    private change:ChangeDetectorRef
+  ) {}
 
 
 
 ngOnInit(): void {
   this.loadBootcampStates();
   this.updateForm();
+  this.createForm();
 }
 
 updateForm() {
-  this.bootcampStateForm = this.formBuilder.group({
+  this.bootcampStateUpdateForm = this.formBuilder.group({
     name: ['', [Validators.required]]
   });
+}
+createForm(){
+  this.bootcampStateCreateForm=this.formBuilder.group({
+    name:['',[Validators.required]]
+  })
 }
 
 loadBootcampStates() {
@@ -61,6 +66,27 @@ loadBootcampStates() {
   })
  }
 
+ add() {
+  if(this.bootcampStateCreateForm.valid) {
+    let bootcampState:CreateBootcampstateRequest = Object.assign({},this.bootcampStateCreateForm.value);
+    this.bootcampStateService.create(bootcampState).subscribe({
+      next:(response)=>{
+        this.handleCreateSuccess();
+      },
+      error:(error)=>{
+        this.formMessage="Eklenemedi";
+        this.change.markForCheck();
+      },
+      complete:()=>{
+        this.formMessage="Başarıyla Eklendi";
+        this.change.markForCheck();
+        this.closeModal();
+        this.loadBootcampStates();
+      }
+      });
+    }
+  }
+
  delete(id: number) {
   if (confirm('Bu uygulama durumunu silmek istediğinizden emin misiniz?')) {
     this.bootcampStateService.delete(id).subscribe({
@@ -73,6 +99,13 @@ loadBootcampStates() {
     });
   }
 }
+handleCreateSuccess() {
+  this.loadBootcampStates();
+  this.formMessage = "Başarıyla Eklendi"; 
+  setTimeout(() => {
+    this.formMessage = "";
+  }, 3000);
+}
 
 handleDeleteSuccess() {
   this.loadBootcampStates();
@@ -84,7 +117,7 @@ handleDeleteSuccess() {
 update() {
   const id = this.selectedBootcampState.id;
   const request: UpdateBootcampstateRequest = { id: id,
-    name: this.bootcampStateForm.value.name };
+    name: this.bootcampStateUpdateForm.value.name };
   this.bootcampStateService.update(request).subscribe({
     next: (response) => {
       this.showUpdateModal = false; 
@@ -99,7 +132,7 @@ openUpdateModal(bootcampState: any) {
   this.bootcampStateService.getById(bootcampState.id).subscribe({
     next: (response) => {
       this.selectedBootcampState = { ...response };
-      this.bootcampStateForm.patchValue({ name: this.selectedBootcampState.name }); // Modal içindeki formu güncelle
+      this.bootcampStateUpdateForm.patchValue({ name: this.selectedBootcampState.name }); // Modal içindeki formu güncelle
       this.showUpdateModal = true; 
       return bootcampState.id;
     },
@@ -108,8 +141,13 @@ openUpdateModal(bootcampState: any) {
     }
   });
 }
-closeUpdateModal() {
+openAddModal() {
+  this.bootcampStateCreateForm.reset();
+  this.showCreateModal = true;
+}
+closeModal() {
   this.showUpdateModal = false;
+  this.showCreateModal = false;
 }
 } 
 

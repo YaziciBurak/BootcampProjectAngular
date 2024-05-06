@@ -1,0 +1,47 @@
+<div class="flex h-screen bg-gray-200">
+    <!-- Sidebar -->
+    <div class="w-64 bg-white border-r">
+      <!-- Sidebar Content -->
+      <div class="p-4">
+        <h1 class="text-xl mb-2 font-semibold">Admin Panel</h1>
+  
+        <button routerLink="/admin" class="block w-full p-2 rounded mb-2 bg-gray-300 text-left hover:bg-gray-400 hover:text-black">
+          <span class="inline-block">Ana Sayfa</span> <span class="caret"></span>
+        </button>
+        <!-- Tablolar Butonu -->
+        <button class="block w-full p-2 rounded mb-2 bg-gray-300 text-left hover:bg-gray-400 hover:text-black" (click)="toggleDropdown()">
+          <span class="inline-block">Tablolar</span> <span class="caret"></span>
+        </button>
+        <!-- Dropdown Menüsü -->
+        <div class="dropdown-menu" [ngClass]="{'hidden': !isDropdownOpen}">
+          <ul>
+            <li><a class="block p-2 text-gray-800 hover:bg-gray-200" routerLink="applicant">Applicants</a></li>
+            <li><a class="block p-2 text-gray-800 hover:bg-gray-200" routerLink="admin-bootcamp">Bootcamps</a></li>
+            <li><a class="block p-2 text-gray-800 hover:bg-gray-200" routerLink="bootcamp-image">Bootcamps Image</a></li>
+            <li><a class="block p-2 text-gray-800 hover:bg-gray-200" routerLink="applicationState">Application State</a></li>
+            <li><a class="block p-2 text-gray-800 hover:bg-gray-200" routerLink="bootcampState">Bootcamp State</a></li>
+            <li><a class="block p-2 text-gray-800 hover:bg-gray-200" routerLink="blacklist">Blacklists</a></li>
+            <li><a class="block p-2 text-gray-800 hover:bg-gray-200" routerLink="employee">Employee</a></li>
+            <li><a class="block p-2 text-gray-800 hover:bg-gray-200" routerLink="instructor">Instructor</a></li>
+          </ul>
+        </div>
+        <!-- Quiz Tabloları Butonu -->
+        <button class="block w-full p-2 rounded mb-2 bg-gray-300 text-left hover:bg-gray-400 hover:text-black" (click)="toggleQuizDropDown()">
+          <span class="inline-block">Quiz Tabloları</span> <span class="caret"></span>
+        </button>
+        <!-- Dropdown Menüsü -->
+        <div class="dropdown-menu" [ngClass]="{'hidden': !isQuizDropDownOpen}">
+          <ul>
+            <li><a class="block p-2 text-gray-800 hover:bg-gray-200" routerLink="quiz">Quiz</a></li>
+            <li><a class="block p-2 text-gray-800 hover:bg-gray-200" routerLink="questions">Questions</a></li>
+            <li><a class="block p-2 text-gray-800 hover:bg-gray-200" routerLink="quiz-questions">QuizQuestions</a></li>
+            <li><a class="block p-2 text-gray-800 hover:bg-gray-200" routerLink="result">Results</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <!-- Main Content -->
+    <div class="flex-1 p-4">
+        <router-outlet></router-outlet>
+    </div>
+  </div>
