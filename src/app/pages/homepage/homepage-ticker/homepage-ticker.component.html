@@ -2,57 +2,16 @@
   class="ticker-wrap flex justify-center items-center px-0 bg-indigo-600 max-md:px-5 mt-20"
 >
   <div
-    class="ticker flex gap-5 justify-center w-full max-md:flex-wrap max-md:max-w-full"
+    class="ticker flex flex-row flex-wrap md:flex-nowrap lg:flex-nowrap gap-5 justify-center items-center w-full"
   >
-    <img
-      src="https://cdn.builder.io/api/v1/image/assets/TEMP/08a5cdcdd7b112cca4dcc4e376ac9cf23a91f04ef05a787a7d901281f6c930d8?apiKey=d64f73725dfb4ccb8c714d58677398b5&"
-      alt="Company logo"
-      class="shrink-0 my-auto max-w-full aspect-[2.86] w-[137px]"
-    />
-    <img
-      src="https://cdn.builder.io/api/v1/image/assets/TEMP/d941b4836d8a85314b4e09a9b6ab1368b158e23cdd4581fda8e3168b1c5bdae6?apiKey=d64f73725dfb4ccb8c714d58677398b5&"
-      alt="Partner company logo"
-      class="shrink-0 w-40 max-w-full aspect-[2]"
-    />
-    <img
-      src="https://cdn.builder.io/api/v1/image/assets/TEMP/93dcc2fc9751bf8d1d2dc33133c16b5eab06e163ed6ab6f2772906d9d7d55c6a?apiKey=d64f73725dfb4ccb8c714d58677398b5&"
-      alt="Partner company logo"
-      class="shrink-0 w-40 max-w-full aspect-[2]"
-    />
-    <img
-      src="https://cdn.builder.io/api/v1/image/assets/TEMP/585987078c311a57ead3149eaaeb321c1de3711c750359de1e040abc74e9d9cb?apiKey=d64f73725dfb4ccb8c714d58677398b5&"
-      alt="Partner company logo"
-      class="shrink-0 w-60 max-w-full aspect-[3.03]"
-    />
-    <img
-      src="https://cdn.builder.io/api/v1/image/assets/TEMP/585987078c311a57ead3149eaaeb321c1de3711c750359de1e040abc74e9d9cb?apiKey=d64f73725dfb4ccb8c714d58677398b5&"
-      alt="Partner company logo"
-      class="shrink-0 w-60 max-w-full aspect-[3.03]"
-    />
-    <img
-      src="https://cdn.builder.io/api/v1/image/assets/TEMP/585987078c311a57ead3149eaaeb321c1de3711c750359de1e040abc74e9d9cb?apiKey=d64f73725dfb4ccb8c714d58677398b5&"
-      alt="Partner company logo"
-      class="shrink-0 w-60 max-w-full aspect-[3.03]"
-    />
-
-    <figure class="flex justify-center items-center p-3">
-      <img
-        src="https://cdn.builder.io/api/v1/image/assets/TEMP/16bfc557e96702087bfe9e6dea6eb1629e348256f9ab9245d440e47446f39e7d?apiKey=d64f73725dfb4ccb8c714d58677398b5&"
-        alt="Partner company logo"
-        class="aspect-[2.44] w-[136px]"
-      />
-    </figure>
-    <figure class="flex justify-center items-center px-3 py-2">
-      <img
-        src="https://cdn.builder.io/api/v1/image/assets/TEMP/c34ef1b30ce64c703b3c4a9a84a17b84523fdd5a7c235da600c235d4637a5478?apiKey=d64f73725dfb4ccb8c714d58677398b5&"
-        alt="Partner company logo"
-        class="aspect-[3.45] w-[218px]"
-      />
-    </figure>
-    <img
-      src="https://cdn.builder.io/api/v1/image/assets/TEMP/fbc79f49a95aa09b5d1e0e9fb23cb067874c7de14ae7da2e08ce06ebcbe5ab38?apiKey=d64f73725dfb4ccb8c714d58677398b5&"
-      alt="Partner company logo"
-      class="shrink-0 max-w-full aspect-[2.33] w-[185px]"
-    />
+    <ng-container *ngFor="let company of companies; let i = index">
+      <figure class="flex justify-center items-center px-3 py-2">
+        <img
+          src="{{ company.imageUrl }}"
+          alt="{{ company.name }}"
+          class="w-40 {{ company.extraClasses }}"
+        />
+      </figure>
+    </ng-container>
   </div>
 </section>

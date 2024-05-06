@@ -1,49 +1,27 @@
+/* Transition */
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
 
-@-webkit-keyframes ticker {
-    0% {
-      -webkit-transform: translate3d(-100%, 0, 0);
-      transform: translate3d(-100%, 0, 0);
-      visibility: visible;
-    }
-  
-    100% {
-      -webkit-transform: translate3d(100%, 0, 0);
-      transform: translate3d(100%, 0, 0);
-    }
+.ticker-wrap {
+  overflow: hidden;
+  .ticker {
+    white-space: nowrap;
+    -webkit-animation-iteration-count: infinite;
+    animation-iteration-count: infinite;
+    -webkit-animation-duration: 15s;
+    animation-duration: 15s;
+    animation: marquee 15s linear infinite;
   }
-  
-  @keyframes ticker {
-    0% {
-      -webkit-transform: translate3d(-100%, 0, 0);
-      transform: translate3d-(100%, 0, 0);
-      visibility: visible;
-    }
-  
-    100% {
-      -webkit-transform: translate3d(100%, 0, 0);
-      transform: translate3d(100%, 0, 0);
-    }
-  }
-  
+}
+
+@media (max-width: 640px) {
   .ticker-wrap {
-    
-    overflow: hidden;
-   
-  
-    .ticker {
-  
-      white-space: nowrap;
-  
-      -webkit-animation-iteration-count: infinite; 
-              animation-iteration-count: infinite;
-      -webkit-animation-timing-function: linear;
-              animation-timing-function: linear;
-     -webkit-animation-name: ticker;
-             animation-name: ticker;
-      -webkit-animation-duration: 15s;
-              animation-duration: 15s;
-  
-     
-  
-    }
+    display: none;
   }
+}
