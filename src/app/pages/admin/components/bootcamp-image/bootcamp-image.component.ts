@@ -40,8 +40,9 @@ export class BootcampImageComponent implements OnInit {
 
   createForm() {
     this.bootcampImageCreateForm = this.formBuilder.group({
-      imagePath: ['', [Validators.required]],
-      bootcampId:['',],   
+      imagePath: ['',],
+      bootcampId:['', [Validators.required]],  
+      file: ['', [Validators.required]] 
     })
   }
 
@@ -83,7 +84,11 @@ export class BootcampImageComponent implements OnInit {
   add() {
     if(this.bootcampImageCreateForm.valid) {
       let bootcampImage:CreateBootcampimageRequest = Object.assign({},this.bootcampImageCreateForm.value);
-      this.bootcampImageService.create(bootcampImage).subscribe({
+      let formData = new FormData();
+      formData.append('bootcampId', bootcampImage.bootcampId.toString());
+      formData.append('imagePath', bootcampImage.imagePath);
+      formData.append('file', bootcampImage.file);
+      this.bootcampImageService.create(formData).subscribe({
         next:(response)=>{
           this.handleCreateSuccess();
         },
@@ -114,5 +119,9 @@ export class BootcampImageComponent implements OnInit {
     closeModal() {
       this.showUpdateModal = false;
       this.showCreateModal = false;
+    }
+    onFileChange(event: any) {
+      const file = event.target.files[0];
+      this.bootcampImageCreateForm?.get('file')?.setValue(file);
     }
 }

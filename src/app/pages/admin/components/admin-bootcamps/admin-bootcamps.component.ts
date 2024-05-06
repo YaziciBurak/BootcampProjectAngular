@@ -67,7 +67,6 @@ export class AdminBootcampsComponent implements OnInit{
     })
   }
 
-  
   loadBootcamps() {
     const pageRequest: PageRequest = { page: 0, pageSize: 25 };
     this.getBootcamps(pageRequest);

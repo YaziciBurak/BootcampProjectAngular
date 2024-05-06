@@ -12,6 +12,7 @@ import { QuizQuestionsComponent } from './components/quiz-questions/quiz-questio
 import { ResultsComponent } from './components/results/results.component';
 import { BootcampImageComponent } from './components/bootcamp-image/bootcamp-image.component';
 import { InstructorComponent } from './components/instructor/instructor.component';
+import { ApplicationComponent } from './components/application/application.component';
 
 export const AdminRoutes: Routes = [
   { path: "", component: AdminComponent, children: [   
@@ -22,6 +23,7 @@ export const AdminRoutes: Routes = [
     { path: 'blacklist', component:BlacklistComponent},
     { path: 'questions', component:QuestionsComponent},
     { path: 'quiz', component:QuizComponent},
+    { path: 'application', component:ApplicationComponent},
     { path: 'instructor', component:InstructorComponent},
     { path: 'employee', component:EmployeeListGroupComponent},
     { path: 'applicant', component:ApplicantsComponent},

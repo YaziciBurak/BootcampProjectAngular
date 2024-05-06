@@ -19,8 +19,8 @@ export class BootcampImageService extends BootcampImageBaseService {
 
   constructor(private httpClient:HttpClient) {super() }
   
-  override create(request: CreateBootcampimageRequest): Observable<CreateBootcampimageResponse> {
-   return this.httpClient.post<CreateBootcampimageResponse>(`${this.apiUrl}`, request);
+  override create(formData: FormData): Observable<CreateBootcampimageResponse> {
+   return this.httpClient.post<CreateBootcampimageResponse>(`${this.apiUrl}`, formData);
   }
  
   override delete(id: number): Observable<DeleteBootcampimageResponse> {

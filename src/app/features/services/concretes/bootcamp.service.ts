@@ -20,7 +20,6 @@ export class BootcampService extends BootcampBaseService {
 
   constructor(private httpClient: HttpClient) { super(); }
   
- 
   override getList(pageRequest: PageRequest): Observable<BootcampListItemDto> {
     const newRequest: {[key: string]: string | number} = {
       pageIndex: pageRequest.page,
@@ -44,7 +43,6 @@ export class BootcampService extends BootcampBaseService {
     )
   }
 
-
   delete(id: number): Observable<DeleteBootcampResponse> {
     return this.httpClient.delete<DeleteBootcampResponse>( `${this.apiUrl}/`+ id);
   }
@@ -61,7 +59,6 @@ export class BootcampService extends BootcampBaseService {
     const newRequest: {[key: string]: string | number} = {
       id: bootcampId
     };
-  
     return this.httpClient.get<GetbyidBootcampResponse>(`${this.apiUrl}/${bootcampId}`, {
       params: newRequest
     }).pipe(
@@ -84,7 +81,6 @@ export class BootcampService extends BootcampBaseService {
     );
   }
   
-
 override getListBootcampByInstructorId(pageRequest:PageRequest,instructorId: string): Observable<BootcampListItemDto> {
   const newRequest :{[key:string]:string | number}={
     page:pageRequest.page,
@@ -107,5 +103,4 @@ return this.httpClient.get<BootcampListItemDto>(`${this.apiUrl}/${instructorId}`
     return newResponse; 
   })
 )
-
 }}
