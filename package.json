@@ -23,6 +23,7 @@
     "@auth0/angular-jwt": "^5.2.0",
     "@sweetalert2/ngx-sweetalert2": "^12.3.0",
     "bootstrap": "^5.3.3",
+    "flowbite": "^2.3.0",
     "jquery": "^3.7.1",
     "ngx-toastr": "^18.0.0",
     "primeng": "^17.14.1",

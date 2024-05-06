@@ -1,0 +1,27 @@
+/* Transition */
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.ticker-wrap {
+  overflow: hidden;
+  .ticker {
+    white-space: nowrap;
+    -webkit-animation-iteration-count: infinite;
+    animation-iteration-count: infinite;
+    -webkit-animation-duration: 15s;
+    animation-duration: 15s;
+    animation: marquee 15s linear infinite;
+  }
+}
+
+@media (max-width: 640px) {
+  .ticker-wrap {
+    display: none;
+  }
+}
