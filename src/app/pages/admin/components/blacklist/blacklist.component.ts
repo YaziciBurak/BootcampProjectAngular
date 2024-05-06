@@ -98,7 +98,6 @@ export class BlacklistComponent implements OnInit{
   openUpdateModal(blacklist: any) {
     this.blacklistService.getById(blacklist.id).subscribe({
       next: (response) => {
-        // Backend'den gelen verileri formda kullan
         this.selectedBlacklist = { ...response };
         this.blacklistForm.patchValue({ reason: this.selectedBlacklist.reason }); // Modal içindeki formu güncelle
         this.showUpdateModal = true; // Modal'ı aç

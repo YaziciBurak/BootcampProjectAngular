@@ -10,6 +10,7 @@ import { ApplicantListItemDto } from '../../models/responses/applicant/applicant
 import { GetbyidApplicantResponse } from '../../models/responses/applicant/getbyid-applicant-response';
 import { UpdateApplicantRequest } from '../../models/requests/applicant/update-applicant-request';
 import { UpdateApplicantResponse } from '../../models/responses/applicant/update-applicant-response';
+import { DeleteApplicantResponse } from '../../models/responses/applicant/delete-applicant-response';
 
 
 @Injectable({
@@ -23,6 +24,9 @@ export class ApplicantService extends ApplicantBaseService {
 
   override update(request: UpdateApplicantRequest): Observable<UpdateApplicantResponse> {
     return this.httpClient.put<UpdateApplicantResponse>(`${this.apiUrl}`, request); 
+  }
+  override delete(id: string): Observable<DeleteApplicantResponse> {
+    return this.httpClient.delete<DeleteApplicantResponse>(`${this.apiUrl}/`+id)
   }
 
   override getList(pageRequest: PageRequest): Observable<ApplicantListItemDto> {

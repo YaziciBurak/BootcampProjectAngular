@@ -104,7 +104,6 @@ export class ApplicationStateListComponent implements OnInit {
 
   handleDeleteSuccess() {
     this.loadApplicationStates();
-    // Güzel bir geri bildirim mesajı oluştur
     this.formMessage = "Başarıyla Silindi";
     setTimeout(() => {
       this.formMessage = "";
@@ -129,7 +128,6 @@ export class ApplicationStateListComponent implements OnInit {
   openUpdateModal(appState: any) {
     this.applicationStateService.getById(appState.id).subscribe({
       next: (response) => {
-        // Backend'den gelen verileri formda kullan
         this.selectedAppState = { ...response };
         this.applicationStateUpdateForm.patchValue({ name: this.selectedAppState.name }); // Modal içindeki formu güncelle
         this.showUpdateModal = true; // Modal'ı aç

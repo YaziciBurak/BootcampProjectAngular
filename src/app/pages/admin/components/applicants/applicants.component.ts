@@ -6,6 +6,7 @@ import { ApplicantService } from '../../../../features/services/concretes/applic
 import { PageRequest } from '../../../../core/models/page-request';
 import { UpdateApplicantRequest } from '../../../../features/models/requests/applicant/update-applicant-request';
 import { last } from 'rxjs';
+import { BlacklistService } from '../../../../features/services/concretes/blacklist.service';
 
 @Component({
   selector: 'app-applicants',
@@ -17,16 +18,24 @@ import { last } from 'rxjs';
 export class ApplicantsComponent implements OnInit{
 formsMessage:string  | null = null;
 applicantUpdateForm:FormGroup;
+blacklistCreateForm:FormGroup
 selectedApplicant:any;
+selectedBlacklist:any;
 showUpdateModal: boolean = false;
+showCreateModal: boolean = false;
 
 
 applicantList: ApplicantListItemDto;
 
-constructor(private applicantService:ApplicantService,private formBuilder:FormBuilder,private change:ChangeDetectorRef) {}
+constructor(private applicantService:ApplicantService,
+  private blacklistService:BlacklistService,
+  private formBuilder:FormBuilder,
+  private change:ChangeDetectorRef
+) {}
   ngOnInit(): void {
     this.loadApplicants();
     this.updateForm();
+    this.createBlacklistForm();
   }
 
   loadApplicants() {
@@ -44,12 +53,66 @@ constructor(private applicantService:ApplicantService,private formBuilder:FormBu
       nationalIdentity: ['', [Validators.required]]
     });
   }
+  createBlacklistForm() {
+    this.blacklistCreateForm = this.formBuilder.group({
+      reason: ['',[Validators.required]],
+      date: [''],
+      applicantId: ['']
+    })
+  }
 
   getApplicants(pageRequest: PageRequest) {
     this.applicantService.getList(pageRequest).subscribe(response => {
       this.applicantList = response;  
     });
   }
+  add() {
+    if(this.blacklistCreateForm.valid) {
+      let blacklist= Object.assign({},this.blacklistCreateForm.value);
+      this.blacklistService.create(blacklist).subscribe({
+        next:(response)=>{
+          this.handleCreateSuccess();
+        },
+        error:(error)=>{
+          this.formsMessage="Eklenemedi";
+          this.change.markForCheck();
+        },
+        complete:()=>{
+          this.formsMessage="Başarıyla Eklendi";
+          this.change.markForCheck();
+          this.closeModal();
+          this.loadApplicants();
+        }
+        });
+      }
+    }
+    handleCreateSuccess() {
+      this.loadApplicants();
+      this.formsMessage = "Başarıyla Eklendi"; 
+      setTimeout(() => {
+        this.formsMessage = "";
+      }, 3000);
+    }
+
+    delete(id: string) {
+      if (confirm('Bu uygulama durumunu silmek istediğinizden emin misiniz?')) {
+        this.applicantService.delete(id).subscribe({
+          next: (response) => {
+            this.handleDeleteSuccess();
+          },
+          error: (error) => {
+            console.error('Silme işlemi başarısız:', error);
+          }
+        });
+      }
+    }
+    handleDeleteSuccess() {
+      this.loadApplicants();
+      this.formsMessage = "Başarıyla Silindi";
+      setTimeout(() => {
+        this.formsMessage = "";
+      }, 3000);
+    }
 
   update() {
     const id = this.selectedApplicant.id;
@@ -109,8 +172,21 @@ openUpdateModal(applicant: any) {
   });
 }
 
+openAddModal(applicant:any) {
+  this.applicantService.getById(applicant.id).subscribe({
+    next: (response) => {
+      this.selectedApplicant = { ...response };
+      this.blacklistCreateForm.patchValue({
+        applicantId: response.id
+      })
+      return response;
+    }
+  });
+  this.showCreateModal = true;
+}
 closeModal() {
   this.showUpdateModal = false;
+  this.showCreateModal = false;
 }
 
 }

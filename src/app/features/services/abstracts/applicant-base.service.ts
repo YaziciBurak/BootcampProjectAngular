@@ -5,6 +5,7 @@ import { GetbyidApplicantResponse } from '../../models/responses/applicant/getby
 import { UpdateApplicantRequest } from '../../models/requests/applicant/update-applicant-request';
 import { UpdateApplicantResponse } from '../../models/responses/applicant/update-applicant-response';
 import { ApplicantListItemDto } from '../../models/responses/applicant/applicant-list-item-dto';
+import { DeleteApplicantResponse } from '../../models/responses/applicant/delete-applicant-response';
 
 
 @Injectable()
@@ -13,4 +14,5 @@ export abstract class ApplicantBaseService {
   abstract getList(pageRequest:PageRequest):Observable<ApplicantListItemDto>;
   abstract getById(id:string):Observable<GetbyidApplicantResponse>;
   abstract update(request:UpdateApplicantRequest):Observable<UpdateApplicantResponse>;
+  abstract delete(id:string):Observable<DeleteApplicantResponse>;
 }

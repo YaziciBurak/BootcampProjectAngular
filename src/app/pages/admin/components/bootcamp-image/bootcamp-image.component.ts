@@ -41,9 +41,7 @@ export class BootcampImageComponent implements OnInit {
   createForm() {
     this.bootcampImageCreateForm = this.formBuilder.group({
       imagePath: ['', [Validators.required]],
-      bootcampId:['',], 
-
-      
+      bootcampId:['',],   
     })
   }
 
