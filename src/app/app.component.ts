@@ -6,6 +6,7 @@ import { SharedModule } from 'primeng/api';
 import { RegisterComponent } from './features/components/register/register.component';
 import { CommonModule } from '@angular/common';
 import { HomepageComponent } from './pages/homepage/homepage.component';
+import { initFlowbite } from 'flowbite';
 
 
 @Component({
@@ -21,6 +22,7 @@ export class AppComponent implements OnInit {
   constructor(private router:Router) {} 
 
   ngOnInit(): void {
+    initFlowbite();
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         // Eğer admin paneline gidiyorsak navbar'ı gizle

@@ -10,12 +10,16 @@ import { HomepageTickerComponent } from './homepage-ticker/homepage-ticker.compo
 
 import { HomepageBootcamplistComponent } from './homepage-bootcamplist/homepage-bootcamplist.component';
 import { HomepageSubscribeComponent } from './homepage-subscribe/homepage-subscribe.component';
+import { HomepageInstructorlistComponent } from './homepage-instructorlist/homepage-instructorlist.component';
+import { HomepageStatisticsComponent } from './homepage-statistics/homepage-statistics.component';
+import { HomepageFaqComponent } from './homepage-faq/homepage-faq.component';
 
 @Component({
   selector: 'app-homepage',
   standalone: true,
   imports: [RouterOutlet, RouterModule, CommonModule, HttpClientModule, NavbarComponent, BootcampListGroupComponent, HomepageIllustrationComponent,
-    HomepageSecondComponent, HomepageTickerComponent, HomepageBootcamplistComponent, HomepageSubscribeComponent
+    HomepageSecondComponent, HomepageTickerComponent, HomepageBootcamplistComponent, HomepageSubscribeComponent, HomepageInstructorlistComponent,
+    HomepageStatisticsComponent, HomepageFaqComponent
   ],
   templateUrl: './homepage.component.html',
   styleUrl: './homepage.component.css'
