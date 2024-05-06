@@ -44,13 +44,13 @@ constructor(private applicantService:ApplicantService,
   }
   updateForm() {
     this.applicantUpdateForm = this.formBuilder.group({
-      userName: ['', [Validators.required]],  
+      userName: [[Validators.required]],  
       firstName: ['',[Validators.required]],
       lastName:['' ,[Validators.required]],
-      email: ['',[Validators.required]], 
-      about: ['',[Validators.required]],
-      dateOfBirth: ['',[Validators.required]],
-      nationalIdentity: ['', [Validators.required]]
+      email: [[Validators.required]], 
+      about: [[Validators.required]],
+      dateOfBirth: [[Validators.required]],
+      nationalIdentity: [[Validators.required]]
     });
   }
   createBlacklistForm() {

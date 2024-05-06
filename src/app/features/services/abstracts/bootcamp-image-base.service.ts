@@ -9,7 +9,7 @@ import { BootcampimageListItemDto } from '../../models/responses/bootcampimage/b
 @Injectable()
 export abstract class BootcampImageBaseService {
 
-  abstract create(request:CreateBootcampimageRequest): Observable<CreateBootcampimageResponse>;
+  abstract create(formData:FormData): Observable<CreateBootcampimageResponse>;
   abstract delete(id:number): Observable<DeleteBootcampimageResponse>;
   abstract getList(pageRequest:PageRequest): Observable<BootcampimageListItemDto>;
 }
