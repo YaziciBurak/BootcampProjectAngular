@@ -7,7 +7,7 @@
     </div>
   </div>
   <div
-    class="text-[#161439] text-center capitalize mt-10 font-bold text-4xl tracking-[-0.82px]"
+    class="text-[#161439] text-center capitalize mt-10 font-bold text-4xl tracking-[-0.82px]" 
   >
     Achieve Your Goal With SkillGrow
   </div>
@@ -15,14 +15,14 @@
     Lorem Ipsum is simply dummy text of the printing and typesetting
   </div>
 
-  <div class="flex flex-col md:flex-row lg:flex-row gap-16 mt-10 px-32 w-full">
+  <div class="flex flex-col md:flex-row lg:flex-row gap-16 mt-10 px-32 w-full" >
     <ng-container *ngFor="let card of featuredCards; let i = index">
       <div class="homepage-feature-card-{{ i + 1 }} flex flex-col w-1/3 ml-0">
         <div
           class="flex flex-row justify-center items-center mt-5 flex-1 gap-5"
         >
           <img loading="lazy" src="{{ card.imagePath }}" />
-          <div class="font-bold text-xl">{{ card.title }}</div>
+          <div class=" font-bold text-xl"  >{{ card.title }}</div>
           <img
             loading="lazy"
             src="/assets/img/homepage-feature-card-star.svg"
@@ -33,3 +33,21 @@
     </ng-container>
   </div>
 </div>
+<style>
+  .hp2a {
+    background-color: #efeefe;
+    color: #5751e1;
+    font: 500 18px/162% Inter, sans-serif;
+  }
+
+  .hp2b {
+    color: #161439;
+    font: 600 40px/133% Poppins, sans-serif;
+  }
+
+  .hp2c {
+    color: #6d6c80;
+    font: 400 18px/31px Inter, sans-serif;
+  }
+ 
+</style>
