@@ -7,12 +7,13 @@ import { RegisterComponent } from './features/components/register/register.compo
 import { CommonModule } from '@angular/common';
 import { HomepageComponent } from './pages/homepage/homepage.component';
 import { initFlowbite } from 'flowbite';
+import { FooterComponent } from './shared/components/footer/footer.component';
 
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet,NavbarComponent,CommonModule,RouterModule,LoginComponent,SharedModule,RegisterComponent, HomepageComponent],
+  imports: [RouterOutlet,NavbarComponent,CommonModule,RouterModule,LoginComponent,SharedModule,RegisterComponent,HomepageComponent,FooterComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
