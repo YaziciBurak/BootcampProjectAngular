@@ -1,19 +1,17 @@
- <!-- Table content -->
- <div class="overflow-x-auto max-w-full">
-    <table class="min-w-full">
-      <thead>
-        <tr>
-          <th class="px-6 py-3 bg-gray-800 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Quiz Id</th>
-          <th class="px-6 py-3 bg-gray-800 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Question Id</th>     
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let quizQuestions of quizQuestionList.items">
-          <td class="px-6 py-4 whitespace-nowrap border-b border-gray-200 col-span-3">{{ quizQuestions.quizId}}</td>
-          <td class="px-6 py-4 whitespace-nowrap border-b border-gray-200">{{ quizQuestions.questionId }}</td>
-          <td class="px-6 py-4 whitespace-nowrap border-b border-gray-200">
-          </td>
-        </tr>
-      </tbody>
-    </table>
+<div class="container mx-auto">
+  <h1 class="text-3xl font-bold mb-4">Sorular</h1>
+
+  <div *ngFor="let question of quizQuestionList.items" class="mb-8">
+    <div class="bg-gray-100 p-4 rounded-lg shadow-md">
+      <p class="text-lg font-semibold mb-2">Quiz Id = {{ question.quizId }}</p>
+      <p class="text-lg font-semibold mb-2">Question Id = {{ question.questionId }}</p>
+      <p class="text-lg font-semibold mb-2">{{ question.questionText }}</p>
+      <ul  class="mt-2">
+        <li  class="mb-2">A) {{ question.questionAnswerA }}</li>
+        <li  class="mb-2">B) {{ question.questionAnswerB }}</li>
+        <li  class="mb-2">C) {{ question.questionAnswerC }}</li>
+        <li  class="mb-2">D) {{ question.questionAnswerD }}</li>
+      </ul>
+    </div>
   </div>
+</div>
