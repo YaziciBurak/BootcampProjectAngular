@@ -24,7 +24,6 @@ export class QuizComponent implements OnInit {
   formMessage: string | null = null;
   quizCreateForm:FormGroup;
   selectedQuiz: any;
-  showUpdateModal: boolean = false;
   showCreateModal: boolean = false;
   applicantList:ApplicantListItemDto;
   bootcampList:BootcampListItemDto;

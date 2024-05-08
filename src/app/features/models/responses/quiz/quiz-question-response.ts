@@ -5,6 +5,5 @@ export interface QuizQuestionResponse {
     answerA:string;
     answerB:string;
     answerC:string;
-    answerD:string;
-    
+    answerD:string; 
 }

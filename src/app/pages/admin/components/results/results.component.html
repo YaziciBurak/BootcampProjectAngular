@@ -4,6 +4,7 @@
       <thead>
         <tr>
           <th class="px-6 py-3 bg-gray-800 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Quiz Id</th>
+          <th class="px-6 py-3 bg-gray-800 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Başvuran Ad/Soyad</th>
           <th class="px-6 py-3 bg-gray-800 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Doğru Cevaplar</th>
           <th class="px-6 py-3 bg-gray-800 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Yanlış Cevaplar</th>       
         </tr>
@@ -11,6 +12,7 @@
       <tbody>
         <tr *ngFor="let results of resultList.items">
           <td class="px-6 py-4 whitespace-nowrap border-b border-gray-200 col-span-3">{{ results.quizId}}</td>
+          <td class="px-6 py-4 whitespace-nowrap border-b border-gray-200 col-span-3">{{ results.applicantFirstName}}{{ results.applicantLastName}}</td>
           <td class="px-6 py-4 whitespace-nowrap border-b border-gray-200">{{ results.correctAnswers}}</td>
           <td class="px-6 py-4 whitespace-nowrap border-b border-gray-200">{{results.wrongAnswers}}</td>
         </tr>

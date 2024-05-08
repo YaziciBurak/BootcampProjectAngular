@@ -1,3 +1,5 @@
+import { GetlistQuestionResponse } from "../question/getlist-question-response";
+
 export interface GetlistQuizResponse {
     id:number;
     applicantId:string;
@@ -5,6 +7,7 @@ export interface GetlistQuizResponse {
     applicantLastName:string;
     bootcampId:number;
     bootcampName:string;
+    questions:GetlistQuestionResponse[];
     startTime:Date;
     endTime:Date;
 }
