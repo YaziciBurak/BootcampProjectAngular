@@ -52,6 +52,8 @@ export class AdminBootcampsComponent implements OnInit{
       instructorId: ['',[Validators.required]],
       instructorFirstName:['' ,[Validators.required]],
       endDate: ['',[Validators.required]], 
+      detail: ['',[Validators.required]],
+      deadLine:['',[Validators.required]],
       startDate: [''],
       bootcampStateId:['']
     });
@@ -62,6 +64,8 @@ export class AdminBootcampsComponent implements OnInit{
       name: ['', [Validators.required]],
       instructorId: ['',[Validators.required]],
       bootcampStateId:['',], 
+      detail: ['',],
+      deadLine:['',],
       endDate: ['',[Validators.required]], 
       startDate: ['']
     })
@@ -151,6 +155,8 @@ export class AdminBootcampsComponent implements OnInit{
     const updatedInstructorLastName = this.bootcampUpdateForm.value.instructorLastName;
     const updatedBootcampStateName = this.selectedBootcamp.bootcampStateName;
     const bootcampImagePath = this.selectedBootcamp.bootcampImagePath;
+    const deadLine = this.bootcampUpdateForm.value.deadLine;
+    const detail = this.bootcampUpdateForm.value.detail;
     const startDate = this.bootcampUpdateForm.value.startDate;
     const endDate = this.bootcampUpdateForm.value.endDate;
     const updatedName = this.bootcampUpdateForm.value.name;
@@ -164,6 +170,8 @@ export class AdminBootcampsComponent implements OnInit{
       instructorLastName : updatedInstructorLastName,
       bootcampStateName : updatedBootcampStateName,
       bootcampImagePath : bootcampImagePath,
+      deadline : deadLine,
+      detail : detail,
       name : updatedName,
       startDate : startDate,
       endDate : endDate
@@ -185,6 +193,8 @@ export class AdminBootcampsComponent implements OnInit{
       next: (response) => {
         this.selectedBootcamp = { ...response };
         this.bootcampUpdateForm.patchValue({ name: this.selectedBootcamp.name,
+          detail: this.selectedBootcamp.detail,
+          deadline: this.selectedBootcamp.deadLine,
           startDate: this.selectedBootcamp.startDate,
           endDate: this.selectedBootcamp.endDate,
           instructorId: this.selectedBootcamp.instructorId,

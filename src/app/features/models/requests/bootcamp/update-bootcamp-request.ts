@@ -8,6 +8,8 @@ export interface UpdateBootcampRequest {
     bootcampStateName: string;
     bootcampImageId: number;
     bootcampImagePath:string;
+    detail:string;
+    deadline:Date;
     startDate:Date;
     endDate:Date;
 }
