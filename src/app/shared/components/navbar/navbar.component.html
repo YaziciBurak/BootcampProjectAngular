@@ -57,11 +57,11 @@
 
     <!-- Kullanıcı giriş yapmamışsa -->
     <ng-container *ngIf="!isLoggedIn">
-      <button routerLink="/register" class="px-5 py-3 bg-amber-400 border border-blue-950 border-opacity-20 rounded-[50px] hover:brightness-110">
+      <button routerLink="/register" class="px-5 py-3 bg-amber-400 border border-blue-950 border-opacity-20 rounded-[50px] hover:brightness-110" style="box-shadow: 5px 5px 0px 0px black;">
         Kayıt Ol
       </button>
 
-      <button routerLink="/login" class="px-5 py-3 bg-amber-400 border border-solid border-blue-950 border-opacity-20 rounded-[50px] hover:brightness-110">
+      <button routerLink="/login" class="px-5 py-3 bg-amber-400 border border-solid border-blue-950 border-opacity-20 rounded-[50px] hover:brightness-110" style="box-shadow: 5px 5px 0px 0px black;">
         Giriş Yap
       </button>
     </ng-container>

@@ -8,11 +8,12 @@ import { PageRequest } from '../../../../core/models/page-request';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { InstructorComponent } from '../../instructor/instructor.component';
+import { BootcampCardComponent } from '../../../../shared/components/bootcamp-card/bootcamp-card.component';
 
 @Component({
   selector: 'app-bootcamp-list-group',
   standalone: true,
-  imports: [RouterModule,CommonModule,InstructorComponent,HttpClientModule,FormsModule],
+  imports: [RouterModule,CommonModule,InstructorComponent,HttpClientModule,FormsModule, BootcampCardComponent],
   templateUrl: './bootcamp-list-group.component.html',
   styleUrl: './bootcamp-list-group.component.css'
 })
