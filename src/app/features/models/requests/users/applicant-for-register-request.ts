@@ -4,8 +4,8 @@ export interface ApplicantForRegisterRequest {
     firstName:string,
     lastName:string,
     email:string,
-    nationalIdentity:string,
-    dateOfBirth:Date,
-    about:string
+    nationalIdentity?:string,
+    dateOfBirth?:Date,
+    about?:string
 }
 

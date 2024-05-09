@@ -14,6 +14,7 @@
 </div>
 
 <div class="flex justify-center mt-16 mb-32">
+  <form [formGroup]="registerForm">
   <div
     class="flex flex-col justify-center px-12 pt-8 pb-12 text-base rounded-lg border border-solid bg-slate-50 border-neutral-200 max-w-[690px] max-md:px-5"
   >
@@ -31,25 +32,25 @@
     <div class="flex gap-4 mt-6 max-md:flex-wrap max-md:mt-10 max-md:mr-1.5">
       <div class="flex flex-col flex-1 grow shrink-0 basis-0 w-fit">
         <div class="text-lg font-bold leading-5 text-slate-900">
-          Adınız
+         <label for="firstName"> Adınız </label>
         </div>
         <input
+        formControlName="firstName" id="firstName" name="firstName"
           class="justify-center items-start px-5 py-3 mt-2.5 text-base text-gray-500 capitalize bg-white rounded-md border border-solid border-neutral-200 max-md:px-5"
           type="text"
           placeholder="Ad yazınız  . . ."
-          
-        
+
         />
       </div>
       <div class="flex flex-col flex-1 grow shrink-0 basis-0 w-fit">
         <div class="text-lg font-bold leading-5 text-slate-900">
-          Soyadınız
+          <label for="lastName">Soyadınız</label>
         </div>
         <input
+        formControlName="lastName" name="lastName" id="lastName"
           class="justify-center items-start px-5 py-3 mt-2.5 text-base text-gray-500 capitalize bg-white rounded-md border border-solid border-neutral-200 max-md:px-5"
           type="text"
           placeholder="Soyad yazınız  . . ."
-          
         />
       </div>
     </div>
@@ -57,9 +58,10 @@
     <div
     class="mt-4 text-lg font-bold leading-5 text-slate-900 max-md:mt-10 max-md:max-w-full"
    >
-     Kullanıcı Adı
+     <label for="userName">Kullanıcı Adı</label>
    </div>
    <input
+   formControlName="userName" name="userName" id="userName"
    type="text"
    placeholder="Kullanıcı adı yazınız  . . ."
    class="justify-center items-start px-5 py-3 mt-2.5 text-gray-500  whitespace-nowrap bg-white rounded-md border border-solid border-neutral-200 max-md:px-5 max-md:max-w-full"
@@ -68,27 +70,28 @@
     <div
      class="mt-4 text-lg font-bold leading-5 text-slate-900 max-md:mt-10 max-md:max-w-full"
     >
-      Email
+      <label for="email">Email</label>
     </div>
     <input
-    type="text"
+    formControlName="email" name="email" id="email"
+    type="email"
     placeholder="Email yazınız  . . ."
     class="justify-center items-start px-5 py-3 mt-2.5 text-gray-500  whitespace-nowrap bg-white rounded-md border border-solid border-neutral-200 max-md:px-5 max-md:max-w-full"
-     
     />
     <div
     class="mt-4 text-lg font-bold leading-5 text-slate-900 max-md:mt-10 max-md:max-w-full"
    >
-     Şifre
+     <label for="password"> Şifre</label>
    </div>
    <input
-   type="text"
+   formControlName="password" name="password" id="password"
+   type="password"
    placeholder="Şifre yazınız  . . ."
    class="justify-center items-start px-5 py-3 mt-2.5 text-gray-500  whitespace-nowrap bg-white rounded-md border border-solid border-neutral-200 max-md:px-5 max-md:max-w-full"
     
    />
   
-    <div
+    <!-- <div
       class="mt-6 text-lg font-bold leading-5 text-slate-900 max-md:max-w-full"
     >
       Şifre Doğrula
@@ -96,17 +99,15 @@
     <input 
     type="text"
     placeholder="Şifre doğrula  . . ."
-     class="justify-center items-start px-4 py-3 mt-2.5 text-gray-500  whitespace-nowrap bg-white rounded-md border border-solid border-neutral-200 max-md:px-5 max-md:max-w-full"
+     class="justify-center items-start px-4 py-3 mt-2.5 text-gray-500  whitespace-nowrap bg-white rounded-md border border-solid border-neutral-200 max-md:px-5 max-md:max-w-full"  
+    /> -->
     
-      
-    />
-    
-    <button
+    <button (click)="register()" type="submit"
       class="flex justify-center items-center px-16 py-5 mt-16 font-bold text-center text-black capitalize bg-amber-400 border-2 border-black border-solid shadow-sm leading-[112%] rounded-[50px] max-md:px-5 max-md:mt-10 max-md:max-w-full"
       style="box-shadow: 8.799px 8.799px 0px 0px black;"
     >
       <div class="flex gap-3" >
-        <div >Giriş Yap</div>
+        <div >Kayıt Ol</div>
         <img
           loading="lazy"
           src="https://cdn.builder.io/api/v1/image/assets/TEMP/042c3f9a651c2b1eae7825fd1100879eaf3636be8252209c044142f88ba45892?apiKey=d64f73725dfb4ccb8c714d58677398b5&"
@@ -116,7 +117,10 @@
     </button>
     <div class="flex gap-2 self-center mt-10 leading-[175%]">
       <div class="grow text-gray-500">Zaten bir hesabın var mı?</div>
-      <button class="text-indigo-600 underline font-semibold">Giriş Yap</button>
+      <button routerLink="/login" class="text-indigo-600 underline font-semibold">Giriş Yap</button>
+    
     </div>
+    
   </div>
+</form>
   </div>

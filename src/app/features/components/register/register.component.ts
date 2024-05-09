@@ -25,10 +25,7 @@ export class RegisterComponent {
     firstName:["",Validators.required],  
     lastName:["",Validators.required],  
     userName:["",Validators.required],
-    dateOfBirth:["",Validators.required],
-    nationalIdentity:["",Validators.required],
     email:["",Validators.required],
-    about:["",Validators.required],
     password:["",Validators.required]
    })
   }
@@ -39,7 +36,7 @@ export class RegisterComponent {
       let registerModel = Object.assign({},this.registerForm.value);
       this.authService.RegisterApplicant(registerModel).subscribe((response)=>{
         alert("Kayıt Başarılı")
-        this.router.navigate(['homepage']);
+        this.router.navigate(['login']);
       }, (errorResponse: any) => { 
           errorResponse.error.Errors.forEach((error: any) => {
             console.log(`Property: ${error.Property}`);

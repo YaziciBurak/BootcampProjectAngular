@@ -1,5 +1,5 @@
 <div class="relative flex">
-    <img loading="lazy" src="/assets/img/fixed-top.svg" class="mt-4" style="z-index: 0;" />
+    <img loading="lazy" src="/assets/img/fixed-top.svg" class="mt-4 w-full" style="z-index: 0;" />
   
     <div class="flex flex-row ml-60 absolute top-20 gap-3 mt-2 text-xl  font-semibold"
       tyle="z-index: 1;">
@@ -20,13 +20,13 @@
   <div class="text-2xl text-slate-500 self-center">Filtrele:</div>
   
   
-  <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown" class="text-slate-500 text-2xl bg-white hover:text-indigo-600  border border-solid border-gray border-2  px-6 py-1 text-center inline-flex items-center " type="button">Eğitmenler <svg class="w-4 h-4 ms-3 mt-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+  <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown" class="text-slate-500 text-2xl bg-white hover:text-indigo-600   border-solid border-gray border-2  px-6 py-1 text-center inline-flex items-center " type="button">Eğitmenler <svg class="w-4 h-4 ms-3 mt-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="m1 1 4 4 4-4"/>
     </svg>
     </button>
     
     <!-- Dropdown menu -->
-    <div id="dropdown" class=" flex  hidden bg-white divide-y divide-gray-100  rounded-lg shadow dark:bg-gray-700">
+    <div id="dropdown" class="flex hidden bg-white divide-y divide-gray-100  rounded-lg shadow dark:bg-gray-700">
         <ul class=" flex flex-col py-2 text-xl text-slate-500 ml-2 mr-10 " aria-labelledby="dropdownDefaultButton">
           <li>
             <a href="#" class="block px-4 py-2 hover:bg-purple-100 ">Dashboard</a>
@@ -48,10 +48,11 @@
   
   </div>
   
-  <!--dışarıdaki çerçeve--><div class="flex flex-row mx-60 mt-16 mb-20 border-2" >
+  <!--dışarıdaki çerçeve--><div class="flex flex-row  mx-60 mt-16 mb-20 border-2" >
+
   
-  
-  <!--kartların içine yerleştiği div--><div class="flex flex-wrap mx-32 gap-16 my-16   ">
+  <!--kartların içine yerleştiği div--><div class="flex flex-wrap justify-center mx-32 gap-16 my-16">
+    <ng-container *ngFor="let bootcamp of bootcampList.items">
    <!-- 1.kart--> <div class="flex flex-col md:flex-row lg:flex-row gap-6 justify-center">
      
         <section
@@ -59,15 +60,14 @@
         >
           <div class="flex flex-col px-8 max-md:px-5">
             <img
-              src="https://cdn.builder.io/api/v1/image/assets/TEMP/d0492ba27a037ea611ad0792516c7842720f4715c8fc17504ef84a5ae08111d9?apiKey=d64f73725dfb4ccb8c714d58677398b5&"
-              alt=""
+            [src]="bootcamp.bootcampImagePath" alt="Bootcamp Image"
               class="w-full aspect-[1.45] object-cover"
             />
             <h2 class="mt-6 text-xl font-semibold leading-7 text-slate-900">
-              Bootcamp Name
+              {{bootcamp.name}}
             </h2>
             <div class="flex gap-2 mt-5 text-lg leading-4 text-gray-500">
-              <span class="flex-auto">Engin Demiroğ</span
+              <span class="flex-auto">{{bootcamp.instructorFirstName}} {{bootcamp.instructorLastName}}</span
               >
             </div>
           </div>
@@ -78,13 +78,14 @@
             <div class="flex flex-col my-auto text-lg leading-4">
               <span class="text-gray-500">Son Başvuru:</span>
               <time class="mt-1.5 font-semibold text-slate-900">
-              23.05.2024</time>
+              {{formDate(bootcamp.deadline)}}</time>
             </div>
             <button
+            [routerLink]="['/bootcampDetail', bootcamp.id.toString()]"
               class="flex gap-2 justify-center px-6 py-4 text-base font-bold leading-5 bg-amber-400 border border-black border-solid shadow-sm rounded-[56.813px] text-slate-900 max-md:px-5"
               style="box-shadow: 4px 4px 0px 0px black;"
               >
-              <span class="grow my-auto">Enroll Now</span>
+              <span class="grow my-auto">Başvur</span>
               <img
                 src="https://cdn.builder.io/api/v1/image/assets/TEMP/2c516fab2a8b9ab70e3fbe9eee7e3103f5295befdfeb651ec6183a08e1459c32?apiKey=d64f73725dfb4ccb8c714d58677398b5&"
                 alt=""
@@ -95,233 +96,9 @@
         </section>
      
    <!--1.kart bitiş--> </div>
-    
-  
-  <!-- 1.kart--> <div class="flex flex-col md:flex-row lg:flex-row gap-6 justify-center">
-     
-    <section
-    class="flex flex-col py-7 bg-white rounded-xl border border-gray-400 border-solid max-w-[340px] max-h-[470px]"
-  >
-    <div class="flex flex-col px-8 max-md:px-5">
-      <img
-        src="https://cdn.builder.io/api/v1/image/assets/TEMP/d0492ba27a037ea611ad0792516c7842720f4715c8fc17504ef84a5ae08111d9?apiKey=d64f73725dfb4ccb8c714d58677398b5&"
-        alt=""
-        class="w-full aspect-[1.45] object-cover"
-      />
-      <h2 class="mt-6 text-xl font-semibold leading-7 text-slate-900">
-        Bootcamp Name
-      </h2>
-      <div class="flex gap-2 mt-5 text-lg leading-4 text-gray-500">
-        <span class="flex-auto">Engin Demiroğ</span
-        >
-      </div>
-    </div>
-    <hr
-      class="shrink-0 mt-12 h-px bg-gray-500 border border-gray-500 border-solid max-md:mt-10"
-    />
-    <div class="flex gap-5 justify-center mt-5 mr-6 ml-6 max-md:mx-2.5">
-      <div class="flex flex-col my-auto text-lg leading-4">
-        <span class="text-gray-500">Son Başvuru:</span>
-        <time class="mt-1.5 font-semibold text-slate-900">
-        23.05.2024</time>
-      </div>
-      <button
-        class="flex gap-2 justify-center px-6 py-4 text-base font-bold leading-5 bg-amber-400 border border-black border-solid shadow-sm rounded-[56.813px] text-slate-900 max-md:px-5"
-      >
-        <span class="grow my-auto">Enroll Now</span>
-        <img
-          src="https://cdn.builder.io/api/v1/image/assets/TEMP/2c516fab2a8b9ab70e3fbe9eee7e3103f5295befdfeb651ec6183a08e1459c32?apiKey=d64f73725dfb4ccb8c714d58677398b5&"
-          alt=""
-          class="shrink-0 aspect-[0.93] w-[15px]"
-        />
-      </button>
-    </div>
-  </section>
-  
-  <!--1.kart bitiş--> </div>
-  
-  
-  <!-- 1.kart--> <div class="flex flex-col md:flex-row lg:flex-row gap-6 justify-center">
-     
-    <section
-    class="flex flex-col py-7 bg-white rounded-xl border border-gray-400 border-solid max-w-[340px] max-h-[470px]"
-  >
-    <div class="flex flex-col px-8 max-md:px-5">
-      <img
-        src="https://cdn.builder.io/api/v1/image/assets/TEMP/d0492ba27a037ea611ad0792516c7842720f4715c8fc17504ef84a5ae08111d9?apiKey=d64f73725dfb4ccb8c714d58677398b5&"
-        alt=""
-        class="w-full aspect-[1.45] object-cover"
-      />
-      <h2 class="mt-6 text-xl font-semibold leading-7 text-slate-900">
-        Bootcamp Name
-      </h2>
-      <div class="flex gap-2 mt-5 text-lg leading-4 text-gray-500">
-        <span class="flex-auto">Engin Demiroğ</span
-        >
-      </div>
-    </div>
-    <hr
-      class="shrink-0 mt-12 h-px bg-gray-500 border border-gray-500 border-solid max-md:mt-10"
-    />
-    <div class="flex gap-5 justify-center mt-5 mr-6 ml-6 max-md:mx-2.5">
-      <div class="flex flex-col my-auto text-lg leading-4">
-        <span class="text-gray-500">Son Başvuru:</span>
-        <time class="mt-1.5 font-semibold text-slate-900">
-        23.05.2024</time>
-      </div>
-      <button
-        class="flex gap-2 justify-center px-6 py-4 text-base font-bold leading-5 bg-amber-400 border border-black border-solid shadow-sm rounded-[56.813px] text-slate-900 max-md:px-5"
-      >
-        <span class="grow my-auto">Enroll Now</span>
-        <img
-          src="https://cdn.builder.io/api/v1/image/assets/TEMP/2c516fab2a8b9ab70e3fbe9eee7e3103f5295befdfeb651ec6183a08e1459c32?apiKey=d64f73725dfb4ccb8c714d58677398b5&"
-          alt=""
-          class="shrink-0 aspect-[0.93] w-[15px]"
-        />
-      </button>
-    </div>
-  </section>
-  
-  <!--1.kart bitiş--> </div>
-  
-  
-  <!-- 1.kart--> <div class="flex flex-col md:flex-row lg:flex-row gap-6 justify-center">
-     
-    <section
-    class="flex flex-col py-7 bg-white rounded-xl border border-gray-400 border-solid max-w-[340px] max-h-[470px]"
-  >
-    <div class="flex flex-col px-8 max-md:px-5">
-      <img
-        src="https://cdn.builder.io/api/v1/image/assets/TEMP/d0492ba27a037ea611ad0792516c7842720f4715c8fc17504ef84a5ae08111d9?apiKey=d64f73725dfb4ccb8c714d58677398b5&"
-        alt=""
-        class="w-full aspect-[1.45] object-cover"
-      />
-      <h2 class="mt-6 text-xl font-semibold leading-7 text-slate-900">
-        Bootcamp Name
-      </h2>
-      <div class="flex gap-2 mt-5 text-lg leading-4 text-gray-500">
-        <span class="flex-auto">Engin Demiroğ</span
-        >
-      </div>
-    </div>
-    <hr
-      class="shrink-0 mt-12 h-px bg-gray-500 border border-gray-500 border-solid max-md:mt-10"
-    />
-    <div class="flex gap-5 justify-center mt-5 mr-6 ml-6 max-md:mx-2.5">
-      <div class="flex flex-col my-auto text-lg leading-4">
-        <span class="text-gray-500">Son Başvuru:</span>
-        <time class="mt-1.5 font-semibold text-slate-900">
-        23.05.2024</time>
-      </div>
-      <button
-        class="flex gap-2 justify-center px-6 py-4 text-base font-bold leading-5 bg-amber-400 border border-black border-solid shadow-sm rounded-[56.813px] text-slate-900 max-md:px-5"
-      >
-        <span class="grow my-auto">Enroll Now</span>
-        <img
-          src="https://cdn.builder.io/api/v1/image/assets/TEMP/2c516fab2a8b9ab70e3fbe9eee7e3103f5295befdfeb651ec6183a08e1459c32?apiKey=d64f73725dfb4ccb8c714d58677398b5&"
-          alt=""
-          class="shrink-0 aspect-[0.93] w-[15px]"
-        />
-      </button>
-    </div>
-  </section>
-  
-  <!--1.kart bitiş--> </div>
-  
-  
-  <!-- 1.kart--> <div class="flex flex-col md:flex-row lg:flex-row gap-6 justify-center">
-     
-    <section
-    class="flex flex-col py-7 bg-white rounded-xl border border-gray-400 border-solid max-w-[340px] max-h-[470px]"
-  >
-    <div class="flex flex-col px-8 max-md:px-5">
-      <img
-        src="https://cdn.builder.io/api/v1/image/assets/TEMP/d0492ba27a037ea611ad0792516c7842720f4715c8fc17504ef84a5ae08111d9?apiKey=d64f73725dfb4ccb8c714d58677398b5&"
-        alt=""
-        class="w-full aspect-[1.45] object-cover"
-      />
-      <h2 class="mt-6 text-xl font-semibold leading-7 text-slate-900">
-        Bootcamp Name
-      </h2>
-      <div class="flex gap-2 mt-5 text-lg leading-4 text-gray-500">
-        <span class="flex-auto">Engin Demiroğ</span
-        >
-      </div>
-    </div>
-    <hr
-      class="shrink-0 mt-12 h-px bg-gray-500 border border-gray-500 border-solid max-md:mt-10"
-    />
-    <div class="flex gap-5 justify-center mt-5 mr-6 ml-6 max-md:mx-2.5">
-      <div class="flex flex-col my-auto text-lg leading-4">
-        <span class="text-gray-500">Son Başvuru:</span>
-        <time class="mt-1.5 font-semibold text-slate-900">
-        23.05.2024</time>
-      </div>
-      <button
-        class="flex gap-2 justify-center px-6 py-4 text-base font-bold leading-5 bg-amber-400 border border-black border-solid shadow-sm rounded-[56.813px] text-slate-900 max-md:px-5"
-      >
-        <span class="grow my-auto">Enroll Now</span>
-        <img
-          src="https://cdn.builder.io/api/v1/image/assets/TEMP/2c516fab2a8b9ab70e3fbe9eee7e3103f5295befdfeb651ec6183a08e1459c32?apiKey=d64f73725dfb4ccb8c714d58677398b5&"
-          alt=""
-          class="shrink-0 aspect-[0.93] w-[15px]"
-        />
-      </button>
-    </div>
-  </section>
-  
-  <!--1.kart bitiş--> </div>
-  
-  
-  <!-- 1.kart--> <div class="flex flex-col md:flex-row lg:flex-row gap-6 justify-center">
-     
-    <section
-    class="flex flex-col py-7 bg-white rounded-xl border border-gray-400 border-solid max-w-[340px] max-h-[470px]"
-  >
-    <div class="flex flex-col px-8 max-md:px-5">
-      <img
-        src="https://cdn.builder.io/api/v1/image/assets/TEMP/d0492ba27a037ea611ad0792516c7842720f4715c8fc17504ef84a5ae08111d9?apiKey=d64f73725dfb4ccb8c714d58677398b5&"
-        alt=""
-        class="w-full aspect-[1.45] object-cover"
-      />
-      <h2 class="mt-6 text-xl font-semibold leading-7 text-slate-900">
-        Bootcamp Name
-      </h2>
-      <div class="flex gap-2 mt-5 text-lg leading-4 text-gray-500">
-        <span class="flex-auto">Engin Demiroğ</span
-        >
-      </div>
-    </div>
-    <hr
-      class="shrink-0 mt-12 h-px bg-gray-500 border border-gray-500 border-solid max-md:mt-10"
-    />
-    <div class="flex gap-5 justify-center mt-5 mr-6 ml-6 max-md:mx-2.5">
-      <div class="flex flex-col my-auto text-lg leading-4">
-        <span class="text-gray-500">Son Başvuru:</span>
-        <time class="mt-1.5 font-semibold text-slate-900">
-        23.05.2024</time>
-      </div>
-      <button
-        class="flex gap-2 justify-center px-6 py-4 text-base font-bold leading-5 bg-amber-400 border border-black border-solid shadow-sm rounded-[56.813px] text-slate-900 max-md:px-5"
-      >
-        <span class="grow my-auto">Enroll Now</span>
-        <img
-          src="https://cdn.builder.io/api/v1/image/assets/TEMP/2c516fab2a8b9ab70e3fbe9eee7e3103f5295befdfeb651ec6183a08e1459c32?apiKey=d64f73725dfb4ccb8c714d58677398b5&"
-          alt=""
-          class="shrink-0 aspect-[0.93] w-[15px]"
-        />
-      </button>
-    </div>
-  </section>
-  
-  <!--1.kart bitiş--> </div>
-  
-  
-  
-  
+  </ng-container>
   </div> <!--kartların içine yerleştiği div bitiş-->
-  
-  
+
   
   <!--dışarıdaki çerçeve--></div>
   <div class= "flex justify-center gap-5 mt-32 ">
