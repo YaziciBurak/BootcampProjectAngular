@@ -74,7 +74,7 @@ export class BootcampListGroupComponent implements OnInit {
     this.getList({ page: previousPageIndex, pageSize });
     this.updateCurrentPageNumber();
   }
-//yorum satırıdır
+
   updateCurrentPageNumber(): void {
     this.currentPageNumber = this.bootcampList.index + 1;
   }

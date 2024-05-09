@@ -11,7 +11,6 @@ import { PageRequest } from '../../../../core/models/page-request';
 import { ApplicationListItemDto } from '../../../../features/models/responses/application/application-list-item-dto';
 import { CreateApplicationRequest } from '../../../../features/models/requests/application/create-application-request';
 import { UpdateApplicationRequest } from '../../../../features/models/requests/application/update-application-request';
-import { GetlistBootcampResponse } from '../../../../features/models/responses/bootcamp/getlist-bootcamp-response';
 import { ApplicationStateService } from '../../../../features/services/concretes/application-state.service';
 
 @Component({
@@ -67,7 +66,7 @@ export class ApplicationComponent implements OnInit{
     this.applicationCreateForm = this.formBuilder.group({
       applicantId: ['',[Validators.required]],
       bootcampId:['' ,[Validators.required]],
-      applicationStateId: ['',[Validators.required]]
+      applicationStateId: ['']
     })
   }
   getApplications(pageRequest: PageRequest) {
