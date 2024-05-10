@@ -7,6 +7,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { formatDate1 } from '../../core/helpers/format-date';
+import { initFlowbite } from 'flowbite';
 
 @Component({
   selector: 'app-bootcamp-list-page',
@@ -16,6 +17,7 @@ import { formatDate1 } from '../../core/helpers/format-date';
   styleUrl: './bootcamp-list-page.component.css'
 })
 export class BootcampListPageComponent implements OnInit {
+  
     formDate = formatDate1;
 
     dateNow = Date.now;
@@ -32,14 +34,16 @@ export class BootcampListPageComponent implements OnInit {
     constructor(private bootcampService:BootcampService,private activatedRoute:ActivatedRoute){}
     readonly PAGE_SIZE=15;
 
+   
     ngOnInit(): void {
       this.activatedRoute.params.subscribe(params=>{
         if(params["instructorId"]){
           this.getBootcampListByInstructor({page:0,pageSize:this.PAGE_SIZE},params["instructorId"])
         }else{this.getList({page:0,pageSize:this.PAGE_SIZE})}
       }) 
+      initFlowbite();
     }
-  
+    
     isExpired(endDate: Date): boolean {
       return new Date(endDate) < new Date(); 
     }
@@ -79,3 +83,5 @@ export class BootcampListPageComponent implements OnInit {
       this.currentPageNumber = this.bootcampList.index - 1;
     }
 }
+
+
