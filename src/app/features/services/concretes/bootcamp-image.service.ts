@@ -3,11 +3,12 @@ import { Observable, map } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { BootcampImageBaseService } from '../abstracts/bootcamp-image-base.service';
 import { environment } from '../../../../environments/environment';
-import { CreateBootcampimageRequest } from '../../models/requests/bootcampimage/create-bootcampimage-request';
 import { CreateBootcampimageResponse } from '../../models/responses/bootcampimage/create-bootcampimage-response';
 import { DeleteBootcampimageResponse } from '../../models/responses/bootcampimage/delete-bootcampimage-response';
 import { PageRequest } from '../../../core/models/page-request';
 import { BootcampimageListItemDto } from '../../models/responses/bootcampimage/bootcampimage-list-item-dto';
+import { GetbyidBootcampimageResponse } from '../../models/responses/bootcampimage/getbyid-bootcampimage-response';
+import { UpdateBootcampimageResponse } from '../../models/responses/bootcampimage/update-bootcampimage-response';
 
 
 @Injectable({
@@ -22,7 +23,9 @@ export class BootcampImageService extends BootcampImageBaseService {
   override create(formData: FormData): Observable<CreateBootcampimageResponse> {
    return this.httpClient.post<CreateBootcampimageResponse>(`${this.apiUrl}`, formData);
   }
- 
+  override update(formData: FormData): Observable<UpdateBootcampimageResponse> {
+  return this.httpClient.put<UpdateBootcampimageResponse>(`${this.apiUrl}`, formData);  
+  }
   override delete(id: number): Observable<DeleteBootcampimageResponse> {
     return this.httpClient.delete<DeleteBootcampimageResponse>(`${this.apiUrl}/`+ id);
    }
@@ -48,5 +51,22 @@ export class BootcampImageService extends BootcampImageBaseService {
         return newResponse;
       })
     )
+  }
+  override getById(id: number): Observable<GetbyidBootcampimageResponse> {
+    const newRequest: {[key: string]: string | number} = {
+      id: id
+    };
+    return this.httpClient.get<GetbyidBootcampimageResponse>(`${this.apiUrl}/${id}`, {
+      params: newRequest
+    }).pipe(
+      map((response) => {
+        const newResponse: GetbyidBootcampimageResponse = {
+          id: response.id,
+          bootcampId: response.bootcampId,
+          imagePath: response.imagePath
+        };
+        return newResponse;
+      })
+    );
   }
 }
