@@ -13,12 +13,16 @@ import { ResultsComponent } from './components/results/results.component';
 import { BootcampImageComponent } from './components/bootcamp-image/bootcamp-image.component';
 import { InstructorComponent } from './components/instructor/instructor.component';
 import { ApplicationComponent } from './components/application/application.component';
+import { BootcampContentsComponent } from './components/bootcamp-contents/bootcamp-contents.component';
+import { ApplicantBootcampContentsComponent } from './components/applicant-bootcamp-contents/applicant-bootcamp-contents.component';
 
 export const AdminRoutes: Routes = [
   { path: "", component: AdminComponent, children: [   
     { path: 'bootcampState', component: BootcampStateListGroupComponent },
     { path:'applicationState', component:ApplicationStateListComponent},
     { path:'bootcamp-image', component:BootcampImageComponent},
+    { path:'bootcamp-contents', component:BootcampContentsComponent},
+    { path:'applicant-bootcamp-contents', component:ApplicantBootcampContentsComponent},
     { path:'admin-bootcamp', component:AdminBootcampsComponent},
     { path: 'blacklist', component:BlacklistComponent},
     { path: 'questions', component:QuestionsComponent},

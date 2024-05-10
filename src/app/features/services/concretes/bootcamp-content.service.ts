@@ -55,6 +55,7 @@ export class BootcampContentService extends BootcampContentBaseService{
         const newResponse: GetbyidBootcampcontentResponse = {
           id: response.id,
           bootcampId: response.bootcampId,
+          bootcampName: response.bootcampName,
           videoUrl: response.videoUrl,
           content: response.content
         };

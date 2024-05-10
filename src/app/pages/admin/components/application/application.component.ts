@@ -72,7 +72,6 @@ export class ApplicationComponent implements OnInit{
   getApplications(pageRequest: PageRequest) {
     this.applicationService.getList(pageRequest).subscribe(response => {
       this.applicationList = response;
-      console.log(response);
     });
   }
   getApplicants(pageRequest: PageRequest) {
