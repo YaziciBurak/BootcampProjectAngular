@@ -1,7 +1,7 @@
 <div class="relative flex">
     <img loading="lazy" src="/assets/img/fixed-top.svg" class="mt-4 w-full" style="z-index: 0;" />
   
-    <div class="flex flex-row ml-60 absolute top-20 gap-3 mt-2 text-xl  font-semibold"
+    <div class="flex flex-row ml-36 absolute top-10  2xl:ml-60 2xl:mt-10 gap-3  text-xl  font-semibold"
       tyle="z-index: 1;">
       <div class="text-indigo-900">Ana Sayfa</div>
       <div class="text-gray-400 text-xl">></div>
@@ -9,7 +9,7 @@
     </div>
   </div>
   
-  <div class="flex flex-row justify-between mx-60 mt-20" >
+  <div class="flex flex-row justify-between mx-20 2xl:mx-40 mt-20" >
   <div class="flex flex-row gap-6 text-2xl text-slate-500">
     <button class="hover:text-indigo-600">Tümünü Gör</button>
     <button class="hover:text-indigo-600">Devam Edenler</button>
@@ -48,33 +48,33 @@
   
   </div>
   
-  <!--dışarıdaki çerçeve--><div class="flex flex-row  mx-60 mt-16 mb-20 border-2" >
+  <!--dışarıdaki çerçeve--><div class="flex flex-row mx-20 2xl:mx-60 mt-16 mb-20 border-2" >
 
   
-  <!--kartların içine yerleştiği div--><div class="flex flex-wrap justify-center mx-32 gap-16 my-16">
+  <!--kartların içine yerleştiği div--><div class="flex flex-wrap mx-4 mt-10 gap-8 mb-20 2xl:mx-32 2xl:gap-16 2xl:my-16">
     <ng-container *ngFor="let bootcamp of bootcampList.items">
    <!-- 1.kart--> <div class="flex flex-col md:flex-row lg:flex-row gap-6 justify-center">
      
         <section
-          class="flex flex-col py-7 bg-white rounded-xl border border-gray-400 border-solid max-w-[340px] max-h-[470px]"
+          class="flex flex-col py-2 xl:py-7 bg-white rounded-xl border border-gray-400 border-solid max-w-[340px] max-h-[470px]"
         >
-          <div class="flex flex-col px-8 max-md:px-5">
+          <div class="flex flex-col 2xl:px-8 max-md:px-5">
             <img
             [src]="bootcamp.bootcampImagePath" alt="Bootcamp Image"
               class="w-full aspect-[1.45] object-cover"
             />
-            <h2 class="mt-6 text-xl font-semibold leading-7 text-slate-900">
+            <h2 class=" ml-4 mt-0 2xl:ml-0 2xl:mt-6 text-xl font-semibold leading-7 text-slate-900">
               {{bootcamp.name}}
             </h2>
-            <div class="flex gap-2 mt-5 text-lg leading-4 text-gray-500">
+            <div class="flex ml-4 mt-2 gap-2 2xl:mt-5 2xl:ml-0 text-lg leading-4 text-gray-500">
               <span class="flex-auto">{{bootcamp.instructorFirstName}} {{bootcamp.instructorLastName}}</span
               >
             </div>
           </div>
           <hr
-            class="shrink-0 mt-12 h-px bg-gray-500 border border-gray-500 border-solid max-md:mt-10"
+            class="shrink-0  mt-4 2xl:mt-12 h-px bg-gray-500 border border-gray-500 border-solid max-md:mt-10"
           />
-          <div class="flex gap-5 justify-center mt-5 mr-6 ml-6 max-md:mx-2.5">
+          <div class="flex mt-3 ml-4 gap-10  2xl:gap-10 2xl:mt-5 2xl:mx-8 ">
             <div class="flex flex-col my-auto text-lg leading-4">
               <span class="text-gray-500">Son Başvuru:</span>
               <time class="mt-1.5 font-semibold text-slate-900">
