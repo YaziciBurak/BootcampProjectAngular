@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { initFlowbite } from 'flowbite';
 
 
 @Component({
@@ -8,5 +9,8 @@ import { Component } from '@angular/core';
   templateUrl: './homepage-faq.component.html',
   styleUrl: './homepage-faq.component.css'
 })
-export class HomepageFaqComponent {
+export class HomepageFaqComponent implements OnInit{
+  ngOnInit():void {
+    initFlowbite()};
 }
+
