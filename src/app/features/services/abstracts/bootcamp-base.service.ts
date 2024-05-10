@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { GetlistBootcampResponse } from '../../models/responses/bootcamp/getlist-bootcamp-response';
 import { GetbyidBootcampResponse } from '../../models/responses/bootcamp/getbyid-bootcamp-response';
 import { DeleteBootcampResponse } from '../../models/responses/bootcamp/delete-bootcamp-response';
 import { UpdateBootcampRequest } from '../../models/requests/bootcamp/update-bootcamp-request';

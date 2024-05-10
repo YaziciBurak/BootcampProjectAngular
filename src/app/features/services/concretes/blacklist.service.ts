@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { BlacklistBaseService } from '../abstracts/blacklist-base.service';
-import { GetlistBlacklistResponse } from '../../models/responses/blacklist/getlist-blacklist-response';
 import { GetbyidBlacklistResponse } from '../../models/responses/blacklist/getbyid-blacklist-response';
 import { environment } from '../../../../environments/environment';
 import { PageRequest } from '../../../core/models/page-request';
