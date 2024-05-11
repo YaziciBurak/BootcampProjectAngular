@@ -17,9 +17,7 @@
   border-style: solid;
   border-width: 1px;
   background-color: #f1fdff;
-  display: flex;
-  flex-grow: 1;
-  flex-direction: column;
+ 
   
   
 }
