@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, output } from '@angular/core';
 import { BootcampListItemDto } from '../../features/models/responses/bootcamp/bootcamp-list-item-dto';
 import { BootcampService } from '../../features/services/concretes/bootcamp.service';
 import { ActivatedRoute, RouterModule } from '@angular/router';
@@ -8,18 +8,26 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { formatDate1 } from '../../core/helpers/format-date';
 import { initFlowbite } from 'flowbite';
+import { InstructorListItemDto } from '../../features/models/responses/instructor/instructor-list-item-dto';
+import { GetlistInstructorResponse } from '../../features/models/responses/instructor/getlist-instructor-response';
+import { InstructorService } from '../../features/services/concretes/instructor.service';
+import { SharedModule } from '../../shared/shared.module';
 
 @Component({
   selector: 'app-bootcamp-list-page',
   standalone: true,
-  imports: [CommonModule,RouterModule,FormsModule,HttpClientModule],
+  imports: [CommonModule,RouterModule,FormsModule,HttpClientModule,SharedModule],
   templateUrl: './bootcamp-list-page.component.html',
   styleUrl: './bootcamp-list-page.component.css'
 })
 export class BootcampListPageComponent implements OnInit {
-  
-    formDate = formatDate1;
+  @Input() selectedInstructorId:string; 
+  @Output() instructorSelected = new EventEmitter<string>(); 
+  instructors!:InstructorListItemDto;
+  currentInstructor!:GetlistInstructorResponse;
+  filterText="";
 
+    formDate = formatDate1;
     dateNow = Date.now;
     currentPageNumber!:number;
     bootcampList:BootcampListItemDto={
@@ -31,19 +39,30 @@ export class BootcampListPageComponent implements OnInit {
       pages:0,
       items:[]
     };
-    constructor(private bootcampService:BootcampService,private activatedRoute:ActivatedRoute){}
+    constructor(private bootcampService:BootcampService,private instructorService:InstructorService,private activatedRoute:ActivatedRoute){}
     readonly PAGE_SIZE=15;
 
    
     ngOnInit(): void {
+      this.getInstructors();
+      initFlowbite();
       this.activatedRoute.params.subscribe(params=>{
         if(params["instructorId"]){
           this.getBootcampListByInstructor({page:0,pageSize:this.PAGE_SIZE},params["instructorId"])
         }else{this.getList({page:0,pageSize:this.PAGE_SIZE})}
       }) 
-      initFlowbite();
-    }
     
+    }
+    getInstructors(){
+      this.instructorService.getListAll().subscribe((response)=>{
+       this.instructors=response;
+      })
+   }
+   onSelectedInstructor(instructorId: string): void {
+    this.selectedInstructorId=instructorId;
+    this.instructorSelected.emit(this.selectedInstructorId);
+}
+ 
     isExpired(endDate: Date): boolean {
       return new Date(endDate) < new Date(); 
     }
