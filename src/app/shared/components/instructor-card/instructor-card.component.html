@@ -1,189 +1,48 @@
-<div class=" flex flex-row justify-end gap-14 mr-44 mt-28">
-<div class="max-w-[417px]">
-    <div class="flex gap-5 max-md:flex-col max-md:gap-0">
-      <div class="flex flex-col w-6/12 max-md:ml-0 max-md:w-full">
+<div class="flex flex-col justify-end gap-14 mt-0 md:mt-20 lg:mt-20">
+  <div class="flex flex-row gap-[10px] md:gap-[180px] lg:gap-[180px]">
+    <ng-container
+      *ngFor="let instructor of instructorList.items | slice : 0 : 2"
+    >
+      <div class="flex flex-row w-1/2 max-md:flex-col max-md:gap-0">
         <img
           loading="lazy"
-          srcset="https://cdn.builder.io/api/v1/image/assets/TEMP/87b921a087b853f2cfd042e2bd927974b4654f3dac7544fdf714c815dc49361a?apiKey=d64f73725dfb4ccb8c714d58677398b5&width=100 100w, https://cdn.builder.io/api/v1/image/assets/TEMP/87b921a087b853f2cfd042e2bd927974b4654f3dac7544fdf714c815dc49361a?apiKey=d64f73725dfb4ccb8c714d58677398b5&width=200 200w, https://cdn.builder.io/api/v1/image/assets/TEMP/87b921a087b853f2cfd042e2bd927974b4654f3dac7544fdf714c815dc49361a?apiKey=d64f73725dfb4ccb8c714d58677398b5&width=400 400w, https://cdn.builder.io/api/v1/image/assets/TEMP/87b921a087b853f2cfd042e2bd927974b4654f3dac7544fdf714c815dc49361a?apiKey=d64f73725dfb4ccb8c714d58677398b5&width=800 800w, https://cdn.builder.io/api/v1/image/assets/TEMP/87b921a087b853f2cfd042e2bd927974b4654f3dac7544fdf714c815dc49361a?apiKey=d64f73725dfb4ccb8c714d58677398b5&width=1200 1200w, https://cdn.builder.io/api/v1/image/assets/TEMP/87b921a087b853f2cfd042e2bd927974b4654f3dac7544fdf714c815dc49361a?apiKey=d64f73725dfb4ccb8c714d58677398b5&width=1600 1600w, https://cdn.builder.io/api/v1/image/assets/TEMP/87b921a087b853f2cfd042e2bd927974b4654f3dac7544fdf714c815dc49361a?apiKey=d64f73725dfb4ccb8c714d58677398b5&width=2000 2000w, https://cdn.builder.io/api/v1/image/assets/TEMP/87b921a087b853f2cfd042e2bd927974b4654f3dac7544fdf714c815dc49361a?apiKey=d64f73725dfb4ccb8c714d58677398b5&"
-          class="grow shrink-0 max-w-full aspect-[0.93] w-[210px]"
+          src="{{ instructor.imageUrl }}"
+          class="w-[150px] h-[150px]"
         />
-      </div>
-      <div class="flex flex-col ml-5 w-6/12 max-md:ml-0 max-md:w-full">
-        <div class="flex flex-col self-stretch px-5 my-auto">
-          <div class="text-2xl font-semibold leading-7 text-slate-900">
-            Mark Jukarberg
-          </div>
-          <div class="mt-2.5 text-lg leading-5 text-indigo-600">
-            UX Design Lead
-          </div>
-          <div
-            class="flex gap-2.5 mt-6 text-xl leading-5 whitespace-nowrap text-slate-500"
-          >
-            <div
-              class="justify-center items-center px-3.5 bg-white rounded-3xl border border-solid shadow-sm border-slate-400 h-[41px] w-[41px]"
-            >
-              
+        <div class="flex flex-col w-1/2 max-md:ml-0 max-md:w-full">
+          <div class="flex flex-col self-stretch px-5 my-auto">
+            <div class="text-2xl font-semibold leading-7 text-slate-900">
+              {{ instructor.firstName }} {{ instructor.lastName }}
             </div>
-            <div
-              class="justify-center items-center px-2.5 w-10 h-10 bg-white rounded-3xl border border-solid shadow-sm border-slate-400"
-            >
-              
-            </div>
-            <div
-              class="justify-center items-center px-3 bg-white rounded-3xl border border-solid shadow-sm border-slate-400 h-[41px] w-[41px]"
-            >
-              
-            </div>
-            <div
-              class="justify-center items-center px-3 bg-white rounded-3xl border border-solid shadow-sm border-slate-400 h-[41px] w-[41px]"
-            >
-              
+            <div class="mt-2.5 text-md leading-2 text-indigo-600">
+              {{ instructor.companyName }}
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </ng-container>
   </div>
-  
-  <div class="max-w-[417px]">
-    <div class="flex gap-5 max-md:flex-col max-md:gap-0">
-      <div class="flex flex-col w-6/12 max-md:ml-0 max-md:w-full">
+  <div class="flex flex-row gap-[10px] md:gap-[180px] lg:gap-[180px]">
+    <ng-container
+      *ngFor="let instructor of instructorList.items | slice : 2 : 4"
+    >
+      <div class="flex flex-row w-1/2 max-md:flex-col max-md:gap-0">
         <img
           loading="lazy"
-          srcset="https://cdn.builder.io/api/v1/image/assets/TEMP/87b921a087b853f2cfd042e2bd927974b4654f3dac7544fdf714c815dc49361a?apiKey=d64f73725dfb4ccb8c714d58677398b5&width=100 100w, https://cdn.builder.io/api/v1/image/assets/TEMP/87b921a087b853f2cfd042e2bd927974b4654f3dac7544fdf714c815dc49361a?apiKey=d64f73725dfb4ccb8c714d58677398b5&width=200 200w, https://cdn.builder.io/api/v1/image/assets/TEMP/87b921a087b853f2cfd042e2bd927974b4654f3dac7544fdf714c815dc49361a?apiKey=d64f73725dfb4ccb8c714d58677398b5&width=400 400w, https://cdn.builder.io/api/v1/image/assets/TEMP/87b921a087b853f2cfd042e2bd927974b4654f3dac7544fdf714c815dc49361a?apiKey=d64f73725dfb4ccb8c714d58677398b5&width=800 800w, https://cdn.builder.io/api/v1/image/assets/TEMP/87b921a087b853f2cfd042e2bd927974b4654f3dac7544fdf714c815dc49361a?apiKey=d64f73725dfb4ccb8c714d58677398b5&width=1200 1200w, https://cdn.builder.io/api/v1/image/assets/TEMP/87b921a087b853f2cfd042e2bd927974b4654f3dac7544fdf714c815dc49361a?apiKey=d64f73725dfb4ccb8c714d58677398b5&width=1600 1600w, https://cdn.builder.io/api/v1/image/assets/TEMP/87b921a087b853f2cfd042e2bd927974b4654f3dac7544fdf714c815dc49361a?apiKey=d64f73725dfb4ccb8c714d58677398b5&width=2000 2000w, https://cdn.builder.io/api/v1/image/assets/TEMP/87b921a087b853f2cfd042e2bd927974b4654f3dac7544fdf714c815dc49361a?apiKey=d64f73725dfb4ccb8c714d58677398b5&"
-          class="grow shrink-0 max-w-full aspect-[0.93] w-[210px]"
+          src="{{ instructor.imageUrl }}"
+          class="w-[150px] h-[150px]"
         />
-      </div>
-      <div class="flex flex-col ml-5 w-6/12 max-md:ml-0 max-md:w-full">
-        <div class="flex flex-col self-stretch px-5 my-auto">
-          <div class="text-2xl font-semibold leading-7 text-slate-900">
-            Mark Jukarberg
-          </div>
-          <div class="mt-2.5 text-lg leading-5 text-indigo-600">
-            UX Design Lead
-          </div>
-          <div
-            class="flex gap-2.5 mt-6 text-xl leading-5 whitespace-nowrap text-slate-500"
-          >
-            <div
-              class="justify-center items-center px-3.5 bg-white rounded-3xl border border-solid shadow-sm border-slate-400 h-[41px] w-[41px]"
-            >
-              
+        <div class="flex flex-col w-1/2 max-md:ml-0 max-md:w-full">
+          <div class="flex flex-col self-stretch px-5 my-auto">
+            <div class="text-2xl font-semibold leading-7 text-slate-900">
+              {{ instructor.firstName }} {{ instructor.lastName }}
             </div>
-            <div
-              class="justify-center items-center px-2.5 w-10 h-10 bg-white rounded-3xl border border-solid shadow-sm border-slate-400"
-            >
-              
-            </div>
-            <div
-              class="justify-center items-center px-3 bg-white rounded-3xl border border-solid shadow-sm border-slate-400 h-[41px] w-[41px]"
-            >
-              
-            </div>
-            <div
-              class="justify-center items-center px-3 bg-white rounded-3xl border border-solid shadow-sm border-slate-400 h-[41px] w-[41px]"
-            >
-              
+            <div class="mt-2.5 text-md leading-2 text-indigo-600">
+              {{ instructor.companyName }}
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </div>
-  </div>
-  
-  <div class="flex flex-row justify-end gap-14 mr-44 mt-28 ">
-  
-  <div class="max-w-[417px]">
-    <div class="flex gap-5 max-md:flex-col max-md:gap-0">
-      <div class="flex flex-col w-6/12 max-md:ml-0 max-md:w-full">
-        <img
-          loading="lazy"
-          srcset="https://cdn.builder.io/api/v1/image/assets/TEMP/87b921a087b853f2cfd042e2bd927974b4654f3dac7544fdf714c815dc49361a?apiKey=d64f73725dfb4ccb8c714d58677398b5&width=100 100w, https://cdn.builder.io/api/v1/image/assets/TEMP/87b921a087b853f2cfd042e2bd927974b4654f3dac7544fdf714c815dc49361a?apiKey=d64f73725dfb4ccb8c714d58677398b5&width=200 200w, https://cdn.builder.io/api/v1/image/assets/TEMP/87b921a087b853f2cfd042e2bd927974b4654f3dac7544fdf714c815dc49361a?apiKey=d64f73725dfb4ccb8c714d58677398b5&width=400 400w, https://cdn.builder.io/api/v1/image/assets/TEMP/87b921a087b853f2cfd042e2bd927974b4654f3dac7544fdf714c815dc49361a?apiKey=d64f73725dfb4ccb8c714d58677398b5&width=800 800w, https://cdn.builder.io/api/v1/image/assets/TEMP/87b921a087b853f2cfd042e2bd927974b4654f3dac7544fdf714c815dc49361a?apiKey=d64f73725dfb4ccb8c714d58677398b5&width=1200 1200w, https://cdn.builder.io/api/v1/image/assets/TEMP/87b921a087b853f2cfd042e2bd927974b4654f3dac7544fdf714c815dc49361a?apiKey=d64f73725dfb4ccb8c714d58677398b5&width=1600 1600w, https://cdn.builder.io/api/v1/image/assets/TEMP/87b921a087b853f2cfd042e2bd927974b4654f3dac7544fdf714c815dc49361a?apiKey=d64f73725dfb4ccb8c714d58677398b5&width=2000 2000w, https://cdn.builder.io/api/v1/image/assets/TEMP/87b921a087b853f2cfd042e2bd927974b4654f3dac7544fdf714c815dc49361a?apiKey=d64f73725dfb4ccb8c714d58677398b5&"
-          class="grow shrink-0 max-w-full aspect-[0.93] w-[210px]"
-        />
-      </div>
-      <div class="flex flex-col ml-5 w-6/12 max-md:ml-0 max-md:w-full">
-        <div class="flex flex-col self-stretch px-5 my-auto">
-          <div class="text-2xl font-semibold leading-7 text-slate-900">
-            Mark Jukarberg
-          </div>
-          <div class="mt-2.5 text-lg leading-5 text-indigo-600">
-            UX Design Lead
-          </div>
-          <div
-            class="flex gap-2.5 mt-6 text-xl leading-5 whitespace-nowrap text-slate-500"
-          >
-            <div
-              class="justify-center items-center px-3.5 bg-white rounded-3xl border border-solid shadow-sm border-slate-400 h-[41px] w-[41px]"
-            >
-              
-            </div>
-            <div
-              class="justify-center items-center px-2.5 w-10 h-10 bg-white rounded-3xl border border-solid shadow-sm border-slate-400"
-            >
-              
-            </div>
-            <div
-              class="justify-center items-center px-3 bg-white rounded-3xl border border-solid shadow-sm border-slate-400 h-[41px] w-[41px]"
-            >
-              
-            </div>
-            <div
-              class="justify-center items-center px-3 bg-white rounded-3xl border border-solid shadow-sm border-slate-400 h-[41px] w-[41px]"
-            >
-              
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  
-  <div class="max-w-[417px]">
-    <div class="flex gap-5 max-md:flex-col max-md:gap-0">
-      <div class="flex flex-col w-6/12 max-md:ml-0 max-md:w-full">
-        <img
-          loading="lazy"
-          srcset="https://cdn.builder.io/api/v1/image/assets/TEMP/87b921a087b853f2cfd042e2bd927974b4654f3dac7544fdf714c815dc49361a?apiKey=d64f73725dfb4ccb8c714d58677398b5&width=100 100w, https://cdn.builder.io/api/v1/image/assets/TEMP/87b921a087b853f2cfd042e2bd927974b4654f3dac7544fdf714c815dc49361a?apiKey=d64f73725dfb4ccb8c714d58677398b5&width=200 200w, https://cdn.builder.io/api/v1/image/assets/TEMP/87b921a087b853f2cfd042e2bd927974b4654f3dac7544fdf714c815dc49361a?apiKey=d64f73725dfb4ccb8c714d58677398b5&width=400 400w, https://cdn.builder.io/api/v1/image/assets/TEMP/87b921a087b853f2cfd042e2bd927974b4654f3dac7544fdf714c815dc49361a?apiKey=d64f73725dfb4ccb8c714d58677398b5&width=800 800w, https://cdn.builder.io/api/v1/image/assets/TEMP/87b921a087b853f2cfd042e2bd927974b4654f3dac7544fdf714c815dc49361a?apiKey=d64f73725dfb4ccb8c714d58677398b5&width=1200 1200w, https://cdn.builder.io/api/v1/image/assets/TEMP/87b921a087b853f2cfd042e2bd927974b4654f3dac7544fdf714c815dc49361a?apiKey=d64f73725dfb4ccb8c714d58677398b5&width=1600 1600w, https://cdn.builder.io/api/v1/image/assets/TEMP/87b921a087b853f2cfd042e2bd927974b4654f3dac7544fdf714c815dc49361a?apiKey=d64f73725dfb4ccb8c714d58677398b5&width=2000 2000w, https://cdn.builder.io/api/v1/image/assets/TEMP/87b921a087b853f2cfd042e2bd927974b4654f3dac7544fdf714c815dc49361a?apiKey=d64f73725dfb4ccb8c714d58677398b5&"
-          class="grow shrink-0 max-w-full aspect-[0.93] w-[210px]"
-        />
-      </div>
-      <div class="flex flex-col ml-5 w-6/12 max-md:ml-0 max-md:w-full">
-        <div class="flex flex-col self-stretch px-5 my-auto">
-          <div class="text-2xl font-semibold leading-7 text-slate-900">
-            Mark Jukarberg
-          </div>
-          <div class="mt-2.5 text-lg leading-5 text-indigo-600">
-            UX Design Lead
-          </div>
-          <div
-            class="flex gap-2.5 mt-6 text-xl leading-5 whitespace-nowrap text-slate-500"
-          >
-            <div
-              class="justify-center items-center px-3.5 bg-white rounded-3xl border border-solid shadow-sm border-slate-400 h-[41px] w-[41px]"
-            >
-              
-            </div>
-            <div
-              class="justify-center items-center px-2.5 w-10 h-10 bg-white rounded-3xl border border-solid shadow-sm border-slate-400"
-            >
-              
-            </div>
-            <div
-              class="justify-center items-center px-3 bg-white rounded-3xl border border-solid shadow-sm border-slate-400 h-[41px] w-[41px]"
-            >
-              
-            </div>
-            <div
-              class="justify-center items-center px-3 bg-white rounded-3xl border border-solid shadow-sm border-slate-400 h-[41px] w-[41px]"
-            >
-              
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    </ng-container>
   </div>
 </div>
-  
