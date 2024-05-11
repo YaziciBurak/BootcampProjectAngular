@@ -4,7 +4,6 @@ import { LoginComponent } from './features/components/login/login.component';
 import { RegisterComponent } from './features/components/register/register.component';
 import { BootcampListGroupComponent } from './features/components/bootcamps/bootcamp-list-group/bootcamp-list-group.component';
 import { AdminRoutes } from './pages/admin/admin.routes';
-import { BootcampDetailComponent } from './features/components/bootcamps/bootcamp-list-group/bootcamp-details/bootcamp-details.component'; 
 import { BootcampListPageComponent } from './pages/bootcamp-list-page/bootcamp-list-page.component';
 import { BootcampDetailPageComponent } from './pages/bootcamp-detail-page/bootcamp-detail-page.component';
 
@@ -19,6 +18,6 @@ export const routes: Routes = [
     {path:'register', component:RegisterComponent},
     {path:'bootcamps', component:BootcampListPageComponent},
     {path:'bootcampDetail/:bootcampId', component:BootcampDetailPageComponent},
-    {path:"bootcamps/instructor/:instructorId",component:BootcampListGroupComponent},
+    {path:"bootcamps/instructor/:instructorId",component:BootcampListPageComponent}
 ];
 

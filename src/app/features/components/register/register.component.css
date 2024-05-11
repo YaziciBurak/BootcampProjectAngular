@@ -1,0 +1,5 @@
+input:focus {
+    --tw-ring-color:unset;
+    --tw-ring-shadow:unset;
+    border-color:transparent; 
+}
