@@ -11,9 +11,9 @@
   
   <div class="flex flex-row justify-between mx-20 2xl:mx-40 mt-20">
   <div class="flex flex-row gap-6 text-2xl text-slate-500">
-    <button class="hover:text-indigo-600">Tümünü Gör</button>
-    <button class="hover:text-indigo-600">Devam Edenler</button>
-    <button class="hover:text-indigo-600">Bitenler</button>
+    <button (click)="getAllBootcamps({page: currentPageNumber, pageSize: PAGE_SIZE})" class="hover:text-indigo-600">Tümünü Gör</button>
+    <button (click)="getContinuingBootcamps({page: currentPageNumber, pageSize: PAGE_SIZE})" class="hover:text-indigo-600">Başvurusu Devam Edenler</button>
+    <button (click)="getDeadlinePassedBootcamps({page: currentPageNumber, pageSize: PAGE_SIZE})" class="hover:text-indigo-600">Başvurusu Bitenler</button>
   </div>
   
   <div class=" flex flex-row gap-3 ">
@@ -95,16 +95,16 @@
   
   <!--dışarıdaki çerçeve--></div>
   <div class= "flex justify-center gap-5 mt-32 ">
-  <button class="flex px-6 py-4 text-4xl text-bold bg-gray-200 text-indigo-900 rounded-full hover:bg-indigo-700 hover:text-white" >
+  <button (click)="setCurrentPageNumber(1)" class="flex px-6 py-4 text-4xl text-bold bg-gray-200 text-indigo-900 rounded-full hover:bg-indigo-700 hover:text-white" >
     1
   </button>
-  <button class="flex px-6 py-4 text-4xl text-bold bg-gray-200 text-indigo-900 rounded-full hover:bg-indigo-700 hover:text-white">
+  <button (click)="setCurrentPageNumber(2)" class="flex px-6 py-4 text-4xl text-bold bg-gray-200 text-indigo-900 rounded-full hover:bg-indigo-700 hover:text-white">
     2
   </button>
-  <button class="flex px-6 py-4 text-4xl text-bold bg-gray-200 text-indigo-900 rounded-full hover:bg-indigo-700 hover:text-white">
+  <button (click)="setCurrentPageNumber(3)" class="flex px-6 py-4 text-4xl text-bold bg-gray-200 text-indigo-900 rounded-full hover:bg-indigo-700 hover:text-white">
     3
   </button>
-  <button class="flex px-6 py-4 text-4xl text-bold bg-gray-200 text-indigo-900 rounded-full hover:bg-indigo-700 hover:text-white">
+  <button (click)="setCurrentPageNumber(4)" class="flex px-6 py-4 text-4xl text-bold bg-gray-200 text-indigo-900 rounded-full hover:bg-indigo-700 hover:text-white">
     4
   </button>
   </div>

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { BootcampBaseService } from '../abstracts/bootcamp-base.service';
 import { GetbyidBootcampResponse } from '../../models/responses/bootcamp/getbyid-bootcamp-response';
 import { environment } from '../../../../environments/environment.development';
@@ -11,32 +11,33 @@ import { UpdateBootcampRequest } from '../../models/requests/bootcamp/update-boo
 import { UpdateBootcampResponse } from '../../models/responses/bootcamp/update-bootcamp-response';
 import { CreateBootcampRequest } from '../../models/requests/bootcamp/create-bootcamp-request';
 import { CreateBootcampResponse } from '../../models/responses/bootcamp/create-bootcamp-response';
+import { DynamicQuery } from '../../../core/models/dynamic-query';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BootcampService extends BootcampBaseService {
-  private readonly apiUrl:string = `${environment.API_URL}/bootcamps`
+  private readonly apiUrl: string = `${environment.API_URL}/bootcamps`
 
   constructor(private httpClient: HttpClient) { super(); }
-  
+
   override getList(pageRequest: PageRequest): Observable<BootcampListItemDto> {
-    const newRequest: {[key: string]: string | number} = {
+    const newRequest: { [key: string]: string | number } = {
       pageIndex: pageRequest.page,
       pageSize: pageRequest.pageSize
     };
-    return this.httpClient.get<BootcampListItemDto>(this.apiUrl,{
-      params:newRequest
+    return this.httpClient.get<BootcampListItemDto>(this.apiUrl, {
+      params: newRequest
     }).pipe(
-      map((response)=>{
-        const newResponse:BootcampListItemDto={
-          index:pageRequest.page,
-          size:pageRequest.pageSize,
-          count:response.count,
-          hasNext:response.hasNext,
-          hasPrevious:response.hasPrevious,
-          items:response.items,
-          pages:response.pages
+      map((response) => {
+        const newResponse: BootcampListItemDto = {
+          index: pageRequest.page,
+          size: pageRequest.pageSize,
+          count: response.count,
+          hasNext: response.hasNext,
+          hasPrevious: response.hasPrevious,
+          items: response.items,
+          pages: response.pages
         };
         return newResponse;
       })
@@ -44,7 +45,7 @@ export class BootcampService extends BootcampBaseService {
   }
 
   delete(id: number): Observable<DeleteBootcampResponse> {
-    return this.httpClient.delete<DeleteBootcampResponse>( `${this.apiUrl}/`+ id);
+    return this.httpClient.delete<DeleteBootcampResponse>(`${this.apiUrl}/` + id);
   }
 
   update(bootcamp: UpdateBootcampRequest): Observable<UpdateBootcampResponse> {
@@ -56,7 +57,7 @@ export class BootcampService extends BootcampBaseService {
   }
 
   override getById(bootcampId: number): Observable<GetbyidBootcampResponse> {
-    const newRequest: {[key: string]: string | number} = {
+    const newRequest: { [key: string]: string | number } = {
       id: bootcampId
     };
     return this.httpClient.get<GetbyidBootcampResponse>(`${this.apiUrl}/${bootcampId}`, {
@@ -82,27 +83,48 @@ export class BootcampService extends BootcampBaseService {
       })
     );
   }
-  
-override getListBootcampByInstructorId(pageRequest:PageRequest,instructorId: string): Observable<BootcampListItemDto> {
-  const newRequest :{[key:string]:string | number}={
-    instructorId:instructorId,
-    page:pageRequest.page,
-    pageSize:pageRequest.pageSize
-};
-return this.httpClient.get<BootcampListItemDto>(`${this.apiUrl}/getbootcampbyinstructorid?${instructorId}`,{
-  params:newRequest
-}).pipe(
-  map((response)=>{
-    const newResponse:BootcampListItemDto={
-      index:pageRequest.page,
-      size:pageRequest.pageSize,
-      count:response.count,
-      hasNext:response.hasNext,
-      hasPrevious:response.hasPrevious,
-      items:response.items,
-      pages:response.pages
+
+  override getListBootcampByInstructorId(pageRequest: PageRequest, instructorId: string): Observable<BootcampListItemDto> {
+    const newRequest: { [key: string]: string | number } = {
+      instructorId: instructorId,
+      page: pageRequest.page,
+      pageSize: pageRequest.pageSize
     };
-    return newResponse; 
-  })
-)
-}}
+    return this.httpClient.get<BootcampListItemDto>(`${this.apiUrl}/getbootcampbyinstructorid?${instructorId}`, {
+      params: newRequest
+    }).pipe(
+      map((response) => {
+        const newResponse: BootcampListItemDto = {
+          index: pageRequest.page,
+          size: pageRequest.pageSize,
+          count: response.count,
+          hasNext: response.hasNext,
+          hasPrevious: response.hasPrevious,
+          items: response.items,
+          pages: response.pages
+        };
+        return newResponse;
+      })
+    )
+  }
+
+  getListBootcampByDynamic(pageRequest: PageRequest, dynamic: DynamicQuery): Observable<BootcampListItemDto> {
+    return this.httpClient.post<BootcampListItemDto>(`${this.apiUrl}/dynamic/`, {
+      filter: dynamic.filter,
+      sort: dynamic.sort
+    }, { params: new HttpParams().set("page", pageRequest.page).set("pageSize", pageRequest.pageSize) }).pipe(
+      map((response) => {
+        const newResponse: BootcampListItemDto = {
+          index: pageRequest.page,
+          size: pageRequest.pageSize,
+          count: response.count,
+          hasNext: response.hasNext,
+          hasPrevious: response.hasPrevious,
+          items: response.items,
+          pages: response.pages
+        };
+        return newResponse;
+      })
+    )
+  }
+}
