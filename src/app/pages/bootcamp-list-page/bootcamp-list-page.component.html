@@ -51,10 +51,10 @@
         <section
           class="flex flex-col py-2 xl:py-7 bg-white rounded-xl border border-gray-400 border-solid max-w-[340px] max-h-[470px]"
         >
-          <div class="flex flex-col 2xl:px-8 max-md:px-5">
-            <img
-            [src]="bootcamp.bootcampImagePath" alt="Bootcamp Image"
-              class="w-full aspect-[1.45] object-cover"
+          <div class="flex flex-col 2xl:px-8 max-md:px-5 " [routerLink]="">
+            <img 
+            [src]="bootcamp.bootcampImagePath" alt="Bootcamp Image"  [routerLink]="['/bootcampDetail', bootcamp.id.toString()]"
+              class="w-full aspect-[1.45] object-cover hover:cursor-pointer"
             />
             <h2 class=" ml-4 mt-0 2xl:ml-0 2xl:mt-6 text-xl font-semibold leading-7 text-slate-900">
               {{bootcamp.name}}
@@ -67,9 +67,9 @@
           <hr
             class="shrink-0  mt-4 2xl:mt-12 h-px bg-gray-500 border border-gray-500 border-solid max-md:mt-10"
           />
-          <div class="flex mt-3 ml-4 gap-10  2xl:gap-10 2xl:mt-5 2xl:mx-8 ">
-            <div class="flex flex-col my-auto text-lg leading-4">
-              <span class="text-gray-500">Son Başvuru:</span>
+          <div  class="flex mt-3 ml-4 gap-10  2xl:gap-10 2xl:mt-5 2xl:mx-8 ">
+            <div  class="flex flex-col my-auto text-lg leading-4">
+              <span  class="text-gray-500">Son Başvuru:</span>
               <time class="mt-1.5 font-semibold text-slate-900">
               {{formDate(bootcamp.deadline)}}</time>
             </div>

@@ -41,7 +41,7 @@ export class BootcampImageComponent implements OnInit {
   }
   updateForm() {
     this.bootcampImageUpdateForm = this.formBuilder.group({
-      imagePath: ['', [Validators.required]],
+      id:[''],
       bootcampId:['', [Validators.required]],  
       file: [null, [Validators.required]] 
     })
@@ -122,11 +122,10 @@ export class BootcampImageComponent implements OnInit {
       }, 3000);
     }
     update() {
-      if(this.bootcampImageUpdateForm.valid) {
-        let bootcampImage:UpdateBootcampimageRequest = Object.assign({},this.bootcampImageUpdateForm.value);
+        let bootcampImage:UpdateBootcampimageRequest = {...this.bootcampImageUpdateForm.value, file:this.bootcampImageUpdateForm.get('file').value };
         let formData = new FormData();
+        formData.append('id', bootcampImage.id.toString());
         formData.append('bootcampId', bootcampImage.bootcampId.toString());
-        formData.append('imagePath', bootcampImage.imagePath);
         formData.append('file', bootcampImage.file);
       this.bootcampImageService.update(formData).subscribe({
         next: (response) => {
@@ -137,7 +136,7 @@ export class BootcampImageComponent implements OnInit {
             console.error('Güncelleme işlemi başarısız:', error);
         }
     });
-  }
+  
   }
   openUpdateModal(bootcampImage: any) {
     this.bootcampImageService.getById(bootcampImage.id).subscribe({
@@ -146,7 +145,6 @@ export class BootcampImageComponent implements OnInit {
         this.bootcampImageUpdateForm.patchValue({ 
           id: this.selectedBootcampImage.id,
           bootcampId: this.selectedBootcampImage.bootcampId,
-          imagePath: this.selectedBootcampImage.imagePath,
           file: this.selectedBootcampImage.file
          }); 
         this.showUpdateModal = true; // Modal'ı aç

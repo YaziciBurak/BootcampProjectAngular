@@ -14,9 +14,7 @@
         <select class="w-full border border-gray-300 rounded-md p-2" size="5" aria-label="Eğitmen seçin">
             <option class="bg-gray-100" routerLink="/bootcamps">Tüm Eğitmenler</option>
             <ng-container *ngFor="let instructor of instructors.items | filterInstructorPipe: filterText">
-                <option *ngIf="instructor.id" [ngClass]="{
-                        'bg-violet-800': selectedInstructorId === instructor.id
-                    }" 
+                <option *ngIf="instructor.id" [ngClass]="{'bg-violet-800': selectedInstructorId === instructor.id}" 
                     (click)="onSelectedInstructor(instructor.id)" 
                     routerLink="/bootcamps/instructor/{{instructor.id}}">
                     {{ instructor.firstName }} {{ instructor.lastName }}

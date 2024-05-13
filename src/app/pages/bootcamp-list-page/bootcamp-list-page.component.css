@@ -1,0 +1,12 @@
+/* .expired {
+    background-color: #eb1818; 
+    color: black;
+  }
+  
+  .notExpired {
+    background-color: #15af22; 
+    color: black;
+  }
+
+  [ngClass]="{'expired': isExpired(bootcamp.endDate), 'notExpired': !isExpired(bootcamp.endDate)}" 
+  //Başvuru Butonu Rengi değişmesi için */
