@@ -15,6 +15,7 @@ import { InstructorComponent } from './components/instructor/instructor.componen
 import { ApplicationComponent } from './components/application/application.component';
 import { BootcampContentsComponent } from './components/bootcamp-contents/bootcamp-contents.component';
 import { ApplicantBootcampContentsComponent } from './components/applicant-bootcamp-contents/applicant-bootcamp-contents.component';
+import { InstructorImageComponent } from './components/instructor-image/instructor-image.component';
 
 export const AdminRoutes: Routes = [
   { path: "", component: AdminComponent, children: [   
@@ -27,6 +28,7 @@ export const AdminRoutes: Routes = [
     { path: 'blacklist', component:BlacklistComponent},
     { path: 'questions', component:QuestionsComponent},
     { path: 'quiz', component:QuizComponent},
+    { path: 'instructor-image', component:InstructorImageComponent},
     { path: 'application', component:ApplicationComponent},
     { path: 'instructor', component:InstructorComponent},
     { path: 'employee', component:EmployeeListGroupComponent},

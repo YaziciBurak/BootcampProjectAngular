@@ -29,7 +29,6 @@ export class BootcampImageService extends BootcampImageBaseService {
   override delete(id: number): Observable<DeleteBootcampimageResponse> {
     return this.httpClient.delete<DeleteBootcampimageResponse>(`${this.apiUrl}/`+ id);
    }
-
    override getList(pageRequest: PageRequest): Observable<BootcampimageListItemDto> {
     const newRequest: {[key: string]: string | number} = {
       pageIndex: pageRequest.page,
@@ -56,14 +55,14 @@ export class BootcampImageService extends BootcampImageBaseService {
     const newRequest: {[key: string]: string | number} = {
       id: id
     };
-    return this.httpClient.get<GetbyidBootcampimageResponse>(`${this.apiUrl}/${id}`, {
+    return this.httpClient.get<GetbyidBootcampimageResponse>(`${this.apiUrl}/${id}`,  {
       params: newRequest
     }).pipe(
       map((response) => {
         const newResponse: GetbyidBootcampimageResponse = {
           id: response.id,
           bootcampId: response.bootcampId,
-          imagePath: response.imagePath
+          imagePath: response.imagePath,
         };
         return newResponse;
       })
