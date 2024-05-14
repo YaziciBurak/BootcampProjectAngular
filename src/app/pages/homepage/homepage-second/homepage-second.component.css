@@ -17,11 +17,9 @@
   border-style: solid;
   border-width: 1px;
   background-color: #f1fdff;
-  display: flex;
-  flex-grow: 1;
-  flex-direction: column;
-  width: 100%;
-  padding: 24px 56px 50px;
+ 
+  
+  
 }
 
 .homepage-feature-card-2 {
@@ -34,8 +32,7 @@
   display: flex;
   flex-grow: 1;
   flex-direction: column;
-  width: 100%;
-  padding: 24px 56px 50px;
+
 }
 
 
@@ -49,6 +46,5 @@
   display: flex;
   flex-grow: 1;
   flex-direction: column;
-  width: 100%;
-  padding: 24px 57px 50px;
+ 
 }

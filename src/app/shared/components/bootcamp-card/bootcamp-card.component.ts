@@ -12,20 +12,20 @@ import { BootcampService } from '../../../features/services/concretes/bootcamp.s
   templateUrl: './bootcamp-card.component.html',
   styleUrl: './bootcamp-card.component.css',
 })
-export class BootcampCardComponent implements OnInit{
-  bootcampList:BootcampListItemDto ;
+export class BootcampCardComponent implements OnInit {
+  bootcampList: BootcampListItemDto;
 
-  constructor(private bootcampService:BootcampService) {}
+  constructor(private bootcampService: BootcampService) {}
   ngOnInit(): void {
     this.loadBootcamps();
   }
   loadBootcamps() {
-    const pageRequest: PageRequest = { page: 0, pageSize: 4};
+    const pageRequest: PageRequest = { page: 0, pageSize: 4 };
     this.getApplicationStates(pageRequest);
   }
   getApplicationStates(pageRequest: PageRequest) {
-    this.bootcampService.getList(pageRequest).subscribe(response => {
+    this.bootcampService.getList(pageRequest).subscribe((response) => {
       this.bootcampList = response;
     });
-}
+  }
 }
