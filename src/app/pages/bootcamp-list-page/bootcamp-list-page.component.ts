@@ -105,7 +105,7 @@ export class BootcampListPageComponent implements OnInit {
   }
 
   setCurrentPageNumber(pageNumber: number): void {
-    this.currentPageNumber = pageNumber - 1;
+    this.currentPageNumber = pageNumber -1;
     const pageRequest = {page: this.currentPageNumber, pageSize: this.PAGE_SIZE};
     switch(this.activeFilter) {
       case 'all':
