@@ -12,6 +12,7 @@ import { InstructorListItemDto } from '../../../../features/models/responses/ins
 import { BootcampstateListItemDto } from '../../../../features/models/responses/bootcampstate/bootcampstate-list-item-dto';
 import { RouterModule } from '@angular/router';
 import { CreateBootcampRequest } from '../../../../features/models/requests/bootcamp/create-bootcamp-request';
+import { formatDate } from '../../../../core/helpers/format-date';
 
 
 @Component({
@@ -194,9 +195,9 @@ export class AdminBootcampsComponent implements OnInit{
         this.selectedBootcamp = { ...response };
         this.bootcampUpdateForm.patchValue({ name: this.selectedBootcamp.name,
           detail: this.selectedBootcamp.detail,
-          deadline: this.selectedBootcamp.deadLine,
-          startDate: this.selectedBootcamp.startDate,
-          endDate: this.selectedBootcamp.endDate,
+          startDate: formatDate(this.selectedBootcamp.startDate),
+          deadline: formatDate(this.selectedBootcamp.deadLine),
+          endDate: formatDate(this.selectedBootcamp.endDate),
           instructorId: this.selectedBootcamp.instructorId,
           bootcampStateId: this.selectedBootcamp.bootcampStateId
          }); 
