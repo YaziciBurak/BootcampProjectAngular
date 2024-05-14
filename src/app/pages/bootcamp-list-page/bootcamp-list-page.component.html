@@ -18,7 +18,7 @@
   
   <div class=" flex flex-row gap-3 ">
   <div class="text-2xl text-slate-500 self-center">Filtrele:</div>
-  <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown" class="text-slate-500 text-2xl bg-white hover:text-indigo-600   border-solid border-gray border-2  px-6 py-1 text-center inline-flex items-center " type="button">Eğitmenler <svg class="w-4 h-4 ms-3 mt-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+  <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown" class="text-slate-500 text-2xl bg-white hover:text-indigo-600   border-solid border-gray border-2  px-6 py-1 text-center inline-flex items-center " type="button"> {{ filterText }} <svg class="w-4 h-4 ms-3 mt-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="m1 1 4 4 4-4"/>
     </svg>
     </button>
@@ -29,7 +29,7 @@
             <a class="block px-4 py-2 hover:cursor-pointer">Bütün Bootcampler</a>            
           </li>
           <ng-container *ngFor="let instructors of instructors.items">
-          <li  routerLink="/bootcamps/instructor/{{instructors.id}}"  [ngClass]="{'': selectedInstructorId === instructors.id}" (click)="onSelectedInstructor(instructors.id)">
+          <li  routerLink="/bootcamps/instructor/{{instructors.id}}"  [ngClass]="{'': selectedInstructorId === instructors.id}" (click)="onSelectedInstructor(instructors.id, instructors.firstName + ' ' + instructors.lastName)">
             <a class="block px-4 py-2 hover:cursor-pointer ">{{instructors.firstName}} {{instructors.lastName}}</a>
           </li>
         </ng-container>
