@@ -43,15 +43,15 @@ export class QuestionService extends QuestionBaseService{
     )
   }
 
-  delete(id: number): Observable<DeleteQuestionResponse> {
+  override delete(id: number): Observable<DeleteQuestionResponse> {
     return this.httpClient.delete<DeleteQuestionResponse>( `${this.apiUrl}/`+ id);
   }
 
-  update(request: UpdateQuestionRequest): Observable<UpdateQuestionResponse> {
+  override update(request: UpdateQuestionRequest): Observable<UpdateQuestionResponse> {
     return this.httpClient.put<UpdateQuestionResponse>(`${this.apiUrl}`, request);
   }
 
-  create(request: CreateQuestionRequest): Observable<CreateQuestionResponse> {
+  override create(request: CreateQuestionRequest): Observable<CreateQuestionResponse> {
     return this.httpClient.post<CreateQuestionResponse>(`${this.apiUrl}`, request);
   }
   

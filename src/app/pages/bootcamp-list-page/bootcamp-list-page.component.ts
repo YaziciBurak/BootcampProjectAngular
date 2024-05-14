@@ -48,6 +48,7 @@ export class BootcampListPageComponent implements OnInit {
   ngOnInit(): void {
     this.getInstructors();
     initFlowbite();
+    window.scrollTo(0,0);
     this.activatedRoute.params.subscribe(params => {
       if (params["instructorId"]) {
         this.getBootcampListByInstructor({ page: 0, pageSize: this.PAGE_SIZE }, params["instructorId"])
