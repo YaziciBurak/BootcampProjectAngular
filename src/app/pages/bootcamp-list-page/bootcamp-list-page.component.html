@@ -11,9 +11,9 @@
   
   <div class="flex flex-row justify-between mx-20 2xl:mx-40 mt-20">
   <div class="flex flex-row gap-6 text-2xl text-slate-500">
-    <button (click)="getAllBootcamps({page: currentPageNumber, pageSize: PAGE_SIZE})" class="hover:text-indigo-600">Tümünü Gör</button>
-    <button (click)="getContinuingBootcamps({page: currentPageNumber, pageSize: PAGE_SIZE})" class="hover:text-indigo-600">Başvurusu Devam Edenler</button>
-    <button (click)="getDeadlinePassedBootcamps({page: currentPageNumber, pageSize: PAGE_SIZE})" class="hover:text-indigo-600">Başvurusu Bitenler</button>
+    <button (click)="getAllBootcamps({page: currentPageNumber, pageSize: PAGE_SIZE})" class="hover:text-indigo-600 focus:text-indigo-600">Tümünü Gör</button>
+    <button (click)="getContinuingBootcamps({page: currentPageNumber, pageSize: PAGE_SIZE})" class="hover:text-indigo-600 focus:text-indigo-600">Başvurusu Devam Edenler</button>
+    <button (click)="getDeadlinePassedBootcamps({page: currentPageNumber, pageSize: PAGE_SIZE})" class="hover:text-indigo-600 focus:text-indigo-600">Başvurusu Bitenler</button>
   </div>
   
   <div class=" flex flex-row gap-3 ">
@@ -41,12 +41,12 @@
   
   </div>
   
-  <!--dışarıdaki çerçeve--><div class="flex flex-row mx-20 2xl:mx-60 mt-16 mb-20 border-2" >
+  <!--dışarıdaki çerçeve--><div class="flex flex-row justify-center mx-20 2xl:mx-60 mt-16 mb-20 border-2" >
 
   
-  <!--kartların içine yerleştiği div--><div class="flex flex-wrap justify-center gap-6 mx-4 my-12  mb-20 2xl:mx-8 2xl:gap-16 2xl:my-16">
+  <!--kartların içine yerleştiği div--><div class="flex flex-wrap justify-center gap-8 my-12  mb-20 2xl:mx-8 2xl:gap-16 2xl:my-16">
     <ng-container *ngFor="let bootcamp of bootcampList.items">
-   <!-- 1.kart--> <div class="flex flex-col md:flex-row lg:flex-row gap-6 justify-center">
+   <!-- 1.kart--> <div class="flex flex-col md:flex-row lg:flex-row gap-8 justify-center">
      
         <section
           class="flex flex-col pt-6 2xl:pt-10 bg-white rounded-xl border border-gray-400 border-solid lg:max-w-[320px] lg:max-h-[450px] 2xl:max-w-[360px] 2xl:max-h-[490px]"
@@ -95,16 +95,16 @@
   
   <!--dışarıdaki çerçeve--></div>
   <div class= "flex justify-center gap-5 mt-32 ">
-  <button (click)="setCurrentPageNumber(1)" class="flex px-6 py-4 text-4xl text-bold bg-gray-200 text-indigo-900 rounded-full hover:bg-indigo-700 hover:text-white" >
+  <button (click)="setCurrentPageNumber(1)" class="flex px-6 py-4 text-4xl text-bold bg-gray-200 text-indigo-900 rounded-full hover:bg-indigo-700 hover:text-white focus:bg-indigo-700 focus:text-white" >
     1
   </button>
-  <button (click)="setCurrentPageNumber(2)" class="flex px-6 py-4 text-4xl text-bold bg-gray-200 text-indigo-900 rounded-full hover:bg-indigo-700 hover:text-white">
+  <button (click)="setCurrentPageNumber(2)" class="flex px-6 py-4 text-4xl text-bold bg-gray-200 text-indigo-900 rounded-full hover:bg-indigo-700 hover:text-white focus:bg-indigo-700 focus:text-white">
     2
   </button>
-  <button (click)="setCurrentPageNumber(3)" class="flex px-6 py-4 text-4xl text-bold bg-gray-200 text-indigo-900 rounded-full hover:bg-indigo-700 hover:text-white">
+  <button (click)="setCurrentPageNumber(3)" class="flex px-6 py-4 text-4xl text-bold bg-gray-200 text-indigo-900 rounded-full hover:bg-indigo-700 hover:text-white focus:bg-indigo-700 focus:text-white">
     3
   </button>
-  <button (click)="setCurrentPageNumber(4)" class="flex px-6 py-4 text-4xl text-bold bg-gray-200 text-indigo-900 rounded-full hover:bg-indigo-700 hover:text-white">
+  <button (click)="setCurrentPageNumber(4)" class="flex px-6 py-4 text-4xl text-bold bg-gray-200 text-indigo-900 rounded-full hover:bg-indigo-700 hover:text-white focus:bg-indigo-700 focus:text-white">
     4
   </button>
   </div>

@@ -31,7 +31,7 @@ export class BootcampListPageComponent implements OnInit {
 
   formDate = formatDate1;
   dateNow = Date.now;
-  currentPageNumber!: number;
+  currentPageNumber: number = 0;
   bootcampList: BootcampListItemDto = {
     index: 0,
     size: 0,
@@ -42,7 +42,7 @@ export class BootcampListPageComponent implements OnInit {
     items: []
   };
   constructor(private bootcampService: BootcampService, private instructorService: InstructorService, private activatedRoute: ActivatedRoute) { }
-  readonly PAGE_SIZE = 15;
+  readonly PAGE_SIZE = 3;
 
 
   ngOnInit(): void {
@@ -105,7 +105,7 @@ export class BootcampListPageComponent implements OnInit {
   }
 
   setCurrentPageNumber(pageNumber: number): void {
-    this.currentPageNumber = pageNumber;
+    this.currentPageNumber = pageNumber - 1;
     const pageRequest = {page: this.currentPageNumber, pageSize: this.PAGE_SIZE};
     switch(this.activeFilter) {
       case 'all':
@@ -136,7 +136,6 @@ export class BootcampListPageComponent implements OnInit {
     }
     this.bootcampService.getListBootcampByDynamic({ page: pageRequest.page, pageSize: pageRequest.pageSize }, query).subscribe((response) => {
       this.bootcampList = response;
-      this.updateCurrentPageNumber();
     })
   }
 
@@ -151,7 +150,6 @@ export class BootcampListPageComponent implements OnInit {
     }
     this.bootcampService.getListBootcampByDynamic({ page: pageRequest.page, pageSize: pageRequest.pageSize }, query).subscribe((response) => {
       this.bootcampList = response;
-      this.updateCurrentPageNumber();
     })
   }
 }
