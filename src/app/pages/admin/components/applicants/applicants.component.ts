@@ -7,6 +7,7 @@ import { PageRequest } from '../../../../core/models/page-request';
 import { UpdateApplicantRequest } from '../../../../features/models/requests/applicant/update-applicant-request';
 import { last } from 'rxjs';
 import { BlacklistService } from '../../../../features/services/concretes/blacklist.service';
+import { formatDate } from '../../../../core/helpers/format-date';
 
 @Component({
   selector: 'app-applicants',
@@ -159,7 +160,7 @@ openUpdateModal(applicant: any) {
         firstName: this.selectedApplicant.firstName,
         lastName: this.selectedApplicant.lastName,
         email: this.selectedApplicant.email,
-        dateOfBirth: this.selectedApplicant.dateOfBirth,
+        dateOfBirth: formatDate(this.selectedApplicant.dateOfBirth),
         about: this.selectedApplicant.about,
         nationalIdentity: this.selectedApplicant.nationalIdentity
        }); 
