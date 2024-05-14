@@ -17,5 +17,6 @@ export abstract class ApplicationBaseService {
   abstract getById(id:number):Observable<GetbyidApplicationResponse>;
   abstract update(request:UpdateApplicationRequest):Observable<UpdateApplicationResponse>;
   abstract delete(id:number):Observable<DeleteApplicationResponse>;
-  abstract create(request:CreateApplicationRequest):Observable<CreateApplicationResponse>
+  abstract create(request:CreateApplicationRequest):Observable<CreateApplicationResponse>;
+  abstract applyForBootcamp(id:number):Observable<CreateApplicationResponse>;
 }

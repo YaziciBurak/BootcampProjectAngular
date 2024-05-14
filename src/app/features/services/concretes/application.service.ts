@@ -12,6 +12,7 @@ import { UpdateApplicationRequest } from '../../models/requests/application/upda
 import { UpdateApplicationResponse } from '../../models/responses/application/update-application-response';
 import { CreateApplicationRequest } from '../../models/requests/application/create-application-request';
 import { CreateApplicationResponse } from '../../models/responses/application/create-application-response';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +21,7 @@ export abstract class ApplicationService extends ApplicationBaseService{
 
   private readonly apiUrl:string = `${environment.API_URL}/ApplicationEntities`
  
-  constructor(private httpClient:HttpClient) {super() }
+  constructor(private authService:AuthService,private httpClient:HttpClient) {super() }
   
   override getList(pageRequest: PageRequest): Observable<ApplicationListItemDto> {
     const newRequest: {[key: string]: string | number} = {
@@ -45,16 +46,30 @@ export abstract class ApplicationService extends ApplicationBaseService{
     )
   }
   
-  delete(id: number): Observable<DeleteApplicationResponse> {
+  override delete(id: number): Observable<DeleteApplicationResponse> {
     return this.httpClient.delete<DeleteApplicationResponse>( `${this.apiUrl}/`+ id);
   }
 
-  update(application: UpdateApplicationRequest): Observable<UpdateApplicationResponse> {
+  override update(application: UpdateApplicationRequest): Observable<UpdateApplicationResponse> {
     return this.httpClient.put<UpdateApplicationResponse>(`${this.apiUrl}`, application);
   }
 
-  create(application: CreateApplicationRequest): Observable<CreateApplicationResponse> {
+  override create(application: CreateApplicationRequest): Observable<CreateApplicationResponse> {
     return this.httpClient.post<CreateApplicationResponse>(`${this.apiUrl}`, application);
+  }
+
+  override applyForBootcamp(id:number):Observable<CreateApplicationResponse> {
+    const loggedInUserId = this.authService.getCurrentUserId();
+
+    if(!loggedInUserId) {
+      throw new Error('Kullanıcı oturumu bulunamadı.');      
+    }
+    const applicationRequest: CreateApplicationRequest = {
+      applicantId:loggedInUserId,
+      bootcampId:id,
+      applicationStateId:1
+    };
+    return this.httpClient.post<CreateApplicationResponse>(`${this.apiUrl}`, applicationRequest)
   }
 
   override getById(applicationId: number): Observable<GetbyidApplicationResponse> {
