@@ -6,6 +6,7 @@ import { BootcampListGroupComponent } from './features/components/bootcamps/boot
 import { AdminRoutes } from './pages/admin/admin.routes';
 import { BootcampListPageComponent } from './pages/bootcamp-list-page/bootcamp-list-page.component';
 import { BootcampDetailPageComponent } from './pages/bootcamp-detail-page/bootcamp-detail-page.component';
+import { ApplicationListPageComponent } from './pages/application-list-page/application-list-page.component';
 
 
 export const routes: Routes = [
@@ -18,6 +19,7 @@ export const routes: Routes = [
     {path:'register', component:RegisterComponent},
     {path:'bootcamps', component:BootcampListPageComponent},
     {path:'bootcampDetail/:bootcampId', component:BootcampDetailPageComponent},
-    {path:"bootcamps/instructor/:instructorId",component:BootcampListPageComponent}
+    {path:"bootcamps/instructor/:instructorId",component:BootcampListPageComponent},
+    {path:'applications', component:ApplicationListPageComponent},
 ];
 
