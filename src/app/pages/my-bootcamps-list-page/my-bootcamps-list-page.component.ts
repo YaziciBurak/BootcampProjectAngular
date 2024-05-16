@@ -1,27 +1,26 @@
-import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { ActivatedRoute, RouterModule } from '@angular/router';
-import { SharedModule } from 'primeng/api';
 import { formatDate1 } from '../../core/helpers/format-date';
-import { ApplicantListItemDto } from '../../features/models/responses/applicant/applicant-list-item-dto';
 import { ApplicationListItemDto } from '../../features/models/responses/application/application-list-item-dto';
+import { AuthService } from '../../features/services/concretes/auth.service';
 import { ApplicationService } from '../../features/services/concretes/application.service';
 import { initFlowbite } from 'flowbite';
 import { PageRequest } from '../../core/models/page-request';
 import { DynamicQuery } from '../../core/models/dynamic-query';
-import { AuthService } from '../../features/services/concretes/auth.service';
+import { ActivatedRoute, RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { SharedModule } from '../../shared/shared.module';
 
 @Component({
-  selector: 'app-application-list-page',
+  selector: 'app-my-bootcamps-list-page',
   standalone: true,
   imports: [CommonModule, RouterModule, FormsModule, HttpClientModule, SharedModule],
-  templateUrl: './application-list-page.component.html',
-  styleUrl: './application-list-page.component.css'
+  templateUrl: './my-bootcamps-list-page.component.html',
+  styleUrl: './my-bootcamps-list-page.component.css'
 })
-export class ApplicationListPageComponent implements OnInit {
-  activeFilter: 'all' | 'accepted' | 'rejected' | 'waiting' = 'all';
+export class MyBootcampsListPageComponent implements OnInit {
+  activeFilter: 'all' | 'continue' | 'finished'  = 'all';
   formDate = formatDate1;
   dateNow = Date.now;
   currentPageNumber: number = 0;
@@ -38,9 +37,8 @@ export class ApplicationListPageComponent implements OnInit {
   readonly PAGE_SIZE = 3;
   ngOnInit(): void {
     
-    this.getAllApplications({ page: 0, pageSize: this.PAGE_SIZE });
 
-
+    this.getMyAllBootcamps({ page: 0, pageSize: this.PAGE_SIZE });
   };
   getList(pageRequest: PageRequest) {
 
@@ -75,40 +73,21 @@ export class ApplicationListPageComponent implements OnInit {
     const pageRequest = { page: this.currentPageNumber, pageSize: this.PAGE_SIZE };
     switch (this.activeFilter) {
       case 'all':
-        this.getAllApplications(pageRequest);
+        this.getMyAllBootcamps(pageRequest);
         break;
-      case 'accepted':
-        this.getAcceptedApplications(pageRequest);
+      case 'continue':
+        this.getMyContinueBootcamps(pageRequest);
         break;
-      case 'rejected':
-        this.getRejectedApplications(pageRequest);
+      case 'finished':
+        this.getMyFinishedBootcamps(pageRequest);
         break;
 
-      case 'waiting':
-        this.getWaitingApplications(pageRequest);
-        break;
 
     }
   }
 
-  getAllApplications(pageRequest: PageRequest): void {
+  getMyAllBootcamps(pageRequest: PageRequest): void {
     this.activeFilter = 'all';
-    const loggedInUserId = this.authService.getCurrentUserId();
-    const query: DynamicQuery = {
-      filter: {
-        field: 'applicantId',
-        operator: 'eq',
-        value: loggedInUserId.toString(),
-        
-      }
-    }
-      this.applicationService.getListApplicationByDynamic({ page: pageRequest.page, pageSize: pageRequest.pageSize }, query).subscribe((response) => {
-      this.applicationList = response;
-    })
-  }
-
-  getAcceptedApplications(pageRequest: PageRequest): void {
-    this.activeFilter = 'accepted';
     const loggedInUserId = this.authService.getCurrentUserId();
     const query: DynamicQuery = {
       filter: {
@@ -121,19 +100,18 @@ export class ApplicationListPageComponent implements OnInit {
             field: 'applicationStateId',
             operator: 'eq',
             value: '2',
-
           }
 
         ]
       }
     }
-    this.applicationService.getListApplicationByDynamic({ page: pageRequest.page, pageSize: pageRequest.pageSize }, query).subscribe((response) => {
+      this.applicationService.getListApplicationByDynamic({ page: pageRequest.page, pageSize: pageRequest.pageSize }, query).subscribe((response) => {
       this.applicationList = response;
     })
   }
 
-  getRejectedApplications(pageRequest: PageRequest): void {
-    this.activeFilter = 'rejected';
+  getMyContinueBootcamps(pageRequest: PageRequest): void {
+    this.activeFilter = 'continue';
     const loggedInUserId = this.authService.getCurrentUserId();
     const query: DynamicQuery = {
       filter: {
@@ -145,8 +123,12 @@ export class ApplicationListPageComponent implements OnInit {
           {
             field: 'applicationStateId',
             operator: 'eq',
-            value: '3',
-
+            value: '2'
+          },
+          {
+            field: 'bootcamp.bootcampStateId',
+            operator: 'eq',
+            value: '1'
           }
 
         ]
@@ -157,8 +139,8 @@ export class ApplicationListPageComponent implements OnInit {
     })
   }
 
-  getWaitingApplications(pageRequest: PageRequest): void {
-    this.activeFilter = 'waiting';
+  getMyFinishedBootcamps(pageRequest: PageRequest): void {
+    this.activeFilter = 'finished';
     const loggedInUserId = this.authService.getCurrentUserId();
     const query: DynamicQuery = {
       filter: {
@@ -170,8 +152,12 @@ export class ApplicationListPageComponent implements OnInit {
           {
             field: 'applicationStateId',
             operator: 'eq',
-            value: '1',
-
+            value: '2'
+          },
+          {
+            field: 'bootcamp.bootcampStateId',
+            operator: 'eq',
+            value: '4'
           }
 
         ]
@@ -181,4 +167,7 @@ export class ApplicationListPageComponent implements OnInit {
       this.applicationList = response;
     })
   }
+
+  
 }
+

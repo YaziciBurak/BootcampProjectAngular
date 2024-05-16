@@ -6,15 +6,15 @@
       src="https://cdn.builder.io/api/v1/image/assets/TEMP/41934e332f401213ad6f646af99e9a2b39a7228ba0d51defd350f4238c225073?apiKey=d64f73725dfb4ccb8c714d58677398b5&"
       class="shrink-0 my-auto max-w-full aspect-[4] w-[153px] hover:cursor-pointer"
     />
-    <div class="flex gap-5 lg:gap-10 px-5 max-md:flex-wrap max-md:max-w-full">
+    <div class="flex gap-6 ml-2 2xl:gap-10 2xl:ml-8 max-md:flex-wrap max-md:max-w-full">
       <button routerLink="homepage" class="my-auto hover:text-indigo-600 capitalize text-lg">
-        Home
+        Ana Sayfa
       </button>
-      <button routerLink="bootcamps" class="hover:text-indigo-600 capitalize text-lg">Courses</button>
-      <button class="hover:text-indigo-600 capitalize text-lg">
-        Instructors
+      <button routerLink="bootcamps" class="hover:text-indigo-600 capitalize text-lg">Bootcampler</button>
+      <button routerLink="instructors" class="hover:text-indigo-600 capitalize text-lg">
+        Eğitmenler
       </button>
-      <button class="hover:text-indigo-600 capitalize text-lg">FAQ</button>
+      <button class="hover:text-indigo-600 capitalize text-lg">SSS</button>
 
       <div
         class= " hidden md:block md:flex gap-1.5 px-4 items-center md:w-44 xl:w-64 2xl:w-96 border border-gray-300 rounded-full text-slate-400 max-md:flex-wrap">
@@ -61,20 +61,24 @@
         <ul class=" flex flex-col  font-semibold text-indigo-900  " aria-labelledby="dropdownNewButton">
           <li class="flex flex-row pl-2 pr-4 py-1 border-b border-gray-200 hover:bg-gray-100">
             <img loading="lazy" src="/assets/img/update-profile-icon.svg" class="self-center mr-1" />
-            <a class="block py-2 pr-6 hover:cursor-pointer "> Profilimi Güncelle</a>            
+            <a routerLink="updateMyProfile"class="block py-2 pr-6 hover:cursor-pointer "> Profilimi Güncelle</a>            
           </li>
          
           <li class="flex flex-row pl-2 pr-4 py-1 border-b border-gray-200 hover:bg-gray-100">
             <img loading="lazy" src="/assets/img/my-applications-icon.svg" class="self-center mr-1" />
-            <a routerLink="applications"class="block  py-2 hover:cursor-pointer ">Başvurularım</a>
+            <a routerLink="applications" class="block  py-2 hover:cursor-pointer ">Başvurularım</a>
           </li>
           <li class="flex flex-row pl-2 pr-4 py-1 border-b border-gray-200 hover:bg-gray-100" >
             <img loading="lazy" src="/assets/img/my-bootcamps-icon.svg" class="self-center mr-1" />
-            <a class="block py-2  hover:cursor-pointer ">Bootcamplerim</a>
+            <a routerLink="mybootcamps" class="block py-2  hover:cursor-pointer ">Bootcamplerim</a>
           </li>
-          <li class="flex flex-row pl-2 pr-4 py-1 hover:bg-gray-100">
+          <li class="flex flex-row pl-2 pr-4 py-1 border-b border-gray-200 hover:bg-gray-100">
             <img loading="lazy" src="/assets/img/my-certificate-icon.svg" class="self-center mr-1" />
             <a class="block  py-2 hover:cursor-pointer ">Sertifikalarım</a>
+          </li>
+          <li class="flex flex-row pl-2 pr-4 py-1 hover:bg-gray-100">
+            <img loading="lazy" src="/assets/img/update-password-icon.svg" class="self-center mr-1" />
+            <a routerLink="updatePassword"class="block  py-2 hover:cursor-pointer ">Şifremi Güncelle</a>
           </li>
         
         </ul>
