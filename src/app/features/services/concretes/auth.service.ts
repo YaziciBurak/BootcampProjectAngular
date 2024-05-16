@@ -51,7 +51,7 @@ return this.httpClient.post<UserForRegisterResponse>(`${this.apiUrl}/RegisterIns
     return this.httpClient.post<AccessTokenModel<TokenModel>>(`${this.apiUrl}/login`,userLoginRequest)
     .pipe(map(response=>{
         this.storageService.setToken(response.accessToken.token);
-        alert("Giriş yapıldı");
+        // alert("Giriş yapıldı");
         setTimeout(()=>{
           window.location.reload()
         },400)
@@ -98,7 +98,7 @@ return this.httpClient.post<UserForRegisterResponse>(`${this.apiUrl}/RegisterIns
 
   logOut(){
     this.storageService.removeToken();
-    alert("Çıkış yapıldı");
+    // alert("Çıkış yapıldı");
     setTimeout(function(){
       window.location.reload()
     },400)
