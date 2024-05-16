@@ -72,4 +72,28 @@ export class BootcampContentService extends BootcampContentBaseService{
   override update(request: UpdateBootcampcontentRequest): Observable<UpdateBootcampcontentResponse> {
     return this.httpClient.put<UpdateBootcampcontentResponse>(`${this.apiUrl}`, request);
   }
+
+  override getbybootcampId( pageRequest: PageRequest, bootcampId: number): Observable<BootcampcontentListItemDto> {
+    const newRequest: { [key: string]: string | number } = {
+      bootcampId: bootcampId,
+      page: pageRequest.page,
+      pageSize: pageRequest.pageSize
+    };
+    return this.httpClient.get<BootcampcontentListItemDto>(`${this.apiUrl}/getbootcampcontentbybootcampid?${bootcampId}`, {
+      params: newRequest
+    }).pipe(
+      map((response) => {
+        const newResponse: BootcampcontentListItemDto = {
+          index: pageRequest.page,
+          size: pageRequest.pageSize,
+          count: response.count,
+          hasNext: response.hasNext,
+          hasPrevious: response.hasPrevious,
+          items: response.items,
+          pages: response.pages
+        };
+        return newResponse;
+      })
+    )
+  }
 }

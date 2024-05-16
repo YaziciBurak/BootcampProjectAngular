@@ -11,6 +11,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { SharedModule } from '../../shared/shared.module';
+import { BootcampContentService } from '../../features/services/concretes/bootcamp-content.service';
+import { BootcampcontentListItemDto } from '../../features/models/responses/bootcampcontent/bootcampcontent-list-item-dto';
 
 @Component({
   selector: 'app-my-bootcamps-list-page',
@@ -33,7 +35,8 @@ export class MyBootcampsListPageComponent implements OnInit {
     pages: 0,
     items: []
   };
-  constructor(private authService: AuthService, private applicationService: ApplicationService, private activatedRoute: ActivatedRoute) { }
+  constructor(private authService: AuthService, private applicationService: ApplicationService, 
+    private activatedRoute: ActivatedRoute,  private bootcampContentService: BootcampContentService, ) { }
   readonly PAGE_SIZE = 3;
   ngOnInit(): void {
     
@@ -167,6 +170,11 @@ export class MyBootcampsListPageComponent implements OnInit {
       this.applicationList = response;
     })
   }
+
+
+   
+    
+  
 
   
 }

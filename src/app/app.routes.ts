@@ -27,9 +27,10 @@ export const routes: Routes = [
     {path:"bootcamps/instructor/:instructorId",component:BootcampListPageComponent},
     {path:'applications', component:ApplicationListPageComponent},
     {path:'mybootcamps', component:MyBootcampsListPageComponent},
-    {path:'bootcampContent', component:BootcampContentPageComponent}, 
+    {path:'bootcampContent/:bootcampId', component:BootcampContentPageComponent}, 
     {path:'updateMyProfile', component:UpdateMyProfilePageComponent}, 
     {path:'instructors', component:InstructorListPageComponent},
-    {path:'updatePassword', component:UpdatePasswordPageComponent}, 
+    {path:'updatePassword', component:UpdatePasswordPageComponent}
+    
 ];
 

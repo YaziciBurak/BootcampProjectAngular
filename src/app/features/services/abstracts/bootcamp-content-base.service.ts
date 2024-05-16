@@ -17,4 +17,5 @@ export abstract class BootcampContentBaseService {
   abstract update(request:UpdateBootcampcontentRequest):Observable<UpdateBootcampcontentResponse>;
   abstract getById(id:number):Observable<GetbyidBootcampcontentResponse>;
   abstract getList(pageRequest:PageRequest):Observable<BootcampcontentListItemDto>;
+  abstract getbybootcampId(pageRequest:PageRequest, bootcampId:number ):Observable<BootcampcontentListItemDto>;
 }
