@@ -26,7 +26,7 @@ export class BootcampListPageComponent implements OnInit {
   @Output() instructorSelected = new EventEmitter<string>();
   instructors!: InstructorListItemDto;
   currentInstructor!: GetlistInstructorResponse;
-  filterText = "";
+  filterText:string = 'Eğitmenler';
   activeFilter: 'all' | 'deadlinePassed' | 'continuing' = 'all';
 
   formDate = formatDate1;
@@ -48,6 +48,7 @@ export class BootcampListPageComponent implements OnInit {
   ngOnInit(): void {
     this.getInstructors();
     initFlowbite();
+    window.scrollTo(0,0);
     this.activatedRoute.params.subscribe(params => {
       if (params["instructorId"]) {
         this.getBootcampListByInstructor({ page: 0, pageSize: this.PAGE_SIZE }, params["instructorId"])
@@ -60,9 +61,10 @@ export class BootcampListPageComponent implements OnInit {
       this.instructors = response;
     })
   }
-  onSelectedInstructor(instructorId: string): void {
+  onSelectedInstructor(instructorId: string, instructorName:string): void {
     this.selectedInstructorId = instructorId;
     this.instructorSelected.emit(this.selectedInstructorId);
+    this.filterText = instructorName;
   }
 
   isExpired(endDate: Date): boolean {

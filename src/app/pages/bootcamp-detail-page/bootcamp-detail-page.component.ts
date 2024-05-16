@@ -5,6 +5,7 @@ import { ActivatedRoute, RouterModule } from '@angular/router';
 import { CommonModule} from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { formatDate, formatDate1 } from '../../core/helpers/format-date';
+import { ApplicationService } from '../../features/services/concretes/application.service';
 
 @Component({
   selector: 'app-bootcamp-detail-page',
@@ -18,9 +19,14 @@ export class BootcampDetailPageComponent implements OnInit{
   bootcampId:number = 1 ;
   formatDate = formatDate1;
 
-  constructor(private bootcampService: BootcampService, private activatedRoute: ActivatedRoute) {}
+  constructor(
+    private bootcampService: BootcampService, 
+    private activatedRoute: ActivatedRoute,
+    private applicationService:ApplicationService
+  ) {}
 
   ngOnInit(): void {
+    window.scrollTo(0,0);
     this.activatedRoute.params.subscribe((params: { [x: string]: number; }) => {
       if (params["bootcampId"]) {
         this.getBootcampById(params["bootcampId"])
@@ -38,5 +44,12 @@ export class BootcampDetailPageComponent implements OnInit{
         console.log("getBootcampById error");
       }
     );
+  }
+  applyForBootcamp(id:number):void {
+    this.applicationService.applyForBootcamp(id).subscribe(response => {
+ 
+    },
+    (error) => {console.error('başvuru yaparken hata oluştu', error);
+});
   }
 }

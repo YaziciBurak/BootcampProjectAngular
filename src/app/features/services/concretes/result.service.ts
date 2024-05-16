@@ -42,15 +42,15 @@ override getList(pageRequest: PageRequest): Observable<ResultListItemDto> {
       })
     )
   }
-  delete(id: number): Observable<DeleteResultResponse> {
+  override delete(id: number): Observable<DeleteResultResponse> {
     return this.httpClient.delete<DeleteResultResponse>( `${this.apiUrl}/`+ id);
   }
 
-  update(request: UpdateResultRequest): Observable<UpdateResultResponse> {
+  override update(request: UpdateResultRequest): Observable<UpdateResultResponse> {
     return this.httpClient.put<UpdateResultResponse>(`${this.apiUrl}`, request);
   }
 
-  create(request: CreateResultRequest): Observable<CreateResultResponse> {
+  override create(request: CreateResultRequest): Observable<CreateResultResponse> {
     return this.httpClient.post<CreateResultResponse>(`${this.apiUrl}`, request);
   }
 

@@ -99,7 +99,7 @@ export class BlacklistComponent implements OnInit{
     this.blacklistService.getById(blacklist.id).subscribe({
       next: (response) => {
         this.selectedBlacklist = { ...response };
-        this.blacklistForm.patchValue({ reason: this.selectedBlacklist.reason }); // Modal içindeki formu güncelle
+        this.blacklistForm.patchValue({ reason: this.selectedBlacklist.reason }); 
         this.showUpdateModal = true; // Modal'ı aç
         return blacklist.id;
       },

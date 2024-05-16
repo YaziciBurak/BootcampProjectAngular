@@ -42,15 +42,15 @@ export class QuizService extends QuizBaseService {
       })
     )
   }
-  delete(id: number): Observable<DeleteQuizResponse> {
+  override delete(id: number): Observable<DeleteQuizResponse> {
     return this.httpClient.delete<DeleteQuizResponse>( `${this.apiUrl}/`+ id);
   }
 
-  update(request: UpdateQuizRequest): Observable<UpdateQuizResponse> {
+  override update(request: UpdateQuizRequest): Observable<UpdateQuizResponse> {
     return this.httpClient.put<UpdateQuizResponse>(`${this.apiUrl}`, request);
   }
 
-  create(request: CreateQuizRequest): Observable<CreateQuizResponse> {
+  override create(request: CreateQuizRequest): Observable<CreateQuizResponse> {
     return this.httpClient.post<CreateQuizResponse>(`${this.apiUrl}`, request);
   }
   override getById(id: number): Observable<GetbyidQuizResponse> {
