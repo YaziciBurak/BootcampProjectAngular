@@ -6,6 +6,12 @@ import { BootcampListGroupComponent } from './features/components/bootcamps/boot
 import { AdminRoutes } from './pages/admin/admin.routes';
 import { BootcampListPageComponent } from './pages/bootcamp-list-page/bootcamp-list-page.component';
 import { BootcampDetailPageComponent } from './pages/bootcamp-detail-page/bootcamp-detail-page.component';
+import { ApplicationListPageComponent } from './pages/application-list-page/application-list-page.component';
+import { MyBootcampsListPageComponent } from './pages/my-bootcamps-list-page/my-bootcamps-list-page.component';
+import { BootcampContentPageComponent } from './pages/bootcamp-content-page/bootcamp-content-page.component';
+import { UpdateMyProfilePageComponent } from './pages/update-my-profile-page/update-my-profile-page.component';
+import { InstructorListPageComponent } from './pages/instructor-list-page/instructor-list-page.component';
+import { UpdatePasswordPageComponent } from './pages/update-password-page/update-password-page.component';
 
 
 export const routes: Routes = [
@@ -18,6 +24,12 @@ export const routes: Routes = [
     {path:'register', component:RegisterComponent},
     {path:'bootcamps', component:BootcampListPageComponent},
     {path:'bootcampDetail/:bootcampId', component:BootcampDetailPageComponent},
-    {path:"bootcamps/instructor/:instructorId",component:BootcampListPageComponent}
+    {path:"bootcamps/instructor/:instructorId",component:BootcampListPageComponent},
+    {path:'applications', component:ApplicationListPageComponent},
+    {path:'mybootcamps', component:MyBootcampsListPageComponent},
+    {path:'bootcampContent', component:BootcampContentPageComponent}, 
+    {path:'updateMyProfile', component:UpdateMyProfilePageComponent}, 
+    {path:'instructors', component:InstructorListPageComponent},
+    {path:'updatePassword', component:UpdatePasswordPageComponent}, 
 ];
 

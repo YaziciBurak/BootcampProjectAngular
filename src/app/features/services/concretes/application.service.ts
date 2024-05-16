@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { ApplicationBaseService } from '../abstracts/application-base.service';
 import { GetlistApplicationResponse } from '../../models/responses/application/getlist-application-response';
 import { GetbyidApplicationResponse } from '../../models/responses/application/getbyid-application-response';
@@ -12,7 +12,11 @@ import { UpdateApplicationRequest } from '../../models/requests/application/upda
 import { UpdateApplicationResponse } from '../../models/responses/application/update-application-response';
 import { CreateApplicationRequest } from '../../models/requests/application/create-application-request';
 import { CreateApplicationResponse } from '../../models/responses/application/create-application-response';
+
+import { DynamicQuery } from '../../../core/models/dynamic-query';
+
 import { AuthService } from './auth.service';
+
 
 @Injectable({
   providedIn: 'root'
@@ -89,6 +93,26 @@ export abstract class ApplicationService extends ApplicationBaseService{
         };
         return newResponse;
       })
-    );
+    )
+  }
+
+  getListApplicationByDynamic(pageRequest: PageRequest, dynamic: DynamicQuery): Observable<ApplicationListItemDto> {
+    return this.httpClient.post<ApplicationListItemDto>(`${this.apiUrl}/dynamic/`, {
+      filter: dynamic.filter,
+      sort: dynamic.sort
+    }, { params: new HttpParams().set("page", pageRequest.page).set("pageSize", pageRequest.pageSize) }).pipe(
+      map((response) => {
+        const newResponse: ApplicationListItemDto = {
+          index: pageRequest.page,
+          size: pageRequest.pageSize,
+          count: response.count,
+          hasNext: response.hasNext,
+          hasPrevious: response.hasPrevious,
+          items: response.items,
+          pages: response.pages
+        };
+        return newResponse;
+      })
+    )
   }
 }

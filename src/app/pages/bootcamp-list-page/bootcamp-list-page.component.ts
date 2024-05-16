@@ -89,6 +89,7 @@ export class BootcampListPageComponent implements OnInit {
     const nextPageIndex = this.bootcampList.index + 1;
     const pageSize = this.bootcampList.size;
     this.getList({ page: nextPageIndex, pageSize })
+    this.getContinuingBootcamps({ page: nextPageIndex, pageSize })
     this.updateCurrentPageNumber();
   }
 
@@ -96,6 +97,7 @@ export class BootcampListPageComponent implements OnInit {
     const previousPageIndex = this.bootcampList.index - 1;
     const pageSize = this.bootcampList.size;
     this.getList({ page: previousPageIndex, pageSize });
+    this.getContinuingBootcamps({ page: previousPageIndex, pageSize })
     this.updateCurrentPageNumber();
   }
 

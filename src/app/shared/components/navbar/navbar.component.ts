@@ -7,6 +7,7 @@ import { BootcampListGroupComponent } from '../../../features/components/bootcam
 import { CommonModule } from '@angular/common';
 import { MenuItem } from 'primeng/api';
 import { AuthService } from '../../../features/services/concretes/auth.service';
+import { initFlowbite } from 'flowbite';
 
 @Component({
   selector: 'app-navbar',
@@ -23,6 +24,7 @@ export class NavbarComponent {
   constructor(private authService:AuthService,private router:Router){}
 
   ngOnInit(): void {
+    initFlowbite();
     this.getMenuItems();
     console.log(this.getUserName());
     console.log(this.getUserId())
