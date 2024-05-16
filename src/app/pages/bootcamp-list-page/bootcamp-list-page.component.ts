@@ -61,7 +61,7 @@ export class BootcampListPageComponent implements OnInit {
       this.instructors = response;
     })
   }
-  onSelectedInstructor(instructorId: string, instructorName:string): void {
+  onSelectedInstructor(instructorId: string, instructorName: string): void {
     this.selectedInstructorId = instructorId;
     this.instructorSelected.emit(this.selectedInstructorId);
     this.filterText = instructorName;
@@ -74,21 +74,40 @@ export class BootcampListPageComponent implements OnInit {
   getList(pageRequest: PageRequest) {
     this.bootcampService.getList(pageRequest).subscribe((response) => {
       this.bootcampList = response;
-      this.updateCurrentPageNumber();
+      this.updateCurrentBootcampPageNumber(response.index + 1);
     })
   }
 
   getBootcampListByInstructor(pageRequest: PageRequest, instructorId: string) {
     this.bootcampService.getListBootcampByInstructorId(pageRequest, instructorId).subscribe((response) => {
       this.bootcampList = response;
-      this.updateCurrentPageNumber();
+      this.updateCurrentBootcampPageNumber(response.index + 1);
     })
   }
-
+  onPageNumberClicked(pageNumber: number): void {
+    const pageSize = this.bootcampList.size;
+    const instructorId = this.selectedInstructorId;  
+    if (instructorId) {
+      this.getBootcampListByInstructor({ page: pageNumber, pageSize }, instructorId);
+    } else {
+      this.getList({ page: pageNumber, pageSize });
+    }
+  }
+  updateCurrentBootcampPageNumber(pageNumber: number): void {
+    this.currentPageNumber = pageNumber;
+  }
+  getPageNumbers(): number[] {
+    const pageNumbers = [];
+     for (let i = 0; i < this.bootcampList.pages; i++) {
+      pageNumbers.push(i);
+  }
+     return pageNumbers;
+   }
   onViewMoreClicked(): void {
     const nextPageIndex = this.bootcampList.index + 1;
     const pageSize = this.bootcampList.size;
     this.getList({ page: nextPageIndex, pageSize })
+    this.getContinuingBootcamps({ page: nextPageIndex, pageSize })
     this.updateCurrentPageNumber();
   }
 
@@ -96,6 +115,7 @@ export class BootcampListPageComponent implements OnInit {
     const previousPageIndex = this.bootcampList.index - 1;
     const pageSize = this.bootcampList.size;
     this.getList({ page: previousPageIndex, pageSize });
+    this.getContinuingBootcamps({ page: previousPageIndex, pageSize })
     this.updateCurrentPageNumber();
   }
 
@@ -155,5 +175,3 @@ export class BootcampListPageComponent implements OnInit {
     })
   }
 }
-
-
