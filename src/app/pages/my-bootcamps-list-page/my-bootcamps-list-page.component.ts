@@ -36,13 +36,38 @@ export class MyBootcampsListPageComponent implements OnInit {
     items: []
   };
   constructor(private authService: AuthService, private applicationService: ApplicationService, 
-    private activatedRoute: ActivatedRoute,  private bootcampContentService: BootcampContentService, ) { }
+    private activatedRoute: ActivatedRoute,  private bootcampContentService:BootcampContentService, ) { }
   readonly PAGE_SIZE = 3;
   ngOnInit(): void {
     
 
     this.getMyAllBootcamps({ page: 0, pageSize: this.PAGE_SIZE });
+    this.activatedRoute.params.subscribe(params => {
+      const bootcampId = params["bootcampId"];
+      console.log(bootcampId);
+      if (bootcampId) {
+        this.getBootcampContentByBootcampId({ page: 0, pageSize: this.PAGE_SIZE }, bootcampId);
+      } else {
+        this.getList({ page: 0, pageSize: this.PAGE_SIZE });
+      }
+    });
+    
   };
+  getBootcampContentByBootcampId(pageRequest: PageRequest, bootcampId: number) {
+    this.bootcampContentService.getbybootcampId(pageRequest, bootcampId).subscribe(
+      (response) => {
+        console.log("Bootcamp Content:", response);
+      },
+      (error) => {
+        console.error("Error:", error);
+      }
+    );
+  }
+
+
+
+
+
   getList(pageRequest: PageRequest) {
 
     this.applicationService.getList(pageRequest).subscribe((response) => {
@@ -171,11 +196,16 @@ export class MyBootcampsListPageComponent implements OnInit {
     })
   }
 
+ 
+
+
+}
+
 
    
     
   
 
   
-}
+
 

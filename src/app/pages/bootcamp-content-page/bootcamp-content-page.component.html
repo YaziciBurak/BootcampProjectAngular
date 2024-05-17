@@ -5,7 +5,7 @@
       <div class="text-gray-400 text-xl">></div>
       <div class="text-indigo-900">Bootcamp</div>
       <div class="text-gray-400 text-xl">></div>
-      <div class="text-indigo-600">{{getByIdBootcampResponse.name}}</div>
+      <div class="text-indigo-600" *ngIf="bootcampContent !== undefined">{{bootcampContent?.bootcampName}}</div>
     </div>
   </div>
  <!--en üstteki resimli başlık bitiş-->
@@ -13,13 +13,13 @@
 
 
   <div class="mx-20 2xl:mx-32">
-    <div class="mt-12 text-3xl  2xl:mt-16 2xl:text-4xl font-bold">{{getByIdBootcampResponse.name}}</div>
+    <div class="mt-12 text-3xl  2xl:mt-16 2xl:text-4xl font-bold" *ngIf="bootcampContent !== undefined">{{bootcampContent.bootcampName}}</div>
     <div class="mt-10 flex flex-row">
-      <iframe class="2xl:w-[1200px] 2xl:h-[600px]" width="800" height="400" [src]="getByIdBootcampContentResponse.videoUrl" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+      <iframe class="2xl:w-[1200px] 2xl:h-[600px]" width="800" height="400" [src]="videoUrl" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
       
       <div class="flex flex-col ml-12 border-2 border-gray-300 shadow-xl px-8 py-6 h-[400px] w-[300px] 2xl:ml-32 2xl:mt-24 rounded-xl">
         <div class="text-l 2xl:text-2xl text-white bg-indigo-700 px-10 p-3 rounded-xl">TAAHHÜTNAME</div>
-        <div class="text-l 2xl:text-2xl text-black font-bold mt-4">{{getByIdBootcampResponse.name}}</div>
+        <div class="text-l 2xl:text-2xl text-black font-bold mt-4">{{bootcampContent.bootcampName}}</div>
         <div class=" flex  text-m 2xl:text-xl text-black mt-2">
           Bootcamp içeriklerini bitirmek benim sorumluluğumdadır, sınava girmeye hazırım. 
         </div>
@@ -49,7 +49,7 @@
   
   </div>
   <div class="flex flex-wrap mx-20 px-8 py-6 border-2 border-gray-300 mt-12 leading-loose rounded-xl shadow-xl 2xl:mx-32">
-   {{getByIdBootcampContentResponse.content}} 
+   {{bootcampContent.content}} 
 
   </div>
 

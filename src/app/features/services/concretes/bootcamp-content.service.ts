@@ -79,7 +79,8 @@ export class BootcampContentService extends BootcampContentBaseService{
       page: pageRequest.page,
       pageSize: pageRequest.pageSize
     };
-    return this.httpClient.get<BootcampcontentListItemDto>(`${this.apiUrl}/getbootcampcontentbybootcampid?${bootcampId}`, {
+    console.log("getbybootcampId", bootcampId)
+    return this.httpClient.get<BootcampcontentListItemDto>(`${this.apiUrl}/getbootcampcontentbybootcampid`, {
       params: newRequest
     }).pipe(
       map((response) => {
