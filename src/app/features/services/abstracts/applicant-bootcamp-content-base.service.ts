@@ -16,4 +16,5 @@ export abstract class ApplicantBootcampContentBaseService {
   abstract delete(id:number):Observable<DeleteApplicantBootcampcontentResponse>;
   abstract getById(id:number):Observable<GetbyidApplicantBootcampcontentResponse>;
   abstract getList(pageRequest:PageRequest):Observable<ApplicantBootcampcontentListItemDto>;
+  abstract createApplicantBootcampContent(id:number):Observable<CreateApplicantBootcampcontentResponse>;
 }

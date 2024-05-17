@@ -11,13 +11,14 @@ import { CreateApplicantBootcampcontentResponse } from '../../models/responses/a
 import { DeleteApplicantBootcampcontentResponse } from '../../models/responses/applicantbootcampcontent/delete-applicant-bootcampcontent-response';
 import { UpdateApplicantBootcampcontentRequest } from '../../models/requests/applicantbootcampcontent/update-applicant-bootcampcontent-request';
 import { UpdateApplicantBootcampcontentResponse } from '../../models/responses/applicantbootcampcontent/update-applicant-bootcampcontent-response';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApplicantBootcampContentService extends ApplicantBootcampContentBaseService{
   private readonly apiUrl:string = `${environment.API_URL}/ApplicantBootcampContents`
-  constructor(private httpClient:HttpClient ) {super(); }
+  constructor(private authService:AuthService, private httpClient:HttpClient ) {super(); }
 
   override getList(pageRequest: PageRequest): Observable<ApplicantBootcampcontentListItemDto> {
     const newRequest: {[key: string]: string | number} = {
@@ -70,4 +71,22 @@ export class ApplicantBootcampContentService extends ApplicantBootcampContentBas
   override update(request: UpdateApplicantBootcampcontentRequest): Observable<UpdateApplicantBootcampcontentResponse> {
     return this.httpClient.put<UpdateApplicantBootcampcontentResponse>(`${this.apiUrl}`, request);
   }
+
+  override createApplicantBootcampContent(id:number):Observable<CreateApplicantBootcampcontentResponse> {
+    const loggedInUserId = this.authService.getCurrentUserId();
+
+    if(!loggedInUserId) {
+      throw new Error('Kullanıcı oturumu bulunamadı.');      
+    }
+    const applicantBootcamContentRequest: CreateApplicantBootcampcontentRequest = {
+      applicantId:loggedInUserId,
+      bootcampContentId:id,
+      
+    };
+    return this.httpClient.post<CreateApplicantBootcampcontentResponse>(`${this.apiUrl}`, applicantBootcamContentRequest)
+    
+  }
+
+
+
 }

@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { GetbyidBootcampResponse } from '../../features/models/responses/bootcamp/getbyid-bootcamp-response';
 import { formatDate1 } from '../../core/helpers/format-date';
@@ -11,6 +11,8 @@ import { BootcampcontentListItemDto } from '../../features/models/responses/boot
 import { PageRequest } from '../../core/models/page-request';
 import { GetlistBootcampcontentResponse } from '../../features/models/responses/bootcampcontent/getlist-bootcampcontent-response';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ApplicantBootcampContentService } from '../../features/services/concretes/applicant-bootcamp-content.service';
 
 @Component({
   selector: 'app-bootcamp-content-page',
@@ -24,11 +26,15 @@ export class BootcampContentPageComponent implements OnInit{
   getByIdBootcampContentResponse !: GetbyidBootcampcontentResponse
   bootcampContentList: BootcampcontentListItemDto
   bootcampContent: GetlistBootcampcontentResponse
+  
   videoUrl: SafeResourceUrl;
   bootcampId:number = 1 ;
   formatDate = formatDate1;
+  confirmed:boolean=false;
+  @ViewChild('checkboxRef') checkboxRef!: ElementRef;
 
-  constructor(private sanitizer: DomSanitizer, private bootcampService: BootcampService, private activatedRoute: ActivatedRoute, private bootcampContentService:BootcampContentService) {}
+  constructor(private sanitizer: DomSanitizer,  private applicantBootcampContentService:ApplicantBootcampContentService,
+    private bootcampService: BootcampService, private activatedRoute: ActivatedRoute, private bootcampContentService:BootcampContentService) {}
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe((params: { [x: string]: number; }) => {
@@ -78,5 +84,31 @@ export class BootcampContentPageComponent implements OnInit{
       }
     );
   }
+  createApplicantBootcampContent(id:number): void 
+  {
+    this.applicantBootcampContentService.createApplicantBootcampContent(id).subscribe(response => {
+    },
+    (error) => {console.error('başvuru yaparken hata oluştu', error);
+    });
+  }
+ 
+  showConfirmation(id: number) {
+    if (!this.confirmed) {
+      const confirmation = confirm('Bootcamp içeriğini bitirdiğinizden emin misiniz?');
+
+      if (confirmation) {
+        this.confirmed = true; // Kullanıcı tamam dediğinde checkbox'ı devre dışı bırak
+        this.createApplicantBootcampContent(this.bootcampContent.id); 
+      } 
+      else {
+        if (this.checkboxRef.nativeElement.checked) {
+          this.checkboxRef.nativeElement.checked = false; // Kullanıcı iptal dediğinde checkbox'ı işaretlemeyi iptal et
+        }
+      }
+    }
+  }
+  
+
+ 
 }
 
