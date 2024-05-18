@@ -29,12 +29,11 @@
         
 
         
-        <button
+        <button (click)="handleClick(bootcampContent.bootcampId)"
         class="flex mt-20 justify-center gap-6 px-6 py-4 font-bold leading-5 bg-amber-400 hover:brightness-110
         text-xl border border-black border-solid rounded-[56.813px] text-slate-900 max-md:px-5 2xl:mt-6"
         
         [ngClass]="{
-         
          'opacity-50 cursor-not-allowed': !confirmed && !bootcampContent?.hasApplicantBootcampContent
         }"
 

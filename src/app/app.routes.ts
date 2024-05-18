@@ -12,6 +12,7 @@ import { BootcampContentPageComponent } from './pages/bootcamp-content-page/boot
 import { UpdateMyProfilePageComponent } from './pages/update-my-profile-page/update-my-profile-page.component';
 import { InstructorListPageComponent } from './pages/instructor-list-page/instructor-list-page.component';
 import { UpdatePasswordPageComponent } from './pages/update-password-page/update-password-page.component';
+import { QuizPageComponent } from './pages/quiz-page/quiz-page.component';
 
 
 export const routes: Routes = [
@@ -32,6 +33,7 @@ export const routes: Routes = [
     {path:'instructors', component:InstructorListPageComponent},
     {path:'updatePassword', component:UpdatePasswordPageComponent},
     {path:'bootcampContentByBootcampId/:bootcampId', component:BootcampContentPageComponent}, 
+    {path:'quiz', component:QuizPageComponent},
     
 ];
 

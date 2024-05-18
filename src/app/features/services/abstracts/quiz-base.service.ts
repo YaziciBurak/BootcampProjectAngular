@@ -8,6 +8,8 @@ import { UpdateQuizRequest } from '../../models/requests/quiz/update-quiz-reques
 import { UpdateQuizResponse } from '../../models/responses/quiz/update-quiz-response';
 import { CreateQuizRequest } from '../../models/requests/quiz/create-quiz-request';
 import { CreateQuizResponse } from '../../models/responses/quiz/create-quiz-response';
+import { FinishQuizResponse } from '../../models/responses/quiz/finish-quiz-response';
+import { FinishQuizRequest } from '../../models/requests/quiz/finish-quiz-request';
 
 @Injectable()
 export abstract class QuizBaseService {
@@ -17,5 +19,8 @@ export abstract class QuizBaseService {
   abstract delete(id: number): Observable<DeleteQuizResponse>;
   abstract update(question: UpdateQuizRequest): Observable<UpdateQuizResponse>;
   abstract create(question: CreateQuizRequest): Observable<CreateQuizResponse>;
+  abstract getExam(id: number): Observable<CreateQuizResponse>;
+  abstract finishQuiz(request:FinishQuizRequest):Observable<FinishQuizResponse>;
+  
   
 }

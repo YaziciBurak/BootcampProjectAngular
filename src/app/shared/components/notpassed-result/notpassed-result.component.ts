@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-notpassed-result',
@@ -9,4 +9,9 @@ import { Component } from '@angular/core';
 })
 export class NotpassedResultComponent {
 
+
+
+
 }
+
+

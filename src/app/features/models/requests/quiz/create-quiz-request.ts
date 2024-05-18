@@ -1,6 +1,6 @@
 export interface CreateQuizRequest {
     applicantId:string;
     bootcampId:number;
-    startTime:Date;
-    endTime:Date;
+    startTime?:Date;
+    endTime?:Date;
 }
