@@ -33,7 +33,7 @@ export class NavbarComponent {
 
   logOut(){
     this.authService.logOut();
-    this.router.navigate(['home-page'])
+    this.router.navigate(['homepage'])
    }
    
    setUserLogged() :boolean{
