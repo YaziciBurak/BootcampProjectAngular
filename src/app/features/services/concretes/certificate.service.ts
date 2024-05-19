@@ -89,5 +89,28 @@ export class CertificateService extends CertificateBaseService {
         );
     }
 
+    override getByApplicantId(pageRequest: PageRequest): Observable<CertificateListItemDto> {
+        const newRequest: { [key: string]: string | number } = {
+            page: pageRequest.page,
+            pageSize: pageRequest.pageSize
+        };
+        return this.httpClient.get<CertificateListItemDto>(`${this.apiUrl}/getbyapplicantid`, {
+            params: newRequest
+        }).pipe(
+            map((response) => {
+                const newResponse: CertificateListItemDto = {
+                    index: pageRequest.page,
+                    size: pageRequest.pageSize,
+                    count: response.count,
+                    hasNext: response.hasNext,
+                    hasPrevious: response.hasPrevious,
+                    items: response.items,
+                    pages: response.pages
+                };
+                return newResponse;
+            })
+        )
+    }
+
 
 }

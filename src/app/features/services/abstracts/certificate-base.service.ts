@@ -18,5 +18,6 @@ export abstract class CertificateBaseService {
     abstract delete(id: number): Observable<DeleteCertificateResponse>;
     abstract update(request: UpdateCertificateRequest): Observable<UpdateCertificateResponse>;
     abstract create(request: CreateCertificateRequest): Observable<CreateCertificateResponse>;
+    abstract getByApplicantId(pageRequest: PageRequest): Observable<CertificateListItemDto>;
 
 }

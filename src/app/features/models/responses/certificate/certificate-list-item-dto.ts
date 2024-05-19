@@ -1,6 +1,7 @@
 import { PageResponse } from "../../../../core/models/page-response";
-import { GetlistBootcampResponse } from "../bootcamp/getlist-bootcamp-response";
+
+import { GetlistCertificateResponse } from "./getlist-certificate-response";
 
 export interface CertificateListItemDto extends PageResponse {
-    items: GetlistBootcampResponse[]
+    items: GetlistCertificateResponse[]
 }

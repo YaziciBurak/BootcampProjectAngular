@@ -49,11 +49,7 @@ export class QuizPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.createdQuiz) {
-      console.log(this.createdQuiz.questionResponses); // Verilerin geldiğini doğrulamak için
-    } else {
-      console.error('Quiz verisi alınamadı');
-    }
+
 
     this.startTimer(15 * 60 - 1);
   }
@@ -151,9 +147,8 @@ export class QuizPageComponent implements OnInit {
   retakeQuiz(id: number): void {
     this.quizService.getExam(id).subscribe(
       response => {
-        this.createdQuiz = response;
         console.log("new quiz", response);
-        //this.router.navigate(['/quiz'], { state: { quiz: response } });
+        this.router.navigate([`/quiz/${response.id}`], { state: { quiz: response } });
       },
       error => {
         console.error('Quiz oluşturma sırasında hata oluştu', error);
