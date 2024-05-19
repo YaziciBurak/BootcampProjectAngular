@@ -13,19 +13,20 @@ import { BootcampstateListItemDto } from '../../../../features/models/responses/
 import { RouterModule } from '@angular/router';
 import { CreateBootcampRequest } from '../../../../features/models/requests/bootcamp/create-bootcamp-request';
 import { formatDate } from '../../../../core/helpers/format-date';
+import { EditorModule } from '@tinymce/tinymce-angular';
 
 
 @Component({
   selector: 'app-admin-bootcamps',
   standalone: true,
-  imports: [FormsModule,ReactiveFormsModule,HttpClientModule,CommonModule,RouterModule],
+  imports: [FormsModule, ReactiveFormsModule, HttpClientModule, CommonModule, RouterModule, EditorModule],
   templateUrl: './admin-bootcamps.component.html',
   styleUrl: './admin-bootcamps.component.css'
 })
-export class AdminBootcampsComponent implements OnInit{
-  formMessage:string | null = null;
+export class AdminBootcampsComponent implements OnInit {
+  formMessage: string | null = null;
   bootcampUpdateForm: FormGroup;
-  bootcampCreateForm:FormGroup;
+  bootcampCreateForm: FormGroup;
   selectedBootcamp: any;
   showUpdateModal: boolean = false;
   showCreateModal: boolean = false;
@@ -38,8 +39,8 @@ export class AdminBootcampsComponent implements OnInit{
     private formBuilder: FormBuilder,
     private instructorService: InstructorService,
     private bootcampStateService: BootcampStateService,
-    private change:ChangeDetectorRef
-  ) {}
+    private change: ChangeDetectorRef
+  ) { }
 
   ngOnInit(): void {
     this.loadBootcamps();
@@ -49,25 +50,25 @@ export class AdminBootcampsComponent implements OnInit{
 
   updateForm() {
     this.bootcampUpdateForm = this.formBuilder.group({
-      name: ['', [Validators.required]],  
-      instructorId: ['',[Validators.required]],
-      instructorFirstName:['' ,[Validators.required]],
-      endDate: ['',[Validators.required]], 
-      detail: ['',[Validators.required]],
-      deadLine:['',[Validators.required]],
+      name: ['', [Validators.required]],
+      instructorId: ['', [Validators.required]],
+      instructorFirstName: ['', [Validators.required]],
+      endDate: ['', [Validators.required]],
+      detail: ['', [Validators.required]],
+      deadLine: ['', [Validators.required]],
       startDate: [''],
-      bootcampStateId:['']
+      bootcampStateId: ['']
     });
   }
 
   createForm() {
     this.bootcampCreateForm = this.formBuilder.group({
       name: ['', [Validators.required]],
-      instructorId: ['',[Validators.required]],
-      bootcampStateId:['',], 
+      instructorId: ['', [Validators.required]],
+      bootcampStateId: ['',],
       detail: ['',],
-      deadLine:['',],
-      endDate: ['',[Validators.required]], 
+      deadLine: ['',],
+      endDate: ['', [Validators.required]],
       startDate: ['']
     })
   }
@@ -75,8 +76,8 @@ export class AdminBootcampsComponent implements OnInit{
   loadBootcamps() {
     const pageRequest: PageRequest = { page: 0, pageSize: 25 };
     this.getBootcamps(pageRequest);
-     this.getInstructors();
-     this.getBootcampStates();  
+    this.getInstructors();
+    this.getBootcampStates();
   }
 
   getBootcamps(pageRequest: PageRequest) {
@@ -120,33 +121,33 @@ export class AdminBootcampsComponent implements OnInit{
   }
 
   add() {
-    if(this.bootcampCreateForm.valid) {
-      let bootcamp:CreateBootcampRequest = Object.assign({},this.bootcampCreateForm.value);
+    if (this.bootcampCreateForm.valid) {
+      let bootcamp: CreateBootcampRequest = Object.assign({}, this.bootcampCreateForm.value);
       this.bootcampService.create(bootcamp).subscribe({
-        next:(response)=>{
+        next: (response) => {
           this.handleCreateSuccess();
         },
-        error:(error)=>{
-          this.formMessage="Eklenemedi";
+        error: (error) => {
+          this.formMessage = "Eklenemedi";
           this.change.markForCheck();
         },
-        complete:()=>{
-          this.formMessage="Başarıyla Eklendi";
+        complete: () => {
+          this.formMessage = "Başarıyla Eklendi";
           this.change.markForCheck();
           this.closeModal();
           this.loadBootcamps();
         }
-        });
-      }
+      });
     }
-    handleCreateSuccess() {
-      this.loadBootcamps();
-      this.formMessage = "Başarıyla Eklendi"; 
-      setTimeout(() => {
-        this.formMessage = "";
-      }, 3000);
-    }
-  
+  }
+  handleCreateSuccess() {
+    this.loadBootcamps();
+    this.formMessage = "Başarıyla Eklendi";
+    setTimeout(() => {
+      this.formMessage = "";
+    }, 3000);
+  }
+
   update() {
     const id = this.selectedBootcamp.id;
     const instructorId = this.bootcampUpdateForm.value.instructorId;
@@ -164,43 +165,44 @@ export class AdminBootcampsComponent implements OnInit{
 
     const request: UpdateBootcampRequest = {
       id: id,
-      instructorId : instructorId,
-      bootcampStateId : bootcampStateId,
-      bootcampImageId : bootcampImageId,
-      instructorFirstName : updatedInstructorFirstName,
-      instructorLastName : updatedInstructorLastName,
-      bootcampStateName : updatedBootcampStateName,
-      bootcampImagePath : bootcampImagePath,
-      deadline : deadLine,
-      detail : detail,
-      name : updatedName,
-      startDate : startDate,
-      endDate : endDate
+      instructorId: instructorId,
+      bootcampStateId: bootcampStateId,
+      bootcampImageId: bootcampImageId,
+      instructorFirstName: updatedInstructorFirstName,
+      instructorLastName: updatedInstructorLastName,
+      bootcampStateName: updatedBootcampStateName,
+      bootcampImagePath: bootcampImagePath,
+      deadline: deadLine,
+      detail: detail,
+      name: updatedName,
+      startDate: startDate,
+      endDate: endDate
 
     };
     this.bootcampService.update(request).subscribe({
       next: (response) => {
-          this.closeModal(); // Modal'ı kapat
-          this.loadBootcamps(); // Verileri yeniden getir
+        this.closeModal(); // Modal'ı kapat
+        this.loadBootcamps(); // Verileri yeniden getir
       },
       error: (error) => {
-          console.error('Güncelleme işlemi başarısız:', error);
+        console.error('Güncelleme işlemi başarısız:', error);
       }
-  });
-}
+    });
+  }
 
   openUpdateModal(bootcamp: any) {
     this.bootcampService.getById(bootcamp.id).subscribe({
       next: (response) => {
         this.selectedBootcamp = { ...response };
-        this.bootcampUpdateForm.patchValue({ name: this.selectedBootcamp.name,
+        this.bootcampUpdateForm.patchValue({
+          name: this.selectedBootcamp.name,
           detail: this.selectedBootcamp.detail,
           startDate: formatDate(this.selectedBootcamp.startDate),
           deadline: formatDate(this.selectedBootcamp.deadLine),
           endDate: formatDate(this.selectedBootcamp.endDate),
           instructorId: this.selectedBootcamp.instructorId,
           bootcampStateId: this.selectedBootcamp.bootcampStateId
-         }); 
+        });
         this.showUpdateModal = true; // Modal'ı aç
         return response;
       },

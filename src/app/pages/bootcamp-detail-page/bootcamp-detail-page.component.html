@@ -1,61 +1,57 @@
-
-<div class= "h-[150px] flex  items-center bg-[url('/assets/img/fixed-top.svg')]">
-    <div class="flex gap-3 mt-2 text-xl ml-52 font-semibold lg:ml-60">
-      <div class="text-indigo-900">Ana Sayfa</div>
-      <div class="text-gray-400 text-xl">></div>
-      <div class="text-indigo-900">Bootcamp</div>
-      <div class="text-gray-400 text-xl">></div>
-      <div class="text-indigo-600">{{getByIdBootcampResponse.name}}</div>
-    </div>
+<div class="h-[150px] flex  items-center bg-[url('/assets/img/fixed-top.svg')]">
+  <div class="flex gap-3 mt-2 text-xl ml-52 font-semibold lg:ml-60">
+    <div class="text-indigo-900">Ana Sayfa</div>
+    <div class="text-gray-400 text-xl">></div>
+    <div class="text-indigo-900">Bootcamp</div>
+    <div class="text-gray-400 text-xl">></div>
+    <div class="text-indigo-600">{{getByIdBootcampResponse.name}}</div>
   </div>
+</div>
 
-  <div class="flex flex-row  mt-20 mx-32 justify-between 2xl:mx-60">
-    <img loading="lazy" [src]="getByIdBootcampResponse.bootcampImagePath" 
-    class= "  w-[620px] h-[360px]  2xl:w-[780px] 2xl:h-[500px] " />
- 
-    <div class="flex flex-col  border-2 border-gray-300 shadow-xl px-6 py-6 h-[360px] w-[300px]  rounded-xl 2xl:w-[400px] 2xl:h-[500px]">
-        <div class="text-l 2xl:text-2xl text-white bg-indigo-700 self-center py-3 px-8 rounded-xl">Son Başvuru:<span class= " ml-2 font-semibold">{{formatDate(getByIdBootcampResponse.deadline)}}</span></div>
-        <div class="text-l 2xl:text-2xl text-black font-bold mt-4 ml-2 2xl:mt-10 2xl:ml-4" >Bilgilendirme</div>
-        <div class=" flex  text-m 2xl:text-xl text-black mt-2 mx-2 2xl:mt-6 2xl:mx-4">
-          Aşağıdaki buton aracılığıyla bootcamp başvurunu saniyeler içinde yapabilirsin. Başvurunu aldıktan sonra seni en kısa sürede bilgilendireceğiz. 
-        </div>
-        
-       
-        
-        <button (click)="applyForBootcamp(getByIdBootcampResponse.id)"
-        class="flex mt-6 justify-center gap-6 px-4 py-4 font-bold leading-5 bg-amber-400 hover:brightness-110
+<div class="flex flex-row  mt-20 mx-32 justify-between 2xl:mx-60">
+  <img loading="lazy" [src]="getByIdBootcampResponse.bootcampImagePath"
+    class="  w-[620px] h-[360px]  2xl:w-[780px] 2xl:h-[500px] " />
+
+  <div
+    class="flex flex-col  border-2 border-gray-300 shadow-xl px-6 py-6 h-[360px] w-[300px]  rounded-xl 2xl:w-[400px] 2xl:h-[500px]">
+    <div class="text-l 2xl:text-2xl text-white bg-indigo-700 self-center py-3 px-8 rounded-xl">Son Başvuru:<span
+        class=" ml-2 font-semibold">{{formatDate(getByIdBootcampResponse.deadline)}}</span></div>
+    <div class="text-l 2xl:text-2xl text-black font-bold mt-4 ml-2 2xl:mt-10 2xl:ml-4">Bilgilendirme</div>
+    <div class=" flex  text-m 2xl:text-xl text-black mt-2 mx-2 2xl:mt-6 2xl:mx-4">
+      Aşağıdaki buton aracılığıyla bootcamp başvurunu saniyeler içinde yapabilirsin. Başvurunu aldıktan sonra seni en
+      kısa sürede bilgilendireceğiz.
+    </div>
+
+
+
+    <button (click)="applyForBootcamp(getByIdBootcampResponse.id)" class="flex mt-6 justify-center gap-6 px-4 py-4 font-bold leading-5 bg-amber-400 hover:brightness-110
         text-xl border border-black border-solid rounded-[56.813px] text-slate-900 mx-2 2xl:mt-16 2xl:mx-4"
-        
-        style="box-shadow: 5px 5px 0px 0px black;"
-        >
-        <span class="">Hemen Başvur!</span>
-        <img
-          src="https://cdn.builder.io/api/v1/image/assets/TEMP/2c516fab2a8b9ab70e3fbe9eee7e3103f5295befdfeb651ec6183a08e1459c32?apiKey=d64f73725dfb4ccb8c714d58677398b5&"
-         
-          class="w-[19px] h-[18px]"
-        />
-      </button>
+      style="box-shadow: 5px 5px 0px 0px black;">
+      <span class="">Hemen Başvur!</span>
+      <img
+        src="https://cdn.builder.io/api/v1/image/assets/TEMP/2c516fab2a8b9ab70e3fbe9eee7e3103f5295befdfeb651ec6183a08e1459c32?apiKey=d64f73725dfb4ccb8c714d58677398b5&"
+        class="w-[19px] h-[18px]" />
+    </button>
 
-    </div>
   </div>
+</div>
 
-  <div  class="flex flex-col px-16  lg:px-20 xl:px-32 2xl:px-60">
+<div class="flex flex-col px-16  lg:px-20 xl:px-32 2xl:px-60">
   <div class="flex font-bold text-3xl xl:text-4xl 2xl:text-5xl mt-12 ">
     {{getByIdBootcampResponse.name}}
   </div>
-  <div  class="flex flex-row mt-10 ">
-    <img loading="lazy" src="/assets/img/mini-instructor-image.png" class= "" />
-    <div class="flex self-center ml-6 text-xl text-indigo-900">{{getByIdBootcampResponse.instructorFirstName}} {{getByIdBootcampResponse.instructorLastName}}</div>
+  <div class="flex flex-row mt-10 ">
+    <img loading="lazy" src="/assets/img/mini-instructor-image.png" class="" />
+    <div class="flex self-center ml-6 text-xl text-indigo-900">{{getByIdBootcampResponse.instructorFirstName}}
+      {{getByIdBootcampResponse.instructorLastName}}</div>
     <div class="flex self-center w-2 h-2 ml-4 bg-gray-400 rounded-full"></div>
-    <img loading="lazy" src="/assets/img/takvim-image.png" class= "self-center ml-6" />
-    <div class="flex self-center ml-6 text-xl text-gray-400">Başlangıç {{formatDate(getByIdBootcampResponse.startDate)}} -  Bitiş {{formatDate(getByIdBootcampResponse.endDate)}}</div>
+    <img loading="lazy" src="/assets/img/takvim-image.png" class="self-center ml-6" />
+    <div class="flex self-center ml-6 text-xl text-gray-400">Başlangıç {{formatDate(getByIdBootcampResponse.startDate)}}
+      - Bitiş {{formatDate(getByIdBootcampResponse.endDate)}}</div>
   </div>
-  
-  <div class="flex flex-wrap px-8 border-2 border-gray-300 mt-12 leading-loose">
-    {{getByIdBootcampResponse.detail}}
+
+  <div [innerHTML]="bootcampDetail"
+    class="no-tailwindcss-base remove-all flex flex-wrap px-8 border-2 border-gray-300 mt-12 leading-loose">
   </div>
-    
+
   <!--en dış div-->
-
-
-
