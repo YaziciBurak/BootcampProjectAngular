@@ -9,6 +9,9 @@ import { QuizService } from '../../features/services/concretes/quiz.service';
 import { PassedResultComponent } from '../../shared/components/passed-result/passed-result.component';
 import { NotpassedResultComponent } from '../../shared/components/notpassed-result/notpassed-result.component';
 import { FinishQuizResponse } from '../../features/models/responses/quiz/finish-quiz-response';
+import { CertificateService } from '../../features/services/concretes/certificate.service';
+import { CreateCertificateRequest } from '../../features/models/requests/certificate/create-certificate-request';
+
 
 @Component({
   selector: 'app-quiz-page',
@@ -26,10 +29,12 @@ export class QuizPageComponent implements OnInit {
   newQuiz: CreateQuizResponse;
   questionResults: Record<number, FinishQuizResponse['questionResults'][0]>;
 
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private quizService: QuizService
+    private quizService: QuizService,
+    private certificateService: CertificateService
   ) {
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
     const navigation = this.router.getCurrentNavigation();
@@ -108,6 +113,40 @@ export class QuizPageComponent implements OnInit {
       }
     );
   }
+
+  createCertificate(): void {
+    this.certificateService.create({
+      applicantId: this.createdQuiz.applicantId,
+      bootcampId: this.createdQuiz.bootcampId
+    }).subscribe(
+      response => {
+        console.log(response);
+
+        // sertifikayı indir
+        // burada DOM'da bir <a></a> elementi yaratıp
+        // click ettiriyoruz ki dosya insin
+        const url = window.URL.createObjectURL(response.content);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = response.filename;
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
+
+        // 1 sn sonra anasayfaya yönlendir
+        setTimeout(() => {
+          this.router.navigate(["/homepage"]);
+        }, 1000);
+      },
+      error => {
+        console.error('Sertifika oluşturma sırasında hata oluştu', error);
+      }
+
+    );
+  }
+
+
 
   retakeQuiz(id: number): void {
     this.quizService.getExam(id).subscribe(

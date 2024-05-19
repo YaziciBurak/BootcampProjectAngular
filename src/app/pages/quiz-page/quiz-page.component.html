@@ -131,7 +131,7 @@
 </form>
 
 <div *ngIf="isPassed === true" class="flex flex-row-reverse mr-20 mt-16">
-  <button type="submit"
+  <button (click)="createCertificate()"
     class="flex justify-center items-center px-10 py-4 mt-8 font-bold text-center text-black capitalize bg-amber-400 border-2 border-black border-solid shadow-sm leading-[112%] rounded-[50px] max-md:px-5 max-md:mt-6 max-md:max-w-full"
     style="box-shadow: 8.799px 8.799px 0px 0px black;">
     <div class="flex gap-3 text-xl">
