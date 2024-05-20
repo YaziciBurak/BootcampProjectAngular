@@ -36,15 +36,13 @@
 
 
 
-      <button (click)="handleClick(bootcampContent.bootcampId)" class="flex mt-20 justify-center gap-6 px-6 py-4 font-bold leading-5 bg-amber-400 hover:brightness-110
+      <button (click)="handleClick(bootcampContent.bootcampId)" class="flex mt-20 justify-center gap-4 px-6 py-4 font-bold leading-5 bg-amber-400 hover:brightness-110
         text-xl border border-black border-solid rounded-[56.813px] text-slate-900 max-md:px-5 2xl:mt-6" [ngClass]="{
          'opacity-50 cursor-not-allowed': !confirmed && !bootcampContent?.hasApplicantBootcampContent
         }" [disabled]="!confirmed && !bootcampContent?.hasApplicantBootcampContent"
         style="box-shadow: 5px 5px 0px 0px black;">
         <span class="">Sınava Gir</span>
-        <img
-          src="https://cdn.builder.io/api/v1/image/assets/TEMP/2c516fab2a8b9ab70e3fbe9eee7e3103f5295befdfeb651ec6183a08e1459c32?apiKey=d64f73725dfb4ccb8c714d58677398b5&"
-          class="w-[19px] h-[18px]" />
+        <img src="/assets/img/for-all-butons.svg" />
       </button>
 
 

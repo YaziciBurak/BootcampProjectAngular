@@ -1,8 +1,8 @@
-/* Transition */
 @keyframes marquee {
   0% {
     transform: translateX(0);
   }
+
   100% {
     transform: translateX(100%);
   }
@@ -10,6 +10,7 @@
 
 .ticker-wrap {
   overflow: hidden;
+
   .ticker {
     white-space: nowrap;
     -webkit-animation-iteration-count: infinite;
