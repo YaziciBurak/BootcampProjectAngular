@@ -2,15 +2,15 @@ import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { ApplicantBaseService } from '../abstracts/applicant-base.service';
-
 import { environment } from '../../../../environments/environment.development'; 
 import { PageRequest } from '../../../core/models/page-request';
-import { ApplicationstateListItemDto } from '../../models/responses/applicationstate/applicationstate-list-item-dto';
 import { ApplicantListItemDto } from '../../models/responses/applicant/applicant-list-item-dto';
 import { GetbyidApplicantResponse } from '../../models/responses/applicant/getbyid-applicant-response';
 import { UpdateApplicantRequest } from '../../models/requests/applicant/update-applicant-request';
 import { UpdateApplicantResponse } from '../../models/responses/applicant/update-applicant-response';
 import { DeleteApplicantResponse } from '../../models/responses/applicant/delete-applicant-response';
+import { UpdateApplicantPasswordRequest } from '../../models/requests/applicant/update-applicant-password-request';
+import { UpdateApplicantPasswordResponse } from '../../models/responses/applicant/update-applicant-password-response';
 
 
 @Injectable({
@@ -28,7 +28,9 @@ export class ApplicantService extends ApplicantBaseService {
   override delete(id: string): Observable<DeleteApplicantResponse> {
     return this.httpClient.delete<DeleteApplicantResponse>(`${this.apiUrl}/`+id)
   }
-
+  override updatePassword(request: UpdateApplicantPasswordRequest): Observable<UpdateApplicantPasswordResponse> {
+    return this.httpClient.put<UpdateApplicantPasswordResponse>(`${this.apiUrl}/Password`, request); 
+  }
   override getList(pageRequest: PageRequest): Observable<ApplicantListItemDto> {
     const newRequest: {[key: string]: string | number} = {
       pageIndex: pageRequest.page,
@@ -51,7 +53,6 @@ export class ApplicantService extends ApplicantBaseService {
       })
     )
   }
-
   override getById(id: string): Observable<GetbyidApplicantResponse> {
     const newRequest: {[key: string]: string | number} = {
       id: id
@@ -75,7 +76,6 @@ export class ApplicantService extends ApplicantBaseService {
         return newResponse;
       })
     );
-  }
-   
+  } 
 }
 

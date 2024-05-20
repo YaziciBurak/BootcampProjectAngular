@@ -5,7 +5,6 @@ import { ApplicantListItemDto } from '../../../../features/models/responses/appl
 import { ApplicantService } from '../../../../features/services/concretes/applicant.service';
 import { PageRequest } from '../../../../core/models/page-request';
 import { UpdateApplicantRequest } from '../../../../features/models/requests/applicant/update-applicant-request';
-import { last } from 'rxjs';
 import { BlacklistService } from '../../../../features/services/concretes/blacklist.service';
 import { formatDate } from '../../../../core/helpers/format-date';
 
@@ -137,8 +136,6 @@ constructor(private applicantService:ApplicantService,
       about:about,
       dateOfBirth:dateOfBirth,
       updatedDate:updatedDate,
-      password:password
-
     };
     this.applicantService.update(request).subscribe({
       next: (response) => {
