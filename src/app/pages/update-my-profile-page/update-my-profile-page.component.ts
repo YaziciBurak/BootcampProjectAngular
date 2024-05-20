@@ -23,8 +23,7 @@ export class UpdateMyProfilePageComponent implements OnInit{
     private applicantService:ApplicantService
   ) {}
   ngOnInit(): void {
-    console.log('merhaba');
-  this.getApplicantId(); console.log('applicant id geliyor',this.applicantId);
+  this.getApplicantId();
   this.getApplicantData();
   this.updateForm();
   }

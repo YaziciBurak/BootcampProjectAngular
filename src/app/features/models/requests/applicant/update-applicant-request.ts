@@ -7,6 +7,5 @@ export interface UpdateApplicantRequest {
     dateOfBirth: Date;
     nationalIdentity:string;
     email:string;
-    password:string;
     updatedDate:Date;
 }
