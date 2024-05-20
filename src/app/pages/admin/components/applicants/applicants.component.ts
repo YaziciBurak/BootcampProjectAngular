@@ -19,7 +19,7 @@ import { formatDate } from '../../../../core/helpers/format-date';
 export class ApplicantsComponent implements OnInit{
 formsMessage:string  | null = null;
 applicantUpdateForm:FormGroup;
-blacklistCreateForm:FormGroup
+blacklistCreateForm:FormGroup;
 selectedApplicant:any;
 selectedBlacklist:any;
 showUpdateModal: boolean = false;
