@@ -2,9 +2,7 @@
 
 set -e
 
-rm src/environments/environment.development.ts
-
-cat <<EOF > src/environments/environments.ts
+cat <<EOF > src/environments/environment.development.ts
 export const environment = {API_URL:'$API_URL'}
 EOF
 
