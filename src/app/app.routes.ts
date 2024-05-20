@@ -30,6 +30,8 @@ export const routes: Routes = [
     {path:'bootcampContent', component:BootcampContentPageComponent}, 
     {path:'updateMyProfile', component:UpdateMyProfilePageComponent}, 
     {path:'instructors', component:InstructorListPageComponent},
-    {path:'updatePassword', component:UpdatePasswordPageComponent}, 
+    {path:'updatePassword', component:UpdatePasswordPageComponent},
+    {path:'bootcampContentByBootcampId/:bootcampId', component:BootcampContentPageComponent}, 
+    
 ];
 

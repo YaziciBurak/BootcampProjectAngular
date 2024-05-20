@@ -4,4 +4,5 @@ export interface GetlistBootcampcontentResponse {
     bootcampName:string,
     videoUrl:string,
     content:string,
+    hasApplicantBootcampContent?:boolean,
 }
