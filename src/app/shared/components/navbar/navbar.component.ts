@@ -26,7 +26,7 @@ export class NavbarComponent {
   isAdmin!: boolean;
   menuItems!: MenuItem[];
   userLogged!: boolean;
-  searchResults: GetlistBootcampResponse[];
+  searchResults: GetlistBootcampResponse[] = [];
   searchDropdown: Dropdown;
   constructor(private bootcampService: BootcampService, private authService: AuthService, private router: Router) { }
 
