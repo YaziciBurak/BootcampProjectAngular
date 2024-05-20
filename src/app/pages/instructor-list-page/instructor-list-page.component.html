@@ -12,55 +12,12 @@
   </div>
  <!--en üstteki resimli başlık bitiş-->
 
-<!--kartların konumu ayarlamak için en dıştaki--><div class="flex flex-wrap justify-center gap-16 my-24 2xl:gap-36 ">
- <!--1 tane kart başlangıç-->  <div class="flex flex-col items-center w-[300px] h-[370px] px-4 py-4 border-gray-300 rounded-xl shadow-xl border-2">
+<div class="flex flex-wrap justify-center gap-16 my-24 2xl:gap-36 ">
+ <!--1 tane kart başlangıç--> <ng-container *ngFor="let instructors of instructorList.items"><div class="flex flex-col items-center w-[300px] h-[370px] px-4 py-4 border-gray-300 rounded-xl shadow-xl border-2">
  <div class=" mt-10  flex justify-center w-[240px] h-[200px]  bg-gray-100 rounded-full" style="z-index: 0;" >
-  <img loading="lazy" src="/assets/img/instructor-example.png" class= " -mt-10 w-[300px] h-[250px] " style="z-index: 1;"/>
+  <img loading="lazy" [src]="instructors.instructorImagePath" alt="image" class= " -mt-10 w-[300px] h-[250px] " style="z-index: 1;"/>
  </div>
- <div class="mt-4 text-indigo-900 text-2xl font-bold">Engin Demiroğ</div>
- <div class="mt-2 text-indigo-600 text-xl ">Kodlama io</div>
-<!--1 tane kart bitiş--> </div>
-<div class="flex flex-col items-center w-[300px] h-[370px] px-4 py-4 border-gray-300 rounded-xl shadow-xl border-2">
-  <div class=" mt-10  flex justify-center w-[240px] h-[200px]  bg-gray-100 rounded-full" style="z-index: 0;" >
-   <img loading="lazy" src="/assets/img/instructor-example.png" class= " -mt-10 w-[300px] h-[250px]" style="z-index: 1;"/>
-  </div>
-  <div class="mt-4 text-indigo-900 text-2xl font-bold">Engin Demiroğ</div>
-  <div class="mt-2 text-indigo-600 text-xl ">Kodlama io</div>
- </div>
- <div class="flex flex-col items-center w-[300px] h-[370px] px-4 py-4 border-gray-300 rounded-xl shadow-xl border-2">
-  <div class=" mt-10  flex justify-center w-[240px] h-[200px]  bg-gray-100 rounded-full" style="z-index: 0;" >
-   <img loading="lazy" src="/assets/img/instructor-example.png" class= " -mt-10 w-[300px] h-[250px]" style="z-index: 1;"/>
-  </div>
-  <div class="mt-4 text-indigo-900 text-2xl font-bold">Engin Demiroğ</div>
-  <div class="mt-2 text-indigo-600 text-xl ">Kodlama io</div>
- </div>
- <div class="flex flex-col items-center w-[300px] h-[370px] px-4 py-4 border-gray-300 rounded-xl shadow-xl border-2">
-  <div class=" mt-10  flex justify-center w-[240px] h-[200px]  bg-gray-100 rounded-full" style="z-index: 0;" >
-   <img loading="lazy" src="/assets/img/instructor-example.png" class= " -mt-10 w-[300px] h-[250px]" style="z-index: 1;"/>
-  </div>
-  <div class="mt-4 text-indigo-900 text-2xl font-bold">Engin Demiroğ</div>
-  <div class="mt-2 text-indigo-600 text-xl ">Kodlama io</div>
- </div>
- <div class="flex flex-col items-center w-[300px] h-[370px] px-4 py-4 border-gray-300 rounded-xl shadow-xl border-2">
-  <div class=" mt-10  flex justify-center w-[240px] h-[200px]  bg-gray-100 rounded-full" style="z-index: 0;" >
-   <img loading="lazy" src="/assets/img/instructor-example.png" class= " -mt-10 w-[300px] h-[250px]" style="z-index: 1;"/>
-  </div>
-  <div class="mt-4 text-indigo-900 text-2xl font-bold">Engin Demiroğ</div>
-  <div class="mt-2 text-indigo-600 text-xl ">Kodlama io</div>
- </div>
- <div class="flex flex-col items-center w-[300px] h-[370px] px-4 py-4 border-gray-300 rounded-xl shadow-xl border-2">
-  <div class=" mt-10  flex justify-center w-[240px] h-[200px]  bg-gray-100 rounded-full" style="z-index: 0;" >
-   <img loading="lazy" src="/assets/img/instructor-example.png" class= " -mt-10 w-[300px] h-[250px]" style="z-index: 1;"/>
-  </div>
-  <div class="mt-4 text-indigo-900 text-2xl font-bold">Engin Demiroğ</div>
-  <div class="mt-2 text-indigo-600 text-xl ">Kodlama io</div>
- </div>
- <div class="flex flex-col items-center w-[300px] h-[370px] px-4 py-4 border-gray-300 rounded-xl shadow-xl border-2">
-  <div class=" mt-10  flex justify-center w-[240px] h-[200px]  bg-gray-100 rounded-full" style="z-index: 0;" >
-   <img loading="lazy" src="/assets/img/instructor-example.png" class= " -mt-10 w-[300px] h-[250px]" style="z-index: 1;"/>
-  </div>
-  <div class="mt-4 text-indigo-900 text-2xl font-bold">Engin Demiroğ</div>
-  <div class="mt-2 text-indigo-600 text-xl ">Kodlama io</div>
- </div>
-
+ <div class="mt-4 text-indigo-900 text-2xl font-bold">{{instructors.firstName}} {{instructors.lastName}}</div>
+ <div class="mt-2 text-indigo-600 text-xl ">{{instructors.companyName}}</div>
+<!--1 tane kart bitiş--> </div></ng-container>
 <!--kartların konumu ayarlamak için en dıştaki bitiş--></div>

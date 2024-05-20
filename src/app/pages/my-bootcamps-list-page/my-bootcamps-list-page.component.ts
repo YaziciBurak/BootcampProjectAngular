@@ -3,7 +3,6 @@ import { formatDate1 } from '../../core/helpers/format-date';
 import { ApplicationListItemDto } from '../../features/models/responses/application/application-list-item-dto';
 import { AuthService } from '../../features/services/concretes/auth.service';
 import { ApplicationService } from '../../features/services/concretes/application.service';
-import { initFlowbite } from 'flowbite';
 import { PageRequest } from '../../core/models/page-request';
 import { DynamicQuery } from '../../core/models/dynamic-query';
 import { ActivatedRoute, RouterModule } from '@angular/router';
@@ -12,7 +11,6 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { SharedModule } from '../../shared/shared.module';
 import { BootcampContentService } from '../../features/services/concretes/bootcamp-content.service';
-import { BootcampcontentListItemDto } from '../../features/models/responses/bootcampcontent/bootcampcontent-list-item-dto';
 
 @Component({
   selector: 'app-my-bootcamps-list-page',

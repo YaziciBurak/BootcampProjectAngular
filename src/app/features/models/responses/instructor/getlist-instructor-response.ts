@@ -9,5 +9,5 @@ export interface GetlistInstructorResponse {
   email: string;
   password: string;
   updatedDate: Date;
-  imageUrl: string;
+  instructorImagePath: string;
 }

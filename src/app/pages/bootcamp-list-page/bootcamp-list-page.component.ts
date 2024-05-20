@@ -45,8 +45,7 @@ export class BootcampListPageComponent implements OnInit {
   constructor(private bootcampService: BootcampService, 
     private instructorService: InstructorService, 
     private activatedRoute: ActivatedRoute,
-    private router:Router,
-    private change:ChangeDetectorRef
+    private router:Router
   ) { }
   readonly PAGE_SIZE = 3;
   
