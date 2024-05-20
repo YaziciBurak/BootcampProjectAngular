@@ -1,5 +1,6 @@
 #!/bin/bash
 
+set -o xtrace
 set -e
 
 rm environments/environment.development.ts
