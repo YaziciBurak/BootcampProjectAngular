@@ -1,5 +1,5 @@
 export interface QuizQuestionResultResponse {
-    id:number;
-    correctAnswer:string;
-    studentAnswer:string;
+    id: number;
+    correctAnswer: string;
+    studentAnswer: string;
 }

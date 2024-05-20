@@ -1,8 +1,11 @@
 <div class="relative flex">
-  <img loading="lazy" src="/assets/img/fixed-top.svg" class="mt-4" style="z-index: 0;"/>
 
-  <div class="flex flex-row ml-36 -mt-1 2xl:mt-2 2xl:ml-60 max-w-full w-[274px] max-md:ml-2.5 absolute top-12" style="z-index: 1;">
-    
+  <img loading="lazy" src="/assets/img/fixed-top.svg" class="mt-4" style="z-index: 0;" />
+
+  <div class="flex flex-row ml-36 -mt-1 2xl:mt-2 2xl:ml-60 max-w-full w-[274px] max-md:ml-2.5 absolute top-12"
+    style="z-index: 1;">
+
+
     <div class="flex gap-3 mt-2 text-base leading-7 whitespace-nowrap font-semibold">
       <div class="text-indigo-950">Profilim</div>
       <div class="text-gray-400 text-xl">></div>
@@ -12,6 +15,7 @@
 </div>
 
 <div class="flex justify-center mt-16 mb-32">
+
 <form [formGroup]="applicantUpdateForm" (submit)="onSubmit()">
   <div class="flex flex-col justify-center px-12 pt-8 pb-12 text-base rounded-lg border border-solid bg-slate-50 border-neutral-200 max-w-[690px] max-md:px-5">
     <div class="text-4xl font-bold leading-10 text-slate-900 max-md:max-w-full">
@@ -22,11 +26,13 @@
       Tüm profil bilgilerini buradan güncelleyebilirsin. 
       <br>
       Şifreni güncellemek için sayfanın altındaki bölümü kullanabilirsin.
+
     </div>
 
     <div class="flex gap-4 mt-6 max-md:flex-wrap max-md:mt-10 max-md:mr-1.5">
       <div class="flex flex-col flex-1 grow shrink-0 basis-0 w-fit">
         <div class="text-lg font-bold leading-5 text-slate-900">
+
           <label for="firstName">Adınız</label>
         </div>
         <input formControlName="firstName" id="firstName" name="firstName"
@@ -38,6 +44,7 @@
         <div class="text-lg font-bold leading-5 text-slate-900">
           <label for="lastName">Soyadınız</label>
         </div>
+
         <input formControlName="lastName" id="lastName" name="lastName"
           class="justify-center items-start px-5 py-3 mt-2.5 text-base text-black capitalize bg-white rounded-md border border-solid border-neutral-200 max-md:px-5"
           type="text" placeholder="Soyad yazınız . . ." />
@@ -89,3 +96,4 @@
   </div>
 </form>
 </div>
+

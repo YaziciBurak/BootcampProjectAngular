@@ -1,11 +1,9 @@
 <div class="flex flex-col md:flex-row  content-center flex-wrap  text-slate-900 pt-12 pb-6 px-8 2xl:px-20">
-  <div class="flex flex-col md:flex-row lg:flex-row justify-center md:justify-start lg:justify-start gap-5 text-base font-medium">
-    <img
-      routerLink="homepage"
-      loading="lazy"
+  <div
+    class="flex flex-col md:flex-row lg:flex-row justify-center md:justify-start lg:justify-start gap-5 text-base font-medium">
+    <img routerLink="homepage" loading="lazy"
       src="https://cdn.builder.io/api/v1/image/assets/TEMP/41934e332f401213ad6f646af99e9a2b39a7228ba0d51defd350f4238c225073?apiKey=d64f73725dfb4ccb8c714d58677398b5&"
-      class="shrink-0 my-auto max-w-full aspect-[4] w-[153px] hover:cursor-pointer"
-    />
+      class="shrink-0 my-auto max-w-full aspect-[4] w-[153px] hover:cursor-pointer" />
     <div class="flex gap-6 ml-2 2xl:gap-10 2xl:ml-8 max-md:flex-wrap max-md:max-w-full">
       <button routerLink="homepage" class="my-auto hover:text-indigo-600 capitalize text-lg">
         Ana Sayfa
@@ -17,88 +15,90 @@
       <button class="hover:text-indigo-600 capitalize text-lg">SSS</button>
 
       <div
-        class= " hidden md:block md:flex gap-1.5 px-4 items-center md:w-44 xl:w-64 2xl:w-96 border border-gray-300 rounded-full text-slate-400 max-md:flex-wrap">
-        
-        <img
-          loading="lazy"
-          src="https://cdn.builder.io/api/v1/image/assets/TEMP/6fb19ccbcd1cf2cdf5d007e41fb1c65e35035f592fd6f53a07bba76e3e5321ce?apiKey=d64f73725dfb4ccb8c714d58677398b5&"
-          class=" fill-indigo-600"
-        />
-        <input
-          type="text"
-          id="search-bar"
-          placeholder="Search For Course . . ."
-          class= " -ml-4 2xl:ml-1 border-none bg-transparent text-opacity-20 font-thin" 
-        /> 
+        class=" hidden md:block md:flex gap-1.5 px-4 items-center md:w-44 xl:w-64 2xl:w-96 border border-gray-300 rounded-full text-slate-400 max-md:flex-wrap">
+
+        <img loading="lazy" src="/assets/img/search-icon.svg" />
+        <input type="text" id="search-bar" placeholder="Search For Course . . ."
+          class=" -ml-4 2xl:ml-1 border-none bg-transparent text-opacity-20 font-thin" />
       </div>
     </div>
-  </div> 
- 
-  <div 
-    class="flex  flex-row gap-5  md:justify-end lg:justify-end md:ml-auto lg:ml-auto items-start text-base font-bold" 
-    id="navbar-default"
-  >
+  </div>
+
+  <div class="flex  flex-row gap-5  md:justify-end lg:justify-end md:ml-auto lg:ml-auto items-start text-base font-bold"
+    id="navbar-default">
     <!-- Kullanıcı giriş yapmışsa -->
     <ng-container *ngIf="isLoggedIn">
       <!-- Kullanıcı admin mi? -->
       <ng-container *ngIf="isAdmin">
-        <button routerLink="/admin" class="px-5 py-3 bg-amber-400 border border-blue-950 border-opacity-20 rounded-[50px] hover:brightness-110" style="box-shadow: 5px 5px 0px 0px black;">
-         Admin Panel 
+        <button routerLink="/admin"
+          class="px-5 py-3 bg-amber-400 border border-blue-950 border-opacity-20 rounded-[50px] hover:brightness-110"
+          style="box-shadow: 5px 5px 0px 0px black;">
+          Admin Panel
         </button>
       </ng-container>
-      
-      <img loading="lazy" src="/assets/img/profile-icon.svg" class="self-center mr-1" />
-      
 
-      <button id="dropdownNewButton" data-dropdown-toggle="dropdownMenu" class="px-5 py-3 bg-amber-400 border border-blue-950 border-opacity-20 rounded-[50px] hover:brightness-110 inline-flex items-center " 
-      type="button" style="box-shadow: 5px 5px 0px 0px black;">
-        Profilim <svg class="w-4 h-4 ms-3 mt-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="m1 1 4 4 4-4"/>
-          </svg>
+      <img loading="lazy" src="/assets/img/profile-icon.svg" class="self-center mr-1" />
+
+
+      <button id="dropdownNewButton" data-dropdown-toggle="dropdownMenu"
+        class="px-5 py-3 bg-amber-400 border border-blue-950 border-opacity-20 rounded-[50px] hover:brightness-110 inline-flex items-center "
+        type="button" style="box-shadow: 5px 5px 0px 0px black;">
+        Profilim <svg class="w-4 h-4 ms-3 mt-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+          viewBox="0 0 10 6">
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"
+            d="m1 1 4 4 4-4" />
+        </svg>
       </button>
-      
-      <div id="dropdownMenu" class="flex hidden bg-white divide-y divide-gray-300  rounded-lg shadow dark:bg-gray-700 z-10">
+
+      <div id="dropdownMenu"
+        class="flex hidden bg-white divide-y divide-gray-300  rounded-lg shadow dark:bg-gray-700 z-10">
         <ul class=" flex flex-col  font-semibold text-indigo-900  " aria-labelledby="dropdownNewButton">
           <li class="flex flex-row pl-2 pr-4 py-1 border-b border-gray-200 hover:bg-gray-100">
             <img loading="lazy" src="/assets/img/update-profile-icon.svg" class="self-center mr-1" />
-            <a routerLink="updateMyProfile"class="block py-2 pr-6 hover:cursor-pointer "> Profilimi Güncelle</a>            
+            <a routerLink="updateMyProfile" class="block py-2 pr-6 hover:cursor-pointer "> Profilimi Güncelle</a>
           </li>
-         
+
           <li class="flex flex-row pl-2 pr-4 py-1 border-b border-gray-200 hover:bg-gray-100">
             <img loading="lazy" src="/assets/img/my-applications-icon.svg" class="self-center mr-1" />
             <a routerLink="applications" class="block  py-2 hover:cursor-pointer ">Başvurularım</a>
           </li>
-          <li class="flex flex-row pl-2 pr-4 py-1 border-b border-gray-200 hover:bg-gray-100" >
+          <li class="flex flex-row pl-2 pr-4 py-1 border-b border-gray-200 hover:bg-gray-100">
             <img loading="lazy" src="/assets/img/my-bootcamps-icon.svg" class="self-center mr-1" />
             <a routerLink="mybootcamps" class="block py-2  hover:cursor-pointer ">Bootcamplerim</a>
           </li>
           <li class="flex flex-row pl-2 pr-4 py-1 border-b border-gray-200 hover:bg-gray-100">
             <img loading="lazy" src="/assets/img/my-certificate-icon.svg" class="self-center mr-1" />
-            <a class="block  py-2 hover:cursor-pointer ">Sertifikalarım</a>
+            <a routerLink="mycertificates" class="block  py-2 hover:cursor-pointer ">Sertifikalarım</a>
           </li>
           <li class="flex flex-row pl-2 pr-4 py-1 hover:bg-gray-100">
             <img loading="lazy" src="/assets/img/update-password-icon.svg" class="self-center mr-1" />
-            <a routerLink="updatePassword"class="block  py-2 hover:cursor-pointer ">Şifremi Güncelle</a>
+            <a routerLink="updatePassword" class="block  py-2 hover:cursor-pointer ">Şifremi Güncelle</a>
           </li>
-        
+
         </ul>
       </div>
-      
-      
 
-      
-      <button (click)="logOut()" class="px-5 py-3 bg-amber-400 border border-blue-950 border-opacity-20 rounded-[50px] hover:brightness-110" style="box-shadow: 5px 5px 0px 0px black;">
+
+
+
+      <button (click)="logOut()"
+        class="px-5 py-3 bg-amber-400 border border-blue-950 border-opacity-20 rounded-[50px] hover:brightness-110"
+        style="box-shadow: 5px 5px 0px 0px black;">
         Çıkış Yap
       </button>
     </ng-container>
 
     <!-- Kullanıcı giriş yapmamışsa -->
     <ng-container *ngIf="!isLoggedIn">
-      <button routerLink="/register" class="px-5 py-3 bg-amber-400 border border-blue-950 border-opacity-20 rounded-[50px] hover:brightness-110" style="box-shadow: 5px 5px 0px 0px black;">
+      <button routerLink="/register"
+        class="px-5 py-3 bg-amber-400 border border-blue-950 border-opacity-20 rounded-[50px] hover:brightness-110"
+        style="box-shadow: 5px 5px 0px 0px black;">
         Kayıt Ol
       </button>
 
-      <button routerLink="/login" class="px-5 py-3 bg-amber-400 border border-solid border-blue-950 border-opacity-20 rounded-[50px] hover:brightness-110" style="box-shadow: 5px 5px 0px 0px black;">
+      <button routerLink="/login"
+        class="px-5 py-3 bg-amber-400 border border-solid border-blue-950 border-opacity-20 rounded-[50px] hover:brightness-110"
+        style="box-shadow: 5px 5px 0px 0px black;">
         Giriş Yap
       </button>
     </ng-container>

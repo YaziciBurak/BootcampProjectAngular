@@ -1,94 +1,93 @@
 <div class="relative flex">
-  <img loading="lazy" src="/assets/img/fixed-top.svg" class="mt-4" style="z-index: 0;"/>
+  <img loading="lazy" src="/assets/img/fixed-top.svg" class="mt-4" style="z-index: 0;" />
 
-  <div class="flex flex-row ml-36 -mt-1 2xl:mt-2 2xl:ml-60 max-w-full w-[274px] max-md:ml-2.5 absolute top-12" style="z-index: 1;">
-    
+  <div class="flex flex-row ml-36 -mt-1 2xl:mt-2 2xl:ml-60 max-w-full w-[274px] max-md:ml-2.5 absolute top-12"
+    style="z-index: 1;">
+
     <div class="flex gap-3 mt-2 text-base leading-7 whitespace-nowrap font-semibold">
-    <div class="text-indigo-950">Profilim</div>
-    <div class="text-gray-400 text-xl">></div>
-    <div class="text-indigo-600">Bootcamplerim</div>
+      <div class="text-indigo-950">Profilim</div>
+      <div class="text-gray-400 text-xl">></div>
+      <div class="text-indigo-600">Bootcamplerim</div>
     </div>
   </div>
 </div>
 
-  <div class="flex flex-row justify-between mx-20 2xl:mx-40 mt-20">
-    <div class="flex flex-row gap-6 text-2xl text-slate-500">
-      <button (click)="getMyAllBootcamps({page:0, pageSize: PAGE_SIZE})" class="hover:text-indigo-600 focus:text-indigo-600">Tüm Bootcamplerim</button>
-      <button (click)="getMyContinueBootcamps({page: currentPageNumber, pageSize: PAGE_SIZE})" class="hover:text-indigo-600 focus:text-indigo-600">Devam Eden Bootcamplerim</button>
-      <button (click)="getMyFinishedBootcamps({page: currentPageNumber, pageSize: PAGE_SIZE})" class="hover:text-indigo-600 focus:text-indigo-600">Tamamlanan Bootcamplerim</button>
-      
-    </div>
+<div class="flex flex-row justify-between mx-20 2xl:mx-40 mt-20">
+  <div class="flex flex-row gap-6 text-2xl text-slate-500">
+    <button (click)="getMyAllBootcamps({page:0, pageSize: PAGE_SIZE})"
+      class="hover:text-indigo-600 focus:text-indigo-600">Tüm Bootcamplerim</button>
+    <button (click)="getMyContinueBootcamps({page: currentPageNumber, pageSize: PAGE_SIZE})"
+      class="hover:text-indigo-600 focus:text-indigo-600">Devam Eden Bootcamplerim</button>
+    <button (click)="getMyFinishedBootcamps({page: currentPageNumber, pageSize: PAGE_SIZE})"
+      class="hover:text-indigo-600 focus:text-indigo-600">Tamamlanan Bootcamplerim</button>
 
-    </div>
-    
-    <!--dışarıdaki çerçeve--><div class="flex flex-row justify-center mx-20 2xl:mx-60 mt-16 mb-20 border-2" >
-  
-    
-    <!--kartların içine yerleştiği div--><div class="flex flex-wrap justify-center gap-8 my-12  mb-20 2xl:mx-8 2xl:gap-16 2xl:my-16">
-      <ng-container *ngFor="let application of applicationList.items">
-     <!-- 1.kart--> <div class="flex flex-col md:flex-row lg:flex-row gap-8 justify-center">
-       
-          <section
-            class="flex flex-col pt-6 2xl:pt-10 bg-white rounded-xl border border-gray-400 border-solid lg:max-w-[320px] lg:max-h-[450px] 2xl:max-w-[360px] 2xl:max-h-[490px]"
-          >
-            <div class="flex flex-col 2xl:px-8 max-md:px-5 " >
-              <img 
-              [src]="application.bootcampImagePath" alt="Bootcamp Image"
-                class="px-6 2xl:px-0"
-              />
-              <h2 class=" ml-6 mt-2 2xl:ml-0 2xl:mt-6 text-xl font-semibold leading-7 text-slate-900">
-                {{application.bootcampName}}
-              </h2>
-              <div class="flex ml-6 mt-4 gap-2 2xl:mt-5 2xl:ml-0 text-lg leading-4 text-gray-500">
-                <span class="flex-auto">{{application.instructorFirstName}} {{application.instructorLastName}}</span
-                >
-              </div>
-            </div>
-            <hr
-              class="shrink-0  mt-4 2xl:mt-10 h-px bg-gray-500 border border-gray-500 border-solid max-md:mt-10"
-            />
-            <div  class="flex mt-4 mb-4 ml-6 gap-2  2xl:gap-10 2xl:mt-5 2xl:mx-8 ">
-              <div  class="flex flex-col my-auto text-lg leading-4">
-                <span  class="text-black font-semibold">Bootcamp Bitişi:</span>
-                <time class="mt-3 text-base text-slate-900">
-                  {{formDate(application.createdDate)}}</time>
-                  
-              </div>
+  </div>
 
-              <button
-              [routerLink]="['/bootcampContentByBootcampId', application.bootcampId.toString()]"
-                class="flex gap-2 justify-center px-2 py-1 text-base font-bold leading-5 bg-amber-400 border border-black border-solid shadow-sm rounded-[56.813px] text-slate-900 max-md:px-5"
-                style="box-shadow: 4px 4px 0px 0px black;"
-                >
-                <span class="grow my-auto">Eğitime Git</span>
-                <img
-                  src="https://cdn.builder.io/api/v1/image/assets/TEMP/2c516fab2a8b9ab70e3fbe9eee7e3103f5295befdfeb651ec6183a08e1459c32?apiKey=d64f73725dfb4ccb8c714d58677398b5&"
-                  alt=""
-                  class=" self-center shrink-0 aspect-[0.93] w-[15px]"
-                />
-              </button>
+</div>
+
+<!--dışarıdaki çerçeve-->
+<div class="flex flex-row justify-center mx-20 2xl:mx-60 mt-16 mb-20 border-2">
+
+
+  <!--kartların içine yerleştiği div-->
+  <div class="flex flex-wrap justify-center gap-8 my-12  mb-20 2xl:mx-8 2xl:gap-16 2xl:my-16">
+    <ng-container *ngFor="let application of applicationList.items">
+      <!-- 1.kart-->
+      <div class="flex flex-col md:flex-row lg:flex-row gap-8 justify-center">
+
+        <section
+          class="flex flex-col pt-6 2xl:pt-10 bg-white rounded-xl border border-gray-400 border-solid lg:max-w-[320px] lg:max-h-[450px] 2xl:max-w-[360px] 2xl:max-h-[490px]">
+          <div class="flex flex-col 2xl:px-8 max-md:px-5 ">
+            <img [src]="application.bootcampImagePath" alt="Bootcamp Image" class="px-6 2xl:px-0" />
+            <h2 class=" ml-6 mt-2 2xl:ml-0 2xl:mt-6 text-xl font-semibold leading-7 text-slate-900">
+              {{application.bootcampName}}
+            </h2>
+            <div class="flex ml-6 mt-4 gap-2 2xl:mt-5 2xl:ml-0 text-lg leading-4 text-gray-500">
+              <span class="flex-auto">{{application.instructorFirstName}} {{application.instructorLastName}}</span>
             </div>
-          </section>
-       
-     <!--1.kart bitiş--> </div>
+          </div>
+          <hr class="shrink-0  mt-4 2xl:mt-10 h-px bg-gray-500 border border-gray-500 border-solid max-md:mt-10" />
+          <div class="flex mt-4 mb-4 ml-6 gap-2  2xl:gap-10 2xl:mt-5 2xl:mx-8 ">
+            <div class="flex flex-col my-auto text-lg leading-4">
+              <span class="text-black font-semibold">Bootcamp Bitişi:</span>
+              <time class="mt-3 text-base text-slate-900">
+                {{formDate(application.createdDate)}}</time>
+
+            </div>
+
+            <button [routerLink]="['/bootcampContentByBootcampId', application.bootcampId.toString()]"
+              class="flex gap-2 justify-center px-2 py-1 text-base font-bold leading-5 bg-amber-400 border border-black border-solid shadow-sm rounded-[56.813px] text-slate-900 max-md:px-5 hover:brightness-110"
+              style="box-shadow: 4px 4px 0px 0px black;">
+              <span class="grow my-auto">Eğitime Git</span>
+              <img src="/assets/img/for-all-butons.svg" class="w-[15px] self-center" />
+            </button>
+          </div>
+        </section>
+
+        <!--1.kart bitiş-->
+      </div>
     </ng-container>
 
-    </div> <!--kartların içine yerleştiği div bitiş-->
-  
-    
-    <!--dışarıdaki çerçeve--></div>
-    <div class= "flex justify-center gap-5 mt-32 ">
-    <button  class="flex px-6 py-4 text-4xl text-bold bg-gray-200 text-indigo-900 rounded-full hover:bg-indigo-700 hover:text-white focus:bg-indigo-700 focus:text-white" >
-      1
-    </button>
-    <button  class="flex px-6 py-4 text-4xl text-bold bg-gray-200 text-indigo-900 rounded-full hover:bg-indigo-700 hover:text-white focus:bg-indigo-700 focus:text-white">
-      2
-    </button>
-    <button  class="flex px-6 py-4 text-4xl text-bold bg-gray-200 text-indigo-900 rounded-full hover:bg-indigo-700 hover:text-white focus:bg-indigo-700 focus:text-white">
-      3
-    </button>
-    <button class="flex px-6 py-4 text-4xl text-bold bg-gray-200 text-indigo-900 rounded-full hover:bg-indigo-700 hover:text-white focus:bg-indigo-700 focus:text-white">
-      4
-    </button>
-    </div>
+  </div> <!--kartların içine yerleştiği div bitiş-->
 
+
+  <!--dışarıdaki çerçeve-->
+</div>
+<div class="flex justify-center gap-5 mt-32 ">
+  <button
+    class="flex px-6 py-4 text-4xl text-bold bg-gray-200 text-indigo-900 rounded-full hover:bg-indigo-700 hover:text-white focus:bg-indigo-700 focus:text-white">
+    1
+  </button>
+  <button
+    class="flex px-6 py-4 text-4xl text-bold bg-gray-200 text-indigo-900 rounded-full hover:bg-indigo-700 hover:text-white focus:bg-indigo-700 focus:text-white">
+    2
+  </button>
+  <button
+    class="flex px-6 py-4 text-4xl text-bold bg-gray-200 text-indigo-900 rounded-full hover:bg-indigo-700 hover:text-white focus:bg-indigo-700 focus:text-white">
+    3
+  </button>
+  <button
+    class="flex px-6 py-4 text-4xl text-bold bg-gray-200 text-indigo-900 rounded-full hover:bg-indigo-700 hover:text-white focus:bg-indigo-700 focus:text-white">
+    4
+  </button>
+</div>

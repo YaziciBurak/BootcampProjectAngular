@@ -1,43 +1,32 @@
 <div class="flex flex-col md:flex-row lg:flex-row gap-10 2xl:gap-16 justify-center">
   <ng-container *ngFor="let bootcamp of bootcampList.items">
     <section
-      class="flex flex-col py-5 2xl:py-7 bg-white rounded-xl border border-gray-400 border-solid max-w-[340px] max-h-[470px]"
-    >
+      class="flex flex-col py-5 2xl:py-7 bg-white rounded-xl border border-gray-400 border-solid max-w-[340px] max-h-[470px]">
       <div class="flex flex-col px-6 2xl:px-8 ">
-        <img
-          [src]="bootcamp.bootcampImagePath"
-          alt="{{ bootcamp.name }} image"
-          class= " w-[200px]  h-[140px] 2xl:w-[300px]  2xl:h-[210px] "
-        />
-        <h2 class=" self-start mt-3 text-xl font-semibold leading-7 text-slate-900 2xl:mt-6">
+        <img [src]="bootcamp.bootcampImagePath" alt="{{ bootcamp.name }} image"
+          class=" w-[200px]  h-[140px] 2xl:w-[300px]  2xl:h-[210px] " />
+        <h2 class=" self-start mt-3 text-xl font-semibold  text-slate-900 2xl:mt-6">
           {{ bootcamp.name }}
         </h2>
         <div class="flex gap-2 mt-3 2xl:mt-5 text-lg leading-4 text-gray-500">
-        
+
           {{ bootcamp.instructorFirstName }}
-            {{ bootcamp.instructorLastName }}
+          {{ bootcamp.instructorLastName }}
         </div>
       </div>
-      <hr
-        class=" mt-8 2xl:mt-12 h-px bg-gray-500 border border-gray-500 border-solid max-md:mt-10"
-      />
+      <hr class=" mt-8 2xl:mt-12 h-px bg-gray-500 border border-gray-500 border-solid max-md:mt-10" />
       <div class="flex gap-5 justify-center mt-5 mx-4 2xl:self-start 2xl:pl-4 2xl:gap-16">
         <div class="flex flex-col my-auto text-lg leading-4">
           <span class="text-gray-500">Son Başvuru:</span>
           <time class="mt-1.5 font-semibold text-slate-900">{{
             bootcamp.endDate | date : "dd/MM/yyyy"
-          }}</time>
+            }}</time>
         </div>
         <button
-          class="flex gap-2 justify-center px-3 py-2 2xl:px-5 2xl:py-3  text-base font-bold leading-5 bg-amber-400 border border-black border-solid shadow-sm rounded-[56.813px] text-slate-900 max-md:px-5"
-          style="box-shadow: 3px 3px 0px 0px black;"
-          >
-          <span class="grow my-auto">Kayıt</span>
-          <img
-            src="https://cdn.builder.io/api/v1/image/assets/TEMP/2c516fab2a8b9ab70e3fbe9eee7e3103f5295befdfeb651ec6183a08e1459c32?apiKey=d64f73725dfb4ccb8c714d58677398b5&"
-            alt=""
-            class="self-center"
-          />
+          class="flex gap-2 justify-center px-3 py-2 2xl:px-5 2xl:py-3  text-base font-bold leading-5 bg-amber-400 border border-black border-solid shadow-sm rounded-[56.813px] text-slate-900 max-md:px-5 hover:brightness-110"
+          style="box-shadow: 3px 3px 0px 0px black;">
+          <span class="grow my-auto">İncele</span>
+          <img loading="lazy" src="/assets/img/for-all-butons.svg" class="w-[15px] self-center" />
         </button>
       </div>
     </section>

@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { GetbyidBootcampResponse } from '../../features/models/responses/bootcamp/getbyid-bootcamp-response';
 import { formatDate1 } from '../../core/helpers/format-date';
 import { BootcampService } from '../../features/services/concretes/bootcamp.service';
@@ -10,37 +10,45 @@ import { GetbyidBootcampcontentResponse } from '../../features/models/responses/
 import { BootcampcontentListItemDto } from '../../features/models/responses/bootcampcontent/bootcampcontent-list-item-dto';
 import { PageRequest } from '../../core/models/page-request';
 import { GetlistBootcampcontentResponse } from '../../features/models/responses/bootcampcontent/getlist-bootcampcontent-response';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { DomSanitizer, SafeHtml, SafeResourceUrl } from '@angular/platform-browser';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ApplicantBootcampContentService } from '../../features/services/concretes/applicant-bootcamp-content.service';
+import { QuizService } from '../../features/services/concretes/quiz.service';
+import { CreateQuestionRequest } from '../../features/models/requests/question/create-question-request';
+import { CreateQuizRequest } from '../../features/models/requests/quiz/create-quiz-request';
+import { CreateQuizResponse } from '../../features/models/responses/quiz/create-quiz-response';
+import { QuizPageComponent } from '../quiz-page/quiz-page.component';
 
 @Component({
   selector: 'app-bootcamp-content-page',
   standalone: true,
-  imports: [CommonModule,HttpClientModule,RouterModule],
+  imports: [CommonModule, HttpClientModule, RouterModule, QuizPageComponent],
   templateUrl: './bootcamp-content-page.component.html',
   styleUrl: './bootcamp-content-page.component.css'
 })
-export class BootcampContentPageComponent implements OnInit{
+export class BootcampContentPageComponent implements OnInit {
   getByIdBootcampResponse !: GetbyidBootcampResponse;
   getByIdBootcampContentResponse !: GetbyidBootcampcontentResponse
   bootcampContentList: BootcampcontentListItemDto
   bootcampContent: GetlistBootcampcontentResponse
-  
+  createdQuiz: CreateQuizResponse
   videoUrl: SafeResourceUrl;
-  bootcampId:number = 1 ;
+  bootcampId: number = 1;
   formatDate = formatDate1;
-  confirmed:boolean=false;
+  content: SafeHtml;
+  confirmed: boolean = false;
   @ViewChild('checkboxRef') checkboxRef!: ElementRef;
 
-  constructor(private sanitizer: DomSanitizer,  private applicantBootcampContentService:ApplicantBootcampContentService,
-    private bootcampService: BootcampService, private activatedRoute: ActivatedRoute, private bootcampContentService:BootcampContentService) {}
+  constructor(private sanitizer: DomSanitizer, private applicantBootcampContentService: ApplicantBootcampContentService,
+    private bootcampService: BootcampService, private activatedRoute: ActivatedRoute,
+    private bootcampContentService: BootcampContentService, private quizService: QuizService,
+    private router: Router) { }
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe((params: { [x: string]: number; }) => {
       if (params["bootcampId"]) {
         console.log("ngOnInit", params["bootcampId"])
-        this.getBootcampContentByBootcampId({page: 0, pageSize: 20}, params["bootcampId"])
+        this.getBootcampContentByBootcampId({ page: 0, pageSize: 20 }, params["bootcampId"])
       } else { console.log("getById bootcamp error") }
     })
   }
@@ -59,8 +67,8 @@ export class BootcampContentPageComponent implements OnInit{
 
   getBootcampContentById(Id: number): void {
     this.bootcampContentService.getById(Id).subscribe(
-      (response:  GetbyidBootcampcontentResponse ) => {
-     
+      (response: GetbyidBootcampcontentResponse) => {
+
         this.getByIdBootcampContentResponse = response;
       },
       (error: any) => {
@@ -72,11 +80,13 @@ export class BootcampContentPageComponent implements OnInit{
 
   getBootcampContentByBootcampId(pageRequest: PageRequest, bootcampId: number): void {
     this.bootcampContentService.getbybootcampId(pageRequest, bootcampId).subscribe(
-      (response:  BootcampcontentListItemDto ) => {
-     
+      (response: BootcampcontentListItemDto) => {
+
         this.bootcampContentList = response;
         this.bootcampContent = response.items[0];
-        this.videoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.bootcampContent.videoUrl)
+        this.videoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.bootcampContent.videoUrl);
+        this.content = this.sanitizer.bypassSecurityTrustHtml(this.bootcampContent.content);
+        console.log(this.content);
       },
       (error: any) => {
         console.error('Error fetching bootcamp:', error);
@@ -84,22 +94,22 @@ export class BootcampContentPageComponent implements OnInit{
       }
     );
   }
-  createApplicantBootcampContent(id:number): void 
-  {
+  createApplicantBootcampContent(id: number): void {
     this.applicantBootcampContentService.createApplicantBootcampContent(id).subscribe(response => {
     },
-    (error) => {console.error('başvuru yaparken hata oluştu', error);
-    });
+      (error) => {
+        console.error('başvuru yaparken hata oluştu', error);
+      });
   }
- 
+
   showConfirmation(id: number) {
     if (!this.confirmed) {
       const confirmation = confirm('Bootcamp içeriğini bitirdiğinizden emin misiniz?');
 
       if (confirmation) {
         this.confirmed = true; // Kullanıcı tamam dediğinde checkbox'ı devre dışı bırak
-        this.createApplicantBootcampContent(this.bootcampContent.id); 
-      } 
+        this.createApplicantBootcampContent(this.bootcampContent.id);
+      }
       else {
         if (this.checkboxRef.nativeElement.checked) {
           this.checkboxRef.nativeElement.checked = false; // Kullanıcı iptal dediğinde checkbox'ı işaretlemeyi iptal et
@@ -107,6 +117,30 @@ export class BootcampContentPageComponent implements OnInit{
       }
     }
   }
+  handleClick(id: number): void {
+    this.getExam(id);
+  }
+
+  getExam(id: number): void {
+    this.quizService.getExam(id).subscribe(
+      response => {
+        this.createdQuiz = response;
+        console.log("created quiz", this.createdQuiz);
+        this.passDataToQuiz();
+      },
+
+      error => {
+        console.error('Quiz oluşturma sırasında hata oluştu', error);
+      }
+    );
+  }
+
+  passDataToQuiz() {
+    this.router.navigate(['/quiz'], { state: { quiz: this.createdQuiz } });
+
+  }
+
+
 
   /*get buttonText(): string {
     if (!this.confirmed && !this.bootcampContent?.hasApplicantBootcampContent) {
@@ -114,9 +148,9 @@ export class BootcampContentPageComponent implements OnInit{
     } else {
       return 'Sınava Girebilirsin';
     }
-  } İSTEDİĞİMİZDE BUTONUN İÇİNDEKİ TEXTİ DE DEĞİŞTİREBİLİRİZ / bootcampdetail sayfası*/ 
-  
+  } İSTEDİĞİMİZDE BUTONUN İÇİNDEKİ TEXTİ DE DEĞİŞTİREBİLİRİZ / bootcampdetail sayfası*/
 
- 
+
+
 }
 

@@ -1,66 +1,58 @@
-  <!--en üstteki resimli başlık-->
-  <div class= "h-[150px] flex  items-center bg-[url('/assets/img/fixed-top.svg')]">
-    <div  class="flex gap-3 mt-2 text-xl ml-52 font-semibold lg:ml-60">
-      <div class="text-indigo-900">Profilim</div>
-      <div class="text-gray-400 text-xl">></div>
-      <div class="text-indigo-900">Bootcamplerim</div>
-      <div class="text-gray-400 text-xl">></div>
-      <div class="text-indigo-600" *ngIf="bootcampContent !== undefined">{{bootcampContent?.bootcampName}}</div>
-    </div>
+<!--en üstteki resimli başlık-->
+<div class="h-[150px] flex  items-center bg-[url('/assets/img/fixed-top.svg')]">
+  <div class="flex gap-3 mt-2 text-xl ml-52 font-semibold lg:ml-60">
+    <div class="text-indigo-900">Profilim</div>
+    <div class="text-gray-400 text-xl">></div>
+    <div class="text-indigo-900">Bootcamplerim</div>
+    <div class="text-gray-400 text-xl">></div>
+    <div class="text-indigo-600" *ngIf="bootcampContent !== undefined">{{bootcampContent?.bootcampName}}</div>
   </div>
- <!--en üstteki resimli başlık bitiş-->
+</div>
+<!--en üstteki resimli başlık bitiş-->
 
 
 
-  <div class="mx-20 2xl:mx-32">
-    <div class="mt-12 text-3xl  2xl:mt-16 2xl:text-4xl font-bold" *ngIf="bootcampContent !== undefined">{{bootcampContent.bootcampName}}</div>
-    <div class="mt-10 flex flex-row">
-      <iframe class="2xl:w-[1200px] 2xl:h-[600px]" width="800" height="400" [src]="videoUrl" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-      
-      <div class="flex flex-col ml-12 border-2 border-gray-300 shadow-xl px-8 py-6 h-[400px] w-[300px] 2xl:ml-32 2xl:mt-24 rounded-xl">
-        <div class="text-l 2xl:text-2xl text-white bg-indigo-700 px-10 p-3 rounded-xl">BİLGİLENDİRME</div>
-        <div class="text-l 2xl:text-2xl text-black font-bold mt-4">{{bootcampContent.bootcampName}}</div>
-        <div class=" flex  text-m 2xl:text-xl text-black mt-2">
-          Bootcamp içeriklerini bitirmek benim sorumluluğumdadır, sınava girmeye hazırım. 
-        </div>
-        <input type="checkbox" class="self-end mt-3 w-5 h-5 bg-white rounded border border-solid border-zinc-200 
-        text-indigo-700  focus:ring-indigo-700 "  [checked]="bootcampContent.hasApplicantBootcampContent" (click)="showConfirmation(bootcampContent.id)"  [disabled]="confirmed || bootcampContent?.hasApplicantBootcampContent" />
-        
-        
+<div class="mx-20 2xl:mx-32">
+  <div class="mt-12 text-3xl  2xl:mt-16 2xl:text-4xl font-bold" *ngIf="bootcampContent !== undefined">
+    {{bootcampContent.bootcampName}}</div>
+  <div class="mt-10 flex flex-row">
+    <iframe class="2xl:w-[1200px] 2xl:h-[600px]" width="800" height="400" [src]="videoUrl" title="YouTube video player"
+      frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
-        
-        <button
-        class="flex mt-20 justify-center gap-6 px-6 py-4 font-bold leading-5 bg-amber-400 hover:brightness-110
-        text-xl border border-black border-solid rounded-[56.813px] text-slate-900 max-md:px-5 2xl:mt-6"
-        
-        [ngClass]="{
-         
+    <div
+      class="flex flex-col ml-12 border-2 border-gray-300 shadow-xl px-8 py-6 h-[400px] w-[300px] 2xl:ml-32 2xl:mt-24 rounded-xl">
+      <div class="text-l 2xl:text-2xl text-white bg-indigo-700 px-10 p-3 rounded-xl">BİLGİLENDİRME</div>
+      <div class="text-l 2xl:text-2xl text-black font-bold mt-4">{{bootcampContent.bootcampName}}</div>
+      <div class=" flex  text-m 2xl:text-xl text-black mt-2">
+        Bootcamp içeriklerini bitirmek benim sorumluluğumdadır, sınava girmeye hazırım.
+      </div>
+      <input type="checkbox" class="self-end mt-3 w-5 h-5 bg-white rounded border border-solid border-zinc-200 
+        text-indigo-700  focus:ring-indigo-700 " [checked]="bootcampContent.hasApplicantBootcampContent"
+        (click)="showConfirmation(bootcampContent.id)"
+        [disabled]="confirmed || bootcampContent?.hasApplicantBootcampContent" />
+
+
+
+
+      <button (click)="handleClick(bootcampContent.bootcampId)" class="flex mt-20 justify-center gap-4 px-6 py-4 font-bold leading-5 bg-amber-400 hover:brightness-110
+        text-xl border border-black border-solid rounded-[56.813px] text-slate-900 max-md:px-5 2xl:mt-6" [ngClass]="{
          'opacity-50 cursor-not-allowed': !confirmed && !bootcampContent?.hasApplicantBootcampContent
-        }"
-
-        [disabled]="!confirmed && !bootcampContent?.hasApplicantBootcampContent"
-
-        style="box-shadow: 5px 5px 0px 0px black;"
-     
-        >
+        }" [disabled]="!confirmed && !bootcampContent?.hasApplicantBootcampContent"
+        style="box-shadow: 5px 5px 0px 0px black;">
         <span class="">Sınava Gir</span>
-        <img
-          src="https://cdn.builder.io/api/v1/image/assets/TEMP/2c516fab2a8b9ab70e3fbe9eee7e3103f5295befdfeb651ec6183a08e1459c32?apiKey=d64f73725dfb4ccb8c714d58677398b5&"
-         
-          class="w-[19px] h-[18px]"
-        />
+        <img src="/assets/img/for-all-butons.svg" />
       </button>
 
 
-      </div>
-      
     </div>
-    
-  
-  </div>
-  <div class="flex flex-wrap mx-20 px-8 py-6 border-2 border-gray-300 mt-12 leading-loose rounded-xl shadow-xl 2xl:mx-32">
-   {{bootcampContent.content}} 
 
   </div>
 
-  
+
+</div>
+<div class="flex flex-wrap mx-20 px-8 py-6 border-2 border-gray-300 mt-12 leading-loose rounded-xl shadow-xl 2xl:mx-32">
+  <div [innerHTML]="content" class="no-tailwindcss-base remove-all "> </div>
+
+</div>
