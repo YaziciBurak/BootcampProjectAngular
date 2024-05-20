@@ -10,7 +10,7 @@ import { GetbyidBootcampcontentResponse } from '../../features/models/responses/
 import { BootcampcontentListItemDto } from '../../features/models/responses/bootcampcontent/bootcampcontent-list-item-dto';
 import { PageRequest } from '../../core/models/page-request';
 import { GetlistBootcampcontentResponse } from '../../features/models/responses/bootcampcontent/getlist-bootcampcontent-response';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { DomSanitizer, SafeHtml, SafeResourceUrl } from '@angular/platform-browser';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ApplicantBootcampContentService } from '../../features/services/concretes/applicant-bootcamp-content.service';
 import { QuizService } from '../../features/services/concretes/quiz.service';
@@ -35,12 +35,14 @@ export class BootcampContentPageComponent implements OnInit {
   videoUrl: SafeResourceUrl;
   bootcampId: number = 1;
   formatDate = formatDate1;
+  content: SafeHtml;
   confirmed: boolean = false;
   @ViewChild('checkboxRef') checkboxRef!: ElementRef;
 
   constructor(private sanitizer: DomSanitizer, private applicantBootcampContentService: ApplicantBootcampContentService,
     private bootcampService: BootcampService, private activatedRoute: ActivatedRoute,
-    private bootcampContentService: BootcampContentService, private quizService: QuizService, private router: Router) {}
+    private bootcampContentService: BootcampContentService, private quizService: QuizService,
+    private router: Router) { }
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe((params: { [x: string]: number; }) => {
@@ -82,7 +84,9 @@ export class BootcampContentPageComponent implements OnInit {
 
         this.bootcampContentList = response;
         this.bootcampContent = response.items[0];
-        this.videoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.bootcampContent.videoUrl)
+        this.videoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.bootcampContent.videoUrl);
+        this.content = this.sanitizer.bypassSecurityTrustHtml(this.bootcampContent.content);
+        console.log(this.content);
       },
       (error: any) => {
         console.error('Error fetching bootcamp:', error);

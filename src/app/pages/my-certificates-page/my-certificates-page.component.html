@@ -22,7 +22,7 @@
                 <div class="text-lg font-semibold text-indigo-900">{{formatDate(certificate.createdDate)}}</div>
             </div>
             <button (click)="downloadCertificate(certificate.applicantId, certificate.bootcampId)"
-                class="flex flex-row self-center ml-auto gap-2 bg-indigo-700 rounded-full py-2 px-3 ">
+                class="flex flex-row self-center ml-auto gap-2 bg-indigo-700 rounded-full py-2 px-3 hover:brightness-110">
                 <div class="  self-center text-xl font-semibold text-white">Sertifika İndir</div>
                 <img loading="lazy" src="/assets/img/download-icon.svg" />
             </button>

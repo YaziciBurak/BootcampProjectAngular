@@ -49,9 +49,8 @@
     <div class="flex self-center ml-6 text-xl text-gray-400">Başlangıç {{formatDate(getByIdBootcampResponse.startDate)}}
       - Bitiş {{formatDate(getByIdBootcampResponse.endDate)}}</div>
   </div>
-
-  <div [innerHTML]="bootcampDetail"
-    class="no-tailwindcss-base remove-all flex flex-wrap px-8 border-2 border-gray-300 mt-12 leading-loose">
+  <div class="flex flex-wrap px-8 border-2 border-gray-300 mt-12 leading-loose">
+    <div [innerHTML]="bootcampDetail" class="no-tailwindcss-base remove-all ">
+    </div>
   </div>
-
   <!--en dış div-->
