@@ -1,4 +1,4 @@
-import { Component,Input,OnInit  } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { LoginComponent } from '../../../features/components/login/login.component';
@@ -7,72 +7,99 @@ import { BootcampListGroupComponent } from '../../../features/components/bootcam
 import { CommonModule } from '@angular/common';
 import { MenuItem } from 'primeng/api';
 import { AuthService } from '../../../features/services/concretes/auth.service';
-import { initFlowbite } from 'flowbite';
+import { Dropdown, DropdownOptions, InstanceOptions, initFlowbite } from 'flowbite';
+import { BootcampService } from '../../../features/services/concretes/bootcamp.service';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BootcampListItemDto } from '../../../features/models/responses/bootcamp/bootcamp-list-item-dto';
+import { GetlistBootcampResponse } from '../../../features/models/responses/bootcamp/getlist-bootcamp-response';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [RouterModule,HttpClientModule,LoginComponent,RegisterComponent,BootcampListGroupComponent,CommonModule],
+  imports: [RouterModule, HttpClientModule, LoginComponent, RegisterComponent, BootcampListGroupComponent, CommonModule, FormsModule],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
 })
 export class NavbarComponent {
-  isLoggedIn!: boolean; 
-  isAdmin!: boolean; 
-  menuItems!:MenuItem[];
-  userLogged!:boolean;
-  constructor(private authService:AuthService,private router:Router){}
+  @Input() searchQuery: string;
+  isLoggedIn!: boolean;
+  isAdmin!: boolean;
+  menuItems!: MenuItem[];
+  userLogged!: boolean;
+  searchResults: GetlistBootcampResponse[];
+  searchDropdown: Dropdown;
+  constructor(private bootcampService: BootcampService, private authService: AuthService, private router: Router) { }
 
   ngOnInit(): void {
     initFlowbite();
     this.getMenuItems();
-    console.log(this.getUserName());
-    console.log(this.getUserId())
-    console.log(this.authService.getRoles())
+
+    const $targetEl = document.getElementById('dropdownSearchResults');
+    const $triggerEl = document.getElementById('search-bar');
+    const options: DropdownOptions = {
+      placement: 'bottom',
+      triggerType: 'none',
+      ignoreClickOutsideClass: false,
+    };
+
+    const instanceOptions: InstanceOptions = {
+      id: 'dropdownSearchResults',
+      override: true
+    };
+
+    this.searchDropdown = new Dropdown($targetEl, $triggerEl, options, instanceOptions);
+
   }
 
-  logOut(){
+  logOut() {
     this.authService.logOut();
     this.router.navigate(['homepage'])
-   }
-   
-   setUserLogged() :boolean{
-    return this.userLogged=this.authService.loggedIn()
-   }
+  }
 
-   getUserName():string{
+  setUserLogged(): boolean {
+    return this.userLogged = this.authService.loggedIn()
+  }
+
+  getUserName(): string {
     return this.authService.getUserName();
-   }
+  }
 
-   getUserId():string{
+  getUserId(): string {
     return this.authService.getCurrentUserId();
-   }
+  }
 
-   async getMenuItems(){
+  async getMenuItems() {
     const isUserLoggedIn = await this.authService.loggedIn();
-    if(isUserLoggedIn){
+    if (isUserLoggedIn) {
       this.isLoggedIn = true;
     }
-    else{
+    else {
       this.isLoggedIn = false;
     }
-    if(this.authService.isAdmin()){
+    if (this.authService.isAdmin()) {
 
-        this.isAdmin = true;
+      this.isAdmin = true;
     }
-   }
-   showSearchInput: boolean = false;
-
-   toggleSearch() {
-     this.showSearchInput = !this.showSearchInput;
-     if (this.showSearchInput) {
-       setTimeout(() => {
-         const inputElement = document.getElementById('searchInput');
-         if (inputElement) {
-           inputElement.focus();
-         }
-       });
- }
-   }
   }
+
+  onSearchInput(query: string) {
+    if (!query) {
+      this.searchDropdown.hide();
+    }
+
+    this.bootcampService.getListBootcampByDynamic(
+      { pageIndex: 0, pageSize: 5 },
+      {
+        filter: {
+          field: "name",
+          operator: "contains",
+          value: query
+        }
+      },
+    ).subscribe(response => {
+      this.searchResults = response.items;
+      this.searchDropdown.show();
+    }, error => console.error("failed to search bootcamps:", error))
+  }
+}
 

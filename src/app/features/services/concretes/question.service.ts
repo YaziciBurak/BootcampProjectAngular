@@ -15,28 +15,28 @@ import { GetbyidQuestionResponse } from '../../models/responses/question/getbyid
 @Injectable({
   providedIn: 'root'
 })
-export class QuestionService extends QuestionBaseService{
-  private readonly apiUrl:string = `${environment.API_URL}/Questions`
+export class QuestionService extends QuestionBaseService {
+  private readonly apiUrl: string = `${environment.API_URL}/Questions`
 
-  constructor(private httpClient:HttpClient) { super()}
+  constructor(private httpClient: HttpClient) { super() }
 
   override getList(pageRequest: PageRequest): Observable<QuestionListItemDto> {
-    const newRequest: {[key: string]: string | number} = {
-      pageIndex: pageRequest.page,
+    const newRequest: { [key: string]: string | number } = {
+      pageIndex: pageRequest.pageIndex,
       pageSize: pageRequest.pageSize
     };
-    return this.httpClient.get<QuestionListItemDto>(this.apiUrl,{
-      params:newRequest
+    return this.httpClient.get<QuestionListItemDto>(this.apiUrl, {
+      params: newRequest
     }).pipe(
-      map((response)=>{
-        const newResponse:QuestionListItemDto={
-          index:pageRequest.page,
-          size:pageRequest.pageSize,
-          count:response.count,
-          hasNext:response.hasNext,
-          hasPrevious:response.hasPrevious,
-          items:response.items,
-          pages:response.pages
+      map((response) => {
+        const newResponse: QuestionListItemDto = {
+          index: pageRequest.pageIndex,
+          size: pageRequest.pageSize,
+          count: response.count,
+          hasNext: response.hasNext,
+          hasPrevious: response.hasPrevious,
+          items: response.items,
+          pages: response.pages
         };
         return newResponse;
       })
@@ -44,7 +44,7 @@ export class QuestionService extends QuestionBaseService{
   }
 
   override delete(id: number): Observable<DeleteQuestionResponse> {
-    return this.httpClient.delete<DeleteQuestionResponse>( `${this.apiUrl}/`+ id);
+    return this.httpClient.delete<DeleteQuestionResponse>(`${this.apiUrl}/` + id);
   }
 
   override update(request: UpdateQuestionRequest): Observable<UpdateQuestionResponse> {
@@ -54,12 +54,12 @@ export class QuestionService extends QuestionBaseService{
   override create(request: CreateQuestionRequest): Observable<CreateQuestionResponse> {
     return this.httpClient.post<CreateQuestionResponse>(`${this.apiUrl}`, request);
   }
-  
+
   override getById(id: number): Observable<GetbyidQuestionResponse> {
-    const newRequest: {[key: string]: string | number} = {
+    const newRequest: { [key: string]: string | number } = {
       id: id
     };
-  
+
     return this.httpClient.get<GetbyidQuestionResponse>(`${this.apiUrl}/${id}`, {
       params: newRequest
     }).pipe(
@@ -73,7 +73,7 @@ export class QuestionService extends QuestionBaseService{
           answerC: response.answerC,
           answerD: response.answerD,
           correctAnswer: response.correctAnswer
-          
+
         };
         return newResponse;
       })

@@ -14,13 +14,13 @@
 
 <div class="flex flex-row justify-between mx-20 2xl:mx-40 mt-20">
   <div class="flex flex-row gap-6 text-2xl text-slate-500">
-    <button (click)="getAllApplications({page:0, pageSize: PAGE_SIZE})"
+    <button (click)="getAllApplications({pageIndex:0, pageSize: PAGE_SIZE})"
       class="hover:text-indigo-600 focus:text-indigo-600">Tüm Başvurularım</button>
-    <button (click)="getAcceptedApplications({page: currentPageNumber, pageSize: PAGE_SIZE})"
+    <button (click)="getAcceptedApplications({pageIndex: currentPageNumber, pageSize: PAGE_SIZE})"
       class="hover:text-indigo-600 focus:text-indigo-600">Kabul Edilenler</button>
-    <button (click)="getRejectedApplications({page: currentPageNumber, pageSize: PAGE_SIZE})"
+    <button (click)="getRejectedApplications({pageIndex: currentPageNumber, pageSize: PAGE_SIZE})"
       class="hover:text-indigo-600 focus:text-indigo-600">Reddedilenler</button>
-    <button (click)="getWaitingApplications({page: currentPageNumber, pageSize: PAGE_SIZE})"
+    <button (click)="getWaitingApplications({pageIndex: currentPageNumber, pageSize: PAGE_SIZE})"
       class="hover:text-indigo-600 focus:text-indigo-600">Değerlendiriliyor</button>
   </div>
 
@@ -74,20 +74,10 @@
   <!--dışarıdaki çerçeve-->
 </div>
 <div class="flex justify-center gap-5 mt-32 ">
-  <button
-    class="flex px-6 py-4 text-4xl text-bold bg-gray-200 text-indigo-900 rounded-full hover:bg-indigo-700 hover:text-white focus:bg-indigo-700 focus:text-white">
-    1
-  </button>
-  <button
-    class="flex px-6 py-4 text-4xl text-bold bg-gray-200 text-indigo-900 rounded-full hover:bg-indigo-700 hover:text-white focus:bg-indigo-700 focus:text-white">
-    2
-  </button>
-  <button
-    class="flex px-6 py-4 text-4xl text-bold bg-gray-200 text-indigo-900 rounded-full hover:bg-indigo-700 hover:text-white focus:bg-indigo-700 focus:text-white">
-    3
-  </button>
-  <button
-    class="flex px-6 py-4 text-4xl text-bold bg-gray-200 text-indigo-900 rounded-full hover:bg-indigo-700 hover:text-white focus:bg-indigo-700 focus:text-white">
-    4
-  </button>
+  <div class="flex justify-center gap-5 mt-32">
+    <button *ngFor="let pageNumber of getPageNumbers()" (click)="onPageNumberClicked(pageNumber)"
+      class="flex px-6 py-4 text-4xl text-bold bg-gray-200 text-indigo-900 rounded-full hover:bg-indigo-700 hover:text-white focus:bg-indigo-700 focus:text-white">
+      {{ pageNumber + 1 }}
+    </button>
+  </div>
 </div>

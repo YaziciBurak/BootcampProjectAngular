@@ -13,24 +13,24 @@ import { QuestionService } from '../../../../features/services/concretes/questio
   templateUrl: './quiz-questions.component.html',
   styleUrl: './quiz-questions.component.css'
 })
-export class QuizQuestionsComponent implements OnInit{
+export class QuizQuestionsComponent implements OnInit {
 
-  quizQuestionList:QuizQuestionListItemDto;
+  quizQuestionList: QuizQuestionListItemDto;
 
-  constructor(private quizQuestionService:QuizQuestionService) {}
+  constructor(private quizQuestionService: QuizQuestionService) { }
 
   ngOnInit(): void {
     this.loadQuizQuestions();
   }
 
   loadQuizQuestions() {
-    const pageRequest: PageRequest = { page: 0, pageSize: 20 };
+    const pageRequest: PageRequest = { pageIndex: 0, pageSize: 20 };
     this.getListQuizQuestionList(pageRequest);
-   
+
   }
-  getListQuizQuestionList(pageRequest:PageRequest) {
+  getListQuizQuestionList(pageRequest: PageRequest) {
     this.quizQuestionService.getList(pageRequest).subscribe(response => {
-    this.quizQuestionList = response;
+      this.quizQuestionList = response;
     })
   }
 

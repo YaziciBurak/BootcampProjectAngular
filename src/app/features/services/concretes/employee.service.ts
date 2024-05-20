@@ -16,40 +16,40 @@ import { UserForRegisterResponse } from '../../models/responses/users/user-for-r
 @Injectable({
   providedIn: 'root'
 })
-export class EmployeeService extends EmployeeBaseService{
-  
-  private readonly apiUrl:string = `${environment.API_URL}/Employees`
-  private readonly apiUrlAuth:string = `${environment.API_URL}/Auth`
- 
-  constructor(private httpClient:HttpClient) {super() }
-  
+export class EmployeeService extends EmployeeBaseService {
+
+  private readonly apiUrl: string = `${environment.API_URL}/Employees`
+  private readonly apiUrlAuth: string = `${environment.API_URL}/Auth`
+
+  constructor(private httpClient: HttpClient) { super() }
+
   override getList(pageRequest: PageRequest): Observable<EmployeeListItemDto> {
-    const newRequest: {[key: string]: string | number} = {
-      pageIndex: pageRequest.page,
+    const newRequest: { [key: string]: string | number } = {
+      pageIndex: pageRequest.pageIndex,
       pageSize: pageRequest.pageSize
     };
-    
+
     return this.httpClient.get<EmployeeListItemDto>(this.apiUrl,
-    {
-      params: newRequest
-    }).pipe(
-      map((response)=>{
-        const newResponse:EmployeeListItemDto={
-          index:pageRequest.page,
-          size:pageRequest.pageSize,
-          count:response.count,
-          hasNext:response.hasNext,
-          hasPrevious:response.hasPrevious,
-          items:response.items,
-          pages:response.pages
-        };
-        return newResponse;
-      })
-    )
+      {
+        params: newRequest
+      }).pipe(
+        map((response) => {
+          const newResponse: EmployeeListItemDto = {
+            index: pageRequest.pageIndex,
+            size: pageRequest.pageSize,
+            count: response.count,
+            hasNext: response.hasNext,
+            hasPrevious: response.hasPrevious,
+            items: response.items,
+            pages: response.pages
+          };
+          return newResponse;
+        })
+      )
   }
 
   override getById(id: string): Observable<GetbyidEmployeeResponse> {
-    const newRequest: {[key: string]: string | number} = {
+    const newRequest: { [key: string]: string | number } = {
       id: id
     };
     return this.httpClient.get<GetbyidEmployeeResponse>(`${this.apiUrl}/${id}`, {
@@ -76,32 +76,32 @@ export class EmployeeService extends EmployeeBaseService{
     return this.httpClient.post<UserForRegisterResponse>(`${this.apiUrlAuth}/RegisterEmployee`, request);
   }
   override delete(id: string): Observable<DeleteEmployeeResponse> {
-    return this.httpClient.delete<DeleteEmployeeResponse>( `${this.apiUrl}/`+ id);
+    return this.httpClient.delete<DeleteEmployeeResponse>(`${this.apiUrl}/` + id);
   }
   override update(request: UpdateEmployeeRequest): Observable<UpdateEmployeeResponse> {
     return this.httpClient.put<UpdateEmployeeResponse>(`${this.apiUrl}`, request);
   }
   override getListAll(): Observable<EmployeeListItemDto> {
-    const newRequest: {[key: string]: string | number} = {
-      page: 0,
+    const newRequest: { [key: string]: string | number } = {
+      pageIndex: 0,
       pageSize: 100
-  };
-  return this.httpClient.get<EmployeeListItemDto>(this.apiUrl, {
-    params: newRequest
-  }).pipe(
-    map((response)=>{
-      const newResponse:EmployeeListItemDto={
-        index:0,
-        size:100,
-        count:response.count,
-        hasNext:response.hasNext,
-        hasPrevious:response.hasPrevious,
-        items:response.items,
-        pages:response.pages
-      };
-      return newResponse;
-    })
-  )
-}
+    };
+    return this.httpClient.get<EmployeeListItemDto>(this.apiUrl, {
+      params: newRequest
+    }).pipe(
+      map((response) => {
+        const newResponse: EmployeeListItemDto = {
+          index: 0,
+          size: 100,
+          count: response.count,
+          hasNext: response.hasNext,
+          hasPrevious: response.hasPrevious,
+          items: response.items,
+          pages: response.pages
+        };
+        return newResponse;
+      })
+    )
+  }
 
 }

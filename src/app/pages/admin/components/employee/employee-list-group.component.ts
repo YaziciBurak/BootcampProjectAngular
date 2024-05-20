@@ -12,7 +12,7 @@ import { AuthService } from '../../../../features/services/concretes/auth.servic
 @Component({
   selector: 'app-employee-list-group',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule,CommonModule],
+  imports: [FormsModule, ReactiveFormsModule, CommonModule],
   templateUrl: './employee-list-group.component.html',
   styleUrl: './employee-list-group.component.css'
 })
@@ -28,10 +28,10 @@ export class EmployeeListGroupComponent implements OnInit {
   constructor(
     private employeeService: EmployeeService,
     private formBuilder: FormBuilder,
-    private authService:AuthService,
-    private change:ChangeDetectorRef 
+    private authService: AuthService,
+    private change: ChangeDetectorRef
 
-    ) { }
+  ) { }
 
 
 
@@ -68,7 +68,7 @@ export class EmployeeListGroupComponent implements OnInit {
 
   loadEmployees() {
     const pageRequest: PageRequest = {
-      page: 0,
+      pageIndex: 0,
       pageSize: 20
     };
     this.getEmployees(pageRequest);
@@ -82,32 +82,32 @@ export class EmployeeListGroupComponent implements OnInit {
   }
 
   add() {
-    if(this.employeeCreateForm.valid) {
-      let employee= Object.assign({},this.employeeCreateForm.value);
+    if (this.employeeCreateForm.valid) {
+      let employee = Object.assign({}, this.employeeCreateForm.value);
       this.authService.RegisterEmployee(employee).subscribe({
-        next:(response)=>{
+        next: (response) => {
           this.handleCreateSuccess();
         },
-        error:(error)=>{
-          this.formMessage="Eklenemedi";
+        error: (error) => {
+          this.formMessage = "Eklenemedi";
           this.change.markForCheck();
         },
-        complete:()=>{
-          this.formMessage="Başarıyla Eklendi";
+        complete: () => {
+          this.formMessage = "Başarıyla Eklendi";
           this.change.markForCheck();
           this.closeModal();
           this.loadEmployees();
         }
-        });
-      }
+      });
     }
-    handleCreateSuccess() {
-      this.loadEmployees();
-      this.formMessage = "Başarıyla Eklendi"; 
-      setTimeout(() => {
-        this.formMessage = "";
-      }, 3000);
-    }
+  }
+  handleCreateSuccess() {
+    this.loadEmployees();
+    this.formMessage = "Başarıyla Eklendi";
+    setTimeout(() => {
+      this.formMessage = "";
+    }, 3000);
+  }
 
   delete(id: string) {
     if (confirm('Bu uygulama durumunu silmek istediğinizden emin misiniz?')) {
@@ -186,14 +186,14 @@ export class EmployeeListGroupComponent implements OnInit {
       }
     });
   }
-openAddModal() {
-  this.employeeCreateForm.reset();
-  this.showCreateModal = true;
-}
-closeModal() {
-  this.showUpdateModal = false;
-  this.showCreateModal = false;
-}
+  openAddModal() {
+    this.employeeCreateForm.reset();
+    this.showCreateModal = true;
+  }
+  closeModal() {
+    this.showUpdateModal = false;
+    this.showCreateModal = false;
+  }
 }
 
 

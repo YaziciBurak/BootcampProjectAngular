@@ -1,11 +1,11 @@
 import { Pipe, PipeTransform } from "@angular/core";
-import { GetlistInstructorResponse } from "../../../features/models/responses/instructor/getlist-instructor-response"; 
+import { GetlistInstructorResponse } from "../../../features/models/responses/instructor/getlist-instructor-response";
 
 
 @Pipe({
-    name:'filterInstructorPipe'
+    name: 'filterInstructorPipe'
 })
-export class FilterInstructorPipe implements PipeTransform{
+export class FilterInstructorPipe implements PipeTransform {
     transform(value: GetlistInstructorResponse[], filterText: string): GetlistInstructorResponse[] {
         if (!value || !filterText) {
             return value;
@@ -15,5 +15,5 @@ export class FilterInstructorPipe implements PipeTransform{
             const fullName = `${instructor.firstName} ${instructor.lastName}`.toLowerCase();
             return fullName.includes(searchText);
         });
-}
+    }
 }

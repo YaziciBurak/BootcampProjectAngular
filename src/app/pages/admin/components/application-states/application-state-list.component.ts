@@ -1,11 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { ApplicationStateService } from '../../../../features/services/concretes/application-state.service'; 
-import { PageRequest } from '../../../../core/models/page-request'; 
-import { ApplicationstateListItemDto } from '../../../../features/models/responses/applicationstate/applicationstate-list-item-dto'; 
+import { ApplicationStateService } from '../../../../features/services/concretes/application-state.service';
+import { PageRequest } from '../../../../core/models/page-request';
+import { ApplicationstateListItemDto } from '../../../../features/models/responses/applicationstate/applicationstate-list-item-dto';
 import { SharedModule } from 'primeng/api';
 import { UpdateApplicationstateRequest } from '../../../../features/models/requests/applicationstate/update-applicationstate-request';
 import { CreateApplicationstateRequest } from '../../../../features/models/requests/applicationstate/create-applicationstate-request';
@@ -13,26 +13,26 @@ import { CreateApplicationstateRequest } from '../../../../features/models/reque
 @Component({
   selector: 'app-application-state-list',
   standalone: true,
-  imports: [FormsModule,ReactiveFormsModule, RouterModule,HttpClientModule,CommonModule,SharedModule],
+  imports: [FormsModule, ReactiveFormsModule, RouterModule, HttpClientModule, CommonModule, SharedModule],
   templateUrl: './application-state-list.component.html',
   styleUrl: './application-state-list.component.css'
 })
 export class ApplicationStateListComponent implements OnInit {
-  
+
   formMessage: string | null = null;
   applicationStateUpdateForm: FormGroup;
   applicationStateCreateForm: FormGroup;
   selectedAppState: any;
   showUpdateModal: boolean = false;
   showCreateModal: boolean = false;
-  
+
   applicationStateList: ApplicationstateListItemDto;
 
   constructor(
     private applicationStateService: ApplicationStateService,
     private formBuilder: FormBuilder,
-    private change:ChangeDetectorRef
-  ) {}
+    private change: ChangeDetectorRef
+  ) { }
 
   ngOnInit(): void {
     this.loadApplicationStates();
@@ -45,14 +45,14 @@ export class ApplicationStateListComponent implements OnInit {
       name: ['', [Validators.required]]
     });
   }
-  createForm(){
-    this.applicationStateCreateForm=this.formBuilder.group({
-      name:['',[Validators.required]]
+  createForm() {
+    this.applicationStateCreateForm = this.formBuilder.group({
+      name: ['', [Validators.required]]
     })
   }
 
   loadApplicationStates() {
-    const pageRequest: PageRequest = { page: 0, pageSize: 20 };
+    const pageRequest: PageRequest = { pageIndex: 0, pageSize: 20 };
     this.getApplicationStates(pageRequest);
   }
 
@@ -62,32 +62,32 @@ export class ApplicationStateListComponent implements OnInit {
     });
   }
   add() {
-    if(this.applicationStateCreateForm.valid) {
-      let applicationState:CreateApplicationstateRequest = Object.assign({},this.applicationStateCreateForm.value);
+    if (this.applicationStateCreateForm.valid) {
+      let applicationState: CreateApplicationstateRequest = Object.assign({}, this.applicationStateCreateForm.value);
       this.applicationStateService.create(applicationState).subscribe({
-        next:(response)=>{
+        next: (response) => {
           this.handleCreateSuccess();
         },
-        error:(error)=>{
-          this.formMessage="Eklenemedi";
+        error: (error) => {
+          this.formMessage = "Eklenemedi";
           this.change.markForCheck();
         },
-        complete:()=>{
-          this.formMessage="Başarıyla Eklendi";
+        complete: () => {
+          this.formMessage = "Başarıyla Eklendi";
           this.change.markForCheck();
           this.closeModal();
           this.loadApplicationStates();
         }
-        });
-      }
+      });
     }
-    handleCreateSuccess() {
-      this.loadApplicationStates();
-      this.formMessage = "Başarıyla Eklendi"; 
-      setTimeout(() => {
-        this.formMessage = "";
-      }, 3000);
-    }
+  }
+  handleCreateSuccess() {
+    this.loadApplicationStates();
+    this.formMessage = "Başarıyla Eklendi";
+    setTimeout(() => {
+      this.formMessage = "";
+    }, 3000);
+  }
 
   delete(id: number) {
     if (confirm('Bu uygulama durumunu silmek istediğinizden emin misiniz?')) {
@@ -112,8 +112,10 @@ export class ApplicationStateListComponent implements OnInit {
 
   update() {
     const id = this.selectedAppState.id;
-    const request: UpdateApplicationstateRequest = { id: id,
-      name: this.applicationStateUpdateForm.value.name };
+    const request: UpdateApplicationstateRequest = {
+      id: id,
+      name: this.applicationStateUpdateForm.value.name
+    };
     this.applicationStateService.update(request).subscribe({
       next: (response) => {
         this.showUpdateModal = false; // Modal'ı kapat
@@ -149,9 +151,9 @@ export class ApplicationStateListComponent implements OnInit {
 }
 
 
-      
-        
-  
- 
+
+
+
+
 
 

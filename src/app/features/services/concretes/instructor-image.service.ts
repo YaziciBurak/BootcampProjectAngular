@@ -15,58 +15,58 @@ import { GetbyidInstructorimageResponse } from '../../models/responses/instructo
 })
 export class InstructorImageService extends InstructorImageBaseService {
 
-  private readonly apiUrl:string = `${environment.API_URL}/InstructorImages`
-  constructor(private httpClient:HttpClient) {super()}
+  private readonly apiUrl: string = `${environment.API_URL}/InstructorImages`
+  constructor(private httpClient: HttpClient) { super() }
 
   override create(formData: FormData): Observable<CreateInstructorimageResponse> {
     return this.httpClient.post<CreateInstructorimageResponse>(`${this.apiUrl}`, formData);
-   }
-   override update(formData: FormData): Observable<UpdateInstructorimageResponse> {
-   return this.httpClient.put<UpdateInstructorimageResponse>(`${this.apiUrl}`, formData);  
-   }
-   override delete(id: number): Observable<DeleteInstructorimageResponse> {
-     return this.httpClient.delete<DeleteInstructorimageResponse>(`${this.apiUrl}/`+ id);
-    }
- 
-    override getList(pageRequest: PageRequest): Observable<InstructorimageListItemDto> {
-     const newRequest: {[key: string]: string | number} = {
-       pageIndex: pageRequest.page,
-       pageSize: pageRequest.pageSize
-     };
-     return this.httpClient.get<InstructorimageListItemDto>(this.apiUrl,{
-       params:newRequest
-     }).pipe(
-       map((response)=>{
-         const newResponse:InstructorimageListItemDto={
-           index:pageRequest.page,
-           size:pageRequest.pageSize,
-           count:response.count,
-           hasNext:response.hasNext,
-           hasPrevious:response.hasPrevious,
-           items:response.items,
-           pages:response.pages
-         };
-         return newResponse;
-       })
-     )
-   }
-   override getById(id: number): Observable<GetbyidInstructorimageResponse> {
-     const newRequest: {[key: string]: string | number} = {
-       id: id
-     };
-     return this.httpClient.get<GetbyidInstructorimageResponse>(`${this.apiUrl}/${id}`,  {
-       params: newRequest
-     }).pipe(
-       map((response) => {
-         const newResponse: GetbyidInstructorimageResponse = {
-           id: response.id,
-           instructorId: response.instructorId,
-           instructorFirstName: response.instructorFirstName,
-           instructorLastName: response.instructorLastName,
-           imagePath: response.imagePath
-         };
-         return newResponse;
-       })
-     );
-   }
+  }
+  override update(formData: FormData): Observable<UpdateInstructorimageResponse> {
+    return this.httpClient.put<UpdateInstructorimageResponse>(`${this.apiUrl}`, formData);
+  }
+  override delete(id: number): Observable<DeleteInstructorimageResponse> {
+    return this.httpClient.delete<DeleteInstructorimageResponse>(`${this.apiUrl}/` + id);
+  }
+
+  override getList(pageRequest: PageRequest): Observable<InstructorimageListItemDto> {
+    const newRequest: { [key: string]: string | number } = {
+      pageIndex: pageRequest.pageIndex,
+      pageSize: pageRequest.pageSize
+    };
+    return this.httpClient.get<InstructorimageListItemDto>(this.apiUrl, {
+      params: newRequest
+    }).pipe(
+      map((response) => {
+        const newResponse: InstructorimageListItemDto = {
+          index: pageRequest.pageIndex,
+          size: pageRequest.pageSize,
+          count: response.count,
+          hasNext: response.hasNext,
+          hasPrevious: response.hasPrevious,
+          items: response.items,
+          pages: response.pages
+        };
+        return newResponse;
+      })
+    )
+  }
+  override getById(id: number): Observable<GetbyidInstructorimageResponse> {
+    const newRequest: { [key: string]: string | number } = {
+      id: id
+    };
+    return this.httpClient.get<GetbyidInstructorimageResponse>(`${this.apiUrl}/${id}`, {
+      params: newRequest
+    }).pipe(
+      map((response) => {
+        const newResponse: GetbyidInstructorimageResponse = {
+          id: response.id,
+          instructorId: response.instructorId,
+          instructorFirstName: response.instructorFirstName,
+          instructorLastName: response.instructorLastName,
+          imagePath: response.imagePath
+        };
+        return newResponse;
+      })
+    );
+  }
 }

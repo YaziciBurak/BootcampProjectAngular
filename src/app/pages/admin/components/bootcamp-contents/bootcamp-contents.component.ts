@@ -40,7 +40,7 @@ export class BootcampContentsComponent implements OnInit {
   }
 
   loadBootcampContent() {
-    const pageRequest: PageRequest = { page: 0, pageSize: 30 };
+    const pageRequest: PageRequest = { pageIndex: 0, pageSize: 30 };
     this.getBootcampContents(pageRequest);
     this.getBootcamps(pageRequest);
   }

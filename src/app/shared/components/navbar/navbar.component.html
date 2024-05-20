@@ -17,9 +17,27 @@
       <div
         class=" hidden md:block md:flex gap-1.5 px-4 items-center md:w-44 xl:w-64 2xl:w-96 border border-gray-300 rounded-full text-slate-400 max-md:flex-wrap">
 
-        <img loading="lazy" src="/assets/img/search-icon.svg" />
-        <input type="text" id="search-bar" placeholder="Search For Course . . ."
+        <img loading="lazy" src="/assets/img/search-icon.svg" id="search-icon" />
+        <input [ngModel]="searchQuery" (ngModelChange)="onSearchInput($event)" type="text" id="search-bar"
+          placeholder="Search For Course . . ." autocomplete="off"
           class=" -ml-4 2xl:ml-1 border-none bg-transparent text-opacity-20 font-thin" />
+        <div id="dropdownSearchResults"
+          class="flex hidden bg-white divide-y divide-gray-300  rounded-lg shadow dark:bg-gray-700 z-10">
+          <ul class=" flex flex-col  font-semibold text-indigo-900  " aria-labelledby="dropdownSearchResult">
+            <ng-container *ngFor="let bootcamp of searchResults">
+              <li class="flex flex-row pl-2 pr-4 py-1 border-b border-gray-200 hover:bg-gray-100">
+                <img loading="lazy" src="{{bootcamp.bootcampImagePath}}"
+                  class="self-center mr-1 max-w-[32px] max-h-[32px]" />
+                <a routerLink="bootcampDetail/{{bootcamp.id}}"
+                  class="block py-2 pr-6 hover:cursor-pointer ">{{bootcamp.name}}</a>
+              </li>
+            </ng-container>
+            <li *ngIf="searchResults.length < 1"
+              class="flex flex-row pl-2 pr-4 py-1 border-b border-gray-200 hover:bg-gray-100">
+              Sonuç bulunamadı.
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>

@@ -11,23 +11,23 @@ import { QuizListItemDto } from '../../../../features/models/responses/quiz/quiz
 @Component({
   selector: 'app-results',
   standalone: true,
-  imports: [FormsModule,ReactiveFormsModule,CommonModule],
+  imports: [FormsModule, ReactiveFormsModule, CommonModule],
   templateUrl: './results.component.html',
   styleUrl: './results.component.css'
 })
-export class ResultsComponent implements OnInit{
+export class ResultsComponent implements OnInit {
   formMessage: string | null = null;
-  resultCreateForm:FormGroup;
+  resultCreateForm: FormGroup;
   showCreateModal: boolean = false;
-  resultList:ResultListItemDto;
-  quizList:QuizListItemDto;
+  resultList: ResultListItemDto;
+  quizList: QuizListItemDto;
 
   constructor(
-    private resultService:ResultService,
-    private quizService:QuizService,
-    private formBuilder:FormBuilder,
-    private change:ChangeDetectorRef 
-  ) {}
+    private resultService: ResultService,
+    private quizService: QuizService,
+    private formBuilder: FormBuilder,
+    private change: ChangeDetectorRef
+  ) { }
 
   ngOnInit(): void {
     this.loadResults();
@@ -35,65 +35,65 @@ export class ResultsComponent implements OnInit{
   }
 
   loadResults() {
-    const pageRequest:PageRequest = {page:0,pageSize:20}
+    const pageRequest: PageRequest = { pageIndex: 0, pageSize: 20 }
     this.getResults(pageRequest);
     this.getQuizzes(pageRequest);
   }
 
   createForm() {
     this.resultCreateForm = this.formBuilder.group({
-      quizId : ['', [Validators.required]],
-      wrongAnswers : ['', [Validators.required]],
-      correctAnswers : ['', [Validators.required]]
+      quizId: ['', [Validators.required]],
+      wrongAnswers: ['', [Validators.required]],
+      correctAnswers: ['', [Validators.required]]
     })
   }
 
-  getResults(pageRequest:PageRequest) {
+  getResults(pageRequest: PageRequest) {
     this.resultService.getList(pageRequest).subscribe(response => {
       this.resultList = response;
     })
   }
 
-  getQuizzes(pageRequest:PageRequest) {
+  getQuizzes(pageRequest: PageRequest) {
     this.quizService.getList(pageRequest).subscribe(response => {
-    this.quizList = response;
+      this.quizList = response;
     })
   }
 
   add() {
-    if(this.resultCreateForm.valid) {
-      let question:CreateResultRequest = Object.assign({},this.resultCreateForm.value);
+    if (this.resultCreateForm.valid) {
+      let question: CreateResultRequest = Object.assign({}, this.resultCreateForm.value);
       this.resultService.create(question).subscribe({
-        next:(response)=>{
+        next: (response) => {
           this.handleCreateSuccess();
         },
-        error:(error)=>{
-          this.formMessage="Eklenemedi";
+        error: (error) => {
+          this.formMessage = "Eklenemedi";
           this.change.markForCheck();
         },
-        complete:()=>{
-          this.formMessage="Başarıyla Eklendi";
+        complete: () => {
+          this.formMessage = "Başarıyla Eklendi";
           this.change.markForCheck();
           this.closeModal();
           this.loadResults();
         }
-        });
-      }
+      });
     }
-    handleCreateSuccess() {
-      this.loadResults();
-      this.formMessage = "Başarıyla Eklendi"; 
-      setTimeout(() => {
-        this.formMessage = "";
-      }, 3000);
-    }
+  }
+  handleCreateSuccess() {
+    this.loadResults();
+    this.formMessage = "Başarıyla Eklendi";
+    setTimeout(() => {
+      this.formMessage = "";
+    }, 3000);
+  }
 
-    openAddModal() {
-      this.resultCreateForm.reset();
-      this.showCreateModal = true;
-    }
+  openAddModal() {
+    this.resultCreateForm.reset();
+    this.showCreateModal = true;
+  }
 
-    closeModal() {
-      this.showCreateModal = false;
-    }
+  closeModal() {
+    this.showCreateModal = false;
+  }
 }

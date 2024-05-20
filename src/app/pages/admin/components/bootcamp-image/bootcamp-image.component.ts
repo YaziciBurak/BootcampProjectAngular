@@ -12,7 +12,7 @@ import { UpdateBootcampimageRequest } from '../../../../features/models/requests
 @Component({
   selector: 'app-bootcamp-image',
   standalone: true,
-  imports: [FormsModule,ReactiveFormsModule,CommonModule],
+  imports: [FormsModule, ReactiveFormsModule, CommonModule],
   templateUrl: './bootcamp-image.component.html',
   styleUrl: './bootcamp-image.component.css'
 })
@@ -20,7 +20,7 @@ export class BootcampImageComponent implements OnInit {
 
   formMessage: string | null = null;
   bootcampImageUpdateForm: FormGroup;
-  bootcampImageCreateForm:FormGroup;
+  bootcampImageCreateForm: FormGroup;
   selectedBootcampImage: any;
   showUpdateModal: boolean = false;
   showCreateModal: boolean = false;
@@ -28,12 +28,12 @@ export class BootcampImageComponent implements OnInit {
   bootcampList: BootcampListItemDto;
 
   constructor(
-    private bootcampImageService:BootcampImageService, 
-    private bootcampService:BootcampService,
-    private formBuilder:FormBuilder,
-    private change:ChangeDetectorRef
-  ) {}
-  
+    private bootcampImageService: BootcampImageService,
+    private bootcampService: BootcampService,
+    private formBuilder: FormBuilder,
+    private change: ChangeDetectorRef
+  ) { }
+
   ngOnInit(): void {
     this.loadBootcampImages();
     this.createForm();
@@ -41,24 +41,24 @@ export class BootcampImageComponent implements OnInit {
   }
   updateForm() {
     this.bootcampImageUpdateForm = this.formBuilder.group({
-      id:[''],
-      bootcampId:['', [Validators.required]],  
-      file: [null, [Validators.required]] 
+      id: [''],
+      bootcampId: ['', [Validators.required]],
+      file: [null, [Validators.required]]
     })
   }
 
   createForm() {
     this.bootcampImageCreateForm = this.formBuilder.group({
       imagePath: ['',],
-      bootcampId:['', [Validators.required]],  
-      file: ['', [Validators.required]] 
+      bootcampId: ['', [Validators.required]],
+      file: ['', [Validators.required]]
     })
   }
 
   loadBootcampImages() {
-    const pageRequest: PageRequest = { page: 0, pageSize: 20 };
+    const pageRequest: PageRequest = { pageIndex: 0, pageSize: 20 };
     this.getBootcamps(pageRequest);
-     this.getBootcampImages(pageRequest);  
+    this.getBootcampImages(pageRequest);
   }
   getBootcampImages(pageRequest: PageRequest) {
     this.bootcampImageService.getList(pageRequest).subscribe(response => {
@@ -91,62 +91,62 @@ export class BootcampImageComponent implements OnInit {
     }, 3000);
   }
   add() {
-    if(this.bootcampImageCreateForm.valid) {
-      let bootcampImage:CreateBootcampimageRequest = Object.assign({},this.bootcampImageCreateForm.value);
+    if (this.bootcampImageCreateForm.valid) {
+      let bootcampImage: CreateBootcampimageRequest = Object.assign({}, this.bootcampImageCreateForm.value);
       let formData = new FormData();
       formData.append('bootcampId', bootcampImage.bootcampId.toString());
       formData.append('imagePath', bootcampImage.imagePath);
       formData.append('file', bootcampImage.file);
       this.bootcampImageService.create(formData).subscribe({
-        next:(response)=>{
+        next: (response) => {
           this.handleCreateSuccess();
         },
-        error:(error)=>{
-          this.formMessage="Eklenemedi";
+        error: (error) => {
+          this.formMessage = "Eklenemedi";
           this.change.markForCheck();
         },
-        complete:()=>{
-          this.formMessage="Başarıyla Eklendi";
+        complete: () => {
+          this.formMessage = "Başarıyla Eklendi";
           this.change.markForCheck();
           this.closeModal();
           this.loadBootcampImages();
         }
-        });
+      });
+    }
+  }
+  handleCreateSuccess() {
+    this.loadBootcampImages();
+    this.formMessage = "Başarıyla Eklendi";
+    setTimeout(() => {
+      this.formMessage = "";
+    }, 3000);
+  }
+  update() {
+    let bootcampImage: UpdateBootcampimageRequest = { ...this.bootcampImageUpdateForm.value, file: this.bootcampImageUpdateForm.get('file').value };
+    let formData = new FormData();
+    formData.append('id', bootcampImage.id.toString());
+    formData.append('bootcampId', bootcampImage.bootcampId.toString());
+    formData.append('file', bootcampImage.file);
+    this.bootcampImageService.update(formData).subscribe({
+      next: (response) => {
+        this.closeModal(); // Modal'ı kapat
+        this.loadBootcampImages(); // Verileri yeniden getir
+      },
+      error: (error) => {
+        console.error('Güncelleme işlemi başarısız:', error);
       }
-    }
-    handleCreateSuccess() {
-      this.loadBootcampImages();
-      this.formMessage = "Başarıyla Eklendi"; 
-      setTimeout(() => {
-        this.formMessage = "";
-      }, 3000);
-    }
-    update() {
-        let bootcampImage:UpdateBootcampimageRequest = {...this.bootcampImageUpdateForm.value, file:this.bootcampImageUpdateForm.get('file').value };
-        let formData = new FormData();
-        formData.append('id', bootcampImage.id.toString());
-        formData.append('bootcampId', bootcampImage.bootcampId.toString());
-        formData.append('file', bootcampImage.file);
-      this.bootcampImageService.update(formData).subscribe({
-        next: (response) => {
-            this.closeModal(); // Modal'ı kapat
-            this.loadBootcampImages(); // Verileri yeniden getir
-        },
-        error: (error) => {
-            console.error('Güncelleme işlemi başarısız:', error);
-        }
     });
-  
+
   }
   openUpdateModal(bootcampImage: any) {
     this.bootcampImageService.getById(bootcampImage.id).subscribe({
       next: (response) => {
         this.selectedBootcampImage = { ...response };
-        this.bootcampImageUpdateForm.patchValue({ 
+        this.bootcampImageUpdateForm.patchValue({
           id: this.selectedBootcampImage.id,
           bootcampId: this.selectedBootcampImage.bootcampId,
           file: this.selectedBootcampImage.file
-         }); 
+        });
         this.showUpdateModal = true; // Modal'ı aç
         return response;
       },
@@ -155,20 +155,20 @@ export class BootcampImageComponent implements OnInit {
       }
     });
   }
-    openAddModal() {
-      this.bootcampImageCreateForm.reset();
-      this.showCreateModal = true;
-    }
-    closeModal() {
-      this.showUpdateModal = false;
-      this.showCreateModal = false;
-    }
-    onFileChange(event: any) {
-      const file = event.target.files[0];
-      this.bootcampImageCreateForm?.get('file')?.setValue(file);
-    }
-    onFileUpdateChange(event: any) {
-      const file = event.target.files[0];
-      this.bootcampImageUpdateForm?.get('file')?.setValue(file);
-    }
+  openAddModal() {
+    this.bootcampImageCreateForm.reset();
+    this.showCreateModal = true;
+  }
+  closeModal() {
+    this.showUpdateModal = false;
+    this.showCreateModal = false;
+  }
+  onFileChange(event: any) {
+    const file = event.target.files[0];
+    this.bootcampImageCreateForm?.get('file')?.setValue(file);
+  }
+  onFileUpdateChange(event: any) {
+    const file = event.target.files[0];
+    this.bootcampImageUpdateForm?.get('file')?.setValue(file);
+  }
 }

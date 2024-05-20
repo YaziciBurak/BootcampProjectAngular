@@ -15,35 +15,35 @@ import { GetbyidResultResponse } from '../../models/responses/result/getbyid-res
 @Injectable({
   providedIn: 'root'
 })
-export class ResultService extends ResultBaseService{
-  private readonly apiUrl:string = `${environment.API_URL}/Results`
+export class ResultService extends ResultBaseService {
+  private readonly apiUrl: string = `${environment.API_URL}/Results`
 
-  constructor(private httpClient:HttpClient) {super()}
+  constructor(private httpClient: HttpClient) { super() }
 
-override getList(pageRequest: PageRequest): Observable<ResultListItemDto> {
-    const newRequest: {[key: string]: string | number} = {
-      pageIndex: pageRequest.page,
+  override getList(pageRequest: PageRequest): Observable<ResultListItemDto> {
+    const newRequest: { [key: string]: string | number } = {
+      pageIndex: pageRequest.pageIndex,
       pageSize: pageRequest.pageSize
     };
-    return this.httpClient.get<ResultListItemDto>(this.apiUrl,{
-      params:newRequest
+    return this.httpClient.get<ResultListItemDto>(this.apiUrl, {
+      params: newRequest
     }).pipe(
-      map((response)=>{
-        const newResponse:ResultListItemDto={
-          index:pageRequest.page,
-          size:pageRequest.pageSize,
-          count:response.count,
-          hasNext:response.hasNext,
-          hasPrevious:response.hasPrevious,
-          items:response.items,
-          pages:response.pages
+      map((response) => {
+        const newResponse: ResultListItemDto = {
+          index: pageRequest.pageIndex,
+          size: pageRequest.pageSize,
+          count: response.count,
+          hasNext: response.hasNext,
+          hasPrevious: response.hasPrevious,
+          items: response.items,
+          pages: response.pages
         };
         return newResponse;
       })
     )
   }
   override delete(id: number): Observable<DeleteResultResponse> {
-    return this.httpClient.delete<DeleteResultResponse>( `${this.apiUrl}/`+ id);
+    return this.httpClient.delete<DeleteResultResponse>(`${this.apiUrl}/` + id);
   }
 
   override update(request: UpdateResultRequest): Observable<UpdateResultResponse> {
@@ -55,10 +55,10 @@ override getList(pageRequest: PageRequest): Observable<ResultListItemDto> {
   }
 
   override getById(id: number): Observable<GetbyidResultResponse> {
-    const newRequest: {[key: string]: string | number} = {
+    const newRequest: { [key: string]: string | number } = {
       id: id
     };
-  
+
     return this.httpClient.get<GetbyidResultResponse>(`${this.apiUrl}/${id}`, {
       params: newRequest
     }).pipe(

@@ -11,22 +11,22 @@ import { UpdateBlacklistRequest } from '../../../../features/models/requests/bla
 @Component({
   selector: 'app-blacklist',
   standalone: true,
-  imports: [CommonModule,HttpClientModule,RouterModule,ReactiveFormsModule],
+  imports: [CommonModule, HttpClientModule, RouterModule, ReactiveFormsModule],
   templateUrl: './blacklist.component.html',
   styleUrl: './blacklist.component.css'
 })
-export class BlacklistComponent implements OnInit{
+export class BlacklistComponent implements OnInit {
   formMessage: string | null = null;
   blacklistForm: FormGroup;
   selectedBlacklist: any;
   showUpdateModal: boolean = false;
-  
+
   blacklistList: BlackListListItemDto;
 
   constructor(
     private blacklistService: BlacklistService,
     private formBuilder: FormBuilder
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.loadApplicationStates();
@@ -40,7 +40,7 @@ export class BlacklistComponent implements OnInit{
   }
 
   loadApplicationStates() {
-    const pageRequest: PageRequest = { page: 0, pageSize: 20 };
+    const pageRequest: PageRequest = { pageIndex: 0, pageSize: 20 };
     this.getBlacklists(pageRequest);
   }
 
@@ -85,21 +85,21 @@ export class BlacklistComponent implements OnInit{
     };
 
     this.blacklistService.update(request).subscribe({
-        next: (response) => {
-            this.showUpdateModal = false; // Modal'ı kapat
-            this.loadApplicationStates(); // Verileri yeniden getir
-        },
-        error: (error) => {
-            console.error('Güncelleme işlemi başarısız:', error);
-        }
+      next: (response) => {
+        this.showUpdateModal = false; // Modal'ı kapat
+        this.loadApplicationStates(); // Verileri yeniden getir
+      },
+      error: (error) => {
+        console.error('Güncelleme işlemi başarısız:', error);
+      }
     });
-}
+  }
 
   openUpdateModal(blacklist: any) {
     this.blacklistService.getById(blacklist.id).subscribe({
       next: (response) => {
         this.selectedBlacklist = { ...response };
-        this.blacklistForm.patchValue({ reason: this.selectedBlacklist.reason }); 
+        this.blacklistForm.patchValue({ reason: this.selectedBlacklist.reason });
         this.showUpdateModal = true; // Modal'ı aç
         return blacklist.id;
       },

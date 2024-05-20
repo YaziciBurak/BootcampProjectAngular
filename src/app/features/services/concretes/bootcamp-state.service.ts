@@ -17,29 +17,29 @@ import { GetbyidBootcampstateResponse } from '../../models/responses/bootcampsta
 @Injectable({
   providedIn: 'root'
 })
-export class BootcampStateService extends BootcampStateBaseService{
+export class BootcampStateService extends BootcampStateBaseService {
 
-  private readonly apiUrl:string = `${environment.API_URL}/BootcampStates`
+  private readonly apiUrl: string = `${environment.API_URL}/BootcampStates`
 
-  constructor(private httpClient:HttpClient) {super() }
+  constructor(private httpClient: HttpClient) { super() }
 
   override getList(pageRequest: PageRequest): Observable<BootcampstateListItemDto> {
-    const newRequest: {[key: string]: string | number} = {
-      pageIndex: pageRequest.page,
+    const newRequest: { [key: string]: string | number } = {
+      pageIndex: pageRequest.pageIndex,
       pageSize: pageRequest.pageSize
     };
-    return this.httpClient.get<BootcampstateListItemDto>(this.apiUrl,{
-      params:newRequest
+    return this.httpClient.get<BootcampstateListItemDto>(this.apiUrl, {
+      params: newRequest
     }).pipe(
-      map((response)=>{
-        const newResponse:BootcampstateListItemDto={
-          index:pageRequest.page,
-          size:pageRequest.pageSize,
-          count:response.count,
-          hasNext:response.hasNext,
-          hasPrevious:response.hasPrevious,
-          items:response.items,
-          pages:response.pages
+      map((response) => {
+        const newResponse: BootcampstateListItemDto = {
+          index: pageRequest.pageIndex,
+          size: pageRequest.pageSize,
+          count: response.count,
+          hasNext: response.hasNext,
+          hasPrevious: response.hasPrevious,
+          items: response.items,
+          pages: response.pages
         };
         return newResponse;
       })
@@ -49,14 +49,14 @@ export class BootcampStateService extends BootcampStateBaseService{
     return this.httpClient.post<CreateBootcampstateResponse>(this.apiUrl, request);
   }
   override delete(id: number): Observable<DeleteBootcampstateResponse> {
-    return this.httpClient.delete<DeleteBootcampstateResponse>(`${this.apiUrl}/`+id)
+    return this.httpClient.delete<DeleteBootcampstateResponse>(`${this.apiUrl}/` + id)
   }
-   override update(request: UpdateBootcampstateRequest): Observable<UpdateBootcampstateResponse> {
+  override update(request: UpdateBootcampstateRequest): Observable<UpdateBootcampstateResponse> {
     return this.httpClient.put<UpdateBootcampstateResponse>(`${this.apiUrl}`, request);
   }
 
   override getById(id: number): Observable<GetbyidBootcampstateResponse> {
-    const newRequest: {[key: string]: string | number} = {
+    const newRequest: { [key: string]: string | number } = {
       id: id
     };
     return this.httpClient.get<GetbyidBootcampstateResponse>(`${this.apiUrl}/${id}`, {
@@ -72,23 +72,23 @@ export class BootcampStateService extends BootcampStateBaseService{
     );
   }
   override getListAll(): Observable<BootcampstateListItemDto> {
-    const newRequest: {[key: string]: string | number} = {
-      page: 0,
+    const newRequest: { [key: string]: string | number } = {
+      pageIndex: 0,
       pageSize: 100
     };
 
     return this.httpClient.get<BootcampstateListItemDto>(this.apiUrl, {
       params: newRequest
     }).pipe(
-      map((response)=>{
-        const newResponse:BootcampstateListItemDto={
-          index:0,
-          size:100,
-          count:response.count,
-          hasNext:response.hasNext,
-          hasPrevious:response.hasPrevious,
-          items:response.items,
-          pages:response.pages
+      map((response) => {
+        const newResponse: BootcampstateListItemDto = {
+          index: 0,
+          size: 100,
+          count: response.count,
+          hasNext: response.hasNext,
+          hasPrevious: response.hasPrevious,
+          items: response.items,
+          pages: response.pages
         };
         return newResponse;
       })

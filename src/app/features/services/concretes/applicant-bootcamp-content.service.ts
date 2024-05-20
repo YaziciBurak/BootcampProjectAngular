@@ -16,37 +16,37 @@ import { AuthService } from './auth.service';
 @Injectable({
   providedIn: 'root'
 })
-export class ApplicantBootcampContentService extends ApplicantBootcampContentBaseService{
-  private readonly apiUrl:string = `${environment.API_URL}/ApplicantBootcampContents`
-  constructor(private authService:AuthService, private httpClient:HttpClient ) {super(); }
+export class ApplicantBootcampContentService extends ApplicantBootcampContentBaseService {
+  private readonly apiUrl: string = `${environment.API_URL}/ApplicantBootcampContents`
+  constructor(private authService: AuthService, private httpClient: HttpClient) { super(); }
 
   override getList(pageRequest: PageRequest): Observable<ApplicantBootcampcontentListItemDto> {
-    const newRequest: {[key: string]: string | number} = {
-      pageIndex: pageRequest.page,
+    const newRequest: { [key: string]: string | number } = {
+      pageIndex: pageRequest.pageIndex,
       pageSize: pageRequest.pageSize
     };
-    
+
     return this.httpClient.get<ApplicantBootcampcontentListItemDto>(this.apiUrl,
-    {
-      params: newRequest
-    }).pipe(
-      map((response)=>{
-        const newResponse:ApplicantBootcampcontentListItemDto={
-          index:pageRequest.page,
-          size:pageRequest.pageSize,
-          count:response.count,
-          hasNext:response.hasNext,
-          hasPrevious:response.hasPrevious,
-          items:response.items,
-          pages:response.pages
-        };
-        return newResponse;
-      })
-    )
+      {
+        params: newRequest
+      }).pipe(
+        map((response) => {
+          const newResponse: ApplicantBootcampcontentListItemDto = {
+            index: pageRequest.pageIndex,
+            size: pageRequest.pageSize,
+            count: response.count,
+            hasNext: response.hasNext,
+            hasPrevious: response.hasPrevious,
+            items: response.items,
+            pages: response.pages
+          };
+          return newResponse;
+        })
+      )
   }
 
   override getById(id: number): Observable<GetbyidApplicantBootcampcontentResponse> {
-    const newRequest: {[key: string]: string | number} = {
+    const newRequest: { [key: string]: string | number } = {
       id: id
     };
     return this.httpClient.get<GetbyidApplicantBootcampcontentResponse>(`${this.apiUrl}/${id}`, {
@@ -66,25 +66,25 @@ export class ApplicantBootcampContentService extends ApplicantBootcampContentBas
     return this.httpClient.post<CreateApplicantBootcampcontentResponse>(`${this.apiUrl}`, request);
   }
   override delete(id: number): Observable<DeleteApplicantBootcampcontentResponse> {
-    return this.httpClient.delete<DeleteApplicantBootcampcontentResponse>( `${this.apiUrl}/`+ id);
+    return this.httpClient.delete<DeleteApplicantBootcampcontentResponse>(`${this.apiUrl}/` + id);
   }
   override update(request: UpdateApplicantBootcampcontentRequest): Observable<UpdateApplicantBootcampcontentResponse> {
     return this.httpClient.put<UpdateApplicantBootcampcontentResponse>(`${this.apiUrl}`, request);
   }
 
-  override createApplicantBootcampContent(id:number):Observable<CreateApplicantBootcampcontentResponse> {
+  override createApplicantBootcampContent(id: number): Observable<CreateApplicantBootcampcontentResponse> {
     const loggedInUserId = this.authService.getCurrentUserId();
 
-    if(!loggedInUserId) {
-      throw new Error('Kullanıcı oturumu bulunamadı.');      
+    if (!loggedInUserId) {
+      throw new Error('Kullanıcı oturumu bulunamadı.');
     }
     const applicantBootcamContentRequest: CreateApplicantBootcampcontentRequest = {
-      applicantId:loggedInUserId,
-      bootcampContentId:id,
-      
+      applicantId: loggedInUserId,
+      bootcampContentId: id,
+
     };
     return this.httpClient.post<CreateApplicantBootcampcontentResponse>(`${this.apiUrl}`, applicantBootcamContentRequest)
-    
+
   }
 
 

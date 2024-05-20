@@ -48,7 +48,7 @@ export class BootcampContentPageComponent implements OnInit {
     this.activatedRoute.params.subscribe((params: { [x: string]: number; }) => {
       if (params["bootcampId"]) {
         console.log("ngOnInit", params["bootcampId"])
-        this.getBootcampContentByBootcampId({ page: 0, pageSize: 20 }, params["bootcampId"])
+        this.getBootcampContentByBootcampId({ pageIndex: 0, pageSize: 20 }, params["bootcampId"])
       } else { console.log("getById bootcamp error") }
     })
   }

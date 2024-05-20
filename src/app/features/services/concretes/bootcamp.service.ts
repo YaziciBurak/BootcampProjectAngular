@@ -23,7 +23,7 @@ export class BootcampService extends BootcampBaseService {
 
   override getList(pageRequest: PageRequest): Observable<BootcampListItemDto> {
     const newRequest: { [key: string]: string | number } = {
-      pageIndex: pageRequest.page,
+      pageIndex: pageRequest.pageIndex,
       pageSize: pageRequest.pageSize
     };
     return this.httpClient.get<BootcampListItemDto>(this.apiUrl, {
@@ -31,7 +31,7 @@ export class BootcampService extends BootcampBaseService {
     }).pipe(
       map((response) => {
         const newResponse: BootcampListItemDto = {
-          index: pageRequest.page,
+          index: pageRequest.pageIndex,
           size: pageRequest.pageSize,
           count: response.count,
           hasNext: response.hasNext,
@@ -86,13 +86,13 @@ export class BootcampService extends BootcampBaseService {
 
   override getListBootcampByInstructorId(pageRequest: PageRequest, instructorId: string): Observable<BootcampListItemDto> {
     const params = new HttpParams()
-    .set('instructorId', instructorId)
-    .set('page', pageRequest.page.toString())
-    .set('pageSize', pageRequest.pageSize.toString());
+      .set('instructorId', instructorId)
+      .set('pageIndex', pageRequest.pageIndex.toString())
+      .set('pageSize', pageRequest.pageSize.toString());
     return this.httpClient.get<BootcampListItemDto>(`${this.apiUrl}/getbootcampbyinstructorid?${instructorId}`, { params }).pipe(
       map((response) => {
         const newResponse: BootcampListItemDto = {
-          index: pageRequest.page,
+          index: pageRequest.pageIndex,
           size: pageRequest.pageSize,
           count: response.count,
           hasNext: response.hasNext,
@@ -109,10 +109,10 @@ export class BootcampService extends BootcampBaseService {
     return this.httpClient.post<BootcampListItemDto>(`${this.apiUrl}/dynamic/`, {
       filter: dynamic.filter,
       sort: dynamic.sort
-    }, { params: new HttpParams().set("page", pageRequest.page).set("pageSize", pageRequest.pageSize) }).pipe(
+    }, { params: new HttpParams().set("pageIndex", pageRequest.pageIndex).set("pageSize", pageRequest.pageSize) }).pipe(
       map((response) => {
         const newResponse: BootcampListItemDto = {
-          index: pageRequest.page,
+          index: pageRequest.pageIndex,
           size: pageRequest.pageSize,
           count: response.count,
           hasNext: response.hasNext,

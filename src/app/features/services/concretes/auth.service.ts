@@ -17,107 +17,105 @@ import { InstructorForRegisterRequest } from '../../models/requests/users/instru
   providedIn: 'root'
 })
 export class AuthService extends AuthBaseService {
-  fullname!:string;
-  userId!:string;
-  token:any;
-  jwtHelper:JwtHelperService = new JwtHelperService;
-  claims:string[]=[]
+  fullname!: string;
+  userId!: string;
+  token: any;
+  jwtHelper: JwtHelperService = new JwtHelperService;
+  claims: string[] = []
 
 
-  private readonly apiUrl:string = `${environment.API_URL}/Auth`
-  constructor(private httpClient:HttpClient,private storageService:LocalStorageService) {super() }
+  private readonly apiUrl: string = `${environment.API_URL}/Auth`
+  constructor(private httpClient: HttpClient, private storageService: LocalStorageService) { super() }
 
   override register(userforRegisterRequest: ApplicantForRegisterRequest)
-      :Observable<UserForRegisterResponse> {
-    return this.httpClient.post<UserForRegisterResponse>(`${this.apiUrl}/register`,userforRegisterRequest)
+    : Observable<UserForRegisterResponse> {
+    return this.httpClient.post<UserForRegisterResponse>(`${this.apiUrl}/register`, userforRegisterRequest)
   }
 
   override RegisterApplicant(applicantforRegisterRequest: ApplicantForRegisterRequest)
-  :Observable<UserForRegisterResponse> {
-return this.httpClient.post<UserForRegisterResponse>(`${this.apiUrl}/RegisterApplicant`,applicantforRegisterRequest)
-}
-override RegisterEmployee(employeeforRegisterRequest: EmployeeForRegisterRequest)
-  :Observable<UserForRegisterResponse> {
-return this.httpClient.post<UserForRegisterResponse>(`${this.apiUrl}/RegisterEmployee`,employeeforRegisterRequest)
-}
-override RegisterInstructor(instructorforRegisterRequest: InstructorForRegisterRequest)
-  :Observable<UserForRegisterResponse> {
-return this.httpClient.post<UserForRegisterResponse>(`${this.apiUrl}/RegisterInstructor`,instructorforRegisterRequest)
-}
-  login(userLoginRequest:UserForLoginRequest)
-                        :Observable<AccessTokenModel<TokenModel>>
-
-  {
-    return this.httpClient.post<AccessTokenModel<TokenModel>>(`${this.apiUrl}/login`,userLoginRequest)
-    .pipe(map(response=>{
+    : Observable<UserForRegisterResponse> {
+    return this.httpClient.post<UserForRegisterResponse>(`${this.apiUrl}/RegisterApplicant`, applicantforRegisterRequest)
+  }
+  override RegisterEmployee(employeeforRegisterRequest: EmployeeForRegisterRequest)
+    : Observable<UserForRegisterResponse> {
+    return this.httpClient.post<UserForRegisterResponse>(`${this.apiUrl}/RegisterEmployee`, employeeforRegisterRequest)
+  }
+  override RegisterInstructor(instructorforRegisterRequest: InstructorForRegisterRequest)
+    : Observable<UserForRegisterResponse> {
+    return this.httpClient.post<UserForRegisterResponse>(`${this.apiUrl}/RegisterInstructor`, instructorforRegisterRequest)
+  }
+  login(userLoginRequest: UserForLoginRequest)
+    : Observable<AccessTokenModel<TokenModel>> {
+    return this.httpClient.post<AccessTokenModel<TokenModel>>(`${this.apiUrl}/login`, userLoginRequest)
+      .pipe(map(response => {
         this.storageService.setToken(response.accessToken.token);
         // alert("Giriş yapıldı");
-        setTimeout(()=>{
+        setTimeout(() => {
           window.location.reload()
-        },400)
+        }, 400)
         return response;
       }
-     
-    ),catchError(responseError=>{
-      alert(responseError.error)
-      throw responseError;
-    })
-    )
+
+      ), catchError(responseError => {
+        alert(responseError.error)
+        throw responseError;
+      })
+      )
   }
 
 
-  getDecodedToken(){
-    try{
-      this.token=this.storageService.getToken();
+  getDecodedToken() {
+    try {
+      this.token = this.storageService.getToken();
       return this.jwtHelper.decodeToken(this.token)
     }
-    catch(error){
+    catch (error) {
       return error;
     }
   }
 
-  loggedIn():boolean{
-    this.token=this.storageService.getToken();
+  loggedIn(): boolean {
+    this.token = this.storageService.getToken();
     let isExpired = this.jwtHelper.isTokenExpired(this.token);
     return !isExpired;
-    
+
   }
 
-  getUserName():string{
+  getUserName(): string {
     var decoded = this.getDecodedToken();
-    var propUserName = Object.keys(decoded).filter(x=>x.endsWith("/name"))[0]
-    return this.fullname=decoded[propUserName];
+    var propUserName = Object.keys(decoded).filter(x => x.endsWith("/name"))[0]
+    return this.fullname = decoded[propUserName];
   }
 
-  getCurrentUserId():string{
+  getCurrentUserId(): string {
     var decoded = this.getDecodedToken();
-    var propUserId = Object.keys(decoded).filter(x=>x.endsWith("/nameidentifier"))[0]
-    return this.userId=decoded[propUserId]
+    var propUserId = Object.keys(decoded).filter(x => x.endsWith("/nameidentifier"))[0]
+    return this.userId = decoded[propUserId]
   }
 
 
-  logOut(){
+  logOut() {
     this.storageService.removeToken();
     // alert("Çıkış yapıldı");
-    setTimeout(function(){
+    setTimeout(function () {
       window.location.reload()
-    },400)
+    }, 400)
   }
 
-  getRoles():string[]{
-    if(this.storageService.getToken()){
+  getRoles(): string[] {
+    if (this.storageService.getToken()) {
       var decoded = this.getDecodedToken()
-      var role = Object.keys(decoded).filter(x=>x.endsWith("/role"))[0]
-      this.claims=decoded[role]
+      var role = Object.keys(decoded).filter(x => x.endsWith("/role"))[0]
+      this.claims = decoded[role]
     }
     return this.claims;
   }
 
-  isAdmin(){
-    if(this.claims.includes("Admin")){
+  isAdmin() {
+    if (this.claims.includes("Admin")) {
       return true;
     }
     return false;
   }
-  
+
 }

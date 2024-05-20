@@ -37,8 +37,8 @@ export class ApplicationListPageComponent implements OnInit {
   constructor(private authService: AuthService, private applicationService: ApplicationService, private activatedRoute: ActivatedRoute) { }
   readonly PAGE_SIZE = 3;
   ngOnInit(): void {
-    
-    this.getAllApplications({ page: 0, pageSize: this.PAGE_SIZE });
+
+    this.getAllApplications({ pageIndex: 0, pageSize: this.PAGE_SIZE });
 
 
   };
@@ -46,33 +46,13 @@ export class ApplicationListPageComponent implements OnInit {
 
     this.applicationService.getList(pageRequest).subscribe((response) => {
       this.applicationList = response;
-      this.updateCurrentPageNumber();
     })
   }
-  onViewMoreClicked(): void {
-    const nextPageIndex = this.applicationList.index + 1;
-    const pageSize = this.applicationList.size;
-    this.getList({ page: nextPageIndex, pageSize })
-    this.updateCurrentPageNumber();
-  }
 
-  onPreviousPageClicked(): void {
-    const previousPageIndex = this.applicationList.index - 1;
-    const pageSize = this.applicationList.size;
-    this.getList({ page: previousPageIndex, pageSize });
-    this.updateCurrentPageNumber();
-  }
-
-  updateCurrentPageNumber(): void {
-    this.currentPageNumber = this.applicationList.index + 1;
-  }
-  lowerCurrentPageNumber(): void {
-    this.currentPageNumber = this.applicationList.index - 1;
-  }
 
   setCurrentPageNumber(pageNumber: number): void {
     this.currentPageNumber = pageNumber - 1;
-    const pageRequest = { page: this.currentPageNumber, pageSize: this.PAGE_SIZE };
+    const pageRequest = { pageIndex: this.currentPageNumber, pageSize: this.PAGE_SIZE };
     switch (this.activeFilter) {
       case 'all':
         this.getAllApplications(pageRequest);
@@ -83,11 +63,9 @@ export class ApplicationListPageComponent implements OnInit {
       case 'rejected':
         this.getRejectedApplications(pageRequest);
         break;
-
       case 'waiting':
         this.getWaitingApplications(pageRequest);
         break;
-
     }
   }
 
@@ -99,10 +77,10 @@ export class ApplicationListPageComponent implements OnInit {
         field: 'applicantId',
         operator: 'eq',
         value: loggedInUserId.toString(),
-        
+
       }
     }
-      this.applicationService.getListApplicationByDynamic({ page: pageRequest.page, pageSize: pageRequest.pageSize }, query).subscribe((response) => {
+    this.applicationService.getListApplicationByDynamic(pageRequest, query).subscribe((response) => {
       this.applicationList = response;
     })
   }
@@ -127,7 +105,7 @@ export class ApplicationListPageComponent implements OnInit {
         ]
       }
     }
-    this.applicationService.getListApplicationByDynamic({ page: pageRequest.page, pageSize: pageRequest.pageSize }, query).subscribe((response) => {
+    this.applicationService.getListApplicationByDynamic(pageRequest, query).subscribe((response) => {
       this.applicationList = response;
     })
   }
@@ -152,7 +130,7 @@ export class ApplicationListPageComponent implements OnInit {
         ]
       }
     }
-    this.applicationService.getListApplicationByDynamic({ page: pageRequest.page, pageSize: pageRequest.pageSize }, query).subscribe((response) => {
+    this.applicationService.getListApplicationByDynamic(pageRequest, query).subscribe((response) => {
       this.applicationList = response;
     })
   }
@@ -177,8 +155,34 @@ export class ApplicationListPageComponent implements OnInit {
         ]
       }
     }
-    this.applicationService.getListApplicationByDynamic({ page: pageRequest.page, pageSize: pageRequest.pageSize }, query).subscribe((response) => {
+    this.applicationService.getListApplicationByDynamic(pageRequest, query).subscribe((response) => {
       this.applicationList = response;
     })
+  }
+
+  getPageNumbers(): number[] {
+    const pageNumbers = [];
+    for (let i = 0; i < this.applicationList.pages; i++) {
+      pageNumbers.push(i);
+    }
+    return pageNumbers;
+  }
+  onPageNumberClicked(pageNumber: number): void {
+    console.log(`Page number clicked: ${pageNumber}`);
+    const pageRequest = { pageIndex: pageNumber, pageSize: this.PAGE_SIZE };
+    switch (this.activeFilter) {
+      case 'all':
+        this.getAllApplications(pageRequest);
+        break;
+      case 'accepted':
+        this.getAcceptedApplications(pageRequest);
+        break;
+      case 'rejected':
+        this.getRejectedApplications(pageRequest);
+        break;
+      case 'waiting':
+        this.getWaitingApplications(pageRequest);
+        break;
+    }
   }
 }

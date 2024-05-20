@@ -15,37 +15,37 @@ import { UpdateBootcampcontentResponse } from '../../models/responses/bootcampco
 @Injectable({
   providedIn: 'root'
 })
-export class BootcampContentService extends BootcampContentBaseService{
-  private readonly apiUrl:string = `${environment.API_URL}/BootcampContents`
-  constructor(private httpClient:HttpClient) {super() }
+export class BootcampContentService extends BootcampContentBaseService {
+  private readonly apiUrl: string = `${environment.API_URL}/BootcampContents`
+  constructor(private httpClient: HttpClient) { super() }
 
   override getList(pageRequest: PageRequest): Observable<BootcampcontentListItemDto> {
-    const newRequest: {[key: string]: string | number} = {
-      pageIndex: pageRequest.page,
+    const newRequest: { [key: string]: string | number } = {
+      pageIndex: pageRequest.pageIndex,
       pageSize: pageRequest.pageSize
     };
-    
+
     return this.httpClient.get<BootcampcontentListItemDto>(this.apiUrl,
-    {
-      params: newRequest
-    }).pipe(
-      map((response)=>{
-        const newResponse:BootcampcontentListItemDto={
-          index:pageRequest.page,
-          size:pageRequest.pageSize,
-          count:response.count,
-          hasNext:response.hasNext,
-          hasPrevious:response.hasPrevious,
-          items:response.items,
-          pages:response.pages
-        };
-        return newResponse;
-      })
-    )
+      {
+        params: newRequest
+      }).pipe(
+        map((response) => {
+          const newResponse: BootcampcontentListItemDto = {
+            index: pageRequest.pageIndex,
+            size: pageRequest.pageSize,
+            count: response.count,
+            hasNext: response.hasNext,
+            hasPrevious: response.hasPrevious,
+            items: response.items,
+            pages: response.pages
+          };
+          return newResponse;
+        })
+      )
   }
 
   override getById(id: number): Observable<GetbyidBootcampcontentResponse> {
-    const newRequest: {[key: string]: string | number} = {
+    const newRequest: { [key: string]: string | number } = {
       id: id
     };
     return this.httpClient.get<GetbyidBootcampcontentResponse>(`${this.apiUrl}/${id}`, {
@@ -67,16 +67,16 @@ export class BootcampContentService extends BootcampContentBaseService{
     return this.httpClient.post<CreateBootcampcontentResponse>(`${this.apiUrl}`, request);
   }
   override delete(id: number): Observable<DeleteBootcampcontentResponse> {
-    return this.httpClient.delete<DeleteBootcampcontentResponse>( `${this.apiUrl}/`+ id);
+    return this.httpClient.delete<DeleteBootcampcontentResponse>(`${this.apiUrl}/` + id);
   }
   override update(request: UpdateBootcampcontentRequest): Observable<UpdateBootcampcontentResponse> {
     return this.httpClient.put<UpdateBootcampcontentResponse>(`${this.apiUrl}`, request);
   }
 
-  override getbybootcampId( pageRequest: PageRequest, bootcampId: number): Observable<BootcampcontentListItemDto> {
+  override getbybootcampId(pageRequest: PageRequest, bootcampId: number): Observable<BootcampcontentListItemDto> {
     const newRequest: { [key: string]: string | number } = {
       bootcampId: bootcampId,
-      page: pageRequest.page,
+      pageIndex: pageRequest.pageIndex,
       pageSize: pageRequest.pageSize
     };
     console.log("getbybootcampId", bootcampId)
@@ -85,7 +85,7 @@ export class BootcampContentService extends BootcampContentBaseService{
     }).pipe(
       map((response) => {
         const newResponse: BootcampcontentListItemDto = {
-          index: pageRequest.page,
+          index: pageRequest.pageIndex,
           size: pageRequest.pageSize,
           count: response.count,
           hasNext: response.hasNext,

@@ -11,27 +11,27 @@ import { formatDate } from '../../../../core/helpers/format-date';
 @Component({
   selector: 'app-applicants',
   standalone: true,
-  imports: [FormsModule,ReactiveFormsModule,CommonModule],
+  imports: [FormsModule, ReactiveFormsModule, CommonModule],
   templateUrl: './applicants.component.html',
   styleUrl: './applicants.component.css'
 })
-export class ApplicantsComponent implements OnInit{
-formsMessage:string  | null = null;
-applicantUpdateForm:FormGroup;
-blacklistCreateForm:FormGroup;
-selectedApplicant:any;
-selectedBlacklist:any;
-showUpdateModal: boolean = false;
-showCreateModal: boolean = false;
+export class ApplicantsComponent implements OnInit {
+  formsMessage: string | null = null;
+  applicantUpdateForm: FormGroup;
+  blacklistCreateForm: FormGroup;
+  selectedApplicant: any;
+  selectedBlacklist: any;
+  showUpdateModal: boolean = false;
+  showCreateModal: boolean = false;
 
 
-applicantList: ApplicantListItemDto;
+  applicantList: ApplicantListItemDto;
 
-constructor(private applicantService:ApplicantService,
-  private blacklistService:BlacklistService,
-  private formBuilder:FormBuilder,
-  private change:ChangeDetectorRef
-) {}
+  constructor(private applicantService: ApplicantService,
+    private blacklistService: BlacklistService,
+    private formBuilder: FormBuilder,
+    private change: ChangeDetectorRef
+  ) { }
   ngOnInit(): void {
     this.loadApplicants();
     this.updateForm();
@@ -39,15 +39,15 @@ constructor(private applicantService:ApplicantService,
   }
 
   loadApplicants() {
-    const pageRequest: PageRequest = { page: 0, pageSize: 20 };
+    const pageRequest: PageRequest = { pageIndex: 0, pageSize: 20 };
     this.getApplicants(pageRequest);
   }
   updateForm() {
     this.applicantUpdateForm = this.formBuilder.group({
-      userName: [[Validators.required]],  
-      firstName: ['',[Validators.required]],
-      lastName:['' ,[Validators.required]],
-      email: [[Validators.required]], 
+      userName: [[Validators.required]],
+      firstName: ['', [Validators.required]],
+      lastName: ['', [Validators.required]],
+      email: [[Validators.required]],
       about: [[Validators.required]],
       dateOfBirth: [[Validators.required]],
       nationalIdentity: [[Validators.required]]
@@ -55,7 +55,7 @@ constructor(private applicantService:ApplicantService,
   }
   createBlacklistForm() {
     this.blacklistCreateForm = this.formBuilder.group({
-      reason: ['',[Validators.required]],
+      reason: ['', [Validators.required]],
       date: [''],
       applicantId: ['']
     })
@@ -63,56 +63,56 @@ constructor(private applicantService:ApplicantService,
 
   getApplicants(pageRequest: PageRequest) {
     this.applicantService.getList(pageRequest).subscribe(response => {
-      this.applicantList = response;  
+      this.applicantList = response;
     });
   }
   add() {
-    if(this.blacklistCreateForm.valid) {
-      let blacklist= Object.assign({},this.blacklistCreateForm.value);
+    if (this.blacklistCreateForm.valid) {
+      let blacklist = Object.assign({}, this.blacklistCreateForm.value);
       this.blacklistService.create(blacklist).subscribe({
-        next:(response)=>{
+        next: (response) => {
           this.handleCreateSuccess();
         },
-        error:(error)=>{
-          this.formsMessage="Eklenemedi";
+        error: (error) => {
+          this.formsMessage = "Eklenemedi";
           this.change.markForCheck();
         },
-        complete:()=>{
-          this.formsMessage="Başarıyla Eklendi";
+        complete: () => {
+          this.formsMessage = "Başarıyla Eklendi";
           this.change.markForCheck();
           this.closeModal();
           this.loadApplicants();
         }
-        });
-      }
+      });
     }
-    handleCreateSuccess() {
-      this.loadApplicants();
-      this.formsMessage = "Başarıyla Eklendi"; 
-      setTimeout(() => {
-        this.formsMessage = "";
-      }, 3000);
-    }
+  }
+  handleCreateSuccess() {
+    this.loadApplicants();
+    this.formsMessage = "Başarıyla Eklendi";
+    setTimeout(() => {
+      this.formsMessage = "";
+    }, 3000);
+  }
 
-    delete(id: string) {
-      if (confirm('Bu uygulama durumunu silmek istediğinizden emin misiniz?')) {
-        this.applicantService.delete(id).subscribe({
-          next: (response) => {
-            this.handleDeleteSuccess();
-          },
-          error: (error) => {
-            console.error('Silme işlemi başarısız:', error);
-          }
-        });
-      }
+  delete(id: string) {
+    if (confirm('Bu uygulama durumunu silmek istediğinizden emin misiniz?')) {
+      this.applicantService.delete(id).subscribe({
+        next: (response) => {
+          this.handleDeleteSuccess();
+        },
+        error: (error) => {
+          console.error('Silme işlemi başarısız:', error);
+        }
+      });
     }
-    handleDeleteSuccess() {
-      this.loadApplicants();
-      this.formsMessage = "Başarıyla Silindi";
-      setTimeout(() => {
-        this.formsMessage = "";
-      }, 3000);
-    }
+  }
+  handleDeleteSuccess() {
+    this.loadApplicants();
+    this.formsMessage = "Başarıyla Silindi";
+    setTimeout(() => {
+      this.formsMessage = "";
+    }, 3000);
+  }
 
   update() {
     const id = this.selectedApplicant.id;
@@ -130,61 +130,61 @@ constructor(private applicantService:ApplicantService,
       id: id,
       nationalIdentity: nationalIdentity,
       userName: userName,
-      firstName:firstName,
-      lastName:lastName,
-      email:email,
-      about:about,
-      dateOfBirth:dateOfBirth,
-      updatedDate:updatedDate,
+      firstName: firstName,
+      lastName: lastName,
+      email: email,
+      about: about,
+      dateOfBirth: dateOfBirth,
+      updatedDate: updatedDate
     };
     this.applicantService.update(request).subscribe({
       next: (response) => {
-          this.closeModal(); // Modal'ı kapat
-          this.loadApplicants(); // Verileri yeniden getir
+        this.closeModal(); // Modal'ı kapat
+        this.loadApplicants(); // Verileri yeniden getir
       },
       error: (error) => {
-          console.error('Güncelleme işlemi başarısız:', error);
+        console.error('Güncelleme işlemi başarısız:', error);
       }
-  });
-}
+    });
+  }
 
-openUpdateModal(applicant: any) {
-  this.applicantService.getById(applicant.id).subscribe({
-    next: (response) => {
-      this.selectedApplicant = { ...response };
-      this.applicantUpdateForm.patchValue({ 
-        userName: this.selectedApplicant.userName,
-        firstName: this.selectedApplicant.firstName,
-        lastName: this.selectedApplicant.lastName,
-        email: this.selectedApplicant.email,
-        dateOfBirth: formatDate(this.selectedApplicant.dateOfBirth),
-        about: this.selectedApplicant.about,
-        nationalIdentity: this.selectedApplicant.nationalIdentity
-       }); 
-      this.showUpdateModal = true; // Modal'ı aç
-      return response;
-    },
-    error: (error) => {
-      console.error('Veri getirme işlemi başarısız:', error);
-    }
-  });
-}
+  openUpdateModal(applicant: any) {
+    this.applicantService.getById(applicant.id).subscribe({
+      next: (response) => {
+        this.selectedApplicant = { ...response };
+        this.applicantUpdateForm.patchValue({
+          userName: this.selectedApplicant.userName,
+          firstName: this.selectedApplicant.firstName,
+          lastName: this.selectedApplicant.lastName,
+          email: this.selectedApplicant.email,
+          dateOfBirth: formatDate(this.selectedApplicant.dateOfBirth),
+          about: this.selectedApplicant.about,
+          nationalIdentity: this.selectedApplicant.nationalIdentity
+        });
+        this.showUpdateModal = true; // Modal'ı aç
+        return response;
+      },
+      error: (error) => {
+        console.error('Veri getirme işlemi başarısız:', error);
+      }
+    });
+  }
 
-openAddModal(applicant:any) {
-  this.applicantService.getById(applicant.id).subscribe({
-    next: (response) => {
-      this.selectedApplicant = { ...response };
-      this.blacklistCreateForm.patchValue({
-        applicantId: response.id
-      })
-      return response;
-    }
-  });
-  this.showCreateModal = true;
-}
-closeModal() {
-  this.showUpdateModal = false;
-  this.showCreateModal = false;
-}
+  openAddModal(applicant: any) {
+    this.applicantService.getById(applicant.id).subscribe({
+      next: (response) => {
+        this.selectedApplicant = { ...response };
+        this.blacklistCreateForm.patchValue({
+          applicantId: response.id
+        })
+        return response;
+      }
+    });
+    this.showCreateModal = true;
+  }
+  closeModal() {
+    this.showUpdateModal = false;
+    this.showCreateModal = false;
+  }
 
 }

@@ -19,35 +19,35 @@ import { FinishQuizResponse } from '../../models/responses/quiz/finish-quiz-resp
   providedIn: 'root'
 })
 export class QuizService extends QuizBaseService {
-  
-  private readonly apiUrl:string = `${environment.API_URL}/Quizs`
 
-  constructor(private httpClient:HttpClient, private authService:AuthService) {super()}
+  private readonly apiUrl: string = `${environment.API_URL}/Quizs`
+
+  constructor(private httpClient: HttpClient, private authService: AuthService) { super() }
 
   override getList(pageRequest: PageRequest): Observable<QuizListItemDto> {
-    const newRequest: {[key: string]: string | number} = {
-      pageIndex: pageRequest.page,
+    const newRequest: { [key: string]: string | number } = {
+      pageIndex: pageRequest.pageIndex,
       pageSize: pageRequest.pageSize
     };
-    return this.httpClient.get<QuizListItemDto>(this.apiUrl,{
-      params:newRequest
+    return this.httpClient.get<QuizListItemDto>(this.apiUrl, {
+      params: newRequest
     }).pipe(
-      map((response)=>{
-        const newResponse:QuizListItemDto={
-          index:pageRequest.page,
-          size:pageRequest.pageSize,
-          count:response.count,
-          hasNext:response.hasNext,
-          hasPrevious:response.hasPrevious,
-          items:response.items,
-          pages:response.pages
+      map((response) => {
+        const newResponse: QuizListItemDto = {
+          index: pageRequest.pageIndex,
+          size: pageRequest.pageSize,
+          count: response.count,
+          hasNext: response.hasNext,
+          hasPrevious: response.hasPrevious,
+          items: response.items,
+          pages: response.pages
         };
         return newResponse;
       })
     )
   }
   override delete(id: number): Observable<DeleteQuizResponse> {
-    return this.httpClient.delete<DeleteQuizResponse>( `${this.apiUrl}/`+ id);
+    return this.httpClient.delete<DeleteQuizResponse>(`${this.apiUrl}/` + id);
   }
 
   override update(request: UpdateQuizRequest): Observable<UpdateQuizResponse> {
@@ -58,28 +58,28 @@ export class QuizService extends QuizBaseService {
     return this.httpClient.post<CreateQuizResponse>(`${this.apiUrl}`, request);
   }
 
-  override getExam(id:number): Observable<CreateQuizResponse> {
+  override getExam(id: number): Observable<CreateQuizResponse> {
     const loggedInUserId = this.authService.getCurrentUserId();
 
-    if(!loggedInUserId) {
-      throw new Error('Kullanıcı oturumu bulunamadı.');      
+    if (!loggedInUserId) {
+      throw new Error('Kullanıcı oturumu bulunamadı.');
     }
 
     const createQuizRequest: CreateQuizRequest = {
-      applicantId:loggedInUserId,
+      applicantId: loggedInUserId,
       bootcampId: id,
-     
+
     };
     return this.httpClient.post<CreateQuizResponse>(`${this.apiUrl}`, createQuizRequest);
   }
 
- 
- 
+
+
   override getById(id: number): Observable<GetbyidQuizResponse> {
-    const newRequest: {[key: string]: string | number} = {
+    const newRequest: { [key: string]: string | number } = {
       id: id
     };
-  
+
     return this.httpClient.get<GetbyidQuizResponse>(`${this.apiUrl}/${id}`, {
       params: newRequest
     }).pipe(
@@ -90,15 +90,15 @@ export class QuizService extends QuizBaseService {
           bootcampId: response.bootcampId,
           startTime: response.startTime,
           endTime: response.endTime
-          
+
         };
         return newResponse;
       })
     );
   }
   override finishQuiz(request: FinishQuizRequest): Observable<FinishQuizResponse> {
-   
-   
+
+
     return this.httpClient.post<FinishQuizResponse>(`${this.apiUrl}/finish`, request);
   }
 

@@ -15,9 +15,9 @@ import { InstructorService } from '../../../features/services/concretes/instruct
 export class InstructorCardComponent implements OnInit {
   instructorList: InstructorListItemDto;
 
-  constructor(private instructorService: InstructorService) {}
+  constructor(private instructorService: InstructorService) { }
   ngOnInit(): void {
-    const pageRequest = { page: 0, pageSize: 4 };
+    const pageRequest = { pageIndex: 0, pageSize: 4 };
     this.instructorService.getList(pageRequest).subscribe((response) => {
       this.instructorList = response;
     });

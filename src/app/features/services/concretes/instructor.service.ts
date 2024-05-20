@@ -15,38 +15,38 @@ import { UpdateInstructorResponse } from '../../models/responses/instructor/upda
 @Injectable({
   providedIn: 'root'
 })
-export class InstructorService extends InstructorBaseService{
+export class InstructorService extends InstructorBaseService {
 
-  private readonly apiUrl:string = `${environment.API_URL}/Instructors`
-  private readonly apiUrlAuth:string = `${environment.API_URL}/Auth`
-  
-  
-  constructor(private httpClient:HttpClient) {super() }
+  private readonly apiUrl: string = `${environment.API_URL}/Instructors`
+  private readonly apiUrlAuth: string = `${environment.API_URL}/Auth`
+
+
+  constructor(private httpClient: HttpClient) { super() }
 
   override getList(pageRequest: PageRequest): Observable<InstructorListItemDto> {
-    const newRequest: {[key: string]: string | number} = {
-      pageIndex: pageRequest.page,
+    const newRequest: { [key: string]: string | number } = {
+      pageIndex: pageRequest.pageIndex,
       pageSize: pageRequest.pageSize
     };
-    return this.httpClient.get<InstructorListItemDto>(this.apiUrl,{
-      params:newRequest
+    return this.httpClient.get<InstructorListItemDto>(this.apiUrl, {
+      params: newRequest
     }).pipe(
-      map((response)=>{
-        const newResponse:InstructorListItemDto={
-          index:pageRequest.page,
-          size:pageRequest.pageSize,
-          count:response.count,
-          hasNext:response.hasNext,
-          hasPrevious:response.hasPrevious,
-          items:response.items,
-          pages:response.pages
+      map((response) => {
+        const newResponse: InstructorListItemDto = {
+          index: pageRequest.pageIndex,
+          size: pageRequest.pageSize,
+          count: response.count,
+          hasNext: response.hasNext,
+          hasPrevious: response.hasPrevious,
+          items: response.items,
+          pages: response.pages
         };
         return newResponse;
       })
     )
   }
   override getById(id: string): Observable<GetbyidInstructorResponse> {
-    const newRequest: {[key: string]: string | number} = {
+    const newRequest: { [key: string]: string | number } = {
       id: id
     };
     return this.httpClient.get<GetbyidInstructorResponse>(`${this.apiUrl}/${id}`, {
@@ -73,34 +73,34 @@ export class InstructorService extends InstructorBaseService{
     return this.httpClient.post<UserForRegisterResponse>(`${this.apiUrlAuth}/RegisterInstructor`, request);
   }
   override delete(id: string): Observable<DeleteInstructorResponse> {
-    return this.httpClient.delete<DeleteInstructorResponse>( `${this.apiUrl}/`+ id);
+    return this.httpClient.delete<DeleteInstructorResponse>(`${this.apiUrl}/` + id);
   }
   override update(request: UpdateInstructorRequest): Observable<UpdateInstructorResponse> {
     return this.httpClient.put<UpdateInstructorResponse>(`${this.apiUrl}`, request);
   }
-  
+
   override getListAll(): Observable<InstructorListItemDto> {
-    const newRequest: {[key: string]: string | number} = {
-      page: 0,
+    const newRequest: { [key: string]: string | number } = {
+      pageIndex: 0,
       pageSize: 100
     };
 
     return this.httpClient.get<InstructorListItemDto>(this.apiUrl, {
       params: newRequest
     }).pipe(
-      map((response)=>{
-        const newResponse:InstructorListItemDto={
-          index:0,
-          size:100,
-          count:response.count,
-          hasNext:response.hasNext,
-          hasPrevious:response.hasPrevious,
-          items:response.items,
-          pages:response.pages
+      map((response) => {
+        const newResponse: InstructorListItemDto = {
+          index: 0,
+          size: 100,
+          count: response.count,
+          hasNext: response.hasNext,
+          hasPrevious: response.hasPrevious,
+          items: response.items,
+          pages: response.pages
         };
         return newResponse;
       })
     )
   }
-  
+
 }

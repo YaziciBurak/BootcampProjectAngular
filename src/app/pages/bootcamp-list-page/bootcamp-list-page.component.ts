@@ -27,8 +27,8 @@ export class BootcampListPageComponent implements OnInit {
   instructors!: InstructorListItemDto;
   currentInstructor!: GetlistInstructorResponse;
   selectedInstructorName: string | null = null;
-  filterText:string = 'Eğitmenler';
-  activeFilter: 'all' | 'deadlinePassed' | 'continuing' = 'all';
+  filterText: string = 'Eğitmenler';
+  activeFilter: 'all' | 'deadlinePassed' | 'continuing' | 'instructor' = 'all';
 
   formDate = formatDate1;
   dateNow = Date.now;
@@ -42,30 +42,30 @@ export class BootcampListPageComponent implements OnInit {
     pages: 0,
     items: []
   };
-  constructor(private bootcampService: BootcampService, 
-    private instructorService: InstructorService, 
+  constructor(private bootcampService: BootcampService,
+    private instructorService: InstructorService,
     private activatedRoute: ActivatedRoute,
-    private router:Router
+    private router: Router
   ) { }
   readonly PAGE_SIZE = 3;
-  
+
 
 
   ngOnInit(): void {
     this.getInstructors();
     initFlowbite();
-    window.scrollTo(0,0);
+    window.scrollTo(0, 0);
     this.activatedRoute.paramMap.subscribe(params => {
       const instructorId = params.get('instructorId');
       const page = parseInt(params.get('page') || '0', 10);
-      console.log(`Initializing with instructorId: ${instructorId} and page: ${page}`);
+      console.log(`Initializing with instructorId: ${instructorId} and pageIndex: ${page}`);
       if (instructorId) {
-          this.selectedInstructorId = instructorId;
-          this.getBootcampListByInstructor({ page, pageSize:this.PAGE_SIZE }, instructorId);
+        this.selectedInstructorId = instructorId;
+        this.getBootcampListByInstructor({ pageIndex: page, pageSize: this.PAGE_SIZE }, instructorId);
       } else {
-          this.getList({ page, pageSize: this.PAGE_SIZE });
+        this.getList({ pageIndex: page, pageSize: this.PAGE_SIZE });
       }
-  });
+    });
   }
   getInstructors() {
     this.instructorService.getListAll().subscribe((response) => {
@@ -77,10 +77,11 @@ export class BootcampListPageComponent implements OnInit {
       this.selectedInstructorId = instructorId;
       this.selectedInstructorName = instructorName;
       this.filterText = instructorName;
-      this.getBootcampListByInstructor({ page: this.currentPageNumber, pageSize: this.PAGE_SIZE }, instructorId);
+      this.getBootcampListByInstructor({ pageIndex: this.currentPageNumber, pageSize: this.PAGE_SIZE }, instructorId);
+      this.activeFilter = "instructor";
     });
   }
-  
+
 
   isExpired(endDate: Date): boolean {
     return new Date(endDate) < new Date();
@@ -94,27 +95,33 @@ export class BootcampListPageComponent implements OnInit {
   getList(pageRequest: PageRequest) {
     this.bootcampService.getList(pageRequest).subscribe((response) => {
       this.bootcampList = response;
-      this.updateCurrentBootcampPageNumber(response.index + 1);
+      //this.updateCurrentBootcampPageNumber(response.index + 1);
     })
   }
 
   getBootcampListByInstructor(pageRequest: PageRequest, instructorId: string) {
-    console.log(`Fetching bootcamps for instructor ${instructorId} with page ${pageRequest.page}`);
+    console.log(`Fetching bootcamps for instructor ${instructorId} with page ${pageRequest.pageIndex}`);
     this.bootcampService.getListBootcampByInstructorId(pageRequest, instructorId).subscribe((response) => {
       this.bootcampList = response;
-      this.updateCurrentBootcampPageNumber(response.index );
+      //this.updateCurrentBootcampPageNumber(response.index + 1);
     })
   }
   onPageNumberClicked(pageNumber: number): void {
     console.log(`Page number clicked: ${pageNumber}`);
-    const pageSize = this.PAGE_SIZE;
-    const instructorId = this.selectedInstructorId;  
-    if (instructorId) {
-      this.router.navigate(['/bootcamps/instructor', instructorId, { page: pageNumber }]);
-      this.getBootcampListByInstructor({ page: pageNumber, pageSize }, instructorId);
-    } else {
-      this.router.navigate(['/bootcamps', { page: pageNumber }]);
-      this.getList({ page: pageNumber, pageSize });
+    const pageRequest = { pageIndex: pageNumber, pageSize: this.PAGE_SIZE };
+    switch (this.activeFilter) {
+      case 'all':
+        this.getAllBootcamps(pageRequest);
+        break;
+      case 'continuing':
+        this.getContinuingBootcamps(pageRequest);
+        break;
+      case 'deadlinePassed':
+        this.getDeadlinePassedBootcamps(pageRequest);
+        break;
+      case 'instructor':
+        this.getBootcampListByInstructor(pageRequest, this.selectedInstructorId);
+        break;
     }
   }
   updateCurrentBootcampPageNumber(pageNumber: number): void {
@@ -123,24 +130,24 @@ export class BootcampListPageComponent implements OnInit {
   }
   getPageNumbers(): number[] {
     const pageNumbers = [];
-     for (let i = 0; i < this.bootcampList.pages; i++) {
+    for (let i = 0; i < this.bootcampList.pages; i++) {
       pageNumbers.push(i);
+    }
+    return pageNumbers;
   }
-     return pageNumbers;
-   }
   onViewMoreClicked(): void {
     const nextPageIndex = this.bootcampList.index + 1;
     const pageSize = this.bootcampList.size;
-    this.getList({ page: nextPageIndex, pageSize })
-    this.getContinuingBootcamps({ page: nextPageIndex, pageSize })
+    this.getList({ pageIndex: nextPageIndex, pageSize })
+    this.getContinuingBootcamps({ pageIndex: nextPageIndex, pageSize })
     this.updateCurrentPageNumber();
   }
 
   onPreviousPageClicked(): void {
     const previousPageIndex = this.bootcampList.index - 1;
     const pageSize = this.bootcampList.size;
-    this.getList({ page: previousPageIndex, pageSize });
-    this.getContinuingBootcamps({ page: previousPageIndex, pageSize })
+    this.getList({ pageIndex: previousPageIndex, pageSize });
+    this.getContinuingBootcamps({ pageIndex: previousPageIndex, pageSize })
     this.updateCurrentPageNumber();
   }
 
@@ -152,9 +159,9 @@ export class BootcampListPageComponent implements OnInit {
   }
 
   setCurrentPageNumber(pageNumber: number): void {
-    this.currentPageNumber = pageNumber -1;
-    const pageRequest = {page: this.currentPageNumber, pageSize: this.PAGE_SIZE};
-    switch(this.activeFilter) {
+    this.currentPageNumber = pageNumber - 1;
+    const pageRequest = { pageIndex: this.currentPageNumber, pageSize: this.PAGE_SIZE };
+    switch (this.activeFilter) {
       case 'all':
         this.getAllBootcamps(pageRequest);
         break;
@@ -169,7 +176,7 @@ export class BootcampListPageComponent implements OnInit {
 
   getAllBootcamps(pageRequest: PageRequest): void {
     this.activeFilter = 'all';
-    this.getList({ page: pageRequest.page, pageSize: pageRequest.pageSize });
+    this.getList(pageRequest);
   }
 
   getContinuingBootcamps(pageRequest: PageRequest): void {
@@ -181,7 +188,7 @@ export class BootcampListPageComponent implements OnInit {
         value: new Date().toISOString(),
       }
     }
-    this.bootcampService.getListBootcampByDynamic({ page: pageRequest.page, pageSize: pageRequest.pageSize }, query).subscribe((response) => {
+    this.bootcampService.getListBootcampByDynamic(pageRequest, query).subscribe((response) => {
       this.bootcampList = response;
     })
   }
@@ -191,11 +198,11 @@ export class BootcampListPageComponent implements OnInit {
     const query: DynamicQuery = {
       filter: {
         field: 'deadline',
-        operator: 'lte',
+        operator: 'lt',
         value: new Date().toISOString(),
       }
     }
-    this.bootcampService.getListBootcampByDynamic({ page: pageRequest.page, pageSize: pageRequest.pageSize }, query).subscribe((response) => {
+    this.bootcampService.getListBootcampByDynamic(pageRequest, query).subscribe((response) => {
       this.bootcampList = response;
     })
   }

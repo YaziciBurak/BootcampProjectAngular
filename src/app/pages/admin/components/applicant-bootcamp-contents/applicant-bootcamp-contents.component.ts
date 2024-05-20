@@ -8,30 +8,30 @@ import { PageRequest } from '../../../../core/models/page-request';
 @Component({
   selector: 'app-applicant-bootcamp-contents',
   standalone: true,
-  imports: [CommonModule,FormsModule,ReactiveFormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule],
   templateUrl: './applicant-bootcamp-contents.component.html',
   styleUrl: './applicant-bootcamp-contents.component.css'
 })
-export class ApplicantBootcampContentsComponent implements OnInit{
-  formMessage:string | null = null;
+export class ApplicantBootcampContentsComponent implements OnInit {
+  formMessage: string | null = null;
   applicantBootcampContentUpdateForm: FormGroup;
-  applicantBootcampContentCreateForm:FormGroup;
+  applicantBootcampContentCreateForm: FormGroup;
   selectedApplicantBootcampContent: any;
   showUpdateModal: boolean = false;
   showCreateModal: boolean = false;
-  applicantBootcampContentList:ApplicantBootcampcontentListItemDto;
-  
-  constructor (
-    private applicantBootcampContentService:ApplicantBootcampContentService,
-    private formBuilder:FormBuilder,
-    private change:ChangeDetectorRef
-  ) {}
+  applicantBootcampContentList: ApplicantBootcampcontentListItemDto;
+
+  constructor(
+    private applicantBootcampContentService: ApplicantBootcampContentService,
+    private formBuilder: FormBuilder,
+    private change: ChangeDetectorRef
+  ) { }
 
   ngOnInit(): void {
     this.loadApplicantBootcampContent();
   }
   loadApplicantBootcampContent() {
-    const pageRequest: PageRequest = {page:0, pageSize:30};
+    const pageRequest: PageRequest = { pageIndex: 0, pageSize: 30 };
     this.getApplicantBootcampContents(pageRequest);
   }
   getApplicantBootcampContents(pageRequest: PageRequest) {

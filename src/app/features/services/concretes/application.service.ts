@@ -21,37 +21,37 @@ import { AuthService } from './auth.service';
 @Injectable({
   providedIn: 'root'
 })
-export abstract class ApplicationService extends ApplicationBaseService{
+export abstract class ApplicationService extends ApplicationBaseService {
 
-  private readonly apiUrl:string = `${environment.API_URL}/ApplicationEntities`
- 
-  constructor(private authService:AuthService,private httpClient:HttpClient) {super() }
-  
+  private readonly apiUrl: string = `${environment.API_URL}/ApplicationEntities`
+
+  constructor(private authService: AuthService, private httpClient: HttpClient) { super() }
+
   override getList(pageRequest: PageRequest): Observable<ApplicationListItemDto> {
-    const newRequest: {[key: string]: string | number} = {
-      pageIndex: pageRequest.page,
+    const newRequest: { [key: string]: string | number } = {
+      pageIndex: pageRequest.pageIndex,
       pageSize: pageRequest.pageSize
     };
-    return this.httpClient.get<ApplicationListItemDto>(this.apiUrl,{
-      params:newRequest
+    return this.httpClient.get<ApplicationListItemDto>(this.apiUrl, {
+      params: newRequest
     }).pipe(
-      map((response)=>{
-        const newResponse:ApplicationListItemDto={
-          index:pageRequest.page,
-          size:pageRequest.pageSize,
-          count:response.count,
-          hasNext:response.hasNext,
-          hasPrevious:response.hasPrevious,
-          items:response.items,
-          pages:response.pages
+      map((response) => {
+        const newResponse: ApplicationListItemDto = {
+          index: pageRequest.pageIndex,
+          size: pageRequest.pageSize,
+          count: response.count,
+          hasNext: response.hasNext,
+          hasPrevious: response.hasPrevious,
+          items: response.items,
+          pages: response.pages
         };
         return newResponse;
       })
     )
   }
-  
+
   override delete(id: number): Observable<DeleteApplicationResponse> {
-    return this.httpClient.delete<DeleteApplicationResponse>( `${this.apiUrl}/`+ id);
+    return this.httpClient.delete<DeleteApplicationResponse>(`${this.apiUrl}/` + id);
   }
 
   override update(application: UpdateApplicationRequest): Observable<UpdateApplicationResponse> {
@@ -62,25 +62,25 @@ export abstract class ApplicationService extends ApplicationBaseService{
     return this.httpClient.post<CreateApplicationResponse>(`${this.apiUrl}`, application);
   }
 
-  override applyForBootcamp(id:number):Observable<CreateApplicationResponse> {
+  override applyForBootcamp(id: number): Observable<CreateApplicationResponse> {
     const loggedInUserId = this.authService.getCurrentUserId();
 
-    if(!loggedInUserId) {
-      throw new Error('Kullanıcı oturumu bulunamadı.');      
+    if (!loggedInUserId) {
+      throw new Error('Kullanıcı oturumu bulunamadı.');
     }
     const applicationRequest: CreateApplicationRequest = {
-      applicantId:loggedInUserId,
-      bootcampId:id,
-      applicationStateId:1
+      applicantId: loggedInUserId,
+      bootcampId: id,
+      applicationStateId: 1
     };
     return this.httpClient.post<CreateApplicationResponse>(`${this.apiUrl}`, applicationRequest)
   }
 
   override getById(applicationId: number): Observable<GetbyidApplicationResponse> {
-    const newRequest: {[key: string]: string | number} = {
+    const newRequest: { [key: string]: string | number } = {
       id: applicationId
     };
-  
+
     return this.httpClient.get<GetbyidApplicationResponse>(`${this.apiUrl}/${applicationId}`, {
       params: newRequest
     }).pipe(
@@ -100,10 +100,10 @@ export abstract class ApplicationService extends ApplicationBaseService{
     return this.httpClient.post<ApplicationListItemDto>(`${this.apiUrl}/dynamic/`, {
       filter: dynamic.filter,
       sort: dynamic.sort
-    }, { params: new HttpParams().set("page", pageRequest.page).set("pageSize", pageRequest.pageSize) }).pipe(
+    }, { params: new HttpParams().set("pageIndex", pageRequest.pageIndex).set("pageSize", pageRequest.pageSize) }).pipe(
       map((response) => {
         const newResponse: ApplicationListItemDto = {
-          index: pageRequest.page,
+          index: pageRequest.pageIndex,
           size: pageRequest.pageSize,
           count: response.count,
           hasNext: response.hasNext,

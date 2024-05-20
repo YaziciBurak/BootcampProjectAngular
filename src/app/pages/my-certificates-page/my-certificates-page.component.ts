@@ -33,7 +33,7 @@ export class MyCertificatesPageComponent implements OnInit {
   readonly PAGE_SIZE = 15;
   ngOnInit(): void {
 
-    this.getByApplicantId({ page: 0, pageSize: this.PAGE_SIZE });
+    this.getByApplicantId({ pageIndex: 0, pageSize: this.PAGE_SIZE });
 
 
   };

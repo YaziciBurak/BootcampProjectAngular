@@ -15,12 +15,12 @@ import { BootcampService } from '../../../features/services/concretes/bootcamp.s
 export class BootcampCardComponent implements OnInit {
   bootcampList: BootcampListItemDto;
 
-  constructor(private bootcampService: BootcampService) {}
+  constructor(private bootcampService: BootcampService) { }
   ngOnInit(): void {
     this.loadBootcamps();
   }
   loadBootcamps() {
-    const pageRequest: PageRequest = { page: 0, pageSize: 4 };
+    const pageRequest: PageRequest = { pageIndex: 0, pageSize: 4 };
     this.getApplicationStates(pageRequest);
   }
   getApplicationStates(pageRequest: PageRequest) {

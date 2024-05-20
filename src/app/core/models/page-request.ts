@@ -1,4 +1,4 @@
-export interface PageRequest{
-    page:number,
-    pageSize:number
+export interface PageRequest {
+    pageIndex: number,
+    pageSize: number
 }

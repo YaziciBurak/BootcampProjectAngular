@@ -1,4 +1,4 @@
-import { CommonModule} from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { InstructorListItemDto } from '../../../../features/models/responses/instructor/instructor-list-item-dto';
@@ -11,12 +11,12 @@ import { AuthService } from '../../../../features/services/concretes/auth.servic
 @Component({
   selector: 'app-instructor',
   standalone: true,
-  imports: [FormsModule,ReactiveFormsModule,CommonModule],
+  imports: [FormsModule, ReactiveFormsModule, CommonModule],
   templateUrl: './instructor.component.html',
   styleUrl: './instructor.component.css'
 })
-export class InstructorComponent implements OnInit{
-   
+export class InstructorComponent implements OnInit {
+
   formMessage: string | null = null;
   instructorUpdateForm: FormGroup;
   instructorCreateForm: FormGroup;
@@ -26,12 +26,12 @@ export class InstructorComponent implements OnInit{
   instructorList: InstructorListItemDto;
 
   constructor(
-    private instructorService:InstructorService,
-    private formBuilder:FormBuilder,
-    private authService:AuthService,
-    private change:ChangeDetectorRef
-  ) {}
-  
+    private instructorService: InstructorService,
+    private formBuilder: FormBuilder,
+    private authService: AuthService,
+    private change: ChangeDetectorRef
+  ) { }
+
   ngOnInit(): void {
     this.loadInstructors();
     this.updateForm();
@@ -39,7 +39,7 @@ export class InstructorComponent implements OnInit{
   }
 
   loadInstructors() {
-    const pageRequest: PageRequest = {page: 0,pageSize: 20};
+    const pageRequest: PageRequest = { pageIndex: 0, pageSize: 20 };
     this.getInstructors(pageRequest);
   }
 
@@ -74,32 +74,32 @@ export class InstructorComponent implements OnInit{
     })
   }
   add() {
-    if(this.instructorCreateForm.valid) {
-      let instructor= Object.assign({},this.instructorCreateForm.value);
+    if (this.instructorCreateForm.valid) {
+      let instructor = Object.assign({}, this.instructorCreateForm.value);
       this.authService.RegisterInstructor(instructor).subscribe({
-        next:(response)=>{
+        next: (response) => {
           this.handleCreateSuccess();
         },
-        error:(error)=>{
-          this.formMessage="Eklenemedi";
+        error: (error) => {
+          this.formMessage = "Eklenemedi";
           this.change.markForCheck();
         },
-        complete:()=>{
-          this.formMessage="Başarıyla Eklendi";
+        complete: () => {
+          this.formMessage = "Başarıyla Eklendi";
           this.change.markForCheck();
           this.closeModal();
           this.loadInstructors();
         }
-        });
-      }
+      });
     }
-    handleCreateSuccess() {
-      this.loadInstructors();
-      this.formMessage = "Başarıyla Eklendi"; 
-      setTimeout(() => {
-        this.formMessage = "";
-      }, 3000);
-    }
+  }
+  handleCreateSuccess() {
+    this.loadInstructors();
+    this.formMessage = "Başarıyla Eklendi";
+    setTimeout(() => {
+      this.formMessage = "";
+    }, 3000);
+  }
 
   delete(id: string) {
     if (confirm('Bu uygulama durumunu silmek istediğinizden emin misiniz?')) {

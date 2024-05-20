@@ -11,11 +11,11 @@
 
 <div class="flex flex-row justify-between mx-20 2xl:mx-40 mt-20">
   <div class="flex flex-row gap-6 text-2xl text-slate-500">
-    <button (click)="getAllBootcamps({page:0, pageSize: PAGE_SIZE})"
+    <button (click)="getAllBootcamps({pageIndex:0, pageSize: PAGE_SIZE})"
       class="hover:text-indigo-600 focus:text-indigo-600">Tümünü Gör</button>
-    <button (click)="getContinuingBootcamps({page: currentPageNumber, pageSize: PAGE_SIZE})"
+    <button (click)="getContinuingBootcamps({pageIndex: currentPageNumber, pageSize: PAGE_SIZE})"
       class="hover:text-indigo-600 focus:text-indigo-600">Başvurusu Devam Edenler</button>
-    <button (click)="getDeadlinePassedBootcamps({page: currentPageNumber, pageSize: PAGE_SIZE})"
+    <button (click)="getDeadlinePassedBootcamps({pageIndex: currentPageNumber, pageSize: PAGE_SIZE})"
       class="hover:text-indigo-600 focus:text-indigo-600">Başvurusu Bitenler</button>
   </div>
 
@@ -94,18 +94,13 @@
     </ng-container>
   </div> <!--kartların içine yerleştiği div bitiş-->
 
-  <!--dışarıdaki çerçeve--></div>
-  <div class="flex justify-center gap-5 mt-32 ">
-    <div class="flex justify-center gap-5 mt-32">
-      <button *ngFor="let pageNumber of getPageNumbers()" 
-              (click)="onPageNumberClicked(pageNumber)" 
-              class="flex px-6 py-4 text-4xl text-bold bg-gray-200 text-indigo-900 rounded-full hover:bg-indigo-700 hover:text-white focus:bg-indigo-700 focus:text-white">
-        {{ pageNumber + 1 }}
-      </button>
-    </div>
+  <!--dışarıdaki çerçeve-->
 </div>
-
-
-  
-  
-
+<div class="flex justify-center gap-5 mt-32 ">
+  <div class="flex justify-center gap-5 mt-32">
+    <button *ngFor="let pageNumber of getPageNumbers()" (click)="onPageNumberClicked(pageNumber)"
+      class="flex px-6 py-4 text-4xl text-bold bg-gray-200 text-indigo-900 rounded-full hover:bg-indigo-700 hover:text-white focus:bg-indigo-700 focus:text-white">
+      {{ pageNumber + 1 }}
+    </button>
+  </div>
+</div>

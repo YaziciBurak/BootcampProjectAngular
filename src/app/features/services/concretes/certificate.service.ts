@@ -22,7 +22,7 @@ export class CertificateService extends CertificateBaseService {
 
     override getList(pageRequest: PageRequest): Observable<CertificateListItemDto> {
         const newRequest: { [key: string]: string | number } = {
-            pageIndex: pageRequest.page,
+            pageIndex: pageRequest.pageIndex,
             pageSize: pageRequest.pageSize
         };
         return this.httpClient.get<CertificateListItemDto>(this.apiUrl, {
@@ -30,7 +30,7 @@ export class CertificateService extends CertificateBaseService {
         }).pipe(
             map((response) => {
                 const newResponse: CertificateListItemDto = {
-                    index: pageRequest.page,
+                    index: pageRequest.pageIndex,
                     size: pageRequest.pageSize,
                     count: response.count,
                     hasNext: response.hasNext,
@@ -91,7 +91,7 @@ export class CertificateService extends CertificateBaseService {
 
     override getByApplicantId(pageRequest: PageRequest): Observable<CertificateListItemDto> {
         const newRequest: { [key: string]: string | number } = {
-            page: pageRequest.page,
+            pageIndex: pageRequest.pageIndex,
             pageSize: pageRequest.pageSize
         };
         return this.httpClient.get<CertificateListItemDto>(`${this.apiUrl}/getbyapplicantid`, {
@@ -99,7 +99,7 @@ export class CertificateService extends CertificateBaseService {
         }).pipe(
             map((response) => {
                 const newResponse: CertificateListItemDto = {
-                    index: pageRequest.page,
+                    index: pageRequest.pageIndex,
                     size: pageRequest.pageSize,
                     count: response.count,
                     hasNext: response.hasNext,

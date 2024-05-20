@@ -15,29 +15,29 @@ import { UpdateBlacklistResponse } from '../../models/responses/blacklist/update
 @Injectable({
   providedIn: 'root'
 })
-export class BlacklistService extends BlacklistBaseService{
+export class BlacklistService extends BlacklistBaseService {
 
-  private readonly apiUrl:string = `${environment.API_URL}/Blacklists`
+  private readonly apiUrl: string = `${environment.API_URL}/Blacklists`
 
-  constructor(private httpClient:HttpClient) {super() }
+  constructor(private httpClient: HttpClient) { super() }
 
   override getList(pageRequest: PageRequest): Observable<BlackListListItemDto> {
-    const newRequest: {[key: string]: string | number} = {
-      pageIndex: pageRequest.page,
+    const newRequest: { [key: string]: string | number } = {
+      pageIndex: pageRequest.pageIndex,
       pageSize: pageRequest.pageSize
     };
-    return this.httpClient.get<BlackListListItemDto>(this.apiUrl,{
-      params:newRequest
+    return this.httpClient.get<BlackListListItemDto>(this.apiUrl, {
+      params: newRequest
     }).pipe(
-      map((response)=>{
-        const newResponse:BlackListListItemDto={
-          index:pageRequest.page,
-          size:pageRequest.pageSize,
-          count:response.count,
-          hasNext:response.hasNext,
-          hasPrevious:response.hasPrevious,
-          items:response.items,
-          pages:response.pages
+      map((response) => {
+        const newResponse: BlackListListItemDto = {
+          index: pageRequest.pageIndex,
+          size: pageRequest.pageSize,
+          count: response.count,
+          hasNext: response.hasNext,
+          hasPrevious: response.hasPrevious,
+          items: response.items,
+          pages: response.pages
         };
         return newResponse;
       })
@@ -47,13 +47,13 @@ export class BlacklistService extends BlacklistBaseService{
     return this.httpClient.post<CreateBlacklistResponse>(`${this.apiUrl}`, request);
   }
   override delete(id: number): Observable<DeleteBlacklistResponse> {
-    return this.httpClient.delete<DeleteBlacklistResponse>(`${this.apiUrl}/`+id)
+    return this.httpClient.delete<DeleteBlacklistResponse>(`${this.apiUrl}/` + id)
   }
   override update(request: UpdateBlacklistRequest): Observable<UpdateBlacklistResponse> {
-    return this.httpClient.put<UpdateBlacklistResponse>(`${this.apiUrl}`, request); 
+    return this.httpClient.put<UpdateBlacklistResponse>(`${this.apiUrl}`, request);
   }
   override getById(blacklistId: number): Observable<GetbyidBlacklistResponse> {
-    const newRequest: {[key: string]: string | number} = {
+    const newRequest: { [key: string]: string | number } = {
       id: blacklistId
     };
     return this.httpClient.get<GetbyidBlacklistResponse>(`${this.apiUrl}/${blacklistId}`, {
