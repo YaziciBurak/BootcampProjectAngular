@@ -1,7 +1,7 @@
-import { Component, EventEmitter, Input, OnInit, Output, output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, output } from '@angular/core';
 import { BootcampListItemDto } from '../../features/models/responses/bootcamp/bootcamp-list-item-dto';
 import { BootcampService } from '../../features/services/concretes/bootcamp.service';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { PageRequest } from '../../core/models/page-request';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -26,6 +26,7 @@ export class BootcampListPageComponent implements OnInit {
   @Output() instructorSelected = new EventEmitter<string>();
   instructors!: InstructorListItemDto;
   currentInstructor!: GetlistInstructorResponse;
+  selectedInstructorName: string | null = null;
   filterText:string = 'Eğitmenler';
   activeFilter: 'all' | 'deadlinePassed' | 'continuing' = 'all';
 
@@ -41,20 +42,31 @@ export class BootcampListPageComponent implements OnInit {
     pages: 0,
     items: []
   };
-  constructor(private bootcampService: BootcampService, private instructorService: InstructorService, private activatedRoute: ActivatedRoute) { }
+  constructor(private bootcampService: BootcampService, 
+    private instructorService: InstructorService, 
+    private activatedRoute: ActivatedRoute,
+    private router:Router,
+    private change:ChangeDetectorRef
+  ) { }
   readonly PAGE_SIZE = 3;
+  
 
 
   ngOnInit(): void {
     this.getInstructors();
     initFlowbite();
     window.scrollTo(0,0);
-    this.activatedRoute.params.subscribe(params => {
-      if (params["instructorId"]) {
-        this.getBootcampListByInstructor({ page: 0, pageSize: this.PAGE_SIZE }, params["instructorId"])
-      } else { this.getList({ page: 0, pageSize: this.PAGE_SIZE }) }
-    })
-
+    this.activatedRoute.paramMap.subscribe(params => {
+      const instructorId = params.get('instructorId');
+      const page = parseInt(params.get('page') || '0', 10);
+      console.log(`Initializing with instructorId: ${instructorId} and page: ${page}`);
+      if (instructorId) {
+          this.selectedInstructorId = instructorId;
+          this.getBootcampListByInstructor({ page, pageSize:this.PAGE_SIZE }, instructorId);
+      } else {
+          this.getList({ page, pageSize: this.PAGE_SIZE });
+      }
+  });
   }
   getInstructors() {
     this.instructorService.getListAll().subscribe((response) => {
@@ -62,15 +74,24 @@ export class BootcampListPageComponent implements OnInit {
     })
   }
   onSelectedInstructor(instructorId: string, instructorName: string): void {
-    this.selectedInstructorId = instructorId;
-    this.instructorSelected.emit(this.selectedInstructorId);
-    this.filterText = instructorName;
+    this.router.navigate(['/bootcamps/instructor', instructorId]).then(() => {
+      this.selectedInstructorId = instructorId;
+      this.selectedInstructorName = instructorName;
+      this.filterText = instructorName;
+      this.getBootcampListByInstructor({ page: this.currentPageNumber, pageSize: this.PAGE_SIZE }, instructorId);
+    });
   }
+  
 
   isExpired(endDate: Date): boolean {
     return new Date(endDate) < new Date();
   }
-
+  updateFilterText(instructorId: string): void {
+    const instructor = this.instructors.items.find((instructor: any) => instructor.id === instructorId);
+    if (instructor) {
+      this.filterText = `${instructor.firstName} ${instructor.lastName}`;
+    }
+  }
   getList(pageRequest: PageRequest) {
     this.bootcampService.getList(pageRequest).subscribe((response) => {
       this.bootcampList = response;
@@ -79,21 +100,26 @@ export class BootcampListPageComponent implements OnInit {
   }
 
   getBootcampListByInstructor(pageRequest: PageRequest, instructorId: string) {
+    console.log(`Fetching bootcamps for instructor ${instructorId} with page ${pageRequest.page}`);
     this.bootcampService.getListBootcampByInstructorId(pageRequest, instructorId).subscribe((response) => {
       this.bootcampList = response;
-      this.updateCurrentBootcampPageNumber(response.index + 1);
+      this.updateCurrentBootcampPageNumber(response.index );
     })
   }
   onPageNumberClicked(pageNumber: number): void {
-    const pageSize = this.bootcampList.size;
+    console.log(`Page number clicked: ${pageNumber}`);
+    const pageSize = this.PAGE_SIZE;
     const instructorId = this.selectedInstructorId;  
     if (instructorId) {
+      this.router.navigate(['/bootcamps/instructor', instructorId, { page: pageNumber }]);
       this.getBootcampListByInstructor({ page: pageNumber, pageSize }, instructorId);
     } else {
+      this.router.navigate(['/bootcamps', { page: pageNumber }]);
       this.getList({ page: pageNumber, pageSize });
     }
   }
   updateCurrentBootcampPageNumber(pageNumber: number): void {
+    console.log(`Updating current page number to: ${pageNumber}`);
     this.currentPageNumber = pageNumber;
   }
   getPageNumbers(): number[] {

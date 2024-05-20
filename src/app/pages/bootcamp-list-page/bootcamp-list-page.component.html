@@ -19,6 +19,7 @@
       class="hover:text-indigo-600 focus:text-indigo-600">Başvurusu Bitenler</button>
   </div>
 
+
   <div class=" flex flex-row gap-3 ">
     <div class="text-2xl text-slate-500 self-center">Filtrele:</div>
     <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown"
@@ -43,6 +44,7 @@
         </ng-container>
       </ul>
     </div>
+
     <img loading="lazy" src="/assets/img/filter.png" class=" ">
 
   </div>
@@ -92,24 +94,18 @@
     </ng-container>
   </div> <!--kartların içine yerleştiği div bitiş-->
 
+  <!--dışarıdaki çerçeve--></div>
+  <div class="flex justify-center gap-5 mt-32 ">
+    <div class="flex justify-center gap-5 mt-32">
+      <button *ngFor="let pageNumber of getPageNumbers()" 
+              (click)="onPageNumberClicked(pageNumber)" 
+              class="flex px-6 py-4 text-4xl text-bold bg-gray-200 text-indigo-900 rounded-full hover:bg-indigo-700 hover:text-white focus:bg-indigo-700 focus:text-white">
+        {{ pageNumber + 1 }}
+      </button>
+    </div>
+</div>
 
-  <!--dışarıdaki çerçeve-->
-</div>
-<div class="flex justify-center gap-5 mt-32 ">
-  <button (click)="setCurrentPageNumber(1)"
-    class="flex px-6 py-4 text-4xl text-bold bg-gray-200 text-indigo-900 rounded-full hover:bg-indigo-700 hover:text-white focus:bg-indigo-700 focus:text-white">
-    1
-  </button>
-  <button (click)="setCurrentPageNumber(2)"
-    class="flex px-6 py-4 text-4xl text-bold bg-gray-200 text-indigo-900 rounded-full hover:bg-indigo-700 hover:text-white focus:bg-indigo-700 focus:text-white">
-    2
-  </button>
-  <button (click)="setCurrentPageNumber(3)"
-    class="flex px-6 py-4 text-4xl text-bold bg-gray-200 text-indigo-900 rounded-full hover:bg-indigo-700 hover:text-white focus:bg-indigo-700 focus:text-white">
-    3
-  </button>
-  <button (click)="setCurrentPageNumber(4)"
-    class="flex px-6 py-4 text-4xl text-bold bg-gray-200 text-indigo-900 rounded-full hover:bg-indigo-700 hover:text-white focus:bg-indigo-700 focus:text-white">
-    4
-  </button>
-</div>
+
+  
+  
+
