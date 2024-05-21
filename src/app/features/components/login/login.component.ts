@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { UserForLoginRequest } from '../../models/requests/users/user-for-login-request';
 import { Router, RouterModule } from '@angular/router';
-import { AppToastrService, ToastrMessageType } from '../../services/concretes/app-toastr.service';
+import { SwalService } from '../../services/concretes/swal.service';
 
 @Component({
   selector: 'app-login',
@@ -15,12 +15,12 @@ import { AppToastrService, ToastrMessageType } from '../../services/concretes/ap
   export class LoginComponent {
 
 loginForm!:FormGroup
-    constructor(private formBuilder:FormBuilder,private authService:AuthService,private router:Router, private toastrService:AppToastrService){}
+    constructor(private formBuilder:FormBuilder,private authService:AuthService,private router:Router, private swal:SwalService){}
   
     ngOnInit(): void {
       this.createLoginForm();
       if(this.authService.loggedIn()){
-        this.toastrService.message("Zaten giriş yaptınız. Ana sayfaya yönlendiriliyorsunuz.", "Bilgilendirme", ToastrMessageType.Info)
+        this.swal.callToast("Zaten giriş yaptınız. Ana sayfaya yönlendiriliyorsunuz.", "info")
         this.router.navigate(['/']);
       }
     }
@@ -36,11 +36,11 @@ loginForm!:FormGroup
       if(this.loginForm.valid){
         let loginModel:UserForLoginRequest = Object.assign({},this.loginForm.value);
         this.authService.login(loginModel).subscribe(response=>{
-          this.toastrService.message("Giriş Başarılı.", "Merhaba", ToastrMessageType.Success)
+          this.swal.callToast("Giriş Başarılı.", "success")
           this.router.navigate(['/'])
         }
         ,(error:any)=>{
-          alert(error.error)
+          this.swal.callToast("Hatalı Giriş", "error")
         })
       }
     }

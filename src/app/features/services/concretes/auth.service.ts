@@ -52,12 +52,12 @@ export class AuthService extends AuthBaseService {
         // alert("Giriş yapıldı");
         setTimeout(() => {
           window.location.reload()
-        }, 400)
+        }, 9000)
         return response;
       }
 
       ), catchError(responseError => {
-        alert(responseError.error)
+        //alert(responseError.error)
         throw responseError;
       })
       )
