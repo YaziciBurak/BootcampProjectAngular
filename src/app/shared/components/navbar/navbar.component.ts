@@ -33,7 +33,7 @@ export class NavbarComponent {
   ngOnInit(): void {
     initFlowbite();
     this.getMenuItems();
-
+    this.getRoles();
     const $targetEl = document.getElementById('dropdownSearchResults');
     const $triggerEl = document.getElementById('search-bar');
     const options: DropdownOptions = {
@@ -59,7 +59,9 @@ export class NavbarComponent {
   setUserLogged(): boolean {
     return this.userLogged = this.authService.loggedIn()
   }
-
+  getRoles(): string[] {
+    return this.authService.getRoles();
+  }
   getUserName(): string {
     return this.authService.getUserName();
   }

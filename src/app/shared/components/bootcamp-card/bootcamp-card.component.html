@@ -22,7 +22,7 @@
             bootcamp.endDate | date : "dd/MM/yyyy"
             }}</time>
         </div>
-        <button
+        <button [routerLink]="['/bootcampDetail', bootcamp.id.toString()]"
           class="flex gap-2 justify-center px-3 py-2 2xl:px-5 2xl:py-3  text-base font-bold leading-5 bg-amber-400 border border-black border-solid shadow-sm rounded-[56.813px] text-slate-900 max-md:px-5 hover:brightness-110"
           style="box-shadow: 3px 3px 0px 0px black;">
           <span class="grow my-auto">İncele</span>
