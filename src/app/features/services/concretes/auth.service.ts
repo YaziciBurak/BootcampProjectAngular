@@ -89,6 +89,10 @@ export class AuthService extends AuthBaseService {
 
   getCurrentUserId(): string {
     var decoded = this.getDecodedToken();
+    if (!decoded) {
+      // Token çözümlenemedi veya yoksa null döndür
+      return null;
+    }
     var propUserId = Object.keys(decoded).filter(x => x.endsWith("/nameidentifier"))[0]
     return this.userId = decoded[propUserId]
   }

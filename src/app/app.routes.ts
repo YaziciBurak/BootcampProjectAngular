@@ -15,6 +15,7 @@ import { UpdatePasswordPageComponent } from './pages/update-password-page/update
 import { QuizPageComponent } from './pages/quiz-page/quiz-page.component';
 import { MyCertificatesPageComponent } from './pages/my-certificates-page/my-certificates-page.component';
 import { AdminPanelGuard } from './core/guards/login/admin-panel.guard';
+import { LoginGuard } from './core/guards/login/login.guard';
 
 
 export const routes: Routes = [
@@ -32,7 +33,7 @@ export const routes: Routes = [
     { path: "bootcamps/instructor/:instructorId", component: BootcampListPageComponent },
     { path: 'applications', component: ApplicationListPageComponent },
     { path: 'mybootcamps', component: MyBootcampsListPageComponent },
-    { path: 'bootcampContent', component: BootcampContentPageComponent },
+    { path: 'bootcampContent', component: BootcampContentPageComponent, canActivate: [LoginGuard] },
     { path: 'updateMyProfile', component: UpdateMyProfilePageComponent },
     { path: 'instructors', component: InstructorListPageComponent },
     { path: 'updatePassword', component: UpdatePasswordPageComponent },

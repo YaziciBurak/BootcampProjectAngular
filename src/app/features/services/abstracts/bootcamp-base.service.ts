@@ -12,11 +12,11 @@ import { BootcampListItemDto } from '../../models/responses/bootcamp/bootcamp-li
 @Injectable()
 export abstract class BootcampBaseService {
 
-  abstract getList(pageRequest:PageRequest): Observable<BootcampListItemDto>;
-  abstract getById(bootcampId:number):Observable<GetbyidBootcampResponse>;
+  abstract getList(pageRequest: PageRequest): Observable<BootcampListItemDto>;
+  abstract getById(bootcampId: number): Observable<GetbyidBootcampResponse>;
   abstract delete(id: number): Observable<DeleteBootcampResponse>;
   abstract update(applicant: UpdateBootcampRequest): Observable<UpdateBootcampResponse>;
   abstract create(applicant: CreateBootcampRequest): Observable<CreateBootcampResponse>;
-  abstract getListBootcampByInstructorId(pageRequest:PageRequest,instructorId: string):Observable<BootcampListItemDto>;
-  
+  abstract getListBootcampByInstructorId(pageRequest: PageRequest, instructorId: string): Observable<BootcampListItemDto>;
+
 }

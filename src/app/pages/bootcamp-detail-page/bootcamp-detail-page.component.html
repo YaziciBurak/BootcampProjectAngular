@@ -26,11 +26,14 @@
 
     <button (click)="applyForBootcamp(getByIdBootcampResponse.id)" class="flex mt-6 justify-center gap-4 px-4 py-4 font-bold leading-5 bg-amber-400 hover:brightness-110
         text-xl border border-black border-solid rounded-[56.813px] text-slate-900 mx-2 2xl:mt-16 2xl:mx-4"
+      [ngClass]="{'opacity-50 cursor-not-allowed': isDeadlinePassed(getByIdBootcampResponse.deadline) || getByIdBootcampResponse.ifApplicantApplied} "
+      [disabled]="isDeadlinePassed(getByIdBootcampResponse.deadline) || getByIdBootcampResponse.ifApplicantApplied"
       style="box-shadow: 5px 5px 0px 0px black;">
-      <span class="">Hemen Başvur</span>
-      <img src="/assets/img/for-all-butons.svg" />
+      <span>{{ getByIdBootcampResponse.ifApplicantApplied ? 'Başvurdunuz' : 'Hemen Başvur' }}</span>
+      <img
+        [ngClass]="{'hidden': isDeadlinePassed(getByIdBootcampResponse.deadline) || getByIdBootcampResponse.ifApplicantApplied}"
+        src="/assets/img/for-all-butons.svg" />
     </button>
-
   </div>
 </div>
 
@@ -53,5 +56,3 @@
   </div>
 
   <!--en dış div-->
-
-

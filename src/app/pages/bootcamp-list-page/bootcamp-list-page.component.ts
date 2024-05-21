@@ -27,6 +27,7 @@ export class BootcampListPageComponent implements OnInit {
   instructors!: InstructorListItemDto;
   currentInstructor!: GetlistInstructorResponse;
   selectedInstructorName: string | null = null;
+  focusedButton: number | null = null;
   filterText: string = 'Eğitmenler';
   activeFilter: 'all' | 'deadlinePassed' | 'continuing' | 'instructor' = 'all';
 
@@ -182,6 +183,13 @@ export class BootcampListPageComponent implements OnInit {
   getContinuingBootcamps(pageRequest: PageRequest): void {
     this.activeFilter = 'continuing';
     const query: DynamicQuery = {
+      sort: [
+        {
+          field: 'deadline',
+          dir: 'desc'
+        }
+      ],
+
       filter: {
         field: 'deadline',
         operator: 'gte',
@@ -196,6 +204,12 @@ export class BootcampListPageComponent implements OnInit {
   getDeadlinePassedBootcamps(pageRequest: PageRequest): void {
     this.activeFilter = 'deadlinePassed';
     const query: DynamicQuery = {
+      sort: [
+        {
+          field: 'deadline',
+          dir: 'desc'
+        }
+      ],
       filter: {
         field: 'deadline',
         operator: 'lt',
@@ -206,4 +220,9 @@ export class BootcampListPageComponent implements OnInit {
       this.bootcampList = response;
     })
   }
+
+  setFocus(buttonIndex: number) {
+    this.focusedButton = buttonIndex;
+  }
+
 }
