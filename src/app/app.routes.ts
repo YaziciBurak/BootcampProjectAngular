@@ -14,6 +14,7 @@ import { InstructorListPageComponent } from './pages/instructor-list-page/instru
 import { UpdatePasswordPageComponent } from './pages/update-password-page/update-password-page.component';
 import { QuizPageComponent } from './pages/quiz-page/quiz-page.component';
 import { MyCertificatesPageComponent } from './pages/my-certificates-page/my-certificates-page.component';
+import { AdminPanelGuard } from './core/guards/login/admin-panel.guard';
 
 
 export const routes: Routes = [
@@ -23,7 +24,7 @@ export const routes: Routes = [
             { path: "", pathMatch: "full", component: BootcampListGroupComponent }
         ]
     },
-    { path: 'admin', children: AdminRoutes },
+    { path: 'admin', children: AdminRoutes, canActivate: [AdminPanelGuard] },
     { path: 'login', component: LoginComponent },
     { path: 'register', component: RegisterComponent },
     { path: 'bootcamps', component: BootcampListPageComponent },
