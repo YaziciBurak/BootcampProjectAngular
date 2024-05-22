@@ -1,5 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { Router, RouterModule } from '@angular/router';
+import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { Router, RouterLink, RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { LoginComponent } from '../../../features/components/login/login.component';
 import { RegisterComponent } from '../../../features/components/register/register.component';
@@ -9,8 +9,7 @@ import { MenuItem } from 'primeng/api';
 import { AuthService } from '../../../features/services/concretes/auth.service';
 import { Dropdown, DropdownOptions, InstanceOptions, initFlowbite } from 'flowbite';
 import { BootcampService } from '../../../features/services/concretes/bootcamp.service';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { BootcampListItemDto } from '../../../features/models/responses/bootcamp/bootcamp-list-item-dto';
+import { FormsModule } from '@angular/forms';
 import { GetlistBootcampResponse } from '../../../features/models/responses/bootcamp/getlist-bootcamp-response';
 
 @Component({
@@ -28,12 +27,17 @@ export class NavbarComponent {
   userLogged!: boolean;
   searchResults: GetlistBootcampResponse[] = [];
   searchDropdown: Dropdown;
-  constructor(private bootcampService: BootcampService, private authService: AuthService, private router: Router) { }
+  constructor(private bootcampService: BootcampService,
+     private authService: AuthService,
+      private router: Router,
+      private change:ChangeDetectorRef
+    ) { }
 
   ngOnInit(): void {
     initFlowbite();
     this.getMenuItems();
     this.getRoles();
+    this.ngAfterViewInit();
     const $targetEl = document.getElementById('dropdownSearchResults');
     const $triggerEl = document.getElementById('search-bar');
     const options: DropdownOptions = {
@@ -41,23 +45,26 @@ export class NavbarComponent {
       triggerType: 'none',
       ignoreClickOutsideClass: false,
     };
-
     const instanceOptions: InstanceOptions = {
       id: 'dropdownSearchResults',
       override: true
     };
-
     this.searchDropdown = new Dropdown($targetEl, $triggerEl, options, instanceOptions);
-
   }
 
   logOut() {
     this.authService.logOut();
     this.router.navigate(['homepage'])
   }
-
-  setUserLogged(): boolean {
-    return this.userLogged = this.authService.loggedIn()
+  ngAfterViewInit(): void {
+    this.authService.loggedIn$.subscribe(isLoggedIn => {
+      this.isLoggedIn = isLoggedIn;
+      this.change.detectChanges();
+    });
+  }
+  checkUserRoles() {
+    this.isLoggedIn = this.authService.loggedIn();
+    this.isAdmin = this.authService.isAdmin();
   }
   getRoles(): string[] {
     return this.authService.getRoles();
