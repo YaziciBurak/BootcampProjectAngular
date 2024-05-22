@@ -142,13 +142,6 @@ export class BootcampContentPageComponent implements OnInit {
 
 
 
-  /*get buttonText(): string {
-    if (!this.confirmed && !this.bootcampContent?.hasApplicantBootcampContent) {
-      return 'Sınava giremezsin';
-    } else {
-      return 'Sınava Girebilirsin';
-    }
-  } İSTEDİĞİMİZDE BUTONUN İÇİNDEKİ TEXTİ DE DEĞİŞTİREBİLİRİZ / bootcampdetail sayfası*/
 
 
 

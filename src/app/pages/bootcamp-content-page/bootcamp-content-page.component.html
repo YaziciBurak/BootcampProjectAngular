@@ -22,10 +22,11 @@
       referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
     <div
-      class="flex flex-col ml-12 border-2 border-gray-300 shadow-xl px-8 py-6 h-[400px] w-[300px] 2xl:ml-32 2xl:mt-24 rounded-xl">
+      class="flex flex-col ml-12 border-2 border-gray-300 shadow-xl px-8 py-6 h-[400px] w-[300px] 2xl:ml-32  2xl:h-[500px] rounded-xl">
       <div class="text-l 2xl:text-2xl text-white bg-indigo-700 px-10 p-3 rounded-xl">BİLGİLENDİRME</div>
       <div class="text-l 2xl:text-2xl text-black font-bold mt-4">{{bootcampContent.bootcampName}}</div>
-      <div class=" flex  text-m 2xl:text-xl text-black mt-2">
+      <div class=" flex flex-col  text-m 2xl:text-xl text-black mt-2">
+        <span>Aşağıdaki checkbox işaretlendiğinde sınava gir butonu aktif olacaktır!</span>
         Bootcamp içeriklerini bitirmek benim sorumluluğumdadır, sınava girmeye hazırım.
       </div>
       <input type="checkbox" class="self-end mt-3 w-5 h-5 bg-white rounded border border-solid border-zinc-200 
@@ -36,13 +37,13 @@
 
 
 
-      <button (click)="handleClick(bootcampContent.bootcampId)" class="flex mt-20 justify-center gap-4 px-6 py-4 font-bold leading-5 bg-amber-400 hover:brightness-110
-        text-xl border border-black border-solid rounded-[56.813px] text-slate-900 max-md:px-5 2xl:mt-6" [ngClass]="{
-         'opacity-50 cursor-not-allowed': !confirmed && !bootcampContent?.hasApplicantBootcampContent
-        }" [disabled]="!confirmed && !bootcampContent?.hasApplicantBootcampContent"
+      <button (click)="handleClick(bootcampContent.bootcampId)" class="flex mt-6 justify-center gap-4 px-6 py-4 font-bold leading-5 bg-amber-400 hover:brightness-110
+        text-xl border border-black border-solid rounded-[56.813px] text-slate-900 max-md:px-5 2xl:mt-8"
+        [ngClass]="{'opacity-50 cursor-not-allowed': !confirmed && !bootcampContent?.hasApplicantBootcampContent || bootcampContent.ifApplicantPassed}"
+        [disabled]="!confirmed && !bootcampContent?.hasApplicantBootcampContent || bootcampContent.ifApplicantPassed"
         style="box-shadow: 5px 5px 0px 0px black;">
-        <span class="">Sınava Gir</span>
-        <img src="/assets/img/for-all-butons.svg" />
+        <span>{{ bootcampContent.ifApplicantPassed? 'Sertifikanız Var' : 'Sınava Gir' }}</span>
+        <img [ngClass]="{'hidden': bootcampContent.ifApplicantPassed}" src="/assets/img/for-all-butons.svg" />
       </button>
 
 
