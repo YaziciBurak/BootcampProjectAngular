@@ -26,6 +26,7 @@ export class InstructorListPageComponent implements OnInit {
   private PAGE_SIZE = 100;
   constructor(private instructorService: InstructorService) { }
   ngOnInit(): void {
+    window.scrollTo(0,0);
     this.getList({ pageIndex: 0, pageSize: this.PAGE_SIZE });
   }
   getList(pageRequest: PageRequest): void {
