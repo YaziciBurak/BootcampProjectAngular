@@ -4,6 +4,8 @@ import { Component } from '@angular/core';
 import { RouterModule, RouterOutlet } from '@angular/router';
 import { AdminHomePageComponent } from './pages/admin-home-page/admin-home-page.component';
 
+
+
 @Component({
   selector: 'app-admin',
   standalone: true,
