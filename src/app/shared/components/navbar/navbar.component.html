@@ -44,10 +44,7 @@
 
   <div class="flex flex-row gap-5 md:justify-end lg:justify-end md:ml-auto lg:ml-auto items-start text-base font-bold" id="navbar-default">
     <!-- Kullanıcı giriş yapmışsa -->
-
-
     <ng-container *ngIf="isLoggedIn; else guestMenu">
-
       <!-- Kullanıcı admin mi? -->
       <ng-container *ngIf="isAdmin; else userMenu">
         <button routerLink="/admin" class="px-5 py-3 bg-amber-400 border border-blue-950 border-opacity-20 rounded-[50px] hover:brightness-110" style="box-shadow: 5px 5px 0px 0px black;">
