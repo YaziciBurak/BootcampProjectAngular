@@ -45,7 +45,7 @@
   <div class="flex  flex-row gap-5  md:justify-end lg:justify-end md:ml-auto lg:ml-auto items-start text-base font-bold"
     id="navbar-default">
     <!-- Kullanıcı giriş yapmışsa -->
-    <ng-container *ngIf="isLoggedIn">
+    <ng-container *ngIf="setUserLogged()">
       <!-- Kullanıcı admin mi? -->
       <ng-container *ngIf="isAdmin">
         <button routerLink="/admin"

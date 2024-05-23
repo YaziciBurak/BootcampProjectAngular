@@ -12,10 +12,10 @@ export class SwalService {
     Swal.fire({
       title: title,
       text: "",
-      timer: 100000,
+      timer: 9000,
       showConfirmButton: false,
       toast: true,
-      position: "bottom-right",
+      position: "top-right",
       icon: icon
     });
   }
