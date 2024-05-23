@@ -57,7 +57,6 @@ return this.httpClient.post<UserForRegisterResponse>(`${this.apiUrl}/RegisterIns
         this.storageService.setToken(response.accessToken.token);
         this.loggedInSubject.next(true);  
         setTimeout(() => {
-
           window.location.reload();
         }, 3000);  
         return response;
