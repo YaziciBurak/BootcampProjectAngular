@@ -7,9 +7,7 @@ import { EditorModule } from '@tinymce/tinymce-angular';
 import { AppComponent } from './app.component';
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
+
   imports: [
     BrowserModule,
     BrowserAnimationsModule, // Ekle
@@ -17,6 +15,6 @@ import { AppComponent } from './app.component';
     EditorModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+
 })
 export class AppModule { }

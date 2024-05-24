@@ -41,5 +41,6 @@ export const routes: Routes = [
     { path: 'quiz', component: QuizPageComponent },
     { path: 'quiz/:quizId', component: QuizPageComponent },
     { path: 'mycertificates', component: MyCertificatesPageComponent },
+
 ];
 

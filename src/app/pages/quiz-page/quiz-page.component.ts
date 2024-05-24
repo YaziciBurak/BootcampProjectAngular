@@ -1,6 +1,6 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { CreateQuizResponse } from '../../features/models/responses/quiz/create-quiz-response';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, OnSameUrlNavigation, Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { BootcampContentPageComponent } from '../bootcamp-content-page/bootcamp-content-page.component';
 import { FormGroup, FormsModule, NgForm, ReactiveFormsModule } from '@angular/forms';
@@ -23,20 +23,22 @@ import { CreateCertificateRequest } from '../../features/models/requests/certifi
 export class QuizPageComponent implements OnInit {
   createdQuiz: CreateQuizResponse | null = null;
   questions: CreateQuizResponse['questionResponses'];
-  timer: string = "15:00";
+  timer: string = "01:00";
   isPassed: boolean | null = null;
   score: number;
   newQuiz: CreateQuizResponse;
   questionResults: Record<number, FinishQuizResponse['questionResults'][0]>;
+  @ViewChild('resultForm', { static: false }) resultForm: NgForm;
 
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private quizService: QuizService,
-    private certificateService: CertificateService
+    private certificateService: CertificateService,
+
   ) {
-    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+
     const navigation = this.router.getCurrentNavigation();
     if (!navigation?.extras?.state?.['quiz']) {
       return;
@@ -45,14 +47,13 @@ export class QuizPageComponent implements OnInit {
     this.questions = this.createdQuiz.questionResponses;
     console.log(this.questions);
 
-
   }
 
   ngOnInit(): void {
+    this.startTimer(1 * 60 - 1);
 
-
-    this.startTimer(15 * 60 - 1);
   }
+
 
   startTimer(duration: number): void {
     var t = duration;
@@ -70,6 +71,7 @@ export class QuizPageComponent implements OnInit {
       }
     }, 1000);
   }
+
 
   finishQuiz(resultForm: NgForm): void {
     // Formdaki cevapları al
@@ -103,12 +105,17 @@ export class QuizPageComponent implements OnInit {
         });
         this.isPassed = response.result.isPassed;
         window.scrollTo(0, 0);
+        //window.removeEventListener('beforeunload', this.beforeUnloadHandler);
+
       },
       error => {
         console.error('Error finishing quiz:', error);
       }
     );
   }
+
+
+
 
   createCertificate(): void {
     this.certificateService.create({
@@ -142,18 +149,20 @@ export class QuizPageComponent implements OnInit {
     );
   }
 
-
-
   retakeQuiz(id: number): void {
+    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
     this.quizService.getExam(id).subscribe(
       response => {
         console.log("new quiz", response);
-        this.router.navigate([`/quiz/${response.id}`], { state: { quiz: response } });
+
+        this.router.navigate([`/quiz/${response.id}`], { state: { quiz: response } }).then(() => {
+
+          this.router.routeReuseStrategy.shouldReuseRoute = (future, curr) => future.routeConfig === curr.routeConfig;
+        });
       },
       error => {
         console.error('Quiz oluşturma sırasında hata oluştu', error);
       }
-
     );
   }
 
