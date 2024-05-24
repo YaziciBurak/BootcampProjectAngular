@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { AuthBaseService } from '../abstracts/auth-base.service';
-import { BehaviorSubject, Observable, catchError, map } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, map, throwError } from 'rxjs';
 import { ApplicantForRegisterRequest } from '../../models/requests/users/applicant-for-register-request';
 import { UserForRegisterResponse } from '../../models/responses/users/user-for-register-response';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
 import { LocalStorageService } from './local-storage.service';
 import { JwtHelperService } from '@auth0/angular-jwt';
@@ -62,12 +62,30 @@ return this.httpClient.post<UserForRegisterResponse>(`${this.apiUrl}/RegisterIns
         return response;
       }),
       catchError(responseError => {
-        this.toastr.error(responseError.error, 'Hata');
-        throw responseError;
+        const errorMessage = this.getErrorMessage(responseError);
+        this.toastr.error(errorMessage, 'Hata');
+        return throwError(responseError);
       })
     );
 }
-
+private getErrorMessage(error: HttpErrorResponse): string {
+  if (error.error instanceof ErrorEvent) {
+    // Client-side error
+    return `Error: ${error.error.message}`;
+  } else {
+    // Server-side error
+    switch (error.status) {
+      case 400:
+        return 'Hatalı istek';
+      case 404:
+        return 'Kullanıcı bulunamadı';
+      case 500:
+        return 'Kullanıcı adı veya şifre hatalı';
+      default:
+        return 'Giriş yaparken hata oluştu';
+    }
+  }
+}
   getDecodedToken(){
     try{
       this.token=this.storageService.getToken();

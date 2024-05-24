@@ -31,14 +31,21 @@
       <input formControlName="email" type="email" id="email" placeholder="Email yazınız  . . ." autocomplete="email"
         class="justify-center  outline-none items-start px-5 py-3 mt-2.5 text-gray-500  whitespace-nowrap bg-white rounded-md border border-solid border-neutral-200 max-md:px-5 max-md:max-w-full"
         required="" />
-
+        <div *ngIf="submitted && formControls['email'].errors" class="text-red-500 mt-2">
+          <div *ngIf="formControls['email'].hasOwnProperty('errors') && formControls['email'].errors?.['required']">Email gerekli.</div>
+          <div *ngIf="formControls['email'].hasOwnProperty('errors') && formControls['email'].errors?.['email']">Geçerli bir email adresi girin.</div>
+        </div>
       <div class="mt-6 text-lg font-bold leading-5 text-slate-900 max-md:max-w-full">
         <label for="password"> Şifre </label>
       </div>
       <input formControlName="password" type="password" id="password" placeholder="Şifre yazınız  . . ."
         class="justify-center  items-start px-4 py-3 mt-2.5 text-gray-500  whitespace-nowrap bg-white rounded-md border border-solid border-neutral-200 max-md:px-5 max-md:max-w-full"
         autocomplete="current-password" />
-      <div class="flex gap-4 mt-5 w-full max-md:max-w-full font-semibold ">
+        <div *ngIf="submitted && formControls['password'].errors" class="text-red-500 mt-2">
+          <div *ngIf="formControls['password'].hasOwnProperty('errors') && formControls['password'].errors?.['required']">Şifre gerekli.</div>
+          <div *ngIf="formControls['password'].hasOwnProperty('errors') && formControls['password'].errors?.['minlength']">Şifre en az 4 karakter olmalı.</div>
+      </div>
+          <div class="flex gap-4 mt-5 w-full max-md:max-w-full font-semibold ">
         <div class="flex flex-1 gap-2 leading-7 text-slate-900">
           <input id="remember" aria-describedby="remember" type="checkbox" class="shrink-0 my-auto w-5 h-5 bg-white rounded border border-solid border-zinc-200 
         text-purple-700  focus:ring-purple-700 " />
