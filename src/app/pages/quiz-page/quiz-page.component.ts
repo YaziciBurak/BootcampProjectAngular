@@ -31,6 +31,7 @@ export class QuizPageComponent implements OnInit {
   @ViewChild('resultForm', { static: false }) resultForm: NgForm;
 
 
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -40,6 +41,11 @@ export class QuizPageComponent implements OnInit {
   ) {
 
     const navigation = this.router.getCurrentNavigation();
+
+    if (navigation?.extras?.replaceUrl) {
+      this.router.navigate(["/homepage"]);
+    }
+
     if (!navigation?.extras?.state?.['quiz']) {
       return;
     }
@@ -51,7 +57,6 @@ export class QuizPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.startTimer(1 * 60 - 1);
-
   }
 
 
@@ -72,6 +77,11 @@ export class QuizPageComponent implements OnInit {
     }, 1000);
   }
 
+  @HostListener('window:beforeunload', ['$event'])
+  beforeUnloadHandler(event: BeforeUnloadEvent) {
+    event.preventDefault();
+
+  }
 
   finishQuiz(resultForm: NgForm): void {
     // Formdaki cevapları al
