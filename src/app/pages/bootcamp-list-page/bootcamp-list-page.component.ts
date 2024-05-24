@@ -4,7 +4,7 @@ import { BootcampService } from '../../features/services/concretes/bootcamp.serv
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { PageRequest } from '../../core/models/page-request';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms'; 
 import { HttpClientModule } from '@angular/common/http';
 import { formatDate1 } from '../../core/helpers/format-date';
 import { DynamicQuery } from '../../core/models/dynamic-query';
@@ -58,7 +58,6 @@ export class BootcampListPageComponent implements OnInit {
     this.activatedRoute.paramMap.subscribe(params => {
       const instructorId = params.get('instructorId');
       const page = parseInt(params.get('page') || '0', 10);
-      console.log(`Initializing with instructorId: ${instructorId} and pageIndex: ${page}`);
       if (instructorId) {
         this.selectedInstructorId = instructorId;
         this.getBootcampListByInstructor({ pageIndex: page, pageSize: this.PAGE_SIZE }, instructorId);
@@ -95,7 +94,6 @@ export class BootcampListPageComponent implements OnInit {
   getList(pageRequest: PageRequest) {
     this.bootcampService.getList(pageRequest).subscribe((response) => {
       this.bootcampList = response;
-      //this.updateCurrentBootcampPageNumber(response.index + 1);
     })
   }
 
@@ -103,11 +101,9 @@ export class BootcampListPageComponent implements OnInit {
     console.log(`Fetching bootcamps for instructor ${instructorId} with page ${pageRequest.pageIndex}`);
     this.bootcampService.getListBootcampByInstructorId(pageRequest, instructorId).subscribe((response) => {
       this.bootcampList = response;
-      //this.updateCurrentBootcampPageNumber(response.index + 1);
     })
   }
   onPageNumberClicked(pageNumber: number): void {
-    console.log(`Page number clicked: ${pageNumber}`);
     const pageRequest = { pageIndex: pageNumber, pageSize: this.PAGE_SIZE };
     switch (this.activeFilter) {
       case 'all':
@@ -125,7 +121,6 @@ export class BootcampListPageComponent implements OnInit {
     }
   }
   updateCurrentBootcampPageNumber(pageNumber: number): void {
-    console.log(`Updating current page number to: ${pageNumber}`);
     this.currentPageNumber = pageNumber;
   }
   getPageNumbers(): number[] {
@@ -135,29 +130,7 @@ export class BootcampListPageComponent implements OnInit {
     }
     return pageNumbers;
   }
-  onViewMoreClicked(): void {
-    const nextPageIndex = this.bootcampList.index + 1;
-    const pageSize = this.bootcampList.size;
-    this.getList({ pageIndex: nextPageIndex, pageSize })
-    this.getContinuingBootcamps({ pageIndex: nextPageIndex, pageSize })
-    this.updateCurrentPageNumber();
-  }
-
-  onPreviousPageClicked(): void {
-    const previousPageIndex = this.bootcampList.index - 1;
-    const pageSize = this.bootcampList.size;
-    this.getList({ pageIndex: previousPageIndex, pageSize });
-    this.getContinuingBootcamps({ pageIndex: previousPageIndex, pageSize })
-    this.updateCurrentPageNumber();
-  }
-
-  updateCurrentPageNumber(): void {
-    this.currentPageNumber = this.bootcampList.index + 1;
-  }
-  lowerCurrentPageNumber(): void {
-    this.currentPageNumber = this.bootcampList.index - 1;
-  }
-
+ 
   setCurrentPageNumber(pageNumber: number): void {
     this.currentPageNumber = pageNumber - 1;
     const pageRequest = { pageIndex: this.currentPageNumber, pageSize: this.PAGE_SIZE };
