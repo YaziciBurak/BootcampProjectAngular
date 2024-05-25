@@ -4,18 +4,24 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { UserForLoginRequest } from '../../models/requests/users/user-for-login-request';
 import { Router, RouterModule } from '@angular/router';
 import { AppToastrService, ToastrMessageType } from '../../services/concretes/app-toastr.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule,RouterModule],
+  imports: [ReactiveFormsModule,RouterModule,CommonModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
-  export class LoginComponent {
+  export class LoginComponent implements OnInit{
 
 loginForm!:FormGroup
-    constructor(private formBuilder:FormBuilder,private authService:AuthService,private router:Router, private toastrService:AppToastrService){}
+submitted = false;
+    constructor(private formBuilder:FormBuilder,
+      private authService:AuthService,
+      private router:Router, 
+      private toastrService:AppToastrService
+    ){}
   
     ngOnInit(): void {
       this.createLoginForm();
@@ -27,12 +33,15 @@ loginForm!:FormGroup
   
     createLoginForm(){
       this.loginForm=this.formBuilder.group({
-        email:["",Validators.required],
-        password:["",Validators.required]
+        email:["",[Validators.required,Validators.email]],
+        password:["",[Validators.required]]
       })
     }
-  
+    get formControls() {
+      return this.loginForm.controls;
+    }
     login(){
+      this.submitted = true;
       if(this.loginForm.valid){
         let loginModel:UserForLoginRequest = Object.assign({},this.loginForm.value);
         this.authService.login(loginModel).subscribe(response=>{
@@ -40,7 +49,7 @@ loginForm!:FormGroup
           this.router.navigate(['/'])
         }
         ,(error:any)=>{
-          alert(error.error)
+          
         })
       }
     }

@@ -1,5 +1,7 @@
-input:focus {
-    --tw-ring-color:unset;
-    --tw-ring-shadow:unset;
-    border-color:transparent; 
-}
+.text-red-500 {
+    color: red;
+  }
+  
+  .mt-2 {
+    margin-top: 0.5rem;
+  }
