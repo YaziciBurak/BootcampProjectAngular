@@ -1,12 +1,19 @@
-<div class="h-[150px] flex  items-center bg-[url('/assets/img/fixed-top.svg')]">
-  <div class="flex gap-3 mt-2 text-xl ml-52 font-semibold lg:ml-60">
-    <div class="text-indigo-900">Ana Sayfa</div>
-    <div class="text-gray-400 text-xl">></div>
-    <div class="text-indigo-900">Bootcamp</div>
-    <div class="text-gray-400 text-xl">></div>
-    <div class="text-indigo-600">{{getByIdBootcampResponse.name}}</div>
+<!--en üstteki resimli başlık-->
+<div class="relative flex">
+  <img loading="lazy" src="/assets/img/fixed-top.svg" class="mt-4" style="z-index: 0;" />
+  <div class="flex flex-row ml-36 -mt-1 2xl:mt-2 2xl:ml-60 max-w-full w-[274px] max-md:ml-2.5 absolute top-12"
+    style="z-index: 1;">
+    <div class="flex gap-3 mt-2 text-base leading-7 whitespace-nowrap font-semibold">
+      <div class="text-indigo-950">Ana Sayfa</div>
+      <div class="text-gray-400 text-xl">></div>
+      <div class="text-indigo-950">Bootcampler</div>
+      <div class="text-gray-400 text-xl">></div>
+      <div class="text-indigo-600" *ngIf="getByIdBootcampResponse !== undefined">{{getByIdBootcampResponse?.name}}</div>
+    </div>
   </div>
 </div>
+
+<!--en üstteki resimli başlık bitiş-->
 
 <div class="flex flex-row  mt-20 mx-32 justify-between 2xl:mx-60">
   <img loading="lazy" [src]="getByIdBootcampResponse.bootcampImagePath"
@@ -26,20 +33,23 @@
 
     <button (click)="applyForBootcamp(getByIdBootcampResponse.id)" class="flex mt-6 justify-center gap-4 px-4 py-4 font-bold leading-5 bg-amber-400 hover:brightness-110
         text-xl border border-black border-solid rounded-[56.813px] text-slate-900 mx-2 2xl:mt-16 2xl:mx-4"
+      [ngClass]="{'opacity-50 cursor-not-allowed': isDeadlinePassed(getByIdBootcampResponse.deadline) || getByIdBootcampResponse.ifApplicantApplied} "
+      [disabled]="isDeadlinePassed(getByIdBootcampResponse.deadline) || getByIdBootcampResponse.ifApplicantApplied"
       style="box-shadow: 5px 5px 0px 0px black;">
-      <span class="">Hemen Başvur</span>
-      <img src="/assets/img/for-all-butons.svg" />
+      <span>{{ getByIdBootcampResponse.ifApplicantApplied ? 'Başvurdunuz' : 'Hemen Başvur' }}</span>
+      <img
+        [ngClass]="{'hidden': isDeadlinePassed(getByIdBootcampResponse.deadline) || getByIdBootcampResponse.ifApplicantApplied}"
+        src="/assets/img/for-all-butons.svg" />
     </button>
-
   </div>
 </div>
 
-<div class="flex flex-col px-16  lg:px-20 xl:px-32 2xl:px-60">
-  <div class="flex font-bold text-3xl xl:text-4xl 2xl:text-5xl mt-12 ">
+<div class="flex flex-col px-16  lg:px-32 2xl:px-60">
+  <div class="flex font-bold text-4xl 2xl:text-5xl mt-12 ">
     {{getByIdBootcampResponse.name}}
   </div>
   <div class="flex flex-row mt-10 ">
-    <img loading="lazy" src="/assets/img/mini-instructor-image.png" class="" />
+    <img loading="lazy" [src]="getByIdBootcampResponse.instructorImagePath" class="max-w-[100px]" />
     <div class="flex self-center ml-6 text-xl text-indigo-900">{{getByIdBootcampResponse.instructorFirstName}}
       {{getByIdBootcampResponse.instructorLastName}}</div>
     <div class="flex self-center w-2 h-2 ml-4 bg-gray-400 rounded-full"></div>
@@ -53,5 +63,3 @@
   </div>
 
   <!--en dış div-->
-
-

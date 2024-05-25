@@ -1,4 +1,6 @@
-import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+
+import { ChangeDetectorRef,ElementRef, Component, Input, OnInit } from '@angular/core';
+
 import { Router, RouterLink, RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { LoginComponent } from '../../../features/components/login/login.component';
@@ -27,11 +29,14 @@ export class NavbarComponent {
   userLogged!: boolean;
   searchResults: GetlistBootcampResponse[] = [];
   searchDropdown: Dropdown;
+
   constructor(private bootcampService: BootcampService,
      private authService: AuthService,
       private router: Router,
-      private change:ChangeDetectorRef
+      private change:ChangeDetectorRef,
+      private elementRef: ElementRef
     ) { }
+
 
   ngOnInit(): void {
     initFlowbite();
@@ -109,6 +114,18 @@ export class NavbarComponent {
       this.searchResults = response.items;
       this.searchDropdown.show();
     }, error => console.error("failed to search bootcamps:", error))
+  }
+  goToFAQ(): void {
+    const homepageContent = document.getElementById('homepage-content');
+    if (homepageContent) {
+      const faqSection = homepageContent.querySelector('#faq-section');
+      if (faqSection) {
+        faqSection.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+    else {
+      this.router.navigate(['/sss']);
+    }
   }
 }
 

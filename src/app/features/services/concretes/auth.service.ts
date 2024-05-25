@@ -109,8 +109,14 @@ private getErrorMessage(error: HttpErrorResponse): string {
 
   getCurrentUserId():string{
     var decoded = this.getDecodedToken();
-    var propUserId = Object.keys(decoded).filter(x=>x.endsWith("/nameidentifier"))[0]
-    return this.userId=decoded[propUserId]
+
+    if (!decoded) {
+      // Token çözümlenemedi veya yoksa null döndür
+      return null;
+    }
+    var propUserId = Object.keys(decoded).filter(x => x.endsWith("/nameidentifier"))[0]
+    return this.userId = decoded[propUserId]
+
   }
 
   logOut(){
