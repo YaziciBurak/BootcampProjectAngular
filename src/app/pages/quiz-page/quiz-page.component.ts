@@ -56,23 +56,30 @@ export class QuizPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
     this.startTimer(1 * 60 - 1);
   }
 
 
   startTimer(duration: number): void {
-    var t = duration;
-    setInterval(() => {
+
+    let t = duration;
+    const intervalId = setInterval(() => {
       let minutes = parseInt(String(t / 60), 10);
       let seconds = parseInt(String(t % 60), 10);
+
 
       minutes = minutes < 10 ? 0 + minutes : minutes;
       seconds = seconds < 10 ? 0 + seconds : seconds;
 
+
       this.timer = minutes + ":" + seconds;
+      console.log('t:', t); // Log the value of t
 
       if (--t < 0) {
-        t = duration;
+
+        clearInterval(intervalId);
+        this.finishQuiz(this.resultForm);
       }
     }, 1000);
   }
@@ -80,7 +87,6 @@ export class QuizPageComponent implements OnInit {
   @HostListener('window:beforeunload', ['$event'])
   beforeUnloadHandler(event: BeforeUnloadEvent) {
     event.preventDefault();
-
   }
 
   finishQuiz(resultForm: NgForm): void {

@@ -1,15 +1,19 @@
 <!--en üstteki resimli başlık-->
-<div class="h-[150px] flex  items-center bg-[url('/assets/img/fixed-top.svg')]">
-  <div class="flex gap-3 mt-2 text-xl ml-52 font-semibold lg:ml-60">
-    <div class="text-indigo-900">Profilim</div>
-    <div class="text-gray-400 text-xl">></div>
-    <div class="text-indigo-900">Bootcamplerim</div>
-    <div class="text-gray-400 text-xl">></div>
-    <div class="text-indigo-600" *ngIf="bootcampContent !== undefined">{{bootcampContent?.bootcampName}}</div>
+<div class="relative flex">
+  <img loading="lazy" src="/assets/img/fixed-top.svg" class="mt-4" style="z-index: 0;" />
+  <div class="flex flex-row ml-36 -mt-1 2xl:mt-2 2xl:ml-60 max-w-full w-[274px] max-md:ml-2.5 absolute top-12"
+    style="z-index: 1;">
+    <div class="flex gap-3 mt-2 text-base leading-7 whitespace-nowrap font-semibold">
+      <div class="text-indigo-950">Profilim</div>
+      <div class="text-gray-400 text-xl">></div>
+      <div class="text-indigo-950">Bootcamplerim</div>
+      <div class="text-gray-400 text-xl">></div>
+      <div class="text-indigo-600" *ngIf="bootcampContent !== undefined">{{bootcampContent?.bootcampName}}</div>
+    </div>
   </div>
 </div>
-<!--en üstteki resimli başlık bitiş-->
 
+<!--en üstteki resimli başlık bitiş-->
 
 
 <div class="mx-20 2xl:mx-32">

@@ -4,6 +4,8 @@ export interface GetbyidBootcampResponse {
     instructorId: string;
     instructorFirstName: string;
     instructorLastName: string;
+    instructorImageId: number;
+    instructorImagePath: string;
     bootcampStateId: number;
     bootcampStateName: string;
     bootcampImageId: number;

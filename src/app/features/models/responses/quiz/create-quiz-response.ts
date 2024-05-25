@@ -7,5 +7,6 @@ export interface CreateQuizResponse {
     bootcampId: number;
     startTime: Date;
     endTime: Date;
+    bootcampName: string;
     questionResponses: QuestionResponse[];
 }

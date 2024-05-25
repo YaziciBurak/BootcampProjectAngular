@@ -30,6 +30,11 @@ export class BootcampListPageComponent implements OnInit {
   focusedButton: number | null = null;
   filterText: string = 'Eğitmenler';
   activeFilter: 'all' | 'deadlinePassed' | 'continuing' | 'instructor' = 'all';
+  today = new Date();
+  todayYear = this.today.getFullYear();
+  todayMonth = this.today.getMonth() + 1;
+  todayDate = this.today.getDate();
+
 
   formDate = formatDate1;
   dateNow = Date.now;
@@ -181,6 +186,7 @@ export class BootcampListPageComponent implements OnInit {
   }
 
   getContinuingBootcamps(pageRequest: PageRequest): void {
+
     this.activeFilter = 'continuing';
     const query: DynamicQuery = {
       sort: [
@@ -193,7 +199,7 @@ export class BootcampListPageComponent implements OnInit {
       filter: {
         field: 'deadline',
         operator: 'gte',
-        value: new Date().toISOString(),
+        value: `${this.todayYear}-${this.todayMonth}-${this.todayDate}`
       }
     }
     this.bootcampService.getListBootcampByDynamic(pageRequest, query).subscribe((response) => {
@@ -213,7 +219,7 @@ export class BootcampListPageComponent implements OnInit {
       filter: {
         field: 'deadline',
         operator: 'lt',
-        value: new Date().toISOString(),
+        value: `${this.todayYear}-${this.todayMonth}-${this.todayDate}`
       }
     }
     this.bootcampService.getListBootcampByDynamic(pageRequest, query).subscribe((response) => {

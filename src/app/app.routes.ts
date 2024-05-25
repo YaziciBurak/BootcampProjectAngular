@@ -16,13 +16,15 @@ import { QuizPageComponent } from './pages/quiz-page/quiz-page.component';
 import { MyCertificatesPageComponent } from './pages/my-certificates-page/my-certificates-page.component';
 import { AdminPanelGuard } from './core/guards/login/admin-panel.guard';
 import { LoginGuard } from './core/guards/login/login.guard';
+import { HomepageFaqComponent } from './pages/homepage/homepage-faq/homepage-faq.component';
 
 
 export const routes: Routes = [
     { path: '', redirectTo: 'homepage', pathMatch: 'full' },
     {
         path: 'homepage', component: HomepageComponent, children: [
-            { path: "", pathMatch: "full", component: BootcampListGroupComponent }
+            { path: "", pathMatch: "full", component: BootcampListGroupComponent },
+
         ]
     },
     { path: 'admin', children: AdminRoutes, canActivate: [AdminPanelGuard] },
@@ -41,6 +43,8 @@ export const routes: Routes = [
     { path: 'quiz', component: QuizPageComponent },
     { path: 'quiz/:quizId', component: QuizPageComponent },
     { path: 'mycertificates', component: MyCertificatesPageComponent },
+    { path: 'sss', component: HomepageFaqComponent }
+
 
 ];
 
