@@ -24,6 +24,7 @@ submitted = false;
     ){}
   
     ngOnInit(): void {
+      window.scroll(0,0);
       this.createLoginForm();
       if(this.authService.loggedIn()){
         this.toastrService.message("Zaten giriş yaptınız. Ana sayfaya yönlendiriliyorsunuz.", "Bilgilendirme", ToastrMessageType.Info)

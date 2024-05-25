@@ -30,6 +30,7 @@
     "ngx-toastr": "^18.0.0",
     "primeng": "^17.14.1",
     "rxjs": "~7.8.0",
+    "sweetalert2": "^11.11.0",
     "tinymce": "^7.1.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.3"

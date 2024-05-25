@@ -5,18 +5,20 @@ import { ToastrModule } from 'ngx-toastr'; // Ekle
 import { EditorModule } from '@tinymce/tinymce-angular';
 
 import { AppComponent } from './app.component';
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 
 @NgModule({
   declarations: [
-    AppComponent
+    
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule, // Ekle
     ToastrModule.forRoot(),
+    SweetAlert2Module.forRoot(),
     EditorModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: []
 })
 export class AppModule { }

@@ -14,6 +14,8 @@ import { RouterModule } from '@angular/router';
 import { CreateBootcampRequest } from '../../../../features/models/requests/bootcamp/create-bootcamp-request';
 import { formatDate } from '../../../../core/helpers/format-date';
 import { EditorModule } from '@tinymce/tinymce-angular';
+import { ToastrService } from 'ngx-toastr';
+import Swal from 'sweetalert2';
 
 
 @Component({
@@ -39,7 +41,8 @@ export class AdminBootcampsComponent implements OnInit {
     private formBuilder: FormBuilder,
     private instructorService: InstructorService,
     private bootcampStateService: BootcampStateService,
-    private change: ChangeDetectorRef
+    private change: ChangeDetectorRef,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit(): void {
@@ -83,7 +86,6 @@ export class AdminBootcampsComponent implements OnInit {
   getBootcamps(pageRequest: PageRequest) {
     this.bootcampService.getList(pageRequest).subscribe(response => {
       this.bootcampList = response;
-      console.log(response);
     });
   }
 
@@ -100,39 +102,38 @@ export class AdminBootcampsComponent implements OnInit {
   }
 
   delete(id: number) {
-    if (confirm('Bu uygulama durumunu silmek istediğinizden emin misiniz?')) {
-      this.bootcampService.delete(id).subscribe({
-        next: (response) => {
-          this.handleDeleteSuccess();
-        },
-        error: (error) => {
-          console.error('Silme işlemi başarısız:', error);
-        }
-      });
-    }
+    Swal.fire({
+      title: 'Emin misiniz?',
+      text: "Bu Bootcamp'i silmek istediğinizden emin misiniz?",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Evet, sil!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.bootcampService.delete(id).subscribe({
+          next: (response) => {
+            this.toastr.success('Silme işlemi başarılı!');
+            this.loadBootcamps();
+          },
+          error: (error) => {
+            this.toastr.error('Silme işlemi başarısız!', error)
+          }
+        });
+      }
+    });
   }
-
-  handleDeleteSuccess() {
-    this.loadBootcamps();
-    this.formMessage = "Başarıyla Silindi";
-    setTimeout(() => {
-      this.formMessage = "";
-    }, 3000);
-  }
-
   add() {
     if (this.bootcampCreateForm.valid) {
       let bootcamp: CreateBootcampRequest = Object.assign({}, this.bootcampCreateForm.value);
       this.bootcampService.create(bootcamp).subscribe({
-        next: (response) => {
-          this.handleCreateSuccess();
-        },
         error: (error) => {
-          this.formMessage = "Eklenemedi";
+          this.toastr.error("Eklenemedi!",error);
           this.change.markForCheck();
         },
         complete: () => {
-          this.formMessage = "Başarıyla Eklendi";
+          this.toastr.success("Başarıyla eklendi!");
           this.change.markForCheck();
           this.closeModal();
           this.loadBootcamps();
@@ -140,14 +141,6 @@ export class AdminBootcampsComponent implements OnInit {
       });
     }
   }
-  handleCreateSuccess() {
-    this.loadBootcamps();
-    this.formMessage = "Başarıyla Eklendi";
-    setTimeout(() => {
-      this.formMessage = "";
-    }, 3000);
-  }
-
   update() {
     const id = this.selectedBootcamp.id;
     const instructorId = this.bootcampUpdateForm.value.instructorId;
@@ -180,16 +173,16 @@ export class AdminBootcampsComponent implements OnInit {
 
     };
     this.bootcampService.update(request).subscribe({
-      next: (response) => {
+      next: () => {
         this.closeModal(); // Modal'ı kapat
         this.loadBootcamps(); // Verileri yeniden getir
+        this.toastr.success("Güncelleme başarılı!");
       },
       error: (error) => {
-        console.error('Güncelleme işlemi başarısız:', error);
+        this.toastr.error('Güncelleme işlemi başarısız:', error);
       }
     });
   }
-
   openUpdateModal(bootcamp: any) {
     this.bootcampService.getById(bootcamp.id).subscribe({
       next: (response) => {
@@ -207,11 +200,10 @@ export class AdminBootcampsComponent implements OnInit {
         return response;
       },
       error: (error) => {
-        console.error('Veri getirme işlemi başarısız:', error);
+        this.toastr.error('Veri getirme işlemi başarısız:', error);
       }
     });
   }
-
   openAddModal() {
     this.bootcampCreateForm.reset();
     this.showCreateModal = true;
