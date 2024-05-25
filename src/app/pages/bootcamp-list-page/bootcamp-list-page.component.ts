@@ -27,8 +27,14 @@ export class BootcampListPageComponent implements OnInit {
   instructors!: InstructorListItemDto;
   currentInstructor!: GetlistInstructorResponse;
   selectedInstructorName: string | null = null;
+  focusedButton: number | null = null;
   filterText: string = 'Eğitmenler';
   activeFilter: 'all' | 'deadlinePassed' | 'continuing' | 'instructor' = 'all';
+  today = new Date();
+  todayYear = this.today.getFullYear();
+  todayMonth = this.today.getMonth() + 1;
+  todayDate = this.today.getDate();
+
 
   formDate = formatDate1;
   dateNow = Date.now;
@@ -153,12 +159,20 @@ export class BootcampListPageComponent implements OnInit {
   }
 
   getContinuingBootcamps(pageRequest: PageRequest): void {
+
     this.activeFilter = 'continuing';
     const query: DynamicQuery = {
+      sort: [
+        {
+          field: 'deadline',
+          dir: 'desc'
+        }
+      ],
+
       filter: {
         field: 'deadline',
         operator: 'gte',
-        value: new Date().toISOString(),
+        value: `${this.todayYear}-${this.todayMonth}-${this.todayDate}`
       }
     }
     this.bootcampService.getListBootcampByDynamic(pageRequest, query).subscribe((response) => {
@@ -169,14 +183,25 @@ export class BootcampListPageComponent implements OnInit {
   getDeadlinePassedBootcamps(pageRequest: PageRequest): void {
     this.activeFilter = 'deadlinePassed';
     const query: DynamicQuery = {
+      sort: [
+        {
+          field: 'deadline',
+          dir: 'desc'
+        }
+      ],
       filter: {
         field: 'deadline',
         operator: 'lt',
-        value: new Date().toISOString(),
+        value: `${this.todayYear}-${this.todayMonth}-${this.todayDate}`
       }
     }
     this.bootcampService.getListBootcampByDynamic(pageRequest, query).subscribe((response) => {
       this.bootcampList = response;
     })
   }
+
+  setFocus(buttonIndex: number) {
+    this.focusedButton = buttonIndex;
+  }
+
 }

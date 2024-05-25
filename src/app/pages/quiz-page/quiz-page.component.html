@@ -1,19 +1,20 @@
 <div class="relative flex">
   <img loading="lazy" src="/assets/img/fixed-top.svg" class="mt-4" style="z-index: 0;" />
 
-  <div class="flex flex-row ml-60 absolute top-16 gap-3 mt-2 text-base leading-7 whitespace-nowrap font-semibold"
+  <div
+    class="flex flex-row ml-32 absolute top-12 gap-3 mt-2 text-base leading-7 whitespace-nowrap font-semibold 2xl:ml-60"
     tyle="z-index: 1;">
-    <div class="text-indigo-950">Ana Sayfa</div>
+    <div class="text-indigo-950">Profilim</div>
     <div class="text-gray-400 text-xl">></div>
-    <div class="text-indigo-950">Bootcamp</div>
+    <div class="text-indigo-950">Bootcamplerim</div>
     <div class="text-gray-400 text-xl">></div>
-    <div class="text-indigo-600"> BootcampName</div>
+    <div class="text-indigo-600"> {{createdQuiz.bootcampName}}</div>
   </div>
 </div>
 
 <div *ngIf="isPassed === null" class="flex flex-row mx-20 justify-between mb-16 ">
   <div class="text-3xl font-bold mt-16  lg:text-4xl">
-    BootcampName
+    {{createdQuiz.bootcampName}}
   </div>
   <div
     class="flex mt-20 px-7 pt-3.5 pb-5 mb-0.5  text-3xl font-semibold leading-7 border-2 border-solid border-blue-950 border-opacity-20 max-w-[397px] rounded-[77.221px] text-slate-900">

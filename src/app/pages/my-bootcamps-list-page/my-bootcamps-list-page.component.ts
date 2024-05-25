@@ -23,6 +23,10 @@ export class MyBootcampsListPageComponent implements OnInit {
   activeFilter: 'all' | 'continue' | 'finished' = 'all';
   formDate = formatDate1;
   dateNow = Date.now;
+  today = new Date();
+  todayYear = this.today.getFullYear();
+  todayMonth = this.today.getMonth() + 1;
+  todayDate = this.today.getDate();
   currentPageNumber: number = 0;
   applicationList: ApplicationListItemDto = {
     index: 0,
@@ -157,9 +161,9 @@ export class MyBootcampsListPageComponent implements OnInit {
             value: '2'
           },
           {
-            field: 'bootcamp.bootcampStateId',
-            operator: 'eq',
-            value: '1'
+            field: 'bootcamp.endDate',
+            operator: 'gte',
+            value: `${this.todayYear}-${this.todayMonth}-${this.todayDate}`
           }
 
         ]
@@ -186,9 +190,9 @@ export class MyBootcampsListPageComponent implements OnInit {
             value: '2'
           },
           {
-            field: 'bootcamp.bootcampStateId',
-            operator: 'eq',
-            value: '4'
+            field: 'bootcamp.endDate',
+            operator: 'lt',
+            value: `${this.todayYear}-${this.todayMonth}-${this.todayDate}`
           }
 
         ]

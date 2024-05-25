@@ -26,10 +26,10 @@ import { FooterComponent } from '../../shared/components/footer/footer.component
   templateUrl: './homepage.component.html',
   styleUrl: './homepage.component.css'
 })
-export class HomepageComponent implements OnInit{
-
+export class HomepageComponent implements OnInit {
+  constructor() { }
   ngOnInit(): void {
-    window.scrollTo(0,0);
+    window.scrollTo(0, 0);
   }
 }
 
