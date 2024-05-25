@@ -4,6 +4,8 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angul
 import { ApplicantBootcampcontentListItemDto } from '../../../../features/models/responses/applicantbootcampcontent/applicant-bootcampcontent-list-item-dto';
 import { ApplicantBootcampContentService } from '../../../../features/services/concretes/applicant-bootcamp-content.service';
 import { PageRequest } from '../../../../core/models/page-request';
+import Swal from 'sweetalert2';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-applicant-bootcamp-contents',
@@ -23,8 +25,7 @@ export class ApplicantBootcampContentsComponent implements OnInit {
 
   constructor(
     private applicantBootcampContentService: ApplicantBootcampContentService,
-    private formBuilder: FormBuilder,
-    private change: ChangeDetectorRef
+    private toastr:ToastrService
   ) { }
 
   ngOnInit(): void {
@@ -40,22 +41,26 @@ export class ApplicantBootcampContentsComponent implements OnInit {
     });
   }
   delete(id: number) {
-    if (confirm('Bu uygulama durumunu silmek istediğinizden emin misiniz?')) {
-      this.applicantBootcampContentService.delete(id).subscribe({
-        next: (response) => {
-          this.handleDeleteSuccess();
-        },
-        error: (error) => {
-          console.error('Silme işlemi başarısız:', error);
-        }
-      });
-    }
-  }
-  handleDeleteSuccess() {
-    this.loadApplicantBootcampContent();
-    this.formMessage = "Başarıyla Silindi";
-    setTimeout(() => {
-      this.formMessage = "";
-    }, 3000);
+    Swal.fire({
+      title: 'Emin misiniz?',
+      text: "Bu Bootcamp'i silmek istediğinizden emin misiniz?",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Evet, sil!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.applicantBootcampContentService.delete(id).subscribe({
+          next: () => {
+            this.toastr.success('Silme işlemi başarılı!');
+            this.loadApplicantBootcampContent();
+          },
+          error: (error) => {
+            this.toastr.error('Silme işlemi başarısız!', error)
+          }
+        });
+      }
+    });
   }
 }

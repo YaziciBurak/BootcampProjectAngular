@@ -9,6 +9,8 @@ import { ApplicationstateListItemDto } from '../../../../features/models/respons
 import { SharedModule } from 'primeng/api';
 import { UpdateApplicationstateRequest } from '../../../../features/models/requests/applicationstate/update-applicationstate-request';
 import { CreateApplicationstateRequest } from '../../../../features/models/requests/applicationstate/create-applicationstate-request';
+import { ToastrService } from 'ngx-toastr';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-application-state-list',
@@ -31,7 +33,8 @@ export class ApplicationStateListComponent implements OnInit {
   constructor(
     private applicationStateService: ApplicationStateService,
     private formBuilder: FormBuilder,
-    private change: ChangeDetectorRef
+    private change: ChangeDetectorRef,
+    private toastr:ToastrService
   ) { }
 
   ngOnInit(): void {
@@ -65,15 +68,14 @@ export class ApplicationStateListComponent implements OnInit {
     if (this.applicationStateCreateForm.valid) {
       let applicationState: CreateApplicationstateRequest = Object.assign({}, this.applicationStateCreateForm.value);
       this.applicationStateService.create(applicationState).subscribe({
-        next: (response) => {
-          this.handleCreateSuccess();
+        next: () => {
         },
         error: (error) => {
-          this.formMessage = "Eklenemedi";
+          this.toastr.error("Eklenemedi",error)
           this.change.markForCheck();
         },
         complete: () => {
-          this.formMessage = "Başarıyla Eklendi";
+          this.toastr.success("Başarıyla eklendi!");
           this.change.markForCheck();
           this.closeModal();
           this.loadApplicationStates();
@@ -81,35 +83,30 @@ export class ApplicationStateListComponent implements OnInit {
       });
     }
   }
-  handleCreateSuccess() {
-    this.loadApplicationStates();
-    this.formMessage = "Başarıyla Eklendi";
-    setTimeout(() => {
-      this.formMessage = "";
-    }, 3000);
-  }
-
   delete(id: number) {
-    if (confirm('Bu uygulama durumunu silmek istediğinizden emin misiniz?')) {
-      this.applicationStateService.delete(id).subscribe({
-        next: (response) => {
-          this.handleDeleteSuccess();
-        },
-        error: (error) => {
-          console.error('Silme işlemi başarısız:', error);
-        }
-      });
-    }
+    Swal.fire({
+      title: 'Emin misiniz?',
+      text: "Bu veriyi silmek istediğinizden emin misiniz?",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Evet, sil!',
+      cancelButtonText: 'İptal',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.applicationStateService.delete(id).subscribe({
+          next: () => {
+            this.toastr.success('Silme işlemi başarılı!', 'Başarılı');
+            this.loadApplicationStates();
+          },
+          error: (error) => {
+            this.toastr.error('Silme işlemi başarısız!', error);
+          },
+        });
+      }
+    });
   }
-
-  handleDeleteSuccess() {
-    this.loadApplicationStates();
-    this.formMessage = "Başarıyla Silindi";
-    setTimeout(() => {
-      this.formMessage = "";
-    }, 3000);
-  }
-
   update() {
     const id = this.selectedAppState.id;
     const request: UpdateApplicationstateRequest = {
@@ -117,12 +114,13 @@ export class ApplicationStateListComponent implements OnInit {
       name: this.applicationStateUpdateForm.value.name
     };
     this.applicationStateService.update(request).subscribe({
-      next: (response) => {
+      next: () => {
         this.showUpdateModal = false; // Modal'ı kapat
         this.loadApplicationStates(); // Verileri yeniden getir
+        this.toastr.success("Güncelleme başarılı!");
       },
       error: (error) => {
-        console.error('Güncelleme işlemi başarısız:', error);
+        this.toastr.error('Güncelleme işlemi başarısız:', error);
       }
     });
   }
@@ -136,7 +134,7 @@ export class ApplicationStateListComponent implements OnInit {
         return appState.id;
       },
       error: (error) => {
-        console.error('Veri getirme işlemi başarısız:', error);
+        this.toastr.error('Veri getirme işlemi başarısız:', error);
       }
     });
   }

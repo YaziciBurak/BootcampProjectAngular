@@ -9,6 +9,8 @@ import { UpdateBootcampcontentRequest } from '../../../../features/models/reques
 import { BootcampListItemDto } from '../../../../features/models/responses/bootcamp/bootcamp-list-item-dto';
 import { BootcampService } from '../../../../features/services/concretes/bootcamp.service';
 import { EditorModule } from '@tinymce/tinymce-angular';
+import { ToastrService } from 'ngx-toastr';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-bootcamp-contents',
@@ -32,6 +34,7 @@ export class BootcampContentsComponent implements OnInit {
     private bootcampService: BootcampService,
     private formBuilder: FormBuilder,
     private change: ChangeDetectorRef,
+    private toastr:ToastrService
   ) { }
   ngOnInit(): void {
     this.loadBootcampContent();
@@ -69,50 +72,47 @@ export class BootcampContentsComponent implements OnInit {
     })
   }
   delete(id: number) {
-    if (confirm('Bu uygulama durumunu silmek istediğinizden emin misiniz?')) {
-      this.bootcampContentService.delete(id).subscribe({
-        next: (response) => {
-          this.handleDeleteSuccess();
-        },
-        error: (error) => {
-          console.error('Silme işlemi başarısız:', error);
-        }
-      });
-    }
-  }
-  handleDeleteSuccess() {
-    this.loadBootcampContent();
-    this.formMessage = "Başarıyla Silindi";
-    setTimeout(() => {
-      this.formMessage = "";
-    }, 3000);
+    Swal.fire({
+      title: 'Emin misiniz?',
+      text: "Bu veriyi silmek istediğinizden emin misiniz?",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Evet, sil!',
+      cancelButtonText: 'İptal',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.bootcampContentService.delete(id).subscribe({
+          next: () => {
+            this.toastr.success('Silme işlemi başarılı!');
+            this.loadBootcampContent();
+          },
+          error: (error) => {
+            this.toastr.error('Silme işlemi başarısız!', error);
+          },
+        });
+      }
+    });
   }
   add() {
     if (this.bootcampContentCreateForm.valid) {
       let bootcampcontent: CreateBootcampcontentRequest = Object.assign({}, this.bootcampContentCreateForm.value);
       this.bootcampContentService.create(bootcampcontent).subscribe({
-        next: (response) => {
-          this.handleCreateSuccess();
+        next: () => {
         },
         error: (error) => {
-          this.formMessage = "Eklenemedi";
+          this.toastr.error("Eklenemedi",error);
           this.change.markForCheck();
         },
         complete: () => {
-          this.formMessage = "Başarıyla Eklendi";
+          this.toastr.success("Başarıyla eklendi!");
           this.change.markForCheck();
           this.closeModal();
           this.loadBootcampContent();
         }
       });
     }
-  }
-  handleCreateSuccess() {
-    this.loadBootcampContent();
-    this.formMessage = "Başarıyla Eklendi";
-    setTimeout(() => {
-      this.formMessage = "";
-    }, 3000);
   }
   update() {
     const id = this.selectedBootcampContent.id;
@@ -127,12 +127,13 @@ export class BootcampContentsComponent implements OnInit {
       content: content
     };
     this.bootcampContentService.update(request).subscribe({
-      next: (response) => {
+      next: () => {
         this.closeModal(); // Modal'ı kapat
         this.loadBootcampContent(); // Verileri yeniden getir
+        this.toastr.success("Güncelleme başarılı!");
       },
       error: (error) => {
-        console.error('Güncelleme işlemi başarısız:', error);
+        this.toastr.error('Güncelleme işlemi başarısız:', error);
       }
     });
   }
@@ -150,7 +151,7 @@ export class BootcampContentsComponent implements OnInit {
         return response;
       },
       error: (error) => {
-        console.error('Veri getirme işlemi başarısız:', error);
+        this.toastr.error('Veri getirme işlemi başarısız:', error);
       }
     });
   }

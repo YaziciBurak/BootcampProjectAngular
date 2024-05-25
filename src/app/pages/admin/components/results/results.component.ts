@@ -7,6 +7,7 @@ import { PageRequest } from '../../../../core/models/page-request';
 import { CreateResultRequest } from '../../../../features/models/requests/result/create-result-request';
 import { QuizService } from '../../../../features/services/concretes/quiz.service';
 import { QuizListItemDto } from '../../../../features/models/responses/quiz/quiz-list-item-dto';
+import { Toast, ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-results',
@@ -26,20 +27,18 @@ export class ResultsComponent implements OnInit {
     private resultService: ResultService,
     private quizService: QuizService,
     private formBuilder: FormBuilder,
-    private change: ChangeDetectorRef
+    private change: ChangeDetectorRef,
+    private toastr:ToastrService
   ) { }
-
   ngOnInit(): void {
     this.loadResults();
     this.createForm();
   }
-
   loadResults() {
     const pageRequest: PageRequest = { pageIndex: 0, pageSize: 20 }
     this.getResults(pageRequest);
     this.getQuizzes(pageRequest);
   }
-
   createForm() {
     this.resultCreateForm = this.formBuilder.group({
       quizId: ['', [Validators.required]],
@@ -47,32 +46,26 @@ export class ResultsComponent implements OnInit {
       correctAnswers: ['', [Validators.required]]
     })
   }
-
   getResults(pageRequest: PageRequest) {
     this.resultService.getList(pageRequest).subscribe(response => {
       this.resultList = response;
     })
   }
-
   getQuizzes(pageRequest: PageRequest) {
     this.quizService.getList(pageRequest).subscribe(response => {
       this.quizList = response;
     })
   }
-
   add() {
     if (this.resultCreateForm.valid) {
       let question: CreateResultRequest = Object.assign({}, this.resultCreateForm.value);
       this.resultService.create(question).subscribe({
-        next: (response) => {
-          this.handleCreateSuccess();
-        },
         error: (error) => {
-          this.formMessage = "Eklenemedi";
+          this.toastr.error("Eklenemedi",error);
           this.change.markForCheck();
         },
         complete: () => {
-          this.formMessage = "Başarıyla Eklendi";
+          this.toastr.success("Başarıyla eklendi!");
           this.change.markForCheck();
           this.closeModal();
           this.loadResults();
@@ -80,19 +73,10 @@ export class ResultsComponent implements OnInit {
       });
     }
   }
-  handleCreateSuccess() {
-    this.loadResults();
-    this.formMessage = "Başarıyla Eklendi";
-    setTimeout(() => {
-      this.formMessage = "";
-    }, 3000);
-  }
-
   openAddModal() {
     this.resultCreateForm.reset();
     this.showCreateModal = true;
   }
-
   closeModal() {
     this.showCreateModal = false;
   }

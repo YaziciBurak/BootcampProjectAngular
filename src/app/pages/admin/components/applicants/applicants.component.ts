@@ -7,6 +7,8 @@ import { PageRequest } from '../../../../core/models/page-request';
 import { UpdateApplicantRequest } from '../../../../features/models/requests/applicant/update-applicant-request';
 import { BlacklistService } from '../../../../features/services/concretes/blacklist.service';
 import { formatDate } from '../../../../core/helpers/format-date';
+import { ToastrService } from 'ngx-toastr';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-applicants',
@@ -30,7 +32,8 @@ export class ApplicantsComponent implements OnInit {
   constructor(private applicantService: ApplicantService,
     private blacklistService: BlacklistService,
     private formBuilder: FormBuilder,
-    private change: ChangeDetectorRef
+    private change: ChangeDetectorRef,
+    private toastr:ToastrService
   ) { }
   ngOnInit(): void {
     this.loadApplicants();
@@ -60,7 +63,6 @@ export class ApplicantsComponent implements OnInit {
       applicantId: ['']
     })
   }
-
   getApplicants(pageRequest: PageRequest) {
     this.applicantService.getList(pageRequest).subscribe(response => {
       this.applicantList = response;
@@ -70,15 +72,12 @@ export class ApplicantsComponent implements OnInit {
     if (this.blacklistCreateForm.valid) {
       let blacklist = Object.assign({}, this.blacklistCreateForm.value);
       this.blacklistService.create(blacklist).subscribe({
-        next: (response) => {
-          this.handleCreateSuccess();
-        },
         error: (error) => {
-          this.formsMessage = "Eklenemedi";
+          this.toastr.error("Eklenemedi",error);
           this.change.markForCheck();
         },
         complete: () => {
-          this.formsMessage = "Başarıyla Eklendi";
+          this.toastr.success("Başarıyla Eklendi");
           this.change.markForCheck();
           this.closeModal();
           this.loadApplicants();
@@ -86,37 +85,32 @@ export class ApplicantsComponent implements OnInit {
       });
     }
   }
-  handleCreateSuccess() {
-    this.loadApplicants();
-    this.formsMessage = "Başarıyla Eklendi";
-    setTimeout(() => {
-      this.formsMessage = "";
-    }, 3000);
-  }
-
   delete(id: string) {
-    if (confirm('Bu uygulama durumunu silmek istediğinizden emin misiniz?')) {
-      this.applicantService.delete(id).subscribe({
-        next: (response) => {
-          this.handleDeleteSuccess();
-        },
-        error: (error) => {
-          console.error('Silme işlemi başarısız:', error);
-        }
-      });
-    }
+    Swal.fire({
+      title: 'Emin misiniz?',
+      text: "Bu veriyi silmek istediğinizden emin misiniz?",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Evet, sil!',
+      cancelButtonText: 'İptal',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.applicantService.delete(id).subscribe({
+          next: () => {
+            this.toastr.success('Silme işlemi başarılı!');
+            this.loadApplicants();
+          },
+          error: (error) => {
+            this.toastr.error('Silme işlemi başarısız!',error);
+          },
+        });
+      }
+    });
   }
-  handleDeleteSuccess() {
-    this.loadApplicants();
-    this.formsMessage = "Başarıyla Silindi";
-    setTimeout(() => {
-      this.formsMessage = "";
-    }, 3000);
-  }
-
   update() {
     const id = this.selectedApplicant.id;
-    const password = this.selectedApplicant.password;
     const userName = this.applicantUpdateForm.value.userName;
     const firstName = this.applicantUpdateForm.value.firstName;
     const lastName = this.applicantUpdateForm.value.lastName;
@@ -138,16 +132,16 @@ export class ApplicantsComponent implements OnInit {
       updatedDate: updatedDate
     };
     this.applicantService.update(request).subscribe({
-      next: (response) => {
+      next: () => {
         this.closeModal(); // Modal'ı kapat
         this.loadApplicants(); // Verileri yeniden getir
+        this.toastr.success("Güncelleme başarılı!");
       },
       error: (error) => {
-        console.error('Güncelleme işlemi başarısız:', error);
+        this.toastr.error('Güncelleme işlemi başarısız:', error);
       }
     });
   }
-
   openUpdateModal(applicant: any) {
     this.applicantService.getById(applicant.id).subscribe({
       next: (response) => {
@@ -165,11 +159,10 @@ export class ApplicantsComponent implements OnInit {
         return response;
       },
       error: (error) => {
-        console.error('Veri getirme işlemi başarısız:', error);
+        this.toastr.error('Veri getirme işlemi başarısız:', error);
       }
     });
   }
-
   openAddModal(applicant: any) {
     this.applicantService.getById(applicant.id).subscribe({
       next: (response) => {
@@ -186,5 +179,4 @@ export class ApplicantsComponent implements OnInit {
     this.showUpdateModal = false;
     this.showCreateModal = false;
   }
-
 }

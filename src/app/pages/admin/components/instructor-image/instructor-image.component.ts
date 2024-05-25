@@ -8,6 +8,8 @@ import { PageRequest } from '../../../../core/models/page-request';
 import { CreateInstructorimageRequest } from '../../../../features/models/requests/instructorimage/create-instructorimage-request';
 import { UpdateInstructorimageRequest } from '../../../../features/models/requests/instructorimage/update-instructorimage-request';
 import { CommonModule } from '@angular/common';
+import { ToastrService } from 'ngx-toastr';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-instructor-image',
@@ -30,7 +32,8 @@ export class InstructorImageComponent implements OnInit {
     private instructorImageService: InstructorImageService,
     private instructorService: InstructorService,
     private formBuilder: FormBuilder,
-    private change: ChangeDetectorRef
+    private change: ChangeDetectorRef,
+    private toastr:ToastrService
   ) { }
   ngOnInit(): void {
     this.loadInstructorImages();
@@ -44,7 +47,6 @@ export class InstructorImageComponent implements OnInit {
       file: [null, [Validators.required]]
     })
   }
-
   createForm() {
     this.instructorImageCreateForm = this.formBuilder.group({
       instructorId: ['', [Validators.required]],
@@ -52,7 +54,6 @@ export class InstructorImageComponent implements OnInit {
       file: ['', [Validators.required]]
     })
   }
-
   loadInstructorImages() {
     const pageRequest: PageRequest = { pageIndex: 0, pageSize: 18 };
     this.getInstructorImages(pageRequest);
@@ -69,23 +70,28 @@ export class InstructorImageComponent implements OnInit {
     })
   }
   delete(id: number) {
-    if (confirm('Bu uygulama durumunu silmek istediğinizden emin misiniz?')) {
-      this.instructorImageService.delete(id).subscribe({
-        next: (response) => {
-          this.handleDeleteSuccess();
-        },
-        error: (error) => {
-          console.error('Silme işlemi başarısız:', error);
-        }
-      });
-    }
-  }
-  handleDeleteSuccess() {
-    this.loadInstructorImages();
-    this.formMessage = "Başarıyla Silindi";
-    setTimeout(() => {
-      this.formMessage = "";
-    }, 3000);
+    Swal.fire({
+      title: 'Emin misiniz?',
+      text: "Bu veriyi silmek istediğinizden emin misiniz?",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Evet, sil!',
+      cancelButtonText: 'İptal',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.instructorImageService.delete(id).subscribe({
+          next: () => {
+            this.toastr.success('Silme işlemi başarılı!');
+            this.loadInstructorImages();
+          },
+          error: (error) => {
+            this.toastr.error('Silme işlemi başarısız!', error);
+          },
+        });
+      }
+    });
   }
   add() {
     if (this.instructorImageCreateForm.valid) {
@@ -95,28 +101,18 @@ export class InstructorImageComponent implements OnInit {
       formData.append('file', instructorImage.file);
       formData.append('imagePath', instructorImage.imagePath);
       this.instructorImageService.create(formData).subscribe({
-        next: (response) => {
-          this.handleCreateSuccess();
-        },
         error: (error) => {
-          this.formMessage = "Eklenemedi";
+          this.toastr.error("Eklenemedi",error)
           this.change.markForCheck();
         },
         complete: () => {
-          this.formMessage = "Başarıyla Eklendi";
+          this.toastr.success("Başarıyla eklendi!");
           this.change.markForCheck();
           this.closeModal();
           this.loadInstructorImages();
         }
       });
     }
-  }
-  handleCreateSuccess() {
-    this.loadInstructorImages();
-    this.formMessage = "Başarıyla Eklendi";
-    setTimeout(() => {
-      this.formMessage = "";
-    }, 3000);
   }
   update() {
     let instructorImage: UpdateInstructorimageRequest = { ...this.instructorImageUpdateForm.value, file: this.instructorImageUpdateForm.get('file').value };
@@ -125,12 +121,13 @@ export class InstructorImageComponent implements OnInit {
     formData.append('instructorId', instructorImage.instructorId);
     formData.append('file', instructorImage.file);
     this.instructorImageService.update(formData).subscribe({
-      next: (response) => {
+      next: () => {
         this.closeModal(); // Modal'ı kapat
         this.loadInstructorImages(); // Verileri yeniden getir
+        this.toastr.success("Güncelleme başarılı!");
       },
       error: (error) => {
-        console.error('Güncelleme işlemi başarısız:', error);
+        this.toastr.error('Güncelleme işlemi başarısız:', error);
       }
     });
   }
@@ -147,7 +144,7 @@ export class InstructorImageComponent implements OnInit {
         return response;
       },
       error: (error) => {
-        console.error('Veri getirme işlemi başarısız:', error);
+        this.toastr.error('Veri getirme işlemi başarısız:', error);
       }
     });
   }
