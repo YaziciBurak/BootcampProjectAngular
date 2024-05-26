@@ -1,10 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, catchError, map, throwError } from 'rxjs';
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
-import { Observable, map, of } from 'rxjs';
-import { HttpClient, HttpParams } from '@angular/common/http';
 import { ApplicationBaseService } from '../abstracts/application-base.service';
-import { GetlistApplicationResponse } from '../../models/responses/application/getlist-application-response';
 import { GetbyidApplicationResponse } from '../../models/responses/application/getbyid-application-response';
 import { environment } from '../../../../environments/environment';
 import { PageRequest } from '../../../core/models/page-request';
@@ -95,7 +92,6 @@ export abstract class ApplicationService extends ApplicationBaseService {
     const loggedInUserId = this.authService.getCurrentUserId();
     if (!loggedInUserId || loggedInUserId === undefined) {
       this.router.navigate(['/login']);
-      return of();
     }
 
     const applicationRequest: CreateApplicationRequest = {
