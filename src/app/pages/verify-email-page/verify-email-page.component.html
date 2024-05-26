@@ -1,0 +1,18 @@
+<div class="container flex items-center justify-center min-h-[300px]">
+    <div *ngIf="success === null">
+        <h1 class="text-2xl">Mailiniz onaylanıyor...</h1>
+        <p>Mail adresinizi onaylıyoruz.</p>
+    </div>
+
+    <div *ngIf="success === true">
+        <h1 class="text-2xl">Mailiniz onaylandı!</h1>
+        <p>Şimdi siteye giriş yapabilirsiniz.</p>
+        <p>Anasayfaya gitmek için <a href="/homepage">tıklayın.</a>.</p>
+    </div>
+
+    <div *ngIf="success === false">
+        <h1 class="text-2xl">Mailiniz onaylanamadı :(</h1>
+        <p>Lütfen giriş yaptığınızdan emin olun ve tekrar deneyin.</p>
+        <p>Giriş yapmak için <a href="/login">tıklayın.</a>.</p>
+    </div>
+</div>
