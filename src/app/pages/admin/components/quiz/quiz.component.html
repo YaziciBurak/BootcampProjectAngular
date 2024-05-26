@@ -16,23 +16,55 @@
       <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
         <div class="mb-4">
             <label for="applicantId" class="block text-gray-700 text-sm font-bold mb-2">Başvuran:</label>
-            <select formControlName="applicantId" id="applicantId" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            <select formControlName="applicantId" id="applicantId" class="form-control shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
               <option *ngFor="let applicants of applicantList.items" [value]="applicants.id">{{ applicants.firstName }} {{applicants.lastName}}</option>
             </select>
+            <div
+            *ngIf="submitted && quizCreateForm.get('applicantId').invalid"
+            class="error-message"
+          >
+            <div *ngIf="quizCreateForm.get('applicantId').hasError('required')">
+              Bu alan zorunludur.
+            </div>
+          </div>
           </div>
           <div class="mb-4">
               <label for="bootcampId" class="block text-gray-700 text-sm font-bold mb-2">Bootcamp Adı:</label>
-              <select formControlName="bootcampId" id="bootcampId" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+              <select formControlName="bootcampId" id="bootcampId" class="form-control shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                 <option *ngFor="let bootcamps of bootcampList.items" [value]="bootcamps.id">{{ bootcamps.name }}</option>
               </select>
+              <div
+            *ngIf="submitted && quizCreateForm.get('bootcampId').invalid"
+            class="error-message"
+          >
+            <div *ngIf="quizCreateForm.get('bootcampId').hasError('required')">
+              Bu alan zorunludur.
+            </div>
+          </div>
             </div>
             <div class="mb-4">
               <label for="startTime" class="block text-gray-700 text-sm font-bold mb-2">Başlangıç Zamanı:</label>
-              <input formControlName="startTime" type="date" id="startTime"  class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+              <input formControlName="startTime" type="date" id="startTime"  class="form-control shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+              <div
+              *ngIf="submitted && quizCreateForm.get('startTime').invalid"
+              class="error-message"
+            >
+              <div *ngIf="quizCreateForm.get('startTime').hasError('required')">
+                Bu alan zorunludur.
+              </div>
+            </div>
             </div>
             <div class="mb-4">
               <label for="endTime" class="block text-gray-700 text-sm font-bold mb-2">Bitiş Zamanı:</label>
-              <input formControlName="endTime" type="date" id="endTime"  class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+              <input formControlName="endTime" type="date" id="endTime"  class="form-control shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+              <div
+              *ngIf="submitted && quizCreateForm.get('endTime').invalid"
+              class="error-message"
+            >
+              <div *ngIf="quizCreateForm.get('endTime').hasError('required')">
+                Bu alan zorunludur.
+              </div>
+            </div>
             </div>
       </div>
       <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
@@ -48,13 +80,13 @@
 </div>
 </form>
 
-<div class="container mx-auto">
+<div class="container mx-auto min-h-screen bg-gray-100 py-8">
   <h1 class="text-3xl font-bold mb-4">Quizler</h1>
 
   <div *ngFor="let quiz of quizList.items" class="mb-8">
-    <div class="bg-gray-100 p-4 rounded-lg shadow-md relative"> 
+    <div class="bg-white p-4 rounded-lg shadow-md relative">
       <p class="text-lg font-semibold mb-2">Quiz Id = {{ quiz.id }}</p>
-      <p class="text-lg font-semibold mb-2">Başvuran Ad/Soyad = {{ quiz.applicantFirstName}} {{ quiz.applicantLastName}}</p>
+      <p class="text-lg font-semibold mb-2">Başvuran Ad/Soyad = {{ quiz.applicantFirstName }} {{ quiz.applicantLastName }}</p>
       <p class="text-lg font-semibold mb-2">Bootcamp Adı = {{ quiz.bootcampName }}</p>
       
       <div *ngFor="let question of quiz.questions" class="mb-4">
@@ -69,3 +101,4 @@
     </div>
   </div>
 </div>
+

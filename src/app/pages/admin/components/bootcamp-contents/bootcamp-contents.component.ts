@@ -28,6 +28,7 @@ export class BootcampContentsComponent implements OnInit {
   showCreateModal: boolean = false;
   bootcampList: BootcampListItemDto;
   bootcampContentList: BootcampcontentListItemDto;
+  submitted = false;
 
   constructor(
     private bootcampContentService: BootcampContentService,
@@ -96,6 +97,7 @@ export class BootcampContentsComponent implements OnInit {
     });
   }
   add() {
+    this.submitted = true;
     if (this.bootcampContentCreateForm.valid) {
       let bootcampcontent: CreateBootcampcontentRequest = Object.assign({}, this.bootcampContentCreateForm.value);
       this.bootcampContentService.create(bootcampcontent).subscribe({
@@ -112,9 +114,13 @@ export class BootcampContentsComponent implements OnInit {
           this.loadBootcampContent();
         }
       });
-    }
+    } else {
+    this.markFormGroupTouched(this.bootcampContentCreateForm);
+  }
   }
   update() {
+    this.submitted = true;
+    if(this.bootcampContentUpdateForm.valid) {
     const id = this.selectedBootcampContent.id;
     const bootcampId = this.bootcampContentUpdateForm.value.bootcampId;
     const videoUrl = this.bootcampContentUpdateForm.value.videoUrl;
@@ -136,6 +142,9 @@ export class BootcampContentsComponent implements OnInit {
         this.toastr.error('Güncelleme işlemi başarısız:', error);
       }
     });
+  } else {
+  this.markFormGroupTouched(this.bootcampContentUpdateForm);
+  }
   }
   openUpdateModal(application: any) {
     this.bootcampContentService.getById(application.id).subscribe({
@@ -159,9 +168,19 @@ export class BootcampContentsComponent implements OnInit {
   openAddModal() {
     this.bootcampContentCreateForm.reset();
     this.showCreateModal = true;
+    this.submitted = false;
   }
   closeModal() {
     this.showUpdateModal = false;
     this.showCreateModal = false;
+    this.submitted = false;
+  }
+  private markFormGroupTouched(formGroup: FormGroup): void {
+    Object.values(formGroup.controls).forEach(control => {
+      control.markAsTouched();
+      if (control instanceof FormGroup) {
+        this.markFormGroupTouched(control);
+      }
+    });
   }
 }

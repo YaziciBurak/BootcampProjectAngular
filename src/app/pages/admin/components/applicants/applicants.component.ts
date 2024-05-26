@@ -25,7 +25,7 @@ export class ApplicantsComponent implements OnInit {
   selectedBlacklist: any;
   showUpdateModal: boolean = false;
   showCreateModal: boolean = false;
-
+  submitted = false;
 
   applicantList: ApplicantListItemDto;
 
@@ -47,19 +47,19 @@ export class ApplicantsComponent implements OnInit {
   }
   updateForm() {
     this.applicantUpdateForm = this.formBuilder.group({
-      userName: [[Validators.required]],
-      firstName: ['', [Validators.required]],
-      lastName: ['', [Validators.required]],
-      email: [[Validators.required]],
-      about: [[Validators.required]],
-      dateOfBirth: [[Validators.required]],
-      nationalIdentity: [[Validators.required]]
+      userName: ["",[Validators.required,Validators.minLength(4)]],
+      firstName:["",[Validators.required, Validators.pattern('^[a-zA-ZçÇğĞıİöÖşŞüÜ]+$'), Validators.minLength(2)]],  
+      lastName:["",[Validators.required,Validators.pattern('^[a-zA-ZçÇğĞıİöÖşŞüÜ]+$'),Validators.minLength(2)]], 
+      email: ["",[Validators.required,Validators.email]],
+      about: ["",[Validators.required]],
+      dateOfBirth: ["",[Validators.required]],
+      nationalIdentity: ["",[Validators.required,Validators.pattern('^[0-9]*$'),Validators.minLength(11)]]
     });
   }
   createBlacklistForm() {
     this.blacklistCreateForm = this.formBuilder.group({
       reason: ['', [Validators.required]],
-      date: [''],
+      date: ['',[Validators.required]],
       applicantId: ['']
     })
   }
@@ -69,6 +69,7 @@ export class ApplicantsComponent implements OnInit {
     });
   }
   add() {
+    this.submitted = true;
     if (this.blacklistCreateForm.valid) {
       let blacklist = Object.assign({}, this.blacklistCreateForm.value);
       this.blacklistService.create(blacklist).subscribe({
@@ -83,6 +84,8 @@ export class ApplicantsComponent implements OnInit {
           this.loadApplicants();
         }
       });
+    } else {
+      this.markFormGroupTouched(this.blacklistCreateForm);
     }
   }
   delete(id: string) {
@@ -110,6 +113,8 @@ export class ApplicantsComponent implements OnInit {
     });
   }
   update() {
+    this.submitted = true;
+    if(this.applicantUpdateForm.valid) {
     const id = this.selectedApplicant.id;
     const userName = this.applicantUpdateForm.value.userName;
     const firstName = this.applicantUpdateForm.value.firstName;
@@ -141,6 +146,9 @@ export class ApplicantsComponent implements OnInit {
         this.toastr.error('Güncelleme işlemi başarısız:', error);
       }
     });
+  } else {
+    this.markFormGroupTouched(this.applicantUpdateForm);
+  }
   }
   openUpdateModal(applicant: any) {
     this.applicantService.getById(applicant.id).subscribe({
@@ -178,5 +186,14 @@ export class ApplicantsComponent implements OnInit {
   closeModal() {
     this.showUpdateModal = false;
     this.showCreateModal = false;
+    this.submitted = false;
+  }
+  private markFormGroupTouched(formGroup: FormGroup): void {
+    Object.values(formGroup.controls).forEach(control => {
+      control.markAsTouched();
+      if (control instanceof FormGroup) {
+        this.markFormGroupTouched(control);
+      }
+    });
   }
 }

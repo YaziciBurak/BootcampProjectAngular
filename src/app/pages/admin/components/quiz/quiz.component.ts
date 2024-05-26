@@ -29,6 +29,7 @@ export class QuizComponent implements OnInit {
   showCreateModal: boolean = false;
   applicantList: ApplicantListItemDto;
   bootcampList: BootcampListItemDto;
+  submitted = false;
 
   quizList: QuizListItemDto;
   constructor(private quizService: QuizService,
@@ -97,6 +98,7 @@ export class QuizComponent implements OnInit {
     });
   }
   add() {
+    this.submitted = true;
     if (this.quizCreateForm.valid) {
       let question: CreateQuizRequest = Object.assign({}, this.quizCreateForm.value);
       this.quizService.create(question).subscribe({
@@ -111,14 +113,26 @@ export class QuizComponent implements OnInit {
           this.loadQuizzes();
         }
       });
+    } else {
+      this.markFormGroupTouched(this.quizCreateForm);
     }
   }
   openAddModal() {
     this.quizCreateForm.reset();
     this.showCreateModal = true;
+    this.submitted = false;
   }
 
   closeModal() {
     this.showCreateModal = false;
+    this.submitted = false;
+  }
+  private markFormGroupTouched(formGroup: FormGroup): void {
+    Object.values(formGroup.controls).forEach(control => {
+      control.markAsTouched();
+      if (control instanceof FormGroup) {
+        this.markFormGroupTouched(control);
+      }
+    });
   }
 }

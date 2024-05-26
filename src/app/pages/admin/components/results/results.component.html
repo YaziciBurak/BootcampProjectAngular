@@ -6,7 +6,8 @@
           <th class="px-6 py-3 bg-gray-800 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Quiz Id</th>
           <th class="px-6 py-3 bg-gray-800 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Başvuran Ad/Soyad</th>
           <th class="px-6 py-3 bg-gray-800 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Doğru Cevaplar</th>
-          <th class="px-6 py-3 bg-gray-800 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Yanlış Cevaplar</th>       
+          <th class="px-6 py-3 bg-gray-800 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Yanlış Cevaplar</th> 
+          <th class="px-6 py-3 bg-gray-800 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Sınav Notu</th>      
         </tr>
       </thead>
       <tbody>
@@ -15,6 +16,7 @@
           <td class="px-6 py-4 whitespace-nowrap border-b border-gray-200 col-span-3">{{ results.applicantFirstName}}{{ results.applicantLastName}}</td>
           <td class="px-6 py-4 whitespace-nowrap border-b border-gray-200">{{ results.correctAnswers}}</td>
           <td class="px-6 py-4 whitespace-nowrap border-b border-gray-200">{{results.wrongAnswers}}</td>
+          <td class="px-6 py-4 whitespace-nowrap border-b border-gray-200">{{results.score}}</td>
         </tr>
       </tbody>
     </table>
@@ -39,17 +41,47 @@
         <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
           <div class="mb-4">
               <label for="quizId" class="block text-gray-700 text-sm font-bold mb-2">QuizId:</label>
-              <select formControlName="quizId" id="quizId" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+              <select formControlName="quizId" id="quizId" class="form-control shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                 <option *ngFor="let quizzes of quizList.items" [value]="quizzes.id">{{quizzes.id}}</option>
               </select>
+              <div
+              *ngIf="submitted && resultCreateForm.get('quizId').invalid"
+              class="error-message"
+            >
+              <div *ngIf="resultCreateForm.get('quizId').hasError('required')">
+                Bu alan zorunludur.
+              </div>
+            </div>
             </div>         
             <div class="mb-4">
                 <label for="correctAnswers" class="block text-gray-700 text-sm font-bold mb-2">Doğru Cevap Sayısı:</label>
-                <input formControlName="correctAnswers" type="number" id="correctAnswers"  class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-            </div> 
+                <input formControlName="correctAnswers" type="number" id="correctAnswers"  class="form-control shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                min="0"
+                max="10" 
+                oninput="validity.valid||(value='');" >
+                <div
+                *ngIf="submitted && resultCreateForm.get('correctAnswers').invalid"
+                class="error-message"
+              >
+                <div *ngIf="resultCreateForm.get('correctAnswers').hasError('required')">
+                  Bu alan zorunludur.
+                </div>
+              </div>
+              </div> 
             <div class="mb-4">
                 <label for="wrongAnswers" class="block text-gray-700 text-sm font-bold mb-2">Yanlış Cevap Sayısı:</label>
-                <input formControlName="wrongAnswers" type="number" id="wrongAnswers"  class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                <input formControlName="wrongAnswers" type="number" id="wrongAnswers"  class="form-control shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
+                min="0"
+                max="10" 
+                oninput="validity.valid||(value='');">
+                <div
+                *ngIf="submitted && resultCreateForm.get('wrongAnswers').invalid"
+                class="error-message"
+              >
+                <div *ngIf="resultCreateForm.get('wrongAnswers').hasError('required')">
+                  Bu alan zorunludur.
+                </div>
+              </div>
               </div>        
         </div>
         <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">

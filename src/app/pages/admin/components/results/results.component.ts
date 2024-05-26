@@ -22,6 +22,7 @@ export class ResultsComponent implements OnInit {
   showCreateModal: boolean = false;
   resultList: ResultListItemDto;
   quizList: QuizListItemDto;
+  submitted = false;
 
   constructor(
     private resultService: ResultService,
@@ -57,6 +58,7 @@ export class ResultsComponent implements OnInit {
     })
   }
   add() {
+    this.submitted = true;
     if (this.resultCreateForm.valid) {
       let question: CreateResultRequest = Object.assign({}, this.resultCreateForm.value);
       this.resultService.create(question).subscribe({
@@ -71,13 +73,25 @@ export class ResultsComponent implements OnInit {
           this.loadResults();
         }
       });
+    } else {
+      this.markFormGroupTouched(this.resultCreateForm);
     }
   }
   openAddModal() {
     this.resultCreateForm.reset();
     this.showCreateModal = true;
+    this.submitted = false;
   }
   closeModal() {
     this.showCreateModal = false;
+    this.submitted = false;
+  }
+  private markFormGroupTouched(formGroup: FormGroup): void {
+    Object.values(formGroup.controls).forEach(control => {
+      control.markAsTouched();
+      if (control instanceof FormGroup) {
+        this.markFormGroupTouched(control);
+      }
+    });
   }
 }

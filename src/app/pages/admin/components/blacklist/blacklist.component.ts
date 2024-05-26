@@ -22,6 +22,7 @@ export class BlacklistComponent implements OnInit {
   blacklistForm: FormGroup;
   selectedBlacklist: any;
   showUpdateModal: boolean = false;
+  submitted = false;
 
   blacklistList: BlackListListItemDto;
 
@@ -35,24 +36,20 @@ export class BlacklistComponent implements OnInit {
     this.loadBlacklist();
     this.updateForm();
   }
-
   updateForm() {
     this.blacklistForm = this.formBuilder.group({
       reason: ['', [Validators.required]]
     });
   }
-
   loadBlacklist() {
     const pageRequest: PageRequest = { pageIndex: 0, pageSize: 20 };
     this.getBlacklists(pageRequest);
   }
-
   getBlacklists(pageRequest: PageRequest) {
     this.blacklistService.getList(pageRequest).subscribe(response => {
       this.blacklistList = response;
     });
   }
-
   delete(id: number) {
     Swal.fire({
       title: 'Emin misiniz?',
@@ -78,11 +75,11 @@ export class BlacklistComponent implements OnInit {
     });
   }
   update() {
+    if(this.blacklistForm.valid) {
     const id = this.selectedBlacklist.id;
     const currentApplicantId = this.selectedBlacklist.applicantId;
     const currentDate = this.selectedBlacklist.date;
     const updatedReason = this.blacklistForm.value.reason;
-
     const request: UpdateBlacklistRequest = {
       id: id,
       applicantId: currentApplicantId,
@@ -100,8 +97,10 @@ export class BlacklistComponent implements OnInit {
         this.toastr.error('Güncelleme işlemi başarısız:', error);
       }
     });
+  } else {
+    this.markFormGroupTouched(this.blacklistForm);
   }
-
+  }
   openUpdateModal(blacklist: any) {
     this.blacklistService.getById(blacklist.id).subscribe({
       next: (response) => {
@@ -117,5 +116,14 @@ export class BlacklistComponent implements OnInit {
   }
   closeUpdateModal() {
     this.showUpdateModal = false;
+    this.submitted = false;
+  }
+  private markFormGroupTouched(formGroup: FormGroup): void {
+    Object.values(formGroup.controls).forEach(control => {
+      control.markAsTouched();
+      if (control instanceof FormGroup) {
+        this.markFormGroupTouched(control);
+      }
+    });
   }
 }

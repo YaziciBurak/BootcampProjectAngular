@@ -3,7 +3,6 @@ import { FormBuilder,FormGroup,Validators,ReactiveFormsModule } from '@angular/f
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/concretes/auth.service';
 import { CommonModule } from '@angular/common';
-import { transition, trigger,style,animate, state } from '@angular/animations';
 import { ToastrService } from 'ngx-toastr';
 
 
@@ -12,20 +11,7 @@ import { ToastrService } from 'ngx-toastr';
   standalone: true,
   imports: [ReactiveFormsModule,RouterModule,CommonModule],
   templateUrl: './register.component.html',
-  styleUrl: './register.component.css',
-  animations: [
-    trigger('inputFocus', [
-      state('true', style({
-        borderColor: '#66afe9',
-        boxShadow: '0 0 5px rgba(102, 175, 233, 0.6)'
-      })),
-      state('false', style({
-        borderColor: '#ccc',
-        boxShadow: 'none'
-      })),
-      transition('false <=> true', animate('300ms ease-in-out'))
-    ])
-  ]
+  styleUrl: './register.component.css'
 })
 export class RegisterComponent {
   registerForm!:FormGroup
@@ -51,7 +37,6 @@ export class RegisterComponent {
   register(){
     this.submitted = true;
     if(this.registerForm.valid){
-      console.log(this.registerForm.value);
       let registerModel = Object.assign({},this.registerForm.value);
       this.authService.RegisterApplicant(registerModel).subscribe((response)=>{
         this.toastr.success("Kayıt Başarılı")

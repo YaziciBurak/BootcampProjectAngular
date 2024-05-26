@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Observable, map } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { Observable, catchError, map, throwError } from 'rxjs';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { GetbyidApplicationstateResponse } from '../../models/responses/applicationstate/getbyid-applicationstate-response';
 import { ApplicationStateBaseService } from '../abstracts/application-state-base.service';
 import { environment } from '../../../../environments/environment.development';
@@ -20,6 +20,29 @@ export class ApplicationStateService extends ApplicationStateBaseService {
   private readonly apiUrl: string = `${environment.API_URL}/ApplicationStates`
 
   constructor(private httpClient: HttpClient) { super() }
+
+  private handleError(error: HttpErrorResponse): Observable<never> {
+    let errorMessage = 'Bir hata oluştu';
+
+    if (error.error instanceof ErrorEvent) {
+      // Client-side hata
+      errorMessage = `Hata: ${error.error.message}`;
+    } else {
+      // Backend hatası
+      if (error.error && error.error.message) {
+        errorMessage = error.error.message;
+      } else if (error.status === 500 && error.error) {
+        // Hata mesajını backend'den alınan response'un ilk satırından ayıklayın
+        const backendErrorMessage = error.error.split('\n')[0];
+        if (backendErrorMessage.includes('BusinessException')) {
+          errorMessage = backendErrorMessage.split(': ')[1]; // Sadece hata mesajını al
+        }
+      } else {
+        errorMessage = `Sunucu Hatası: ${error.status}\nMesaj: ${error.message}`;
+      }
+    }
+    return throwError(errorMessage);
+  }
 
   override getList(pageRequest: PageRequest): Observable<ApplicationstateListItemDto> {
     const newRequest: { [key: string]: string | number } = {
@@ -45,10 +68,15 @@ export class ApplicationStateService extends ApplicationStateBaseService {
   }
 
   override create(request: CreateApplicationstateRequest): Observable<CreateApplicationstateResponse> {
-    return this.httpClient.post<CreateApplicationstateResponse>(this.apiUrl, request);
-  }
+    return this.httpClient.post<CreateApplicationstateResponse>(this.apiUrl, request)
+    .pipe(catchError(this.handleError.bind(this))
+    );
+    }
+  
   override delete(id: number): Observable<DeleteApplicationstateResponse> {
     return this.httpClient.delete<DeleteApplicationstateResponse>(`${this.apiUrl}/` + id)
+    .pipe(catchError(this.handleError.bind(this))
+    );
   }
   override update(request: UpdateApplicationstateRequest): Observable<UpdateApplicationstateResponse> {
     return this.httpClient.put<UpdateApplicationstateResponse>(`${this.apiUrl}`, request);

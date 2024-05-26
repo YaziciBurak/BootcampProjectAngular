@@ -33,6 +33,7 @@ export class ApplicationComponent implements OnInit {
   bootcampList: BootcampListItemDto;
   applicationList: ApplicationListItemDto;
   applicationStateList: ApplicationstateListItemDto;
+  submitted = false;
 
   constructor(
     private applicationService: ApplicationService,
@@ -69,7 +70,7 @@ export class ApplicationComponent implements OnInit {
     this.applicationCreateForm = this.formBuilder.group({
       applicantId: ['', [Validators.required]],
       bootcampId: ['', [Validators.required]],
-      applicationStateId: ['']
+      applicationStateId: ['',[Validators.required]]
     })
   }
   getApplications(pageRequest: PageRequest) {
@@ -117,6 +118,7 @@ export class ApplicationComponent implements OnInit {
     });
   }
   add() {
+    this.submitted = true
     if (this.applicationCreateForm.valid) {
       let application: CreateApplicationRequest = Object.assign({}, this.applicationCreateForm.value);
       this.applicationService.create(application).subscribe({
@@ -131,9 +133,13 @@ export class ApplicationComponent implements OnInit {
           this.loadApplication();
         }
       });
+    } else {
+      this.markFormGroupTouched(this.applicationCreateForm);
     }
   }
   update() {
+    this.submitted = true
+    if(this.applicationUpdateForm.valid){
     const id = this.selectedApplication.id;
     const applicantId = this.applicationUpdateForm.value.applicantId;
     const bootcampId = this.applicationUpdateForm.value.bootcampId;
@@ -154,8 +160,10 @@ export class ApplicationComponent implements OnInit {
         this.toastr.error('Güncelleme işlemi başarısız:', error);
       }
     });
+  } else {
+    this.markFormGroupTouched(this.applicationUpdateForm);
   }
-
+  }
   openUpdateModal(application: any) {
     this.applicationService.getById(application.id).subscribe({
       next: (response) => {
@@ -177,9 +185,19 @@ export class ApplicationComponent implements OnInit {
   openAddModal() {
     this.applicationCreateForm.reset();
     this.showCreateModal = true;
+    this.submitted = false;
   }
   closeModal() {
     this.showUpdateModal = false;
     this.showCreateModal = false;
+    this.submitted = false;
+  }
+  private markFormGroupTouched(formGroup: FormGroup): void {
+    Object.values(formGroup.controls).forEach(control => {
+      control.markAsTouched();
+      if (control instanceof FormGroup) {
+        this.markFormGroupTouched(control);
+      }
+    });
   }
 }

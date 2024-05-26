@@ -9,7 +9,7 @@ import { RouterModule } from '@angular/router';
 import { SharedModule } from 'primeng/api';
 import { UpdateBootcampstateRequest } from '../../../../features/models/requests/bootcampstate/update-bootcampstate-request';
 import { CreateBootcampstateRequest } from '../../../../features/models/requests/bootcampstate/create-bootcampstate-request';
-import { Toast, ToastrService } from 'ngx-toastr';
+import { ToastrService } from 'ngx-toastr';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -27,6 +27,7 @@ export class BootcampStateListGroupComponent implements OnInit {
   showUpdateModal: boolean = false;
   showCreateModal: boolean = false;
   bootcampStateList: BootcampstateListItemDto;
+  submitted = false;
 
   constructor(
     private bootcampStateService: BootcampStateService,
@@ -63,11 +64,12 @@ export class BootcampStateListGroupComponent implements OnInit {
     })
   }
   add() {
+    this.submitted = true;
     if (this.bootcampStateCreateForm.valid) {
       let bootcampState: CreateBootcampstateRequest = Object.assign({}, this.bootcampStateCreateForm.value);
       this.bootcampStateService.create(bootcampState).subscribe({
         error: (error) => {
-          this.toastr.info("Eklenemedi",error);
+          this.toastr.error("Eklenemedi",error);
           this.change.markForCheck();
         },
         complete: () => {
@@ -77,8 +79,10 @@ export class BootcampStateListGroupComponent implements OnInit {
           this.loadBootcampStates();
         }
       });
-    }
+    } else {
+    this.markFormGroupTouched(this.bootcampStateCreateForm);
   }
+}
   delete(id: number) {
     Swal.fire({
       title: 'Emin misiniz?',
@@ -104,6 +108,8 @@ export class BootcampStateListGroupComponent implements OnInit {
     }); 
   }
   update() {
+    this.submitted = true;
+    if(this.bootcampStateUpdateForm.valid) {
     const id = this.selectedBootcampState.id;
     const request: UpdateBootcampstateRequest = {
       id: id,
@@ -119,6 +125,9 @@ export class BootcampStateListGroupComponent implements OnInit {
         this.toastr.error('Güncelleme işlemi başarısız:', error);
       }
     });
+  } else {
+  this.markFormGroupTouched(this.bootcampStateUpdateForm);
+}
   }
   openUpdateModal(bootcampState: any) {
     this.bootcampStateService.getById(bootcampState.id).subscribe({
@@ -136,10 +145,20 @@ export class BootcampStateListGroupComponent implements OnInit {
   openAddModal() {
     this.bootcampStateCreateForm.reset();
     this.showCreateModal = true;
+    this.submitted = false;
   }
   closeModal() {
     this.showUpdateModal = false;
     this.showCreateModal = false;
+    this.submitted = false;
+  }
+  private markFormGroupTouched(formGroup: FormGroup): void {
+    Object.values(formGroup.controls).forEach(control => {
+      control.markAsTouched();
+      if (control instanceof FormGroup) {
+        this.markFormGroupTouched(control);
+      }
+    });
   }
 }
 

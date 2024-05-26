@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Observable, map } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { Observable, catchError, map, throwError } from 'rxjs';
+import { HttpClient, HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { BootcampStateBaseService } from '../abstracts/bootcamp-state-base.service';
 import { GetlistBootcampstateResponse } from '../../models/responses/bootcampstate/getlist-bootcampstate-response';
 import { environment } from '../../../../environments/environment.development';
@@ -22,6 +22,29 @@ export class BootcampStateService extends BootcampStateBaseService {
   private readonly apiUrl: string = `${environment.API_URL}/BootcampStates`
 
   constructor(private httpClient: HttpClient) { super() }
+
+  private handleError(error: HttpErrorResponse): Observable<never> {
+    let errorMessage = 'Bir hata oluştu';
+
+    if (error.error instanceof ErrorEvent) {
+      // Client-side hata
+      errorMessage = `Hata: ${error.error.message}`;
+    } else {
+      // Backend hatası
+      if (error.error && error.error.message) {
+        errorMessage = error.error.message;
+      } else if (error.status === 500 && error.error) {
+        // Hata mesajını backend'den alınan response'un ilk satırından ayıklayın
+        const backendErrorMessage = error.error.split('\n')[0];
+        if (backendErrorMessage.includes('BusinessException')) {
+          errorMessage = backendErrorMessage.split(': ')[1]; // Sadece hata mesajını al
+        }
+      } else {
+        errorMessage = `Sunucu Hatası: ${error.status}\nMesaj: ${error.message}`;
+      }
+    }
+    return throwError(errorMessage);
+  }
 
   override getList(pageRequest: PageRequest): Observable<BootcampstateListItemDto> {
     const newRequest: { [key: string]: string | number } = {
@@ -46,15 +69,21 @@ export class BootcampStateService extends BootcampStateBaseService {
     )
   }
   override create(request: CreateBootcampstateRequest): Observable<CreateBootcampstateResponse> {
-    return this.httpClient.post<CreateBootcampstateResponse>(this.apiUrl, request);
+    return this.httpClient.post<CreateBootcampstateResponse>(this.apiUrl, request)
+    .pipe(catchError(this.handleError.bind(this))
+      );
   }
+  
   override delete(id: number): Observable<DeleteBootcampstateResponse> {
     return this.httpClient.delete<DeleteBootcampstateResponse>(`${this.apiUrl}/` + id)
+    .pipe(catchError(this.handleError.bind(this))
+    );
   }
   override update(request: UpdateBootcampstateRequest): Observable<UpdateBootcampstateResponse> {
-    return this.httpClient.put<UpdateBootcampstateResponse>(`${this.apiUrl}`, request);
+    return this.httpClient.put<UpdateBootcampstateResponse>(`${this.apiUrl}`, request)
+    .pipe(catchError(this.handleError.bind(this))
+    );
   }
-
   override getById(id: number): Observable<GetbyidBootcampstateResponse> {
     const newRequest: { [key: string]: string | number } = {
       id: id

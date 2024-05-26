@@ -10,14 +10,30 @@
         <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
             <div class="mb-4">
                 <label for="instructorId" class="block text-gray-700 text-sm font-bold mb-2">Eğitmen Seçiniz:</label>
-                <select formControlName="instructorId" id="instructorId" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                <select formControlName="instructorId" id="instructorId" class="form-control shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                   <option *ngFor="let instructors of instructorList.items" [value]="instructors.id">{{instructors.firstName}} {{instructors.lastName}}</option>
                 </select>
+                <div
+          *ngIf="submitted && instructorImageUpdateForm.get('instructorId').invalid"
+          class="error-message"
+        >
+          <div *ngIf="instructorImageUpdateForm.get('instructorId').hasError('required')">
+            Bu alan zorunludur.
+          </div>
+        </div>
               </div>
               <div class="mb-4">
                   <label for="file" class="block text-gray-700 text-sm font-bold mb-2">Eğitmen Resmi Seç:</label>
-                  <input (change)="onFileUpdateChange($event)" formControlName="file" type="file" id="file" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-              </div>     
+                  <input (change)="onFileUpdateChange($event)" formControlName="file" type="file" id="file" class="form-control shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                  <div
+                  *ngIf="submitted && instructorImageUpdateForm.get('file').invalid"
+                  class="error-message"
+                >
+                  <div *ngIf="instructorImageUpdateForm.get('file').hasError('required')">
+                    Bu alan zorunludur.
+                  </div>
+                </div>
+                </div>     
         </div>
         <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
           <button  type="submit" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-500 text-base font-medium text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm">
@@ -77,18 +93,42 @@
         <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
           <div class="mb-4">
               <label for="instructorId" class="block text-gray-700 text-sm font-bold mb-2">Eğitmen Seçiniz:</label>
-              <select formControlName="instructorId" id="instructorId" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+              <select formControlName="instructorId" id="instructorId" class="form-control shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                 <option *ngFor="let instructors of instructorList.items" [value]="instructors.id">{{instructors.firstName}} {{instructors.lastName}}</option>
               </select>
+              <div
+              *ngIf="submitted && instructorImageCreateForm.get('instructorId').invalid"
+              class="error-message"
+            >
+              <div *ngIf="instructorImageCreateForm.get('instructorId').hasError('required')">
+                Bu alan zorunludur.
+              </div>
+            </div>
             </div>
             <div class="mb-4">
                 <label for="file" class="block text-gray-700 text-sm font-bold mb-2">Eğitmen Resmi Seç:</label>
-                <input (change)="onFileChange($event)" formControlName="file" type="file" id="file" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-            </div>    
+                <input (change)="onFileChange($event)" formControlName="file" type="file" id="file" class="form-control shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                <div
+                *ngIf="submitted && instructorImageCreateForm.get('file').invalid"
+                class="error-message"
+              >
+                <div *ngIf="instructorImageCreateForm.get('file').hasError('required')">
+                  Bu alan zorunludur.
+                </div>
+              </div>
+              </div>    
             <div class="mb-4">
                 <label for="imagePath" class="block text-gray-700 text-sm font-bold mb-2">Resim Yol:</label>
-                <input  formControlName="imagePath" type="text" id="imagePath" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-            </div>          
+                <input  formControlName="imagePath" type="text" id="imagePath" class="form-control shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                <div
+                *ngIf="submitted && instructorImageCreateForm.get('imagePath').invalid"
+                class="error-message"
+              >
+                <div *ngIf="instructorImageCreateForm.get('imagePath').hasError('required')">
+                  Bu alan zorunludur.
+                </div>
+              </div>
+              </div>          
         </div>
         <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
           <button  type="submit" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-500 text-base font-medium text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm">

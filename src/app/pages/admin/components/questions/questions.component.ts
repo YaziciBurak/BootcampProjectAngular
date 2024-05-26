@@ -29,6 +29,7 @@ export class QuestionsComponent implements OnInit {
   showCreateModal: boolean = false;
   bootcampList: BootcampListItemDto;
   questionList: QuestionListItemDto;
+  submitted = false;
 
   constructor(private questionService: QuestionService,
      private bootcampService: BootcampService,
@@ -59,7 +60,6 @@ export class QuestionsComponent implements OnInit {
       correctAnswer: ['', [Validators.required]]
     });
   }
-
   createForm() {
     this.questionCreateForm = this.formBuilder.group({
       bootcampId: ['', [Validators.required]],
@@ -71,7 +71,6 @@ export class QuestionsComponent implements OnInit {
       correctAnswer: ['', [Validators.required]]
     })
   }
-
   getQuestions(pageRequest: PageRequest) {
     this.questionService.getList(pageRequest).subscribe(response => {
       this.questionList = response;
@@ -82,7 +81,6 @@ export class QuestionsComponent implements OnInit {
       this.bootcampList = response;
     });
   }
-
   delete(id: number) {
     Swal.fire({
       title: 'Emin misiniz?',
@@ -108,6 +106,7 @@ export class QuestionsComponent implements OnInit {
     });
   }
   add() {
+    this.submitted = true;
     if (this.questionCreateForm.valid) {
       let question: CreateQuestionRequest = Object.assign({}, this.questionCreateForm.value);
       this.questionService.create(question).subscribe({
@@ -122,9 +121,13 @@ export class QuestionsComponent implements OnInit {
           this.loadQuestions();
         }
       });
+    } else {
+      this.markFormGroupTouched(this.questionCreateForm);
     }
   }
   update() {
+    this.submitted = true;
+    if(this.questionUpdateForm.valid){
     const id = this.selectedQuestion.id;
     const bootcampId = this.questionUpdateForm.value.bootcampId;
     const text = this.questionUpdateForm.value.text;
@@ -154,14 +157,17 @@ export class QuestionsComponent implements OnInit {
         this.toastr.error('Güncelleme işlemi başarısız:', error);
       }
     });
+  } else {
+    this.markFormGroupTouched(this.questionUpdateForm);
   }
-
+  }
   openUpdateModal(question: any) {
     this.questionService.getById(question.id).subscribe({
       next: (response) => {
         this.selectedQuestion = { ...response };
         this.questionUpdateForm.patchValue({
           id: this.selectedQuestion.id,
+          bootcampId: this.selectedQuestion.bootcampId,
           text: this.selectedQuestion.text,
           answerA: this.selectedQuestion.answerA,
           answerB: this.selectedQuestion.answerB,
@@ -181,11 +187,13 @@ export class QuestionsComponent implements OnInit {
   openAddModal() {
     this.questionCreateForm.reset();
     this.showCreateModal = true;
+    this.submitted = false;
   }
 
   closeModal() {
     this.showUpdateModal = false;
     this.showCreateModal = false;
+    this.submitted = false;
   }
 
   getShortenedText(text: string): string {
@@ -194,6 +202,14 @@ export class QuestionsComponent implements OnInit {
       return text.substring(0, maxLength) + '...';
     }
     return text;
+  }
+  private markFormGroupTouched(formGroup: FormGroup): void {
+    Object.values(formGroup.controls).forEach(control => {
+      control.markAsTouched();
+      if (control instanceof FormGroup) {
+        this.markFormGroupTouched(control);
+      }
+    });
   }
 }
 
