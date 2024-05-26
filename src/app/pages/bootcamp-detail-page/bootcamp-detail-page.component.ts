@@ -40,6 +40,7 @@ export class BootcampDetailPageComponent implements OnInit {
     this.bootcampService.getById(bootcampId).subscribe(
       (response: GetbyidBootcampResponse) => {
         console.log("geliyor " + response.name);
+        console.log("ifApplicantApplied" + response.ifApplicantApplied);
         this.getByIdBootcampResponse = response;
         this.bootcampDetail = this.sanitizer.bypassSecurityTrustHtml(response.detail);
         console.log(this.bootcampDetail);
@@ -58,4 +59,9 @@ export class BootcampDetailPageComponent implements OnInit {
         console.error('başvuru yaparken hata oluştu', error);
       });
   }
+
+  isDeadlinePassed(deadline: Date): boolean {
+    return new Date(deadline) < new Date();
+  }
+
 }

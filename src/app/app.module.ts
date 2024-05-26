@@ -8,6 +8,7 @@ import { AppComponent } from './app.component';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 
 @NgModule({
+
   declarations: [
     
   ],

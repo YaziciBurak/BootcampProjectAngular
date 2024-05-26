@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable, catchError, map, throwError } from 'rxjs';
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
+import { Observable, map, of } from 'rxjs';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { ApplicationBaseService } from '../abstracts/application-base.service';
 import { GetlistApplicationResponse } from '../../models/responses/application/getlist-application-response';
 import { GetbyidApplicationResponse } from '../../models/responses/application/getbyid-application-response';
@@ -16,6 +18,7 @@ import { CreateApplicationResponse } from '../../models/responses/application/cr
 import { DynamicQuery } from '../../../core/models/dynamic-query';
 
 import { AuthService } from './auth.service';
+import { Router } from '@angular/router';
 
 
 @Injectable({
@@ -25,7 +28,9 @@ export abstract class ApplicationService extends ApplicationBaseService {
 
   private readonly apiUrl: string = `${environment.API_URL}/ApplicationEntities`
 
-  constructor(private authService: AuthService, private httpClient: HttpClient) { super() }
+  constructor(private authService: AuthService, private httpClient: HttpClient,
+    private router: Router
+  ) { super() }
 
   private handleError(error: HttpErrorResponse): Observable<never> {
     let errorMessage = 'Bir hata oluştu';
@@ -88,10 +93,11 @@ export abstract class ApplicationService extends ApplicationBaseService {
   }
   override applyForBootcamp(id: number): Observable<CreateApplicationResponse> {
     const loggedInUserId = this.authService.getCurrentUserId();
-
-    if (!loggedInUserId) {
-      throw new Error('Kullanıcı oturumu bulunamadı.');
+    if (!loggedInUserId || loggedInUserId === undefined) {
+      this.router.navigate(['/login']);
+      return of();
     }
+
     const applicationRequest: CreateApplicationRequest = {
       applicantId: loggedInUserId,
       bootcampId: id,

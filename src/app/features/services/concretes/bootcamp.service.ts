@@ -12,6 +12,7 @@ import { UpdateBootcampResponse } from '../../models/responses/bootcamp/update-b
 import { CreateBootcampRequest } from '../../models/requests/bootcamp/create-bootcamp-request';
 import { CreateBootcampResponse } from '../../models/responses/bootcamp/create-bootcamp-response';
 import { DynamicQuery } from '../../../core/models/dynamic-query';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +20,7 @@ import { DynamicQuery } from '../../../core/models/dynamic-query';
 export class BootcampService extends BootcampBaseService {
   private readonly apiUrl: string = `${environment.API_URL}/bootcamps`
 
-  constructor(private httpClient: HttpClient) { super(); }
+  constructor(private httpClient: HttpClient, private authService: AuthService) { super(); }
 
   private handleError(error: HttpErrorResponse): Observable<never> {
     let errorMessage = 'Bir hata oluştu';
@@ -86,8 +87,13 @@ export class BootcampService extends BootcampBaseService {
   }
 
   override getById(bootcampId: number): Observable<GetbyidBootcampResponse> {
+    const loggedInUserId = this.authService.getCurrentUserId();
+    if (loggedInUserId === null) {
+      return this.httpClient.get<GetbyidBootcampResponse>(`${this.apiUrl}/${bootcampId}`);
+    }
     const newRequest: { [key: string]: string | number } = {
-      id: bootcampId
+      id: bootcampId,
+      applicantId: loggedInUserId,
     };
     return this.httpClient.get<GetbyidBootcampResponse>(`${this.apiUrl}/${bootcampId}`, {
       params: newRequest
@@ -103,10 +109,13 @@ export class BootcampService extends BootcampBaseService {
           bootcampStateName: response.bootcampStateName,
           bootcampImageId: response.bootcampImageId,
           bootcampImagePath: response.bootcampImagePath,
+          instructorImageId: response.instructorImageId,
+          instructorImagePath: response.instructorImagePath,
           detail: response.detail,
           deadline: response.deadline,
           startDate: response.startDate,
-          endDate: response.endDate
+          endDate: response.endDate,
+          ifApplicantApplied: response.ifApplicantApplied
         };
         return newResponse;
       })

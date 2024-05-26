@@ -19,7 +19,7 @@
         <div class="flex flex-col my-auto text-lg leading-4">
           <span class="text-gray-500">Son Başvuru:</span>
           <time class="mt-1.5 font-semibold text-slate-900">{{
-            bootcamp.endDate | date : "dd/MM/yyyy"
+            bootcamp.deadline| date : "dd/MM/yyyy"
             }}</time>
         </div>
         <button [routerLink]="['/bootcampDetail', bootcamp.id.toString()]"

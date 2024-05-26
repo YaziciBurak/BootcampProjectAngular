@@ -11,12 +11,12 @@
 
 <div class="flex flex-row justify-between mx-20 2xl:mx-40 mt-20">
   <div class="flex flex-row gap-6 text-2xl text-slate-500">
-    <button (click)="getAllBootcamps({pageIndex:0, pageSize: PAGE_SIZE})"
-      class="hover:text-indigo-600 focus:text-indigo-600">Tümünü Gör</button>
-    <button (click)="getContinuingBootcamps({pageIndex: currentPageNumber, pageSize: PAGE_SIZE})"
-      class="hover:text-indigo-600 focus:text-indigo-600">Başvurusu Devam Edenler</button>
-    <button (click)="getDeadlinePassedBootcamps({pageIndex: currentPageNumber, pageSize: PAGE_SIZE})"
-      class="hover:text-indigo-600 focus:text-indigo-600">Başvurusu Bitenler</button>
+    <button (click)="getAllBootcamps({pageIndex:0, pageSize: PAGE_SIZE}); setFocus(0)" class="hover:text-indigo-600 "
+      [class.text-indigo-600]="focusedButton === 0">Tümünü Gör</button>
+    <button (click)="getContinuingBootcamps({pageIndex: currentPageNumber, pageSize: PAGE_SIZE}); setFocus(1)"
+      class="hover:text-indigo-600 " [class.text-indigo-600]="focusedButton === 1">Başvurusu Devam Edenler</button>
+    <button (click)="getDeadlinePassedBootcamps({pageIndex: currentPageNumber, pageSize: PAGE_SIZE}); setFocus(2)"
+      class="hover:text-indigo-600 " [class.text-indigo-600]="focusedButton === 2">Başvurusu Bitenler</button>
   </div>
 
 
@@ -65,7 +65,7 @@
           class="flex flex-col pt-6 2xl:pt-10 bg-white rounded-xl border border-gray-400 border-solid lg:max-w-[320px] lg:max-h-[450px] 2xl:max-w-[360px] 2xl:max-h-[490px]">
           <div class="flex flex-col 2xl:px-8 max-md:px-5 " [routerLink]="">
             <img [src]="bootcamp.bootcampImagePath" alt="Bootcamp Image"
-              [routerLink]="['/bootcampDetail', bootcamp.id.toString()]" class="px-6 2xl:px-0" />
+              [routerLink]="['/bootcampDetail', bootcamp.id.toString()]" class="mx-6 2xl:mx-0" />
             <h2 class=" ml-6 mt-6 2xl:ml-0 2xl:mt-6 text-xl font-semibold leading-7 text-slate-900">
               {{bootcamp.name}}
             </h2>
@@ -81,9 +81,9 @@
                 {{formDate(bootcamp.deadline)}}</time>
             </div>
             <button [routerLink]="['/bootcampDetail', bootcamp.id.toString()]"
-              class="flex gap-2 justify-center px-6 py-3 text-base font-bold leading-5 bg-amber-400 border border-black border-solid shadow-sm rounded-[56.813px] text-slate-900 max-md:px-5"
+              class="flex gap-2 justify-center px-6 py-3 text-base font-bold leading-5 bg-amber-400 border border-black border-solid shadow-sm rounded-[56.813px] text-slate-900 max-md:px-5 hover:brightness-110"
               style="box-shadow: 4px 4px 0px 0px black;">
-              <span class="grow my-auto">Başvur</span>
+              <span class="grow my-auto">İncele</span>
               <img loading="lazy" src="/assets/img/for-all-butons.svg" />
             </button>
           </div>
