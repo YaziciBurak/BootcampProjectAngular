@@ -1,21 +1,12 @@
 <div class="relative flex">
-  <img
-    loading="lazy"
-    src="/assets/img/fixed-top.svg"
-    class="mt-4"
-    style="z-index: 0"
-  />
+  <img loading="lazy" src="/assets/img/fixed-top.svg" class="mt-4" style="z-index: 0" />
 
-  <div
-    class="flex flex-col ml-36 -mt-4 2xl:mt-2 2xl:ml-60 max-w-full w-[274px] max-md:ml-2.5 absolute top-12"
-    style="z-index: 1"
-  >
-    <div class="text-3xl font-bold leading-10 text-slate-900">
+  <div class="flex flex-col ml-36 -mt-4 2xl:mt-2 2xl:ml-60 max-w-full w-[274px] max-md:ml-2.5 absolute top-12"
+    style="z-index: 1">
+    <div class="text-3xl font-bold leading-10 text-indigo-950">
       Öğrenci Kayıt
     </div>
-    <div
-      class="flex gap-3 mt-2 text-base leading-7 whitespace-nowrap font-semibold"
-    >
+    <div class="flex gap-3 mt-2 text-base leading-7 whitespace-nowrap font-semibold">
       <div class="text-indigo-950">Ana Sayfa</div>
       <div class="text-gray-400 text-xl">></div>
       <div class="text-indigo-600">Kayıt Ol</div>
@@ -26,11 +17,8 @@
 <div class="flex justify-center mt-16 mb-32">
   <form [formGroup]="registerForm" (ngSubmit)="register()">
     <div
-      class="flex flex-col justify-center px-12 pt-8 pb-12 text-base rounded-lg border border-solid bg-slate-50 border-neutral-200 max-w-[690px] max-md:px-5"
-    >
-      <div
-        class="text-4xl font-bold leading-10 text-slate-900 max-md:max-w-full"
-      >
+      class="flex flex-col justify-center px-12 pt-8 pb-12 text-base rounded-lg border border-solid bg-slate-50 border-neutral-200 max-w-[690px] max-md:px-5">
+      <div class="text-4xl font-bold leading-10 text-slate-900 max-md:max-w-full">
         Hesap Oluştur
       </div>
       <div class="mt-4 leading-7 text-gray-500 max-md:max-w-full">
@@ -44,19 +32,11 @@
           <div class="text-lg font-bold leading-5 text-slate-900">
             <label for="firstName"> Adınız </label>
           </div>
-          <input
-            formControlName="firstName"
-            id="firstName"
-            name="firstName"
+          <input formControlName="firstName" id="firstName" name="firstName"
             class="form-control justify-center items-start px-5 py-3 mt-2.5 text-base text-gray-500 capitalize bg-white rounded-md border border-solid border-neutral-200 max-md:px-5"
-            type="text"
-            placeholder="Ad yazınız  . . ."
-          />
+            type="text" placeholder="Ad yazınız  . . ." />
           <!-- Validation Messages -->
-          <div
-            *ngIf="submitted && registerForm.get('firstName').invalid"
-            class="error-message" 
-          >
+          <div *ngIf="submitted && registerForm.get('firstName').invalid" class="error-message">
             <div *ngIf="registerForm.get('firstName').hasError('required')">
               İsim alanı zorunludur.
             </div>
@@ -72,18 +52,10 @@
           <div class="text-lg font-bold leading-5 text-slate-900">
             <label for="lastName">Soyadınız</label>
           </div>
-          <input
-            formControlName="lastName"
-            name="lastName"
-            id="lastName"
+          <input formControlName="lastName" name="lastName" id="lastName"
             class="form-control justify-center items-start px-5 py-3 mt-2.5 text-base text-gray-500 capitalize bg-white rounded-md border border-solid border-neutral-200 max-md:px-5"
-            type="text"
-            placeholder="Soyad yazınız  . . ."
-          />
-          <div
-            *ngIf="submitted && registerForm.get('lastName').invalid"
-            class="error-message"
-          >
+            type="text" placeholder="Soyad yazınız  . . ." />
+          <div *ngIf="submitted && registerForm.get('lastName').invalid" class="error-message">
             <div *ngIf="registerForm.get('lastName').hasError('required')">
               Soyadı alanı zorunludur.
             </div>
@@ -97,23 +69,13 @@
         </div>
       </div>
 
-      <div
-        class="mt-4 text-lg font-bold leading-5 text-slate-900 max-md:mt-10 max-md:max-w-full"
-      >
+      <div class="mt-4 text-lg font-bold leading-5 text-slate-900 max-md:mt-10 max-md:max-w-full">
         <label for="userName">Kullanıcı Adı</label>
       </div>
-      <input
-        formControlName="userName"
-        name="userName"
-        id="userName"
-        type="text"
+      <input formControlName="userName" name="userName" id="userName" type="text"
         placeholder="Kullanıcı adı yazınız  . . ."
-        class="form-control justify-center items-start px-5 py-3 mt-2.5 text-gray-500 whitespace-nowrap bg-white rounded-md border border-solid border-neutral-200 max-md:px-5 max-md:max-w-full"
-      />
-      <div
-        *ngIf="submitted && registerForm.get('userName').invalid"
-        class="error-message"
-      >
+        class="form-control justify-center items-start px-5 py-3 mt-2.5 text-gray-500 whitespace-nowrap bg-white rounded-md border border-solid border-neutral-200 max-md:px-5 max-md:max-w-full" />
+      <div *ngIf="submitted && registerForm.get('userName').invalid" class="error-message">
         <div *ngIf="registerForm.get('userName').hasError('required')">
           Kullanıcı adı zorunludur.
         </div>
@@ -121,23 +83,12 @@
           Kullanıcı adı en az 4 karakter olmalıdır.
         </div>
       </div>
-      <div
-        class="mt-4 text-lg font-bold leading-5 text-slate-900 max-md:mt-10 max-md:max-w-full"
-      >
+      <div class="mt-4 text-lg font-bold leading-5 text-slate-900 max-md:mt-10 max-md:max-w-full">
         <label for="email">Email</label>
       </div>
-      <input
-        formControlName="email"
-        name="email"
-        id="email"
-        type="email"
-        placeholder="Email yazınız  . . ."
-        class="form-control justify-center items-start px-5 py-3 mt-2.5 text-gray-500 whitespace-nowrap bg-white rounded-md border border-solid border-neutral-200 max-md:px-5 max-md:max-w-full"
-      />
-      <div
-        *ngIf="submitted && registerForm.get('email').invalid"
-        class="error-message"
-      >
+      <input formControlName="email" name="email" id="email" type="email" placeholder="Email yazınız  . . ."
+        class="form-control justify-center items-start px-5 py-3 mt-2.5 text-gray-500 whitespace-nowrap bg-white rounded-md border border-solid border-neutral-200 max-md:px-5 max-md:max-w-full" />
+      <div *ngIf="submitted && registerForm.get('email').invalid" class="error-message">
         <div *ngIf="registerForm.get('email').hasError('required')">
           Email alanı zorunludur.
         </div>
@@ -145,35 +96,22 @@
           Email alanı email formatında olmak zorundadır.
         </div>
       </div>
-      <div
-        class="mt-4 text-lg font-bold leading-5 text-slate-900 max-md:mt-10 max-md:max-w-full"
-      >
+      <div class="mt-4 text-lg font-bold leading-5 text-slate-900 max-md:mt-10 max-md:max-w-full">
         <label for="password"> Şifre</label>
       </div>
-      <input
-        formControlName="password"
-        name="password"
-        id="password"
-        type="password"
-        placeholder="Şifre yazınız  . . ."
-        class="form-control justify-center items-start px-5 py-3 mt-2.5 text-gray-500 whitespace-nowrap bg-white rounded-md border border-solid border-neutral-200 max-md:px-5 max-md:max-w-full"
-      />
-      <div
-        *ngIf="submitted && registerForm.get('password').invalid"
-        class="error-message"
-      >
+      <input formControlName="password" name="password" id="password" type="password" placeholder="Şifre yazınız  . . ."
+        class="form-control justify-center items-start px-5 py-3 mt-2.5 text-gray-500 whitespace-nowrap bg-white rounded-md border border-solid border-neutral-200 max-md:px-5 max-md:max-w-full" />
+      <div *ngIf="submitted && registerForm.get('password').invalid" class="error-message">
         <div *ngIf="registerForm.get('password').hasError('required')">
           Şifre alanı zorunludur.
         </div>
         <div *ngIf="registerForm.get('password').hasError('minlength')">
-          Şifre  en az 6 karakter olmalıdır.
+          Şifre en az 6 karakter olmalıdır.
         </div>
       </div>
-      <button
-        type="submit"
+      <button type="submit"
         class="flex justify-center items-center px-16 py-5 mt-16 font-bold text-center text-black capitalize bg-amber-400 border-2 border-black border-solid shadow-sm leading-[112%] rounded-[50px] max-md:px-5 max-md:mt-10 max-md:max-w-full hover:brightness-110"
-        style="box-shadow: 8.799px 8.799px 0px 0px black"
-      >
+        style="box-shadow: 8.799px 8.799px 0px 0px black">
         <div class="flex gap-3">
           <div>Kayıt Ol</div>
           <img loading="lazy" src="/assets/img/for-all-butons.svg" />
@@ -181,10 +119,7 @@
       </button>
       <div class="flex gap-2 self-center mt-10 leading-[175%]">
         <div class="grow text-gray-500">Zaten bir hesabın var mı?</div>
-        <button
-          routerLink="/login"
-          class="text-indigo-600 underline font-semibold"
-        >
+        <button routerLink="/login" class="text-indigo-600 underline font-semibold">
           Giriş Yap
         </button>
       </div>

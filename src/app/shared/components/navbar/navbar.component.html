@@ -1,9 +1,8 @@
 <div class="flex flex-col md:flex-row  content-center flex-wrap  text-slate-900 pt-12 pb-6 px-8 2xl:px-20">
   <div
     class="flex flex-col md:flex-row lg:flex-row justify-center md:justify-start lg:justify-start gap-5 text-base font-medium">
-    <img routerLink="homepage" loading="lazy"
-      src="https://cdn.builder.io/api/v1/image/assets/TEMP/41934e332f401213ad6f646af99e9a2b39a7228ba0d51defd350f4238c225073?apiKey=d64f73725dfb4ccb8c714d58677398b5&"
-      class="shrink-0 my-auto max-w-full aspect-[4] w-[153px] hover:cursor-pointer" />
+    <img routerLink="homepage" loading="lazy" src="/assets/img/techventure.png"
+      class=" w-[170px] hover:cursor-pointer" />
     <div class="flex gap-6 ml-2 2xl:gap-10 2xl:ml-8 max-md:flex-wrap max-md:max-w-full">
       <button routerLink="homepage" class="my-auto hover:text-indigo-600 capitalize text-lg">
         Ana Sayfa
@@ -42,28 +41,38 @@
     </div>
   </div>
 
-  <div class="flex flex-row gap-5 md:justify-end lg:justify-end md:ml-auto lg:ml-auto items-start text-base font-bold" id="navbar-default">
+  <div class="flex flex-row gap-5 md:justify-end lg:justify-end md:ml-auto lg:ml-auto items-start text-base font-bold"
+    id="navbar-default">
     <!-- Kullanıcı giriş yapmışsa -->
     <ng-container *ngIf="isLoggedIn; else guestMenu">
       <!-- Kullanıcı admin mi? -->
       <ng-container *ngIf="isAdmin; else userMenu">
-        <button routerLink="/admin" class="px-5 py-3 bg-amber-400 border border-blue-950 border-opacity-20 rounded-[50px] hover:brightness-110" style="box-shadow: 5px 5px 0px 0px black;">
+        <button routerLink="/admin"
+          class="px-5 py-3 bg-amber-400 border border-blue-950 border-opacity-20 rounded-[50px] hover:brightness-110"
+          style="box-shadow: 5px 5px 0px 0px black;">
           Admin Panel
         </button>
-        <button (click)="logOut()" class="px-5 py-3 bg-amber-400 border border-blue-950 border-opacity-20 rounded-[50px] hover:brightness-110" style="box-shadow: 5px 5px 0px 0px black;">
+        <button (click)="logOut()"
+          class="px-5 py-3 bg-amber-400 border border-blue-950 border-opacity-20 rounded-[50px] hover:brightness-110"
+          style="box-shadow: 5px 5px 0px 0px black;">
           Çıkış Yap
         </button>
       </ng-container>
-  
+
       <ng-template #userMenu>
         <img loading="lazy" src="/assets/img/profile-icon.svg" class="self-center mr-1" />
-        <button id="dropdownNewButton" data-dropdown-toggle="dropdownMenu" class="px-5 py-3 bg-amber-400 border border-blue-950 border-opacity-20 rounded-[50px] hover:brightness-110 inline-flex items-center" type="button" style="box-shadow: 5px 5px 0px 0px black;">
+        <button id="dropdownNewButton" data-dropdown-toggle="dropdownMenu"
+          class="px-5 py-3 bg-amber-400 border border-blue-950 border-opacity-20 rounded-[50px] hover:brightness-110 inline-flex items-center"
+          type="button" style="box-shadow: 5px 5px 0px 0px black;">
           Profilim
-          <svg class="w-4 h-4 ms-3 mt-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="m1 1 4 4 4-4"/>
+          <svg class="w-4 h-4 ms-3 mt-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+            viewBox="0 0 10 6">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"
+              d="m1 1 4 4 4-4" />
           </svg>
         </button>
-        <div id="dropdownMenu" class="flex hidden bg-white divide-y divide-gray-300 rounded-lg shadow dark:bg-gray-700 z-10">
+        <div id="dropdownMenu"
+          class="flex hidden bg-white divide-y divide-gray-300 rounded-lg shadow dark:bg-gray-700 z-10">
           <ul class="flex flex-col font-semibold text-indigo-900" aria-labelledby="dropdownNewButton">
             <li class="flex flex-row pl-2 pr-4 py-1 border-b border-gray-200 hover:bg-gray-100">
               <img loading="lazy" src="/assets/img/update-profile-icon.svg" class="self-center mr-1" />
@@ -87,20 +96,25 @@
             </li>
           </ul>
         </div>
-        <button (click)="logOut()" class="px-5 py-3 bg-amber-400 border border-blue-950 border-opacity-20 rounded-[50px] hover:brightness-110" style="box-shadow: 5px 5px 0px 0px black;">
+        <button (click)="logOut()"
+          class="px-5 py-3 bg-amber-400 border border-blue-950 border-opacity-20 rounded-[50px] hover:brightness-110"
+          style="box-shadow: 5px 5px 0px 0px black;">
           Çıkış Yap
         </button>
       </ng-template>
     </ng-container>
-  
+
     <!-- Giriş yapmamışsa -->
     <ng-template #guestMenu>
-      <button routerLink="/login" class="px-5 py-3 bg-amber-400 border border-blue-950 border-opacity-20 rounded-[50px] hover:brightness-110" style="box-shadow: 5px 5px 0px 0px black;">
+      <button routerLink="/login"
+        class="px-5 py-3 bg-amber-400 border border-blue-950 border-opacity-20 rounded-[50px] hover:brightness-110"
+        style="box-shadow: 5px 5px 0px 0px black;">
         Giriş Yap
       </button>
-      <button routerLink="/register" class="px-5 py-3 bg-amber-400 border border-blue-950 border-opacity-20 rounded-[50px] hover:brightness-110" style="box-shadow: 5px 5px 0px 0px black;">
+      <button routerLink="/register"
+        class="px-5 py-3 bg-amber-400 border border-blue-950 border-opacity-20 rounded-[50px] hover:brightness-110"
+        style="box-shadow: 5px 5px 0px 0px black;">
         Kayıt Ol
       </button>
     </ng-template>
   </div>
-  
