@@ -1,9 +1,10 @@
-<div class="relative flex ">
-  <img loading="lazy" src="/assets/img/fixed-top.svg" class="mt-4" style="z-index: 0;" />
+<div class="relative flex">
+  <img loading="lazy" src="/assets/img/fixed-top.svg" class="mt-4" style="z-index: 0" />
 
-  <div class="flex flex-col ml-40 absolute top-8  2xl:ml-60 2xl:mt-8" style="z-index: 1;">
-    <div class="text-2xl font-bold text-slate-900 2xl:text-4xl">
-      Öğrenci Girişi
+  <div class="flex flex-col ml-36 -mt-4 2xl:mt-2 2xl:ml-60 max-w-full w-[274px] max-md:ml-2.5 absolute top-12"
+    style="z-index: 1">
+    <div class="text-3xl font-bold leading-10 text-slate-900">
+      Öğrenci Giriş
     </div>
     <div class="flex gap-3 mt-2 text-base leading-7 whitespace-nowrap font-semibold">
       <div class="text-indigo-950">Ana Sayfa</div>
@@ -12,6 +13,7 @@
     </div>
   </div>
 </div>
+
 
 <form [formGroup]="loginForm">
   <div class="flex justify-center mt-16 mb-32">
@@ -31,21 +33,26 @@
       <input formControlName="email" type="email" id="email" placeholder="Email yazınız  . . ." autocomplete="email"
         class="justify-center  outline-none items-start px-5 py-3 mt-2.5 text-gray-500  whitespace-nowrap bg-white rounded-md border border-solid border-neutral-200 max-md:px-5 max-md:max-w-full"
         required="" />
-        <div *ngIf="submitted && formControls['email'].errors" class="text-red-500 mt-2">
-          <div *ngIf="formControls['email'].hasOwnProperty('errors') && formControls['email'].errors?.['required']">Email gerekli.</div>
-          <div *ngIf="formControls['email'].hasOwnProperty('errors') && formControls['email'].errors?.['email']">Geçerli bir email adresi girin.</div>
-        </div>
+      <div *ngIf="submitted && formControls['email'].errors" class="text-red-500 mt-2">
+        <div *ngIf="formControls['email'].hasOwnProperty('errors') && formControls['email'].errors?.['required']">Email
+          gerekli.</div>
+        <div *ngIf="formControls['email'].hasOwnProperty('errors') && formControls['email'].errors?.['email']">Geçerli
+          bir email adresi girin.</div>
+      </div>
       <div class="mt-6 text-lg font-bold leading-5 text-slate-900 max-md:max-w-full">
         <label for="password"> Şifre </label>
       </div>
       <input formControlName="password" type="password" id="password" placeholder="Şifre yazınız  . . ."
         class="justify-center  items-start px-4 py-3 mt-2.5 text-gray-500  whitespace-nowrap bg-white rounded-md border border-solid border-neutral-200 max-md:px-5 max-md:max-w-full"
         autocomplete="current-password" />
-        <div *ngIf="submitted && formControls['password'].errors" class="text-red-500 mt-2">
-          <div *ngIf="formControls['password'].hasOwnProperty('errors') && formControls['password'].errors?.['required']">Şifre gerekli.</div>
-          <div *ngIf="formControls['password'].hasOwnProperty('errors') && formControls['password'].errors?.['minlength']">Şifre en az 4 karakter olmalı.</div>
+      <div *ngIf="submitted && formControls['password'].errors" class="text-red-500 mt-2">
+        <div *ngIf="formControls['password'].hasOwnProperty('errors') && formControls['password'].errors?.['required']">
+          Şifre gerekli.</div>
+        <div
+          *ngIf="formControls['password'].hasOwnProperty('errors') && formControls['password'].errors?.['minlength']">
+          Şifre en az 4 karakter olmalı.</div>
       </div>
-          <div class="flex gap-4 mt-5 w-full max-md:max-w-full font-semibold ">
+      <div class="flex gap-4 mt-5 w-full max-md:max-w-full font-semibold ">
         <div class="flex flex-1 gap-2 leading-7 text-slate-900">
           <input id="remember" aria-describedby="remember" type="checkbox" class="shrink-0 my-auto w-5 h-5 bg-white rounded border border-solid border-zinc-200 
         text-purple-700  focus:ring-purple-700 " />
