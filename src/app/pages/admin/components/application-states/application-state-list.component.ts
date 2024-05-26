@@ -27,6 +27,7 @@ export class ApplicationStateListComponent implements OnInit {
   selectedAppState: any;
   showUpdateModal: boolean = false;
   showCreateModal: boolean = false;
+  submitted = false;
 
   applicationStateList: ApplicationstateListItemDto;
 
@@ -65,6 +66,7 @@ export class ApplicationStateListComponent implements OnInit {
     });
   }
   add() {
+    this.submitted = true;
     if (this.applicationStateCreateForm.valid) {
       let applicationState: CreateApplicationstateRequest = Object.assign({}, this.applicationStateCreateForm.value);
       this.applicationStateService.create(applicationState).subscribe({
@@ -81,6 +83,8 @@ export class ApplicationStateListComponent implements OnInit {
           this.loadApplicationStates();
         }
       });
+    } else {
+      this.markFormGroupTouched(this.applicationStateCreateForm);
     }
   }
   delete(id: number) {
@@ -108,6 +112,8 @@ export class ApplicationStateListComponent implements OnInit {
     });
   }
   update() {
+    this.submitted = true;
+    if(this.applicationStateUpdateForm.valid) {
     const id = this.selectedAppState.id;
     const request: UpdateApplicationstateRequest = {
       id: id,
@@ -123,8 +129,10 @@ export class ApplicationStateListComponent implements OnInit {
         this.toastr.error('Güncelleme işlemi başarısız:', error);
       }
     });
+  } else {
+    this.markFormGroupTouched(this.applicationStateUpdateForm);
   }
-
+  }
   openUpdateModal(appState: any) {
     this.applicationStateService.getById(appState.id).subscribe({
       next: (response) => {
@@ -141,10 +149,20 @@ export class ApplicationStateListComponent implements OnInit {
   openAddModal() {
     this.applicationStateCreateForm.reset();
     this.showCreateModal = true;
+    this.submitted = false;
   }
   closeModal() {
     this.showUpdateModal = false;
     this.showCreateModal = false;
+    this.submitted = false;
+  }
+  private markFormGroupTouched(formGroup: FormGroup): void {
+    Object.values(formGroup.controls).forEach(control => {
+      control.markAsTouched();
+      if (control instanceof FormGroup) {
+        this.markFormGroupTouched(control);
+      }
+    });
   }
 }
 

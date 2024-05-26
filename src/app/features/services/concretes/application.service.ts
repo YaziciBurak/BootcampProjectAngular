@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Observable, map } from 'rxjs';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { Observable, catchError, map, throwError } from 'rxjs';
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { ApplicationBaseService } from '../abstracts/application-base.service';
 import { GetlistApplicationResponse } from '../../models/responses/application/getlist-application-response';
 import { GetbyidApplicationResponse } from '../../models/responses/application/getbyid-application-response';
@@ -27,6 +27,29 @@ export abstract class ApplicationService extends ApplicationBaseService {
 
   constructor(private authService: AuthService, private httpClient: HttpClient) { super() }
 
+  private handleError(error: HttpErrorResponse): Observable<never> {
+    let errorMessage = 'Bir hata oluştu';
+
+    if (error.error instanceof ErrorEvent) {
+      // Client-side hata
+      errorMessage = `Hata: ${error.error.message}`;
+    } else {
+      // Backend hatası
+      if (error.error && error.error.message) {
+        errorMessage = error.error.message;
+      } else if (error.status === 500 && error.error) {
+        // Hata mesajını backend'den alınan response'un ilk satırından ayıklayın
+        const backendErrorMessage = error.error.split('\n')[0];
+        if (backendErrorMessage.includes('BusinessException')) {
+          errorMessage = backendErrorMessage.split(': ')[1]; // Sadece hata mesajını al
+        }
+      } else {
+        errorMessage = `Sunucu Hatası: ${error.status}\nMesaj: ${error.message}`;
+      }
+    }
+    return throwError(errorMessage);
+  }
+
   override getList(pageRequest: PageRequest): Observable<ApplicationListItemDto> {
     const newRequest: { [key: string]: string | number } = {
       pageIndex: pageRequest.pageIndex,
@@ -51,7 +74,9 @@ export abstract class ApplicationService extends ApplicationBaseService {
   }
 
   override delete(id: number): Observable<DeleteApplicationResponse> {
-    return this.httpClient.delete<DeleteApplicationResponse>(`${this.apiUrl}/` + id);
+    return this.httpClient.delete<DeleteApplicationResponse>(`${this.apiUrl}/` + id)
+    .pipe(catchError(this.handleError.bind(this))
+    );
   }
 
   override update(application: UpdateApplicationRequest): Observable<UpdateApplicationResponse> {
@@ -59,9 +84,8 @@ export abstract class ApplicationService extends ApplicationBaseService {
   }
 
   override create(application: CreateApplicationRequest): Observable<CreateApplicationResponse> {
-    return this.httpClient.post<CreateApplicationResponse>(`${this.apiUrl}`, application);
+    return this.httpClient.post<CreateApplicationResponse>(`${this.apiUrl}`, application)
   }
-
   override applyForBootcamp(id: number): Observable<CreateApplicationResponse> {
     const loggedInUserId = this.authService.getCurrentUserId();
 

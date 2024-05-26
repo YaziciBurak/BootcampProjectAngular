@@ -140,8 +140,13 @@
       <input formControlName="dateOfBirth" id="dateOfBirth" name="dateOfBirth" type="date"
         placeholder="Doğum tarihinizi giriniz . . ."
         class="form-control justify-center items-start px-5 py-3 mt-2.5 text-black whitespace-nowrap bg-white rounded-md border border-solid border-neutral-200 max-md:px-5 max-md:max-w-full" />
+        <div
+        *ngIf="submitted && applicantUpdateForm.get('nationalIdentity').invalid"
+        class="error-message"
+      >
         <div *ngIf="applicantUpdateForm.get('dateOfBirth').hasError('required')">
           Doğum tarihi boş bırakılamaz.
+        </div>
         </div>
       <div class="mt-4 text-lg font-bold leading-5 text-slate-900 max-md:mt-10 max-md:max-w-full">
         <label for="about">Hakkımda</label>

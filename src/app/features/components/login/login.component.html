@@ -29,22 +29,43 @@
         <label for="email"> Email</label>
       </div>
       <input formControlName="email" type="email" id="email" placeholder="Email yazınız  . . ." autocomplete="email"
-        class="justify-center  outline-none items-start px-5 py-3 mt-2.5 text-gray-500  whitespace-nowrap bg-white rounded-md border border-solid border-neutral-200 max-md:px-5 max-md:max-w-full"
+        class="form-control justify-center  outline-none items-start px-5 py-3 mt-2.5 text-gray-500  whitespace-nowrap bg-white rounded-md border border-solid border-neutral-200 max-md:px-5 max-md:max-w-full"
         required="" />
-        <div *ngIf="submitted && formControls['email'].errors" class="text-red-500 mt-2">
-          <div *ngIf="formControls['email'].hasOwnProperty('errors') && formControls['email'].errors?.['required']">Email gerekli.</div>
-          <div *ngIf="formControls['email'].hasOwnProperty('errors') && formControls['email'].errors?.['email']">Geçerli bir email adresi girin.</div>
+        <div
+        *ngIf="submitted && loginForm.get('email').invalid"
+        class="error-message"
+      >
+        <div *ngIf="loginForm.get('email').hasError('required')">
+          Bu alan zorunludur!
         </div>
-      <div class="mt-6 text-lg font-bold leading-5 text-slate-900 max-md:max-w-full">
-        <label for="password"> Şifre </label>
+        <div *ngIf="loginForm.get('email').hasError('email')">
+          Lütfen geçerli bir email adresi giriniz!
+        </div>
       </div>
-      <input formControlName="password" type="password" id="password" placeholder="Şifre yazınız  . . ."
-        class="justify-center  items-start px-4 py-3 mt-2.5 text-gray-500  whitespace-nowrap bg-white rounded-md border border-solid border-neutral-200 max-md:px-5 max-md:max-w-full"
-        autocomplete="current-password" />
-        <div *ngIf="submitted && formControls['password'].errors" class="text-red-500 mt-2">
-          <div *ngIf="formControls['password'].hasOwnProperty('errors') && formControls['password'].errors?.['required']">Şifre gerekli.</div>
-          <div *ngIf="formControls['password'].hasOwnProperty('errors') && formControls['password'].errors?.['minlength']">Şifre en az 4 karakter olmalı.</div>
-      </div>
+        <div class="mt-6 text-lg font-bold leading-5 text-slate-900 max-md:max-w-full">
+          <label for="password">Şifre</label>
+        </div>
+        <div class="relative">
+          <input formControlName="password" [type]="passwordFieldType" id="password" placeholder="Şifre yazınız . . ."
+          class="form-control justify-center  outline-none items-start px-5 py-3 mt-2.5 text-gray-500  whitespace-nowrap bg-white rounded-md border border-solid border-neutral-200 max-md:px-5 max-md:max-w-full"
+            autocomplete="current-password" />
+          <button type="button" (click)="togglePasswordVisibility()" id="password-toggle" class="absolute inset-y-0 right-0 pr-3 flex items-center">
+            <svg *ngIf="passwordFieldType === 'password'" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 3C7 3 2.7 7.1 1 12c1.7 4.9 6 9 11 9s9.3-4.1 11-9c-1.7-4.9-6-9-11-9zm0 16c-3.9 0-7.2-2.8-8.7-7 1.5-4.2 4.8-7 8.7-7s7.2 2.8 8.7 7c-1.5 4.2-4.8 7-8.7 7zm0-11c-2.2 0-4 1.8-4 4s1.8 4 4 4 4-1.8 4-4-1.8-4-4-4zm0 6c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/>
+            </svg>
+            <svg *ngIf="passwordFieldType === 'text'" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 5c5.2 0 9.6 3.6 11 8-1.4 4.4-5.8 8-11 8s-9.6-3.6-11-8c1.4-4.4 5.8-8 11-8zm0-2C6.5 3 1.9 7.1.3 12.1c-.1.2-.1.4 0 .6C1.9 16.9 6.5 21 12 21s10.1-4.1 11.7-8.9c.1-.2.1-.4 0-.6C22.1 7.1 17.5 3 12 3zm0 13c-2.2 0-4-1.8-4-4s1.8-4 4-4 4 1.8 4 4-1.8 4-4 4zm0-6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
+            </svg>
+          </button>
+        </div>
+        <div
+        *ngIf="submitted && loginForm.get('password').invalid"
+        class="error-message"
+      >
+        <div *ngIf="loginForm.get('password').hasError('required')">
+          Bu alan zorunludur!
+        </div>
+        </div>
           <div class="flex gap-4 mt-5 w-full max-md:max-w-full font-semibold ">
         <div class="flex flex-1 gap-2 leading-7 text-slate-900">
           <input id="remember" aria-describedby="remember" type="checkbox" class="shrink-0 my-auto w-5 h-5 bg-white rounded border border-solid border-zinc-200 

@@ -27,6 +27,7 @@ export class InstructorImageComponent implements OnInit {
   showCreateModal: boolean = false;
   instructorImageList: InstructorimageListItemDto;
   instructorList: InstructorListItemDto;
+  submitted = false;
 
   constructor(
     private instructorImageService: InstructorImageService,
@@ -50,7 +51,7 @@ export class InstructorImageComponent implements OnInit {
   createForm() {
     this.instructorImageCreateForm = this.formBuilder.group({
       instructorId: ['', [Validators.required]],
-      imagePath: [''],
+      imagePath: ['',[Validators.required]],
       file: ['', [Validators.required]]
     })
   }
@@ -94,6 +95,7 @@ export class InstructorImageComponent implements OnInit {
     });
   }
   add() {
+    this.submitted = true;
     if (this.instructorImageCreateForm.valid) {
       let instructorImage: CreateInstructorimageRequest = Object.assign({}, this.instructorImageCreateForm.value);
       let formData = new FormData();
@@ -112,9 +114,13 @@ export class InstructorImageComponent implements OnInit {
           this.loadInstructorImages();
         }
       });
+    } else {
+      this.markFormGroupTouched(this.instructorImageCreateForm);
     }
   }
   update() {
+    this.submitted = true;
+    if(this.instructorImageUpdateForm.valid) {
     let instructorImage: UpdateInstructorimageRequest = { ...this.instructorImageUpdateForm.value, file: this.instructorImageUpdateForm.get('file').value };
     let formData = new FormData();
     formData.append('id', instructorImage.id.toString());
@@ -130,6 +136,9 @@ export class InstructorImageComponent implements OnInit {
         this.toastr.error('Güncelleme işlemi başarısız:', error);
       }
     });
+  } else {
+    this.markFormGroupTouched(this.instructorImageUpdateForm);
+  }
   }
   openUpdateModal(instructorImage: any) {
     this.instructorImageService.getById(instructorImage.id).subscribe({
@@ -151,10 +160,12 @@ export class InstructorImageComponent implements OnInit {
   openAddModal() {
     this.instructorImageCreateForm.reset();
     this.showCreateModal = true;
+    this.submitted = false;
   }
   closeModal() {
     this.showUpdateModal = false;
     this.showCreateModal = false;
+    this.submitted = false;
   }
   onFileChange(event: any) {
     const file = event.target.files[0];
@@ -163,5 +174,13 @@ export class InstructorImageComponent implements OnInit {
   onFileUpdateChange(event: any) {
     const file = event.target.files[0];
     this.instructorImageUpdateForm?.get('file')?.setValue(file);
+  }
+  private markFormGroupTouched(formGroup: FormGroup): void {
+    Object.values(formGroup.controls).forEach(control => {
+      control.markAsTouched();
+      if (control instanceof FormGroup) {
+        this.markFormGroupTouched(control);
+      }
+    });
   }
 }

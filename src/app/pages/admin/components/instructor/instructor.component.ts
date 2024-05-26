@@ -26,6 +26,7 @@ export class InstructorComponent implements OnInit {
   showUpdateModal: boolean = false;
   showCreateModal: boolean = false;
   instructorList: InstructorListItemDto;
+  submitted = false;
 
   constructor(
     private instructorService: InstructorService,
@@ -51,29 +52,30 @@ export class InstructorComponent implements OnInit {
   }
   updateForm() {
     this.instructorUpdateForm = this.formBuilder.group({
-      firstName: ["", Validators.required],
-      lastName: ["", Validators.required],
-      userName: ["", Validators.required],
+      userName: ["",[Validators.required,Validators.minLength(4)]],
+      firstName:["",[Validators.required, Validators.pattern('^[a-zA-ZçÇğĞıİöÖşŞüÜ]+$'), Validators.minLength(2)]],  
+      lastName:["",[Validators.required,Validators.pattern('^[a-zA-ZçÇğĞıİöÖşŞüÜ]+$'),Validators.minLength(2)]], 
       dateOfBirth: ["", Validators.required],
-      nationalIdentity: ["", Validators.required],
-      email: ["", Validators.required],
+      nationalIdentity: ["",[Validators.required,Validators.pattern('^[0-9]*$'),Validators.minLength(11)]],
+      email: ["",[Validators.required,Validators.email]],
       companyName: ["", Validators.required],
-      password: ["", Validators.required]
+      password: ["", Validators.required,Validators.minLength(6)]
     });
   }
   createForm() {
     this.instructorCreateForm = this.formBuilder.group({
-      firstName: ["", Validators.required],
-      lastName: ["", Validators.required],
-      userName: ["", Validators.required],
+      userName: ["",[Validators.required,Validators.minLength(4)]],
+      firstName:["",[Validators.required, Validators.pattern('^[a-zA-ZçÇğĞıİöÖşŞüÜ]+$'), Validators.minLength(2)]],  
+      lastName:["",[Validators.required,Validators.pattern('^[a-zA-ZçÇğĞıİöÖşŞüÜ]+$'),Validators.minLength(2)]], 
       dateOfBirth: ["", Validators.required],
-      nationalIdentity: ["", Validators.required],
-      email: ["", Validators.required],
+      nationalIdentity: ["",[Validators.required,Validators.pattern('^[0-9]*$'),Validators.minLength(11)]],
+      email: ["",[Validators.required,Validators.email]],
       companyName: ["", Validators.required],
-      password: ["", Validators.required]
+      password: ["", Validators.required,Validators.minLength(6)]
     })
   }
   add() {
+    this.submitted = true;
     if (this.instructorCreateForm.valid) {
       let instructor = Object.assign({}, this.instructorCreateForm.value);
       this.authService.RegisterInstructor(instructor).subscribe({
@@ -88,6 +90,8 @@ export class InstructorComponent implements OnInit {
           this.loadInstructors();
         }
       });
+    } else {
+      this.markFormGroupTouched(this.instructorCreateForm);
     }
   }
   delete(id: string) {
@@ -115,6 +119,8 @@ export class InstructorComponent implements OnInit {
     });
   }
   update() {
+    this.submitted = true;
+    if(this.instructorUpdateForm.valid){
     const id = this.selectedInstructor.id;
     const updatedUserName = this.instructorUpdateForm.value.userName;
     const updatedFirstName = this.instructorUpdateForm.value.firstName;
@@ -147,6 +153,9 @@ export class InstructorComponent implements OnInit {
         this.toastr.error('Güncelleme işlemi başarısız:', error);
       }
     });
+  } else {
+    this.markFormGroupTouched(this.instructorUpdateForm);
+  }
   }
 
   openUpdateModal(instructor: any) {
@@ -176,9 +185,19 @@ export class InstructorComponent implements OnInit {
   openAddModal() {
     this.instructorCreateForm.reset();
     this.showCreateModal = true;
+    this.submitted = false;
   }
   closeModal() {
     this.showUpdateModal = false;
     this.showCreateModal = false;
+    this.submitted = false;
+  }
+  private markFormGroupTouched(formGroup: FormGroup): void {
+    Object.values(formGroup.controls).forEach(control => {
+      control.markAsTouched();
+      if (control instanceof FormGroup) {
+        this.markFormGroupTouched(control);
+      }
+    });
   }
 }

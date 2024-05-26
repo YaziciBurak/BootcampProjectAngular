@@ -1,20 +1,14 @@
-/* İsteğe bağlı, tablo stilleri */
-.table {
-    border-collapse: collapse;
-    width: 100%;
-  }
-  
-  .table th,
-  .table td {
-    padding: 10px;
-    text-align: left;
-    border-bottom: 1px solid #e2e8f0;
-  }
-  
-  .table th {
-    background-color: #edf2f7;
-    color: #2d3748;
-    font-weight: bold;
-    text-transform: uppercase;
-  }
-  
+.form-control {
+  border: 1px solid #ccc;
+  transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  padding: 8px;
+}
+.form-control:focus {
+  outline: none; /* Odaklanma durumunda varsayılan outline kaldırılıyor */
+}
+.error-message {
+  color: #ff0000;
+  font-size: 14px;
+}
+
+

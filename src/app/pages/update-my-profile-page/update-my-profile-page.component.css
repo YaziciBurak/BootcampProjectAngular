@@ -13,12 +13,7 @@
     color: #ff0000;
     font-size: 14px;
   }
-  
-  /* Animasyonlar için gerekli stiller */
-  @keyframes fadeInOut {
-    from { opacity: 0; }
-    to { opacity: 1; }
-  }
+
   
   
   

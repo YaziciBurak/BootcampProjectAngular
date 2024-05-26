@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Observable, map } from 'rxjs';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { Observable, catchError, map, throwError } from 'rxjs';
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { BootcampBaseService } from '../abstracts/bootcamp-base.service';
 import { GetbyidBootcampResponse } from '../../models/responses/bootcamp/getbyid-bootcamp-response';
 import { environment } from '../../../../environments/environment.development';
@@ -20,6 +20,29 @@ export class BootcampService extends BootcampBaseService {
   private readonly apiUrl: string = `${environment.API_URL}/bootcamps`
 
   constructor(private httpClient: HttpClient) { super(); }
+
+  private handleError(error: HttpErrorResponse): Observable<never> {
+    let errorMessage = 'Bir hata oluştu';
+
+    if (error.error instanceof ErrorEvent) {
+      // Client-side hata
+      errorMessage = `Hata: ${error.error.message}`;
+    } else {
+      // Backend hatası
+      if (error.error && error.error.message) {
+        errorMessage = error.error.message;
+      } else if (error.status === 500 && error.error) {
+        // Hata mesajını backend'den alınan response'un ilk satırından ayıklayın
+        const backendErrorMessage = error.error.split('\n')[0];
+        if (backendErrorMessage.includes('BusinessException')) {
+          errorMessage = backendErrorMessage.split(': ')[1]; // Sadece hata mesajını al
+        }
+      } else {
+        errorMessage = `Sunucu Hatası: ${error.status}\nMesaj: ${error.message}`;
+      }
+    }
+    return throwError(errorMessage);
+  }
 
   override getList(pageRequest: PageRequest): Observable<BootcampListItemDto> {
     const newRequest: { [key: string]: string | number } = {
@@ -45,15 +68,21 @@ export class BootcampService extends BootcampBaseService {
   }
 
   override delete(id: number): Observable<DeleteBootcampResponse> {
-    return this.httpClient.delete<DeleteBootcampResponse>(`${this.apiUrl}/` + id);
+    return this.httpClient.delete<DeleteBootcampResponse>(`${this.apiUrl}/` + id)
+    .pipe(catchError(this.handleError.bind(this))
+    );
   }
 
   override update(bootcamp: UpdateBootcampRequest): Observable<UpdateBootcampResponse> {
-    return this.httpClient.put<UpdateBootcampResponse>(`${this.apiUrl}`, bootcamp);
+    return this.httpClient.put<UpdateBootcampResponse>(`${this.apiUrl}`, bootcamp)
+    .pipe(catchError(this.handleError.bind(this))
+    );
   }
 
   override create(bootcamp: CreateBootcampRequest): Observable<CreateBootcampResponse> {
-    return this.httpClient.post<CreateBootcampResponse>(`${this.apiUrl}`, bootcamp);
+    return this.httpClient.post<CreateBootcampResponse>(`${this.apiUrl}`, bootcamp).
+    pipe(catchError(this.handleError.bind(this))
+    );
   }
 
   override getById(bootcampId: number): Observable<GetbyidBootcampResponse> {
@@ -83,7 +112,6 @@ export class BootcampService extends BootcampBaseService {
       })
     );
   }
-
   override getListBootcampByInstructorId(pageRequest: PageRequest, instructorId: string): Observable<BootcampListItemDto> {
     const params = new HttpParams()
       .set('instructorId', instructorId)
@@ -104,7 +132,6 @@ export class BootcampService extends BootcampBaseService {
       })
     )
   }
-
   getListBootcampByDynamic(pageRequest: PageRequest, dynamic: DynamicQuery): Observable<BootcampListItemDto> {
     return this.httpClient.post<BootcampListItemDto>(`${this.apiUrl}/dynamic/`, {
       filter: dynamic.filter,

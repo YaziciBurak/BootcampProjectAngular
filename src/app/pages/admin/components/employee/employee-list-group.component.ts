@@ -26,6 +26,7 @@ export class EmployeeListGroupComponent implements OnInit {
   showUpdateModal: boolean = false;
   showCreateModal: boolean = false;
   employeeList: EmployeeListItemDto;
+  submitted = false;
 
   constructor(
     private employeeService: EmployeeService,
@@ -44,26 +45,26 @@ export class EmployeeListGroupComponent implements OnInit {
 
   updateForm() {
     this.employeeUpdateForm = this.formBuilder.group({
-      firstName: ["", Validators.required],
-      lastName: ["", Validators.required],
-      userName: ["", Validators.required],
+      userName: ["",[Validators.required,Validators.minLength(4)]],
+      firstName:["",[Validators.required, Validators.pattern('^[a-zA-ZçÇğĞıİöÖşŞüÜ]+$'), Validators.minLength(2)]],  
+      lastName:["",[Validators.required,Validators.pattern('^[a-zA-ZçÇğĞıİöÖşŞüÜ]+$'),Validators.minLength(2)]], 
       dateOfBirth: ["", Validators.required],
-      nationalIdentity: ["", Validators.required],
-      email: ["", Validators.required],
+      nationalIdentity: ["",[Validators.required,Validators.pattern('^[0-9]*$'),Validators.minLength(11)]],
+      email: ["",[Validators.required,Validators.email]],
       position: ["", Validators.required],
-      password: ["", Validators.required]
+      password: ["", Validators.required,Validators.minLength(6)]
     });
   }
   createForm() {
     this.employeeCreateForm = this.formBuilder.group({
-      firstName: ["", Validators.required],
-      lastName: ["", Validators.required],
-      userName: ["", Validators.required],
+      userName: ["",[Validators.required,Validators.minLength(4)]],
+      firstName:["",[Validators.required, Validators.pattern('^[a-zA-ZçÇğĞıİöÖşŞüÜ]+$'), Validators.minLength(2)]],  
+      lastName:["",[Validators.required,Validators.pattern('^[a-zA-ZçÇğĞıİöÖşŞüÜ]+$'),Validators.minLength(2)]], 
       dateOfBirth: ["", Validators.required],
-      nationalIdentity: ["", Validators.required],
-      email: ["", Validators.required],
+      nationalIdentity: ["",[Validators.required,Validators.pattern('^[0-9]*$'),Validators.minLength(11)]],
+      email: ["",[Validators.required,Validators.email]],
       position: ["", Validators.required],
-      password: ["", Validators.required]
+      password: ["", Validators.required,Validators.minLength(6)]
     })
   }
 
@@ -83,6 +84,7 @@ export class EmployeeListGroupComponent implements OnInit {
   }
 
   add() {
+    this.submitted = true;
     if (this.employeeCreateForm.valid) {
       let employee = Object.assign({}, this.employeeCreateForm.value);
       this.authService.RegisterEmployee(employee).subscribe({
@@ -97,6 +99,8 @@ export class EmployeeListGroupComponent implements OnInit {
           this.loadEmployees();
         }
       });
+    } else {
+      this.markFormGroupTouched(this.employeeCreateForm);
     }
   }
   delete(id: string) {
@@ -124,6 +128,8 @@ export class EmployeeListGroupComponent implements OnInit {
     });
   }
   update() {
+    this.submitted = true;
+    if(this.employeeUpdateForm.valid) {
     const id = this.selectedEmployee.id;
     const updatedUserName = this.employeeUpdateForm.value.userName;
     const updatedFirstName = this.employeeUpdateForm.value.firstName;
@@ -155,6 +161,9 @@ export class EmployeeListGroupComponent implements OnInit {
         this.toastr.error('Güncelleme işlemi başarısız:', error);
       }
     });
+  } else {
+  this.markFormGroupTouched(this.employeeUpdateForm);
+}
   }
   openUpdateModal(employee: any) {
     this.employeeService.getById(employee.id).subscribe({
@@ -187,6 +196,14 @@ export class EmployeeListGroupComponent implements OnInit {
   closeModal() {
     this.showUpdateModal = false;
     this.showCreateModal = false;
+  }
+  private markFormGroupTouched(formGroup: FormGroup): void {
+    Object.values(formGroup.controls).forEach(control => {
+      control.markAsTouched();
+      if (control instanceof FormGroup) {
+        this.markFormGroupTouched(control);
+      }
+    });
   }
 }
 

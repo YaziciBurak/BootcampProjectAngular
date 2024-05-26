@@ -30,25 +30,7 @@ export class AuthService extends AuthBaseService {
   private readonly apiUrl:string = `${environment.API_URL}/Auth`
   constructor(private httpClient:HttpClient,private storageService:LocalStorageService, private toastr:ToastrService) {super() }
 
-  override register(userforRegisterRequest: ApplicantForRegisterRequest)
-      :Observable<UserForRegisterResponse> {
-    return this.httpClient.post<UserForRegisterResponse>(`${this.apiUrl}/register`,userforRegisterRequest)
-  }
-
-override RegisterEmployee(employeeforRegisterRequest: EmployeeForRegisterRequest)
-  :Observable<UserForRegisterResponse> {
-return this.httpClient.post<UserForRegisterResponse>(`${this.apiUrl}/RegisterEmployee`,employeeforRegisterRequest)
-}
-override RegisterInstructor(instructorforRegisterRequest: InstructorForRegisterRequest)
-  :Observable<UserForRegisterResponse> {
-return this.httpClient.post<UserForRegisterResponse>(`${this.apiUrl}/RegisterInstructor`,instructorforRegisterRequest)
-}
-
-override RegisterApplicant(applicantforRegisterRequest: ApplicantForRegisterRequest):Observable<UserForRegisterResponse> 
-{
-return this.httpClient.post<UserForRegisterResponse>(`${this.apiUrl}/RegisterApplicant`,applicantforRegisterRequest)
-.pipe(
-  catchError((error: HttpErrorResponse) => {
+  private handleError(error: HttpErrorResponse): Observable<never> {
     let errorMessage = 'Bir hata oluştu';
 
     if (error.error instanceof ErrorEvent) {
@@ -68,15 +50,29 @@ return this.httpClient.post<UserForRegisterResponse>(`${this.apiUrl}/RegisterApp
         errorMessage = `Sunucu Hatası: ${error.status}\nMesaj: ${error.message}`;
       }
     }
-
     return throwError(errorMessage);
-  })
-);
+  }
+
+  override register(userforRegisterRequest: ApplicantForRegisterRequest)
+      :Observable<UserForRegisterResponse> {
+    return this.httpClient.post<UserForRegisterResponse>(`${this.apiUrl}/register`,userforRegisterRequest)
+  }
+
+override RegisterEmployee(employeeforRegisterRequest: EmployeeForRegisterRequest)
+  :Observable<UserForRegisterResponse> {
+return this.httpClient.post<UserForRegisterResponse>(`${this.apiUrl}/RegisterEmployee`,employeeforRegisterRequest)
+}
+override RegisterInstructor(instructorforRegisterRequest: InstructorForRegisterRequest)
+  :Observable<UserForRegisterResponse> {
+return this.httpClient.post<UserForRegisterResponse>(`${this.apiUrl}/RegisterInstructor`,instructorforRegisterRequest)
 }
 
-
-
-
+override RegisterApplicant(applicantforRegisterRequest: ApplicantForRegisterRequest):Observable<UserForRegisterResponse> 
+{
+return this.httpClient.post<UserForRegisterResponse>(`${this.apiUrl}/RegisterApplicant`,applicantforRegisterRequest)
+.pipe(catchError(this.handleError.bind(this))
+  );
+}
 
   login(userLoginRequest:UserForLoginRequest):Observable<AccessTokenModel<TokenModel>>
   {

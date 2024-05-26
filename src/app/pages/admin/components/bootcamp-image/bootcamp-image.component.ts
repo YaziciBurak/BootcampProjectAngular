@@ -28,6 +28,7 @@ export class BootcampImageComponent implements OnInit {
   showCreateModal: boolean = false;
   bootcampImageList: BootcampimageListItemDto;
   bootcampList: BootcampListItemDto;
+  submitted = false;
 
   constructor(
     private bootcampImageService: BootcampImageService,
@@ -52,7 +53,7 @@ export class BootcampImageComponent implements OnInit {
 
   createForm() {
     this.bootcampImageCreateForm = this.formBuilder.group({
-      imagePath: ['',],
+      imagePath: ['',[Validators.required]],
       bootcampId: ['', [Validators.required]],
       file: ['', [Validators.required]]
     })
@@ -98,6 +99,7 @@ export class BootcampImageComponent implements OnInit {
     });
   }
   add() {
+    this.submitted = true;
     if (this.bootcampImageCreateForm.valid) {
       let bootcampImage: CreateBootcampimageRequest = Object.assign({}, this.bootcampImageCreateForm.value);
       let formData = new FormData();
@@ -116,9 +118,13 @@ export class BootcampImageComponent implements OnInit {
           this.loadBootcampImages();
         }
       });
-    }
+    } else {
+    this.markFormGroupTouched(this.bootcampImageCreateForm);
+  }
   }
   update() {
+    this.submitted = true;
+    if(this.bootcampImageUpdateForm.valid){
     let bootcampImage: UpdateBootcampimageRequest = { ...this.bootcampImageUpdateForm.value, file: this.bootcampImageUpdateForm.get('file').value };
     let formData = new FormData();
     formData.append('id', bootcampImage.id.toString());
@@ -134,7 +140,11 @@ export class BootcampImageComponent implements OnInit {
         this.toastr.error('Güncelleme işlemi başarısız:', error);
       }
     });
-  }
+  } else {
+  this.markFormGroupTouched(this.bootcampImageUpdateForm); 
+}
+}
+
   openUpdateModal(bootcampImage: any) {
     this.bootcampImageService.getById(bootcampImage.id).subscribe({
       next: (response) => {
@@ -155,10 +165,12 @@ export class BootcampImageComponent implements OnInit {
   openAddModal() {
     this.bootcampImageCreateForm.reset();
     this.showCreateModal = true;
+    this.submitted = false;
   }
   closeModal() {
     this.showUpdateModal = false;
     this.showCreateModal = false;
+    this.submitted = false;
   }
   onFileChange(event: any) {
     const file = event.target.files[0];
@@ -167,5 +179,13 @@ export class BootcampImageComponent implements OnInit {
   onFileUpdateChange(event: any) {
     const file = event.target.files[0];
     this.bootcampImageUpdateForm?.get('file')?.setValue(file);
+  }
+  private markFormGroupTouched(formGroup: FormGroup): void {
+    Object.values(formGroup.controls).forEach(control => {
+      control.markAsTouched();
+      if (control instanceof FormGroup) {
+        this.markFormGroupTouched(control);
+      }
+    });
   }
 }

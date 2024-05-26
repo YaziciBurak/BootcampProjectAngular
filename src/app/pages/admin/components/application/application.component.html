@@ -11,19 +11,27 @@
         <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
           <div class="mb-4">
             <label for="applicantId" class="block text-gray-700 text-sm font-bold mb-2">Başvuran:</label>
-            <select formControlName="applicantId" id="applicantId" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            <select formControlName="applicantId" id="applicantId" class="form-control shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
               <option *ngFor="let applicants of applicantList.items" [value]="applicants.id">{{applicants.firstName}} {{applicants.lastName}}</option>
             </select>
+            <div
+            *ngIf="submitted && applicationUpdateForm.get('applicantId').invalid"
+            class="error-message"
+          >
+            <div *ngIf="applicationUpdateForm.get('applicantId').hasError('required')">
+              Bu alan zorunludur.
+            </div>
+          </div>
           </div>
          <div class="mb-4">
             <label for="bootcampId" class="block text-gray-700 text-sm font-bold mb-2">Bootcamp Adı:</label>
-            <select formControlName="bootcampId" id="bootcampId" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            <select formControlName="bootcampId" id="bootcampId" class="form-control shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
               <option *ngFor="let bootcamps of bootcampList.items" [value]="bootcamps.id">{{ bootcamps.name }} </option>
             </select>
           </div> 
           <div class="mb-4">
             <label for="applicationStateId" class="block text-gray-700 text-sm font-bold mb-2">Başvuru Durumu:</label>
-            <select formControlName="applicationStateId" id="applicationStateId" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            <select formControlName="applicationStateId" id="applicationStateId" class="form-control shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
               <option *ngFor="let applicationStates of applicationStateList.items" [value]="applicationStates.id">{{applicationStates.name}} </option>
             </select>
         </div>
@@ -91,22 +99,46 @@
         <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
           <div class="mb-4">
             <label for="applicantId" class="block text-gray-700 text-sm font-bold mb-2">Başvuran:</label>
-            <select formControlName="applicantId" id="applicantId" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            <select formControlName="applicantId" id="applicantId" class="form-control shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
               <option *ngFor="let applicants of applicantList.items" [value]="applicants.id">{{applicants.firstName}} {{applicants.lastName}}</option>
             </select>
+            <div
+            *ngIf="submitted && applicationCreateForm.get('applicantId').invalid"
+            class="error-message"
+          >
+            <div *ngIf="applicationCreateForm.get('applicantId').hasError('required')">
+              Bu alan zorunludur.
+            </div>
+          </div>
           </div>
          <div class="mb-4">
             <label for="bootcampId" class="block text-gray-700 text-sm font-bold mb-2">Bootcamp Adı:</label>
-            <select formControlName="bootcampId" id="bootcampId" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            <select formControlName="bootcampId" id="bootcampId" class="form-control shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
               <option *ngFor="let bootcamps of bootcampList.items" [value]="bootcamps.id">{{ bootcamps.name }} </option>
             </select>
+            <div
+            *ngIf="submitted && applicationCreateForm.get('bootcampId').invalid"
+            class="error-message"
+          >
+            <div *ngIf="applicationCreateForm.get('bootcampId').hasError('required')">
+              Bu alan zorunludur.
+            </div>
+          </div>
           </div> 
           <div class="mb-4">
             <label for="applicationStateId" class="block text-gray-700 text-sm font-bold mb-2">Başvuru Durumu:</label>
-            <select formControlName="applicationStateId" id="applicationStateId" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            <select formControlName="applicationStateId" id="applicationStateId" class="form-control shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
               <option *ngFor="let applicationStates of applicationStateList.items" [value]="applicationStates.id">{{applicationStates.name}} </option>
             </select>
-        </div>
+            <div
+            *ngIf="submitted && applicationCreateForm.get('applicationStateId').invalid"
+            class="error-message"
+          >
+            <div *ngIf="applicationCreateForm.get('applicationStateId').hasError('required')">
+              Bu alan zorunludur.
+            </div>
+          </div>
+          </div>
         </div>
       <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
         <button  type="submit" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-500 text-base font-medium text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm">
