@@ -10,34 +10,90 @@
         <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
             <div class="mb-4">
                 <label for="bootcampId" class="block text-gray-700 text-sm font-bold mb-2">Bootcamp:</label>
-                <select formControlName="bootcampId" id="bootcampId" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                <select formControlName="bootcampId" id="bootcampId" class="form-control shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                   <option *ngFor="let bootcamp of bootcampList.items" [value]="bootcamp.id">{{ bootcamp.name }} </option>
                 </select>
+                <div
+                *ngIf="submitted && questionUpdateForm.get('bootcampId').invalid"
+                class="error-message"
+              >
+                <div *ngIf="questionUpdateForm.get('bootcampId').hasError('required')">
+                  Bu alan zorunludur.
+                </div>
+                </div>
               </div> 
               <div class="mb-4">
                 <label for="Soru" class="block text-gray-700 text-sm font-bold mb-2">Soru</label>
-                <textarea formControlName="text" id="Soru" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"></textarea>
+                <textarea formControlName="text" id="Soru" class="form-control shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"></textarea>
+                <div
+                *ngIf="submitted && questionUpdateForm.get('text').invalid"
+                class="error-message"
+              >
+                <div *ngIf="questionUpdateForm.get('text').hasError('required')">
+                  Bu alan zorunludur.
+                </div>
+                </div>
               </div>
               <div class="mb-4">
                 <label for="A" class="block text-gray-700 text-sm font-bold mb-2">A Şıkkı:</label>
-                <input formControlName="answerA" type="text" id="A" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                <input formControlName="answerA" type="text" id="A" class="form-control shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                <div
+                *ngIf="submitted && questionUpdateForm.get('answerA').invalid"
+                class="error-message"
+              >
+                <div *ngIf="questionUpdateForm.get('answerA').hasError('required')">
+                  Bu alan zorunludur.
+                </div>
+                </div>
               </div>
               <div class="mb-4">
                   <label for="B" class="block text-gray-700 text-sm font-bold mb-2">B Şıkkı:</label>
-                  <input formControlName="answerB" type="text" id="B" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                  <input formControlName="answerB" type="text" id="B" class="form-control shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                  <div
+                *ngIf="submitted && questionUpdateForm.get('answerB').invalid"
+                class="error-message"
+              >
+                <div *ngIf="questionUpdateForm.get('answerB').hasError('required')">
+                  Bu alan zorunludur.
+                </div>
+                </div>
                 </div>
                 <div class="mb-4">
                   <label for="C" class="block text-gray-700 text-sm font-bold mb-2">C Şıkkı:</label>
-                  <input formControlName="answerC" type="text" id="C" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                  <input formControlName="answerC" type="text" id="C" class="form-control shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                  <div
+                  *ngIf="submitted && questionUpdateForm.get('answerC').invalid"
+                  class="error-message"
+                >
+                  <div *ngIf="questionUpdateForm.get('answerC').hasError('required')">
+                    Bu alan zorunludur.
+                  </div>
+                  </div>
                 </div>
                 <div class="mb-4">
                   <label for="D" class="block text-gray-700 text-sm font-bold mb-2">D Şıkkı:</label>
-                  <input formControlName="answerD" type="text" id="D" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                  <input formControlName="answerD" type="text" id="D" class="form-control shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                  <div
+                  *ngIf="submitted && questionUpdateForm.get('answerD').invalid"
+                  class="error-message"
+                >
+                  <div *ngIf="questionUpdateForm.get('answerD').hasError('required')">
+                    Bu alan zorunludur.
+                  </div>
+                  </div>
                 </div>
                 <div class="mb-4">
                   <label for="correct" class="block text-gray-700 text-sm font-bold mb-2">Doğru Cevap:</label>
-                  <input formControlName="correctAnswer" type="text" id="correct" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                </div>         
+                  <input formControlName="correctAnswer" type="text" id="correct" class="form-control shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                  <div
+                  *ngIf="submitted && questionUpdateForm.get('correctAnswer').invalid"
+                  class="error-message"
+                  >
+                  <div *ngIf="questionUpdateForm.get('correctAnswer').hasError('required')">
+                    Bu alan zorunludur.
+                  </div>
+                  </div>
+                 </div>         
         </div>
         <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
           <button  type="submit" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-500 text-base font-medium text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm">
@@ -111,33 +167,89 @@
       <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
         <div class="mb-4">
             <label for="bootcampId" class="block text-gray-700 text-sm font-bold mb-2">Bootcamp:</label>
-            <select formControlName="bootcampId" id="bootcampId" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            <select formControlName="bootcampId" id="bootcampId" class="form-control shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
               <option *ngFor="let bootcamp of bootcampList.items" [value]="bootcamp.id">{{ bootcamp.name }} </option>
             </select>
+            <div
+            *ngIf="submitted && questionCreateForm.get('bootcampId').invalid"
+            class="error-message"
+            >
+            <div *ngIf="questionCreateForm.get('bootcampId').hasError('required')">
+              Bu alan zorunludur.
+            </div>
+            </div>
           </div>
         <div class="mb-4">
           <label for="Soru" class="block text-gray-700 text-sm font-bold mb-2">Soru</label>
-          <textarea formControlName="text" id="Soru" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"></textarea>
+          <textarea formControlName="text" id="Soru" class="form-control shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"></textarea>
+          <div
+          *ngIf="submitted && questionCreateForm.get('text').invalid"
+          class="error-message"
+          >
+          <div *ngIf="questionCreateForm.get('text').hasError('required')">
+            Bu alan zorunludur.
+          </div>
+          </div>
         </div>
           <div class="mb-4">   
           <label for="A" class="block text-gray-700 text-sm font-bold mb-2">A Şıkkı:</label>
-          <input formControlName="answerA" type="text" id="A" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+          <input formControlName="answerA" type="text" id="A" class="form-control shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+          <div
+          *ngIf="submitted && questionCreateForm.get('answerA').invalid"
+          class="error-message"
+          >
+          <div *ngIf="questionCreateForm.get('answerA').hasError('required')">
+            Bu alan zorunludur.
+          </div>
+          </div>
         </div>
         <div class="mb-4">
             <label for="B" class="block text-gray-700 text-sm font-bold mb-2">B Şıkkı:</label>
-            <input formControlName="answerB" type="text" id="B" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            <input formControlName="answerB" type="text" id="B" class="form-control shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            <div
+            *ngIf="submitted && questionCreateForm.get('answerB').invalid"
+            class="error-message"
+            >
+            <div *ngIf="questionCreateForm.get('answerB').hasError('required')">
+              Bu alan zorunludur.
+            </div>
+            </div>
           </div>
           <div class="mb-4">
             <label for="C" class="block text-gray-700 text-sm font-bold mb-2">C Şıkkı:</label>
-            <input formControlName="answerC" type="text" id="C" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            <input formControlName="answerC" type="text" id="C" class="form-control shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            <div
+            *ngIf="submitted && questionCreateForm.get('answerC').invalid"
+            class="error-message"
+            >
+            <div *ngIf="questionCreateForm.get('answerC').hasError('required')">
+              Bu alan zorunludur.
+            </div>
+            </div>
           </div>
           <div class="mb-4">
             <label for="D" class="block text-gray-700 text-sm font-bold mb-2">D Şıkkı:</label>
-            <input formControlName="answerD" type="text" id="D" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            <input formControlName="answerD" type="text" id="D" class="form-control shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            <div
+            *ngIf="submitted && questionCreateForm.get('answerD').invalid"
+            class="error-message"
+            >
+            <div *ngIf="questionCreateForm.get('answerD').hasError('required')">
+              Bu alan zorunludur.
+            </div>
+            </div>
           </div>
           <div class="mb-4">
             <label for="correct" class="block text-gray-700 text-sm font-bold mb-2">Doğru Cevap:</label>
-            <input formControlName="correctAnswer" type="text" id="correct" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            <input formControlName="correctAnswer" type="text" id="correct" class="form-control shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            <div
+            *ngIf="submitted && questionCreateForm.get('correctAnswer').invalid"
+            class="error-message"
+            >
+            <div *ngIf="questionCreateForm.get('correctAnswer').hasError('required')">
+              Bu alan zorunludur.
+            </div>
+            </div>
           </div> 
         
       </div>

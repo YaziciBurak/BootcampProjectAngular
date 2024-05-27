@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment';
 import { BootcampContentBaseService } from '../abstracts/bootcamp-content-base.service';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { PageRequest } from '../../../core/models/page-request';
 import { BootcampcontentListItemDto } from '../../models/responses/bootcampcontent/bootcampcontent-list-item-dto';
-import { Observable, map } from 'rxjs';
+import { Observable, catchError, map, throwError } from 'rxjs';
 import { GetbyidBootcampcontentResponse } from '../../models/responses/bootcampcontent/getbyid-bootcampcontent-response';
 import { CreateBootcampcontentRequest } from '../../models/requests/bootcampcontent/create-bootcampcontent-request';
 import { CreateBootcampcontentResponse } from '../../models/responses/bootcampcontent/create-bootcampcontent-response';
@@ -18,6 +18,29 @@ import { UpdateBootcampcontentResponse } from '../../models/responses/bootcampco
 export class BootcampContentService extends BootcampContentBaseService {
   private readonly apiUrl: string = `${environment.API_URL}/BootcampContents`
   constructor(private httpClient: HttpClient) { super() }
+
+  private handleError(error: HttpErrorResponse): Observable<never> {
+    let errorMessage = 'Bir hata oluştu';
+
+    if (error.error instanceof ErrorEvent) {
+      // Client-side hata
+      errorMessage = `Hata: ${error.error.message}`;
+    } else {
+      // Backend hatası
+      if (error.error && error.error.message) {
+        errorMessage = error.error.message;
+      } else if (error.status === 500 && error.error) {
+        // Hata mesajını backend'den alınan response'un ilk satırından ayıklayın
+        const backendErrorMessage = error.error.split('\n')[0];
+        if (backendErrorMessage.includes('BusinessException')) {
+          errorMessage = backendErrorMessage.split(': ')[1]; // Sadece hata mesajını al
+        }
+      } else {
+        errorMessage = `Sunucu Hatası: ${error.status}\nMesaj: ${error.message}`;
+      }
+    }
+    return throwError(errorMessage);
+  }
 
   override getList(pageRequest: PageRequest): Observable<BootcampcontentListItemDto> {
     const newRequest: { [key: string]: string | number } = {
@@ -64,22 +87,26 @@ export class BootcampContentService extends BootcampContentBaseService {
     );
   }
   override create(request: CreateBootcampcontentRequest): Observable<CreateBootcampcontentResponse> {
-    return this.httpClient.post<CreateBootcampcontentResponse>(`${this.apiUrl}`, request);
+    return this.httpClient.post<CreateBootcampcontentResponse>(`${this.apiUrl}`, request)
+    .pipe(catchError(this.handleError.bind(this))
+    );
   }
   override delete(id: number): Observable<DeleteBootcampcontentResponse> {
-    return this.httpClient.delete<DeleteBootcampcontentResponse>(`${this.apiUrl}/` + id);
+    return this.httpClient.delete<DeleteBootcampcontentResponse>(`${this.apiUrl}/` + id)
+    .pipe(catchError(this.handleError.bind(this))
+    );
   }
   override update(request: UpdateBootcampcontentRequest): Observable<UpdateBootcampcontentResponse> {
-    return this.httpClient.put<UpdateBootcampcontentResponse>(`${this.apiUrl}`, request);
+    return this.httpClient.put<UpdateBootcampcontentResponse>(`${this.apiUrl}`, request)
+    .pipe(catchError(this.handleError.bind(this))
+    );
   }
-
   override getbybootcampId(pageRequest: PageRequest, bootcampId: number): Observable<BootcampcontentListItemDto> {
     const newRequest: { [key: string]: string | number } = {
       bootcampId: bootcampId,
       pageIndex: pageRequest.pageIndex,
       pageSize: pageRequest.pageSize
     };
-    console.log("getbybootcampId", bootcampId)
     return this.httpClient.get<BootcampcontentListItemDto>(`${this.apiUrl}/getbootcampcontentbybootcampid`, {
       params: newRequest
     }).pipe(

@@ -1,0 +1,15 @@
+.form-control {
+    border: 1px solid #ccc;
+    transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    padding: 8px;
+  }
+  .form-control:focus {
+    outline: none; /* Odaklanma durumunda varsayılan outline kaldırılıyor */
+  }
+  .error-message {
+    color: #ff0000;
+    font-size: 14px;
+  }
+  
+  
+  

@@ -3,7 +3,7 @@ import { FormBuilder,FormGroup,Validators,ReactiveFormsModule } from '@angular/f
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/concretes/auth.service';
 import { CommonModule } from '@angular/common';
-import { transition, trigger,style,animate, state } from '@angular/animations';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -11,34 +11,22 @@ import { transition, trigger,style,animate, state } from '@angular/animations';
   standalone: true,
   imports: [ReactiveFormsModule,RouterModule,CommonModule],
   templateUrl: './register.component.html',
-  styleUrl: './register.component.css',
-  animations: [
-    trigger('inputFocus', [
-      state('true', style({
-        borderColor: '#66afe9',
-        boxShadow: '0 0 5px rgba(102, 175, 233, 0.6)'
-      })),
-      state('false', style({
-        borderColor: '#ccc',
-        boxShadow: 'none'
-      })),
-      transition('false <=> true', animate('300ms ease-in-out'))
-    ])
-  ]
+  styleUrl: './register.component.css'
 })
 export class RegisterComponent {
   registerForm!:FormGroup
   submitted = false;
   constructor(private formBuilder:FormBuilder,private authService:AuthService,
-    private router:Router){}
+    private router:Router,private toastr:ToastrService){}
 
   ngOnInit(): void {
+    window.scroll(0,0);
     this.createRegisterForm();
   }
 
   createRegisterForm(){
    this.registerForm=this.formBuilder.group({
-    firstName:["",[Validators.required, Validators.pattern('^[a-zA-ZçÇğĞıİöÖşŞüÜ]+$'), Validators.minLength(3)]],  
+    firstName:["",[Validators.required, Validators.pattern('^[a-zA-ZçÇğĞıİöÖşŞüÜ]+$'), Validators.minLength(2)]],  
     lastName:["",[Validators.required,Validators.pattern('^[a-zA-ZçÇğĞıİöÖşŞüÜ]+$'),Validators.minLength(2)]],  
     userName:["",[Validators.required, Validators.minLength(4)]],
     email:["",[Validators.required, Validators.email]],
@@ -49,18 +37,14 @@ export class RegisterComponent {
   register(){
     this.submitted = true;
     if(this.registerForm.valid){
-      console.log(this.registerForm.value);
       let registerModel = Object.assign({},this.registerForm.value);
       this.authService.RegisterApplicant(registerModel).subscribe((response)=>{
-        alert("Kayıt Başarılı")
+        this.toastr.success("Kayıt Başarılı")
         this.router.navigate(['login']);
-      }, (errorResponse: any) => { 
-          errorResponse.error.Errors.forEach((error: any) => {
-            error.Errors.forEach((errorMessage: string) => {
-              alert(`Error: ${errorMessage}`);
-            });
-          });
-        }) 
+      },   error => {
+        // Hata mesajını Toastr ile kullanıcıya göster
+        this.toastr.error(error, 'Kayıt Hatası');
+      }) 
     } 
     else {
       this.markFormGroupTouched(this.registerForm);

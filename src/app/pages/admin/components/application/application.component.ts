@@ -12,6 +12,8 @@ import { ApplicationListItemDto } from '../../../../features/models/responses/ap
 import { CreateApplicationRequest } from '../../../../features/models/requests/application/create-application-request';
 import { UpdateApplicationRequest } from '../../../../features/models/requests/application/update-application-request';
 import { ApplicationStateService } from '../../../../features/services/concretes/application-state.service';
+import { ToastrService } from 'ngx-toastr';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-application',
@@ -31,6 +33,7 @@ export class ApplicationComponent implements OnInit {
   bootcampList: BootcampListItemDto;
   applicationList: ApplicationListItemDto;
   applicationStateList: ApplicationstateListItemDto;
+  submitted = false;
 
   constructor(
     private applicationService: ApplicationService,
@@ -38,7 +41,8 @@ export class ApplicationComponent implements OnInit {
     private bootcampService: BootcampService,
     private applicationStateService: ApplicationStateService,
     private formBuilder: FormBuilder,
-    private change: ChangeDetectorRef
+    private change: ChangeDetectorRef,
+    private toastr:ToastrService
   ) { }
 
   ngOnInit(): void {
@@ -66,7 +70,7 @@ export class ApplicationComponent implements OnInit {
     this.applicationCreateForm = this.formBuilder.group({
       applicantId: ['', [Validators.required]],
       bootcampId: ['', [Validators.required]],
-      applicationStateId: ['']
+      applicationStateId: ['',[Validators.required]]
     })
   }
   getApplications(pageRequest: PageRequest) {
@@ -90,54 +94,52 @@ export class ApplicationComponent implements OnInit {
     });
   }
   delete(id: number) {
-    if (confirm('Bu uygulama durumunu silmek istediğinizden emin misiniz?')) {
-      this.applicationService.delete(id).subscribe({
-        next: (response) => {
-          this.handleDeleteSuccess();
-        },
-        error: (error) => {
-          console.error('Silme işlemi başarısız:', error);
-        }
-      });
-    }
-  }
-
-  handleDeleteSuccess() {
-    this.loadApplication();
-    this.formMessage = "Başarıyla Silindi";
-    setTimeout(() => {
-      this.formMessage = "";
-    }, 3000);
+    Swal.fire({
+      title: 'Emin misiniz?',
+      text: "Bu veriyi silmek istediğinizden emin misiniz?",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Evet, sil!',
+      cancelButtonText: 'İptal',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.applicationService.delete(id).subscribe({
+          next: () => {
+            this.toastr.success('Silme işlemi başarılı!');
+            this.loadApplication();
+          },
+          error: (error) => {
+            this.toastr.error('Silme işlemi başarısız!', error);
+          },
+        });
+      }
+    });
   }
   add() {
+    this.submitted = true
     if (this.applicationCreateForm.valid) {
       let application: CreateApplicationRequest = Object.assign({}, this.applicationCreateForm.value);
       this.applicationService.create(application).subscribe({
-        next: (response) => {
-          this.handleCreateSuccess();
-        },
         error: (error) => {
-          this.formMessage = "Eklenemedi";
+          this.toastr.error("Eklenemedi",error);
           this.change.markForCheck();
         },
         complete: () => {
-          this.formMessage = "Başarıyla Eklendi";
+          this.toastr.success("Başarıyla Eklendi");
           this.change.markForCheck();
           this.closeModal();
           this.loadApplication();
         }
       });
+    } else {
+      this.markFormGroupTouched(this.applicationCreateForm);
     }
   }
-  handleCreateSuccess() {
-    this.loadApplication();
-    this.formMessage = "Başarıyla Eklendi";
-    setTimeout(() => {
-      this.formMessage = "";
-    }, 3000);
-  }
-
   update() {
+    this.submitted = true
+    if(this.applicationUpdateForm.valid){
     const id = this.selectedApplication.id;
     const applicantId = this.applicationUpdateForm.value.applicantId;
     const bootcampId = this.applicationUpdateForm.value.bootcampId;
@@ -149,16 +151,19 @@ export class ApplicationComponent implements OnInit {
       applicationStateId: applicationStateId
     };
     this.applicationService.update(request).subscribe({
-      next: (response) => {
+      next: () => {
         this.closeModal(); // Modal'ı kapat
         this.loadApplication(); // Verileri yeniden getir
+        this.toastr.success("Güncelleme başarılı.");
       },
       error: (error) => {
-        console.error('Güncelleme işlemi başarısız:', error);
+        this.toastr.error('Güncelleme işlemi başarısız:', error);
       }
     });
+  } else {
+    this.markFormGroupTouched(this.applicationUpdateForm);
   }
-
+  }
   openUpdateModal(application: any) {
     this.applicationService.getById(application.id).subscribe({
       next: (response) => {
@@ -173,17 +178,26 @@ export class ApplicationComponent implements OnInit {
         return response;
       },
       error: (error) => {
-        console.error('Veri getirme işlemi başarısız:', error);
+        this.toastr.error('Veri getirme işlemi başarısız:', error);
       }
     });
   }
-
   openAddModal() {
     this.applicationCreateForm.reset();
     this.showCreateModal = true;
+    this.submitted = false;
   }
   closeModal() {
     this.showUpdateModal = false;
     this.showCreateModal = false;
+    this.submitted = false;
+  }
+  private markFormGroupTouched(formGroup: FormGroup): void {
+    Object.values(formGroup.controls).forEach(control => {
+      control.markAsTouched();
+      if (control instanceof FormGroup) {
+        this.markFormGroupTouched(control);
+      }
+    });
   }
 }

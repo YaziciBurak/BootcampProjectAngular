@@ -7,6 +7,8 @@ import { EmployeeService } from '../../../../features/services/concretes/employe
 import { UpdateEmployeeRequest } from '../../../../features/models/requests/employee/update-employeere-quest';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../../features/services/concretes/auth.service';
+import { ToastrService } from 'ngx-toastr';
+import Swal from 'sweetalert2';
 
 
 @Component({
@@ -24,15 +26,15 @@ export class EmployeeListGroupComponent implements OnInit {
   showUpdateModal: boolean = false;
   showCreateModal: boolean = false;
   employeeList: EmployeeListItemDto;
+  submitted = false;
 
   constructor(
     private employeeService: EmployeeService,
     private formBuilder: FormBuilder,
     private authService: AuthService,
-    private change: ChangeDetectorRef
-
+    private change: ChangeDetectorRef,
+    private toastr:ToastrService
   ) { }
-
 
 
   ngOnInit(): void {
@@ -43,26 +45,26 @@ export class EmployeeListGroupComponent implements OnInit {
 
   updateForm() {
     this.employeeUpdateForm = this.formBuilder.group({
-      firstName: ["", Validators.required],
-      lastName: ["", Validators.required],
-      userName: ["", Validators.required],
+      userName: ["",[Validators.required,Validators.minLength(4)]],
+      firstName:["",[Validators.required, Validators.pattern('^[a-zA-ZçÇğĞıİöÖşŞüÜ]+$'), Validators.minLength(2)]],  
+      lastName:["",[Validators.required,Validators.pattern('^[a-zA-ZçÇğĞıİöÖşŞüÜ]+$'),Validators.minLength(2)]], 
       dateOfBirth: ["", Validators.required],
-      nationalIdentity: ["", Validators.required],
-      email: ["", Validators.required],
+      nationalIdentity: ["",[Validators.required,Validators.pattern('^[0-9]*$'),Validators.minLength(11)]],
+      email: ["",[Validators.required,Validators.email]],
       position: ["", Validators.required],
-      password: ["", Validators.required]
+      password: ["", Validators.required,Validators.minLength(6)]
     });
   }
   createForm() {
     this.employeeCreateForm = this.formBuilder.group({
-      firstName: ["", Validators.required],
-      lastName: ["", Validators.required],
-      userName: ["", Validators.required],
+      userName: ["",[Validators.required,Validators.minLength(4)]],
+      firstName:["",[Validators.required, Validators.pattern('^[a-zA-ZçÇğĞıİöÖşŞüÜ]+$'), Validators.minLength(2)]],  
+      lastName:["",[Validators.required,Validators.pattern('^[a-zA-ZçÇğĞıİöÖşŞüÜ]+$'),Validators.minLength(2)]], 
       dateOfBirth: ["", Validators.required],
-      nationalIdentity: ["", Validators.required],
-      email: ["", Validators.required],
+      nationalIdentity: ["",[Validators.required,Validators.pattern('^[0-9]*$'),Validators.minLength(11)]],
+      email: ["",[Validators.required,Validators.email]],
       position: ["", Validators.required],
-      password: ["", Validators.required]
+      password: ["", Validators.required,Validators.minLength(6)]
     })
   }
 
@@ -82,54 +84,52 @@ export class EmployeeListGroupComponent implements OnInit {
   }
 
   add() {
+    this.submitted = true;
     if (this.employeeCreateForm.valid) {
       let employee = Object.assign({}, this.employeeCreateForm.value);
       this.authService.RegisterEmployee(employee).subscribe({
-        next: (response) => {
-          this.handleCreateSuccess();
-        },
         error: (error) => {
-          this.formMessage = "Eklenemedi";
+          this.toastr.error("Eklenemedi",error);
           this.change.markForCheck();
         },
         complete: () => {
-          this.formMessage = "Başarıyla Eklendi";
+          this.toastr.success("Başarıyla Eklendi");
           this.change.markForCheck();
           this.closeModal();
           this.loadEmployees();
         }
       });
+    } else {
+      this.markFormGroupTouched(this.employeeCreateForm);
     }
   }
-  handleCreateSuccess() {
-    this.loadEmployees();
-    this.formMessage = "Başarıyla Eklendi";
-    setTimeout(() => {
-      this.formMessage = "";
-    }, 3000);
-  }
-
   delete(id: string) {
-    if (confirm('Bu uygulama durumunu silmek istediğinizden emin misiniz?')) {
-      this.employeeService.delete(id).subscribe({
-        next: (response) => {
-          this.handleDeleteSuccess();
-        },
-        error: (error) => {
-          console.error('Silme işlemi başarısız:', error);
-        }
-      });
-    }
-  }
-
-  handleDeleteSuccess() {
-    this.loadEmployees();
-    this.formMessage = "Başarıyla Silindi";
-    setTimeout(() => {
-      this.formMessage = "";
-    }, 3000);
+    Swal.fire({
+      title: 'Emin misiniz?',
+      text: "Bu çalışanı silmek istediğinizden emin misiniz?",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Evet, sil!',
+      cancelButtonText:'İptal',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.employeeService.delete(id).subscribe({
+          next: () => {
+            this.toastr.success('Silme işlemi başarılı!',);
+            this.loadEmployees();
+          },
+          error: (error) => {
+            this.toastr.error('Silme işlemi başarısız!',error);
+          }
+        });
+      }
+    });
   }
   update() {
+    this.submitted = true;
+    if(this.employeeUpdateForm.valid) {
     const id = this.selectedEmployee.id;
     const updatedUserName = this.employeeUpdateForm.value.userName;
     const updatedFirstName = this.employeeUpdateForm.value.firstName;
@@ -153,14 +153,17 @@ export class EmployeeListGroupComponent implements OnInit {
       password: updatedPassword
     };
     this.employeeService.update(request).subscribe({
-      next: (response) => {
+      next: () => {
         this.closeModal();
         this.loadEmployees();
       },
       error: (error) => {
-        console.error('Güncelleme işlemi başarısız:', error);
+        this.toastr.error('Güncelleme işlemi başarısız:', error);
       }
     });
+  } else {
+  this.markFormGroupTouched(this.employeeUpdateForm);
+}
   }
   openUpdateModal(employee: any) {
     this.employeeService.getById(employee.id).subscribe({
@@ -182,7 +185,7 @@ export class EmployeeListGroupComponent implements OnInit {
         return response;
       },
       error: (error) => {
-        console.error('Veri getirme işlemi başarısız:', error);
+        this.toastr.error('Veri getirme işlemi başarısız:', error);
       }
     });
   }
@@ -193,6 +196,14 @@ export class EmployeeListGroupComponent implements OnInit {
   closeModal() {
     this.showUpdateModal = false;
     this.showCreateModal = false;
+  }
+  private markFormGroupTouched(formGroup: FormGroup): void {
+    Object.values(formGroup.controls).forEach(control => {
+      control.markAsTouched();
+      if (control instanceof FormGroup) {
+        this.markFormGroupTouched(control);
+      }
+    });
   }
 }
 

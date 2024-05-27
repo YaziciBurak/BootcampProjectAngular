@@ -9,6 +9,8 @@ import { RouterModule } from '@angular/router';
 import { SharedModule } from 'primeng/api';
 import { UpdateBootcampstateRequest } from '../../../../features/models/requests/bootcampstate/update-bootcampstate-request';
 import { CreateBootcampstateRequest } from '../../../../features/models/requests/bootcampstate/create-bootcampstate-request';
+import { ToastrService } from 'ngx-toastr';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-bootcamp-state-list-group',
@@ -25,21 +27,20 @@ export class BootcampStateListGroupComponent implements OnInit {
   showUpdateModal: boolean = false;
   showCreateModal: boolean = false;
   bootcampStateList: BootcampstateListItemDto;
+  submitted = false;
 
   constructor(
     private bootcampStateService: BootcampStateService,
     private formBuilder: FormBuilder,
-    private change: ChangeDetectorRef
+    private change: ChangeDetectorRef,
+    private toastr:ToastrService
   ) { }
-
-
 
   ngOnInit(): void {
     this.loadBootcampStates();
     this.updateForm();
     this.createForm();
   }
-
   updateForm() {
     this.bootcampStateUpdateForm = this.formBuilder.group({
       name: ['', [Validators.required]]
@@ -50,7 +51,6 @@ export class BootcampStateListGroupComponent implements OnInit {
       name: ['', [Validators.required]]
     })
   }
-
   loadBootcampStates() {
     const pageRequest: PageRequest = {
       pageIndex: 0,
@@ -58,77 +58,76 @@ export class BootcampStateListGroupComponent implements OnInit {
     };
     this.getBootcampStates(pageRequest);
   }
-
-
   getBootcampStates(pageRequest: PageRequest) {
     this.bootcampStateService.getList(pageRequest).subscribe((response) => {
       this.bootcampStateList = response;
     })
   }
-
   add() {
+    this.submitted = true;
     if (this.bootcampStateCreateForm.valid) {
       let bootcampState: CreateBootcampstateRequest = Object.assign({}, this.bootcampStateCreateForm.value);
       this.bootcampStateService.create(bootcampState).subscribe({
-        next: (response) => {
-          this.handleCreateSuccess();
-        },
         error: (error) => {
-          this.formMessage = "Eklenemedi";
+          this.toastr.error("Eklenemedi",error);
           this.change.markForCheck();
         },
         complete: () => {
-          this.formMessage = "Başarıyla Eklendi";
+          this.toastr.success("Başarıyla Eklendi");
           this.change.markForCheck();
           this.closeModal();
           this.loadBootcampStates();
         }
       });
-    }
+    } else {
+    this.markFormGroupTouched(this.bootcampStateCreateForm);
   }
-
+}
   delete(id: number) {
-    if (confirm('Bu uygulama durumunu silmek istediğinizden emin misiniz?')) {
-      this.bootcampStateService.delete(id).subscribe({
-        next: (response) => {
-          this.handleDeleteSuccess();
-        },
-        error: (error) => {
-          console.error('Silme işlemi başarısız:', error);
-        }
-      });
-    }
-  }
-  handleCreateSuccess() {
-    this.loadBootcampStates();
-    this.formMessage = "Başarıyla Eklendi";
-    setTimeout(() => {
-      this.formMessage = "";
-    }, 3000);
-  }
-
-  handleDeleteSuccess() {
-    this.loadBootcampStates();
-    this.formMessage = "Başarıyla Silindi";
-    setTimeout(() => {
-      this.formMessage = "";
-    }, 3000);
+    Swal.fire({
+      title: 'Emin misiniz?',
+      text: "Bu veriyi silmek istediğinizden emin misiniz?",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Evet, sil!',
+      cancelButtonText:'İptal',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.bootcampStateService.delete(id).subscribe({
+          next: () => {
+            this.toastr.success('Silme işlemi başarılı!');
+            this.loadBootcampStates();
+          },
+          error: (error) => {
+            this.toastr.error('Silme işlemi başarısız!',error);
+          }
+        });
+      }
+    }); 
   }
   update() {
+    this.submitted = true;
+    if(this.bootcampStateUpdateForm.valid) {
     const id = this.selectedBootcampState.id;
     const request: UpdateBootcampstateRequest = {
       id: id,
       name: this.bootcampStateUpdateForm.value.name
     };
     this.bootcampStateService.update(request).subscribe({
-      next: (response) => {
+      next: () => {
         this.showUpdateModal = false;
         this.loadBootcampStates();
+        this.toastr.success('Güncelleme işlemi başarılı!');
       },
       error: (error) => {
-        console.error('Güncelleme işlemi başarısız:', error);
+        this.toastr.error('Güncelleme işlemi başarısız:', error);
       }
     });
+  } else {
+  this.markFormGroupTouched(this.bootcampStateUpdateForm);
+}
   }
   openUpdateModal(bootcampState: any) {
     this.bootcampStateService.getById(bootcampState.id).subscribe({
@@ -139,17 +138,27 @@ export class BootcampStateListGroupComponent implements OnInit {
         return bootcampState.id;
       },
       error: (error) => {
-        console.error('Veri getirme işlemi başarısız:', error);
+        this.toastr.error('Veri getirme işlemi başarısız:', error);
       }
     });
   }
   openAddModal() {
     this.bootcampStateCreateForm.reset();
     this.showCreateModal = true;
+    this.submitted = false;
   }
   closeModal() {
     this.showUpdateModal = false;
     this.showCreateModal = false;
+    this.submitted = false;
+  }
+  private markFormGroupTouched(formGroup: FormGroup): void {
+    Object.values(formGroup.controls).forEach(control => {
+      control.markAsTouched();
+      if (control instanceof FormGroup) {
+        this.markFormGroupTouched(control);
+      }
+    });
   }
 }
 

@@ -6,8 +6,8 @@ module.exports = {
   ],
   theme: {
     extend: {
-      backgroundImage:{
-        'yellowImg': "url('./assets/img/yellow-photo.jpeg')"
+      backgroundImage: {
+
       }
     },
   },

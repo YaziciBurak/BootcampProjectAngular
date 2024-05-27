@@ -3,8 +3,6 @@ import { Component, OnInit } from '@angular/core';
 import { QuizQuestionService } from '../../../../features/services/concretes/quiz-question.service';
 import { QuizQuestionListItemDto } from '../../../../features/models/responses/quizquestion/quiz-question-list-item-dto';
 import { PageRequest } from '../../../../core/models/page-request';
-import { QuestionListItemDto } from '../../../../features/models/responses/question/question-list-item-dto';
-import { QuestionService } from '../../../../features/services/concretes/question.service';
 
 @Component({
   selector: 'app-quiz-questions',

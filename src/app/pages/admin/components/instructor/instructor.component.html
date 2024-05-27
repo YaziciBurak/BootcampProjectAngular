@@ -12,32 +12,90 @@
           <div class="mb-4">
             <label for="username" class="block text-gray-700 text-sm font-bold mb-2">Güncellenecek Instructor UserName:</label>
             <input formControlName="userName" type="text" id="username" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-      </div> 
+            <div *ngIf="submitted && instructorUpdateForm.get('userName').invalid" class="error-message">
+              <div *ngIf="instructorUpdateForm.get('userName').hasError('required')">
+                Kullanıcı adı zorunludur.
+              </div>
+              <div *ngIf="instructorUpdateForm.get('userName').hasError('minlength')">
+                Kullanıcı adı en az 4 karakter olmalıdır.
+              </div>
+            </div>
+          </div> 
       <div class="mb-4">
         <label for="firstname" class="block text-gray-700 text-sm font-bold mb-2">Güncellenecek Instructor firstname:</label>
         <input formControlName="firstName" type="text" id="firstname" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-  </div> 
+        <div *ngIf="submitted && instructorUpdateForm.get('firstName').invalid" class="error-message">
+          <div *ngIf="instructorUpdateForm.get('firstName').hasError('required')">
+            İsim alanı zorunludur.
+          </div>
+          <div *ngIf="instructorUpdateForm.get('firstName').hasError('pattern')">
+            İsim yalnızca harflerden oluşabilir.
+          </div>
+          <div *ngIf="instructorUpdateForm.get('firstName').hasError('minlength')">
+            İsim alanı en az 2 karakter olmalıdır.
+          </div>
+        </div>
+      </div> 
   <div class="mb-4">
     <label for="lastname" class="block text-gray-700 text-sm font-bold mb-2">Güncellenecek Instructor lastname:</label>
     <input formControlName="lastName" type="text" id="lastname" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-</div> 
+    <div *ngIf="submitted && instructorUpdateForm.get('lastName').invalid" class="error-message">
+      <div *ngIf="instructorUpdateForm.get('lastName').hasError('required')">
+        Soyadı alanı zorunludur.
+      </div>
+      <div *ngIf="instructorUpdateForm.get('lastName').hasError('pattern')">
+        Soyadı yalnızca harflerden oluşabilir.
+      </div>
+      <div *ngIf="instructorUpdateForm.get('lastName').hasError('minlength')">
+        Soyadı en az 2 harfli olmalı.
+      </div>
+    </div>
+  </div> 
 <div class="mb-4">
     <label for="email" class="block text-gray-700 text-sm font-bold mb-2">Güncellenecek Instructor email:</label>
     <input formControlName="email" type="text" id="email" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-</div> 
+    <div *ngIf="submitted && instructorUpdateForm.get('email').invalid" class="error-message">
+      <div *ngIf="instructorUpdateForm.get('email').hasError('required')">
+        Email alanı zorunludur.
+      </div>
+      <div *ngIf="instructorUpdateForm.get('email').hasError('email')">
+        Email alanı email formatında olmak zorundadır.
+      </div>
+    </div>
+  </div> 
 <div class="mb-4">
     <label for="dateOfBirth" class="block text-gray-700 text-sm font-bold mb-2">Güncellenecek Instructor dateofbirth:</label>
     <input formControlName="dateOfBirth" type="date" id="dateOfBirth" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-</div> 
+    <div *ngIf="submitted && instructorUpdateForm.get('dateOfBirth').invalid" class="error-message">
+      <div *ngIf="instructorUpdateForm.get('dateOfBirth').hasError('required')">
+        Doğum tarihi boş bırakılamaz.
+      </div>
+    </div>
+  </div> 
 <div class="mb-4">
     <label for="companyName" class="block text-gray-700 text-sm font-bold mb-2">Güncellenecek Instructor companyName:</label>
     <input formControlName="companyName" type="text" id="companyName" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-</div> 
+    <div *ngIf="submitted && instructorUpdateForm.get('companyName').invalid" class="error-message">
+      <div *ngIf="instructorUpdateForm.get('companyName').hasError('required')">
+        Bu alan zorunludur.
+      </div>
+    </div>
+  </div> 
 <div class="mb-4">
     <label for="nationalIdentity" class="block text-gray-700 text-sm font-bold mb-2">Güncellenecek Instructor nationalIdentity:</label>
     <input formControlName="nationalIdentity" type="text" id="nationalIdentity" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-</div> 
-
+    <div *ngIf="submitted && instructorUpdateForm.get('nationalIdentity').invalid" class="error-message">
+              <div *ngIf="instructorUpdateForm.get('nationalIdentity').hasError('required')">
+                Kimlik alanı zorunludur.
+              </div>
+              <div *ngIf="instructorUpdateForm.get('nationalIdentity').hasError('minlength')">
+                Kimlik numarası en az 11 haneden oluşmalıdır.
+              </div>
+              <div *ngIf="instructorUpdateForm.get('nationalIdentity').hasError('pattern')">
+                Kimlik numarası sadece sayılardan oluşabilir.
+              </div>
+            </div>
+  </div> 
         </div>
         <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
           <button  type="submit" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-500 text-base font-medium text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm">
@@ -119,34 +177,101 @@
           <div class="mb-4">
             <label for="userName" class="block text-gray-700 text-sm font-bold mb-2">Instructor Kullanıcı Adı:</label>
             <input formControlName="userName" type="text" id="userName" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-          </div> 
-          <div class="mb-4">
-            <label for="password" class="block text-gray-700 text-sm font-bold mb-2">Instructor Şifre:</label>
-            <input formControlName="password" type="text" id="password" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            <div *ngIf="submitted && instructorUpdateForm.get('userName').invalid" class="error-message">
+              <div *ngIf="instructorCreateForm.get('userName').hasError('required')">
+                Kullanıcı adı zorunludur.
+              </div>
+              <div *ngIf="instructorCreateForm.get('userName').hasError('minlength')">
+                Kullanıcı adı en az 4 karakter olmalıdır.
+              </div>
+            </div>
           </div> 
           <div class="mb-4">
             <label for="firstName" class="block text-gray-700 text-sm font-bold mb-2">Instructor Adı:</label>
             <input formControlName="firstName" type="text" id="firstName" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            <div *ngIf="submitted && instructorCreateForm.get('firstName').invalid" class="error-message">
+              <div *ngIf="instructorCreateForm.get('firstName').hasError('required')">
+                İsim alanı zorunludur.
+              </div>
+              <div *ngIf="instructorCreateForm.get('firstName').hasError('pattern')">
+                İsim yalnızca harflerden oluşabilir.
+              </div>
+              <div *ngIf="instructorCreateForm.get('firstName').hasError('minlength')">
+                İsim alanı en az 2 karakter olmalıdır.
+              </div>
+            </div>
           </div>
           <div class="mb-4">
             <label for="lastName" class="block text-gray-700 text-sm font-bold mb-2">Instructor Soyadı:</label>
             <input formControlName="lastName" type="text" id="lastName" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            <div *ngIf="submitted && instructorCreateForm.get('lastName').invalid" class="error-message">
+              <div *ngIf="instructorCreateForm.get('lastName').hasError('required')">
+                Soyadı alanı zorunludur.
+              </div>
+              <div *ngIf="instructorCreateForm.get('lastName').hasError('pattern')">
+                Soyadı yalnızca harflerden oluşabilir.
+              </div>
+              <div *ngIf="instructorCreateForm.get('lastName').hasError('minlength')">
+                Soyadı en az 2 harfli olmalı.
+              </div>
+            </div>
           </div>
           <div class="mb-4">
             <label for="email" class="block text-gray-700 text-sm font-bold mb-2">Instructor Email:</label>
             <input formControlName="email" type="text" id="email" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            <div *ngIf="submitted && instructorCreateForm.get('email').invalid" class="error-message">
+              <div *ngIf="instructorCreateForm.get('email').hasError('required')">
+                Email alanı zorunludur.
+              </div>
+              <div *ngIf="instructorCreateForm.get('email').hasError('email')">
+                Email alanı email formatında olmak zorundadır.
+              </div>
+            </div>
           </div>
+          <div class="mb-4">
+            <label for="password" class="block text-gray-700 text-sm font-bold mb-2">Instructor Şifre:</label>
+            <input formControlName="password" type="text" id="password" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            <div *ngIf="submitted && instructorCreateForm.get('password').invalid" class="error-message">
+              <div *ngIf="instructorCreateForm.get('password').hasError('required')">
+                Şifre alanı zorunludur.
+              </div>
+              <div *ngIf="instructorCreateForm.get('password').hasError('minlength')">
+                Şifre en az 6 karakter olmalıdır.
+              </div>
+            </div>
+          </div> 
           <div class="mb-4">
             <label for="nationalIdentity" class="block text-gray-700 text-sm font-bold mb-2">Instructor Kimlik Bilgileri:</label>
             <input formControlName="nationalIdentity" type="text" id="nationalIdentity" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            <div *ngIf="submitted && instructorUpdateForm.get('nationalIdentity').invalid" class="error-message">
+              <div *ngIf="instructorCreateForm.get('nationalIdentity').hasError('required')">
+                Kimlik alanı zorunludur.
+              </div>
+              <div *ngIf="instructorCreateForm.get('nationalIdentity').hasError('minlength')">
+                Kimlik numarası en az 11 haneden oluşmalıdır.
+              </div>
+              <div *ngIf="instructorCreateForm.get('nationalIdentity').hasError('pattern')">
+                Kimlik numarası sadece sayılardan oluşabilir.
+              </div>
+            </div>
           </div>
           <div class="mb-4">
             <label for="companyName" class="block text-gray-700 text-sm font-bold mb-2">Şirket Adı :</label>
             <input formControlName="companyName" type="text" id="companyName" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            <div *ngIf="submitted && instructorCreateForm.get('companyName').invalid" class="error-message">
+              <div *ngIf="instructorCreateForm.get('companyName').hasError('required')">
+                Bu alan zorunludur.
+              </div>
+            </div>
           </div>
           <div class="mb-4">
             <label for="dateOfBirth" class="block text-gray-700 text-sm font-bold mb-2">Instructor Doğum Günü:</label>
             <input formControlName="dateOfBirth" type="date" id="dateOfBirth" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            <div *ngIf="submitted && instructorCreateForm.get('dateOfBirth').invalid" class="error-message">
+              <div *ngIf="instructorCreateForm.get('dateOfBirth').hasError('required')">
+                Doğum tarihi boş bırakılamaz.
+              </div>
+            </div>
           </div>
         </div>
       

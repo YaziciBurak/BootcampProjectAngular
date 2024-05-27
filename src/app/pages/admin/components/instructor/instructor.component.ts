@@ -7,6 +7,8 @@ import { PageRequest } from '../../../../core/models/page-request';
 import { UpdateInstructorRequest } from '../../../../features/models/requests/instructor/update-instructor-request';
 import { formatDate } from '../../../../core/helpers/format-date';
 import { AuthService } from '../../../../features/services/concretes/auth.service';
+import { ToastrService } from 'ngx-toastr';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-instructor',
@@ -24,12 +26,14 @@ export class InstructorComponent implements OnInit {
   showUpdateModal: boolean = false;
   showCreateModal: boolean = false;
   instructorList: InstructorListItemDto;
+  submitted = false;
 
   constructor(
     private instructorService: InstructorService,
     private formBuilder: FormBuilder,
     private authService: AuthService,
-    private change: ChangeDetectorRef
+    private change: ChangeDetectorRef,
+    private toastr:ToastrService
   ) { }
 
   ngOnInit(): void {
@@ -37,90 +41,86 @@ export class InstructorComponent implements OnInit {
     this.updateForm();
     this.createForm();
   }
-
   loadInstructors() {
     const pageRequest: PageRequest = { pageIndex: 0, pageSize: 20 };
     this.getInstructors(pageRequest);
   }
-
   getInstructors(pageRequest: PageRequest) {
     this.instructorService.getList(pageRequest).subscribe((response) => {
       this.instructorList = response;
     })
   }
-
   updateForm() {
     this.instructorUpdateForm = this.formBuilder.group({
-      firstName: ["", Validators.required],
-      lastName: ["", Validators.required],
-      userName: ["", Validators.required],
+      userName: ["",[Validators.required,Validators.minLength(4)]],
+      firstName:["",[Validators.required, Validators.pattern('^[a-zA-ZçÇğĞıİöÖşŞüÜ]+$'), Validators.minLength(2)]],  
+      lastName:["",[Validators.required,Validators.pattern('^[a-zA-ZçÇğĞıİöÖşŞüÜ]+$'),Validators.minLength(2)]], 
       dateOfBirth: ["", Validators.required],
-      nationalIdentity: ["", Validators.required],
-      email: ["", Validators.required],
+      nationalIdentity: ["",[Validators.required,Validators.pattern('^[0-9]*$'),Validators.minLength(11)]],
+      email: ["",[Validators.required,Validators.email]],
       companyName: ["", Validators.required],
-      password: ["", Validators.required]
+      password: ["", Validators.required,Validators.minLength(6)]
     });
   }
   createForm() {
     this.instructorCreateForm = this.formBuilder.group({
-      firstName: ["", Validators.required],
-      lastName: ["", Validators.required],
-      userName: ["", Validators.required],
+      userName: ["",[Validators.required,Validators.minLength(4)]],
+      firstName:["",[Validators.required, Validators.pattern('^[a-zA-ZçÇğĞıİöÖşŞüÜ]+$'), Validators.minLength(2)]],  
+      lastName:["",[Validators.required,Validators.pattern('^[a-zA-ZçÇğĞıİöÖşŞüÜ]+$'),Validators.minLength(2)]], 
       dateOfBirth: ["", Validators.required],
-      nationalIdentity: ["", Validators.required],
-      email: ["", Validators.required],
+      nationalIdentity: ["",[Validators.required,Validators.pattern('^[0-9]*$'),Validators.minLength(11)]],
+      email: ["",[Validators.required,Validators.email]],
       companyName: ["", Validators.required],
-      password: ["", Validators.required]
+      password: ["", Validators.required,Validators.minLength(6)]
     })
   }
   add() {
+    this.submitted = true;
     if (this.instructorCreateForm.valid) {
       let instructor = Object.assign({}, this.instructorCreateForm.value);
       this.authService.RegisterInstructor(instructor).subscribe({
-        next: (response) => {
-          this.handleCreateSuccess();
-        },
         error: (error) => {
-          this.formMessage = "Eklenemedi";
+          this.toastr.error("Eklenemedi",error);
           this.change.markForCheck();
         },
         complete: () => {
-          this.formMessage = "Başarıyla Eklendi";
+          this.toastr.success("Başarıyla eklendi!");
           this.change.markForCheck();
           this.closeModal();
           this.loadInstructors();
         }
       });
+    } else {
+      this.markFormGroupTouched(this.instructorCreateForm);
     }
   }
-  handleCreateSuccess() {
-    this.loadInstructors();
-    this.formMessage = "Başarıyla Eklendi";
-    setTimeout(() => {
-      this.formMessage = "";
-    }, 3000);
-  }
-
   delete(id: string) {
-    if (confirm('Bu uygulama durumunu silmek istediğinizden emin misiniz?')) {
-      this.instructorService.delete(id).subscribe({
-        next: (response) => {
-          this.handleDeleteSuccess();
-        },
-        error: (error) => {
-          console.error('Silme işlemi başarısız:', error);
-        }
-      });
-    }
-  }
-  handleDeleteSuccess() {
-    this.loadInstructors();
-    this.formMessage = "Başarıyla Silindi";
-    setTimeout(() => {
-      this.formMessage = "";
-    }, 3000);
+    Swal.fire({
+      title: 'Emin misiniz?',
+      text: "Bu veriyi silmek istediğinizden emin misiniz?",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Evet, sil!',
+      cancelButtonText: 'İptal',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.instructorService.delete(id).subscribe({
+          next: () => {
+            this.toastr.success('Silme işlemi başarılı!', 'Başarılı');
+            this.loadInstructors();
+          },
+          error: (error) => {
+            this.toastr.error('Silme işlemi başarısız!', error);
+          },
+        });
+      }
+    });
   }
   update() {
+    this.submitted = true;
+    if(this.instructorUpdateForm.valid){
     const id = this.selectedInstructor.id;
     const updatedUserName = this.instructorUpdateForm.value.userName;
     const updatedFirstName = this.instructorUpdateForm.value.firstName;
@@ -144,14 +144,18 @@ export class InstructorComponent implements OnInit {
       password: updatedPassword
     };
     this.instructorService.update(request).subscribe({
-      next: (response) => {
+      next: () => {
         this.closeModal();
         this.loadInstructors();
+        this.toastr.success("Güncelleme başarılı!");
       },
       error: (error) => {
-        console.error('Güncelleme işlemi başarısız:', error);
+        this.toastr.error('Güncelleme işlemi başarısız:', error);
       }
     });
+  } else {
+    this.markFormGroupTouched(this.instructorUpdateForm);
+  }
   }
 
   openUpdateModal(instructor: any) {
@@ -174,17 +178,26 @@ export class InstructorComponent implements OnInit {
         return response;
       },
       error: (error) => {
-        console.error('Veri getirme işlemi başarısız:', error);
+        this.toastr.error('Veri getirme işlemi başarısız:', error);
       }
     });
   }
-
   openAddModal() {
     this.instructorCreateForm.reset();
     this.showCreateModal = true;
+    this.submitted = false;
   }
   closeModal() {
     this.showUpdateModal = false;
     this.showCreateModal = false;
+    this.submitted = false;
+  }
+  private markFormGroupTouched(formGroup: FormGroup): void {
+    Object.values(formGroup.controls).forEach(control => {
+      control.markAsTouched();
+      if (control instanceof FormGroup) {
+        this.markFormGroupTouched(control);
+      }
+    });
   }
 }

@@ -10,6 +10,8 @@ import { CreateQuestionRequest } from '../../../../features/models/requests/ques
 import { UpdateQuestionRequest } from '../../../../features/models/requests/question/update-question-request';
 import { BootcampListItemDto } from '../../../../features/models/responses/bootcamp/bootcamp-list-item-dto';
 import { BootcampService } from '../../../../features/services/concretes/bootcamp.service';
+import { ToastrService } from 'ngx-toastr';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-questions',
@@ -27,8 +29,14 @@ export class QuestionsComponent implements OnInit {
   showCreateModal: boolean = false;
   bootcampList: BootcampListItemDto;
   questionList: QuestionListItemDto;
+  submitted = false;
 
-  constructor(private questionService: QuestionService, private bootcampService: BootcampService, private formBuilder: FormBuilder, private change: ChangeDetectorRef) { }
+  constructor(private questionService: QuestionService,
+     private bootcampService: BootcampService,
+      private formBuilder: FormBuilder, 
+      private change: ChangeDetectorRef,
+      private toastr:ToastrService
+    ) { }
 
   ngOnInit(): void {
     this.loadQuestions();
@@ -52,7 +60,6 @@ export class QuestionsComponent implements OnInit {
       correctAnswer: ['', [Validators.required]]
     });
   }
-
   createForm() {
     this.questionCreateForm = this.formBuilder.group({
       bootcampId: ['', [Validators.required]],
@@ -64,70 +71,63 @@ export class QuestionsComponent implements OnInit {
       correctAnswer: ['', [Validators.required]]
     })
   }
-
   getQuestions(pageRequest: PageRequest) {
     this.questionService.getList(pageRequest).subscribe(response => {
       this.questionList = response;
-      console.log(response);
     });
   }
   getBootcamps(pageRequest: PageRequest) {
     this.bootcampService.getList(pageRequest).subscribe(response => {
       this.bootcampList = response;
-      console.log(response);
     });
   }
-
   delete(id: number) {
-    if (confirm('Bu uygulama durumunu silmek istediğinizden emin misiniz?')) {
-      this.questionService.delete(id).subscribe({
-        next: (response) => {
-          this.handleDeleteSuccess();
-        },
-        error: (error) => {
-          console.error('Silme işlemi başarısız:', error);
-        }
-      });
-    }
+    Swal.fire({
+      title: 'Emin misiniz?',
+      text: "Bu veriyi silmek istediğinizden emin misiniz?",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Evet, sil!',
+      cancelButtonText: 'İptal',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.questionService.delete(id).subscribe({
+          next: () => {
+            this.toastr.success('Silme işlemi başarılı!');
+            this.loadQuestions();
+          },
+          error: (error) => {
+            this.toastr.error('Silme işlemi başarısız!', error);
+          },
+        });
+      }
+    });
   }
-
-  handleDeleteSuccess() {
-    this.loadQuestions();
-    this.formMessage = "Başarıyla Silindi";
-    setTimeout(() => {
-      this.formMessage = "";
-    }, 3000);
-  }
-
   add() {
+    this.submitted = true;
     if (this.questionCreateForm.valid) {
       let question: CreateQuestionRequest = Object.assign({}, this.questionCreateForm.value);
       this.questionService.create(question).subscribe({
-        next: (response) => {
-          this.handleCreateSuccess();
-        },
         error: (error) => {
-          this.formMessage = "Eklenemedi";
+          this.toastr.error("Eklenemedi!",error)
           this.change.markForCheck();
         },
         complete: () => {
-          this.formMessage = "Başarıyla Eklendi";
+          this.toastr.success("Başarıyla eklendi!");
           this.change.markForCheck();
           this.closeModal();
           this.loadQuestions();
         }
       });
+    } else {
+      this.markFormGroupTouched(this.questionCreateForm);
     }
   }
-  handleCreateSuccess() {
-    this.loadQuestions();
-    this.formMessage = "Başarıyla Eklendi";
-    setTimeout(() => {
-      this.formMessage = "";
-    }, 3000);
-  }
-
   update() {
+    this.submitted = true;
+    if(this.questionUpdateForm.valid){
     const id = this.selectedQuestion.id;
     const bootcampId = this.questionUpdateForm.value.bootcampId;
     const text = this.questionUpdateForm.value.text;
@@ -146,25 +146,28 @@ export class QuestionsComponent implements OnInit {
       answerC: answerC,
       answerD: answerD,
       correctAnswer: correctAnswer
-
     };
     this.questionService.update(request).subscribe({
-      next: (response) => {
+      next: () => {
         this.closeModal(); // Modal'ı kapat
         this.loadQuestions(); // Verileri yeniden getir
+        this.toastr.success("Güncelleme başarılı!");
       },
       error: (error) => {
-        console.error('Güncelleme işlemi başarısız:', error);
+        this.toastr.error('Güncelleme işlemi başarısız:', error);
       }
     });
+  } else {
+    this.markFormGroupTouched(this.questionUpdateForm);
   }
-
+  }
   openUpdateModal(question: any) {
     this.questionService.getById(question.id).subscribe({
       next: (response) => {
         this.selectedQuestion = { ...response };
         this.questionUpdateForm.patchValue({
           id: this.selectedQuestion.id,
+          bootcampId: this.selectedQuestion.bootcampId,
           text: this.selectedQuestion.text,
           answerA: this.selectedQuestion.answerA,
           answerB: this.selectedQuestion.answerB,
@@ -176,7 +179,7 @@ export class QuestionsComponent implements OnInit {
         return response;
       },
       error: (error) => {
-        console.error('Veri getirme işlemi başarısız:', error);
+        this.toastr.error('Veri getirme işlemi başarısız:', error);
       }
     });
   }
@@ -184,11 +187,13 @@ export class QuestionsComponent implements OnInit {
   openAddModal() {
     this.questionCreateForm.reset();
     this.showCreateModal = true;
+    this.submitted = false;
   }
 
   closeModal() {
     this.showUpdateModal = false;
     this.showCreateModal = false;
+    this.submitted = false;
   }
 
   getShortenedText(text: string): string {
@@ -197,6 +202,14 @@ export class QuestionsComponent implements OnInit {
       return text.substring(0, maxLength) + '...';
     }
     return text;
+  }
+  private markFormGroupTouched(formGroup: FormGroup): void {
+    Object.values(formGroup.controls).forEach(control => {
+      control.markAsTouched();
+      if (control instanceof FormGroup) {
+        this.markFormGroupTouched(control);
+      }
+    });
   }
 }
 

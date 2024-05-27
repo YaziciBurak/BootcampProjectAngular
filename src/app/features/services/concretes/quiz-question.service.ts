@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { QuizQuestionBaseService } from '../abstracts/quiz-question-base.service';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { PageRequest } from '../../../core/models/page-request';
-import { Observable, map } from 'rxjs';
+import { Observable, catchError, map, throwError } from 'rxjs';
 import { QuizQuestionListItemDto } from '../../models/responses/quizquestion/quiz-question-list-item-dto';
 import { environment } from '../../../../environments/environment';
 import { DeleteQuizQuestionResponse } from '../../models/responses/quizquestion/delete-quiz-question-response';
@@ -19,6 +19,29 @@ export class QuizQuestionService extends QuizQuestionBaseService {
 
   private readonly apiUrl: string = `${environment.API_URL}/QuizQuestions`
   constructor(private httpClient: HttpClient) { super() }
+
+  private handleError(error: HttpErrorResponse): Observable<never> {
+    let errorMessage = 'Bir hata oluştu';
+
+    if (error.error instanceof ErrorEvent) {
+      // Client-side hata
+      errorMessage = `Hata: ${error.error.message}`;
+    } else {
+      // Backend hatası
+      if (error.error && error.error.message) {
+        errorMessage = error.error.message;
+      } else if (error.status === 500 && error.error) {
+        // Hata mesajını backend'den alınan response'un ilk satırından ayıklayın
+        const backendErrorMessage = error.error.split('\n')[0];
+        if (backendErrorMessage.includes('BusinessException')) {
+          errorMessage = backendErrorMessage.split(': ')[1]; // Sadece hata mesajını al
+        }
+      } else {
+        errorMessage = `Sunucu Hatası: ${error.status}\nMesaj: ${error.message}`;
+      }
+    }
+    return throwError(errorMessage);
+  }
 
   override getList(pageRequest: PageRequest): Observable<QuizQuestionListItemDto> {
     const newRequest: { [key: string]: string | number } = {
@@ -43,22 +66,24 @@ export class QuizQuestionService extends QuizQuestionBaseService {
     )
   }
   override delete(id: number): Observable<DeleteQuizQuestionResponse> {
-    return this.httpClient.delete<DeleteQuizQuestionResponse>(`${this.apiUrl}/` + id);
+    return this.httpClient.delete<DeleteQuizQuestionResponse>(`${this.apiUrl}/` + id)
+    .pipe(catchError(this.handleError.bind(this))
+    );
   }
 
   override update(request: UpdateQuizQuestionRequest): Observable<UpdateQuizQuestionResponse> {
-    return this.httpClient.put<UpdateQuizQuestionResponse>(`${this.apiUrl}`, request);
+    return this.httpClient.put<UpdateQuizQuestionResponse>(`${this.apiUrl}`, request)
+    .pipe(catchError(this.handleError.bind(this))
+    );
   }
-
   override create(request: CreateQuizQuestionRequest): Observable<CreateQuizQuestionResponse> {
-    return this.httpClient.post<CreateQuizQuestionResponse>(`${this.apiUrl}`, request);
+    return this.httpClient.post<CreateQuizQuestionResponse>(`${this.apiUrl}`, request)
+    .pipe(catchError(this.handleError.bind(this)));
   }
-
   override getById(id: number): Observable<GetbyidQuizQuestionResponse> {
     const newRequest: { [key: string]: string | number } = {
       id: id
     };
-
     return this.httpClient.get<GetbyidQuizQuestionResponse>(`${this.apiUrl}/${id}`, {
       params: newRequest
     }).pipe(
@@ -67,7 +92,6 @@ export class QuizQuestionService extends QuizQuestionBaseService {
           id: response.id,
           quizId: response.quizId,
           questionId: response.questionId
-
         };
         return newResponse;
       })

@@ -8,6 +8,8 @@ import { BootcampService } from '../../../../features/services/concretes/bootcam
 import { PageRequest } from '../../../../core/models/page-request';
 import { CreateBootcampimageRequest } from '../../../../features/models/requests/bootcampimage/create-bootcampimage-request';
 import { UpdateBootcampimageRequest } from '../../../../features/models/requests/bootcampimage/update-bootcampimage-request';
+import { ToastrService } from 'ngx-toastr';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-bootcamp-image',
@@ -26,12 +28,14 @@ export class BootcampImageComponent implements OnInit {
   showCreateModal: boolean = false;
   bootcampImageList: BootcampimageListItemDto;
   bootcampList: BootcampListItemDto;
+  submitted = false;
 
   constructor(
     private bootcampImageService: BootcampImageService,
     private bootcampService: BootcampService,
     private formBuilder: FormBuilder,
-    private change: ChangeDetectorRef
+    private change: ChangeDetectorRef,
+    private toastr:ToastrService
   ) { }
 
   ngOnInit(): void {
@@ -49,7 +53,7 @@ export class BootcampImageComponent implements OnInit {
 
   createForm() {
     this.bootcampImageCreateForm = this.formBuilder.group({
-      imagePath: ['',],
+      imagePath: ['',[Validators.required]],
       bootcampId: ['', [Validators.required]],
       file: ['', [Validators.required]]
     })
@@ -68,29 +72,34 @@ export class BootcampImageComponent implements OnInit {
   getBootcamps(pageRequest: PageRequest) {
     this.bootcampService.getList(pageRequest).subscribe(response => {
       this.bootcampList = response;
-      console.log(response);
     });
   }
   delete(id: number) {
-    if (confirm('Bu uygulama durumunu silmek istediğinizden emin misiniz?')) {
-      this.bootcampImageService.delete(id).subscribe({
-        next: (response) => {
-          this.handleDeleteSuccess();
-        },
-        error: (error) => {
-          console.error('Silme işlemi başarısız:', error);
-        }
-      });
-    }
-  }
-  handleDeleteSuccess() {
-    this.loadBootcampImages();
-    this.formMessage = "Başarıyla Silindi";
-    setTimeout(() => {
-      this.formMessage = "";
-    }, 3000);
+    Swal.fire({
+      title: 'Emin misiniz?',
+      text: "Bu veriyi silmek istediğinizden emin misiniz?",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Evet, sil!',
+      cancelButtonText: 'İptal',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.bootcampImageService.delete(id).subscribe({
+          next: () => {
+            this.toastr.success('Silme işlemi başarılı!');
+            this.loadBootcampImages();
+          },
+          error: (error) => {
+            this.toastr.error('Silme işlemi başarısız!', error);
+          },
+        });
+      }
+    });
   }
   add() {
+    this.submitted = true;
     if (this.bootcampImageCreateForm.valid) {
       let bootcampImage: CreateBootcampimageRequest = Object.assign({}, this.bootcampImageCreateForm.value);
       let formData = new FormData();
@@ -98,46 +107,44 @@ export class BootcampImageComponent implements OnInit {
       formData.append('imagePath', bootcampImage.imagePath);
       formData.append('file', bootcampImage.file);
       this.bootcampImageService.create(formData).subscribe({
-        next: (response) => {
-          this.handleCreateSuccess();
-        },
         error: (error) => {
-          this.formMessage = "Eklenemedi";
+          this.toastr.error("Eklenemedi",error);
           this.change.markForCheck();
         },
         complete: () => {
-          this.formMessage = "Başarıyla Eklendi";
+          this.toastr.success("Başarıyla eklendi!");
           this.change.markForCheck();
           this.closeModal();
           this.loadBootcampImages();
         }
       });
-    }
+    } else {
+    this.markFormGroupTouched(this.bootcampImageCreateForm);
   }
-  handleCreateSuccess() {
-    this.loadBootcampImages();
-    this.formMessage = "Başarıyla Eklendi";
-    setTimeout(() => {
-      this.formMessage = "";
-    }, 3000);
   }
   update() {
+    this.submitted = true;
+    if(this.bootcampImageUpdateForm.valid){
     let bootcampImage: UpdateBootcampimageRequest = { ...this.bootcampImageUpdateForm.value, file: this.bootcampImageUpdateForm.get('file').value };
     let formData = new FormData();
     formData.append('id', bootcampImage.id.toString());
     formData.append('bootcampId', bootcampImage.bootcampId.toString());
     formData.append('file', bootcampImage.file);
     this.bootcampImageService.update(formData).subscribe({
-      next: (response) => {
+      next: () => {
         this.closeModal(); // Modal'ı kapat
         this.loadBootcampImages(); // Verileri yeniden getir
+        this.toastr.success("Güncelleme başarılı!");
       },
       error: (error) => {
-        console.error('Güncelleme işlemi başarısız:', error);
+        this.toastr.error('Güncelleme işlemi başarısız:', error);
       }
     });
+  } else {
+  this.markFormGroupTouched(this.bootcampImageUpdateForm); 
+}
+}
 
-  }
   openUpdateModal(bootcampImage: any) {
     this.bootcampImageService.getById(bootcampImage.id).subscribe({
       next: (response) => {
@@ -151,17 +158,19 @@ export class BootcampImageComponent implements OnInit {
         return response;
       },
       error: (error) => {
-        console.error('Veri getirme işlemi başarısız:', error);
+        this.toastr.error('Veri getirme işlemi başarısız:', error);
       }
     });
   }
   openAddModal() {
     this.bootcampImageCreateForm.reset();
     this.showCreateModal = true;
+    this.submitted = false;
   }
   closeModal() {
     this.showUpdateModal = false;
     this.showCreateModal = false;
+    this.submitted = false;
   }
   onFileChange(event: any) {
     const file = event.target.files[0];
@@ -170,5 +179,13 @@ export class BootcampImageComponent implements OnInit {
   onFileUpdateChange(event: any) {
     const file = event.target.files[0];
     this.bootcampImageUpdateForm?.get('file')?.setValue(file);
+  }
+  private markFormGroupTouched(formGroup: FormGroup): void {
+    Object.values(formGroup.controls).forEach(control => {
+      control.markAsTouched();
+      if (control instanceof FormGroup) {
+        this.markFormGroupTouched(control);
+      }
+    });
   }
 }

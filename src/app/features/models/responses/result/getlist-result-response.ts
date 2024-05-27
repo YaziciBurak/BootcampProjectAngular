@@ -7,4 +7,5 @@ export interface GetlistResultResponse {
     wrongAnswers: number;
     correctAnswers: number;
     isPassed: boolean;
+    score:number;
 }

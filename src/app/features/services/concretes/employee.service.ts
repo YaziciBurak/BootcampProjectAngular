@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Observable, map } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { Observable, catchError, map, throwError } from 'rxjs';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { EmployeeBaseService } from '../abstracts/employee-base.service';
 import { GetlistEmployeeResponse } from '../../models/responses/employee/getlist-employee-response';
 import { GetbyidEmployeeResponse } from '../../models/responses/employee/getbyid-employee-response';
@@ -22,6 +22,28 @@ export class EmployeeService extends EmployeeBaseService {
   private readonly apiUrlAuth: string = `${environment.API_URL}/Auth`
 
   constructor(private httpClient: HttpClient) { super() }
+
+  private handleError(error: HttpErrorResponse): Observable<never> {
+    let errorMessage = 'Bir hata oluştu';
+    if (error.error instanceof ErrorEvent) {
+      // Client-side hata
+      errorMessage = `Hata: ${error.error.message}`;
+    } else {
+      // Backend hatası
+      if (error.error && error.error.message) {
+        errorMessage = error.error.message;
+      } else if (error.status === 500 && error.error) {
+        // Hata mesajını backend'den alınan response'un ilk satırından ayıklayın
+        const backendErrorMessage = error.error.split('\n')[0];
+        if (backendErrorMessage.includes('BusinessException')) {
+          errorMessage = backendErrorMessage.split(': ')[1]; // Sadece hata mesajını al
+        }
+      } else {
+        errorMessage = `Sunucu Hatası: ${error.status}\nMesaj: ${error.message}`;
+      }
+    }
+    return throwError(errorMessage);
+  }
 
   override getList(pageRequest: PageRequest): Observable<EmployeeListItemDto> {
     const newRequest: { [key: string]: string | number } = {
@@ -47,7 +69,6 @@ export class EmployeeService extends EmployeeBaseService {
         })
       )
   }
-
   override getById(id: string): Observable<GetbyidEmployeeResponse> {
     const newRequest: { [key: string]: string | number } = {
       id: id
@@ -73,13 +94,19 @@ export class EmployeeService extends EmployeeBaseService {
     );
   }
   override create(request: EmployeeForRegisterRequest): Observable<UserForRegisterResponse> {
-    return this.httpClient.post<UserForRegisterResponse>(`${this.apiUrlAuth}/RegisterEmployee`, request);
+    return this.httpClient.post<UserForRegisterResponse>(`${this.apiUrlAuth}/RegisterEmployee`, request)
+    .pipe(catchError(this.handleError.bind(this))
+    );
   }
   override delete(id: string): Observable<DeleteEmployeeResponse> {
-    return this.httpClient.delete<DeleteEmployeeResponse>(`${this.apiUrl}/` + id);
+    return this.httpClient.delete<DeleteEmployeeResponse>(`${this.apiUrl}/` + id)
+    .pipe(catchError(this.handleError.bind(this))
+    );
   }
   override update(request: UpdateEmployeeRequest): Observable<UpdateEmployeeResponse> {
-    return this.httpClient.put<UpdateEmployeeResponse>(`${this.apiUrl}`, request);
+    return this.httpClient.put<UpdateEmployeeResponse>(`${this.apiUrl}`, request)
+    .pipe(catchError(this.handleError.bind(this))
+    );
   }
   override getListAll(): Observable<EmployeeListItemDto> {
     const newRequest: { [key: string]: string | number } = {
@@ -103,5 +130,4 @@ export class EmployeeService extends EmployeeBaseService {
       })
     )
   }
-
 }

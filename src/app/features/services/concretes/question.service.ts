@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { QuestionBaseService } from '../abstracts/question-base.service';
 import { PageRequest } from '../../../core/models/page-request';
-import { Observable, map } from 'rxjs';
+import { Observable, catchError, map, throwError } from 'rxjs';
 import { QuestionListItemDto } from '../../models/responses/question/question-list-item-dto';
 import { DeleteQuestionResponse } from '../../models/responses/question/delete-question-response';
 import { UpdateQuestionRequest } from '../../models/requests/question/update-question-request';
@@ -19,6 +19,29 @@ export class QuestionService extends QuestionBaseService {
   private readonly apiUrl: string = `${environment.API_URL}/Questions`
 
   constructor(private httpClient: HttpClient) { super() }
+
+  private handleError(error: HttpErrorResponse): Observable<never> {
+    let errorMessage = 'Bir hata oluştu';
+
+    if (error.error instanceof ErrorEvent) {
+      // Client-side hata
+      errorMessage = `Hata: ${error.error.message}`;
+    } else {
+      // Backend hatası
+      if (error.error && error.error.message) {
+        errorMessage = error.error.message;
+      } else if (error.status === 500 && error.error) {
+        // Hata mesajını backend'den alınan response'un ilk satırından ayıklayın
+        const backendErrorMessage = error.error.split('\n')[0];
+        if (backendErrorMessage.includes('BusinessException')) {
+          errorMessage = backendErrorMessage.split(': ')[1]; // Sadece hata mesajını al
+        }
+      } else {
+        errorMessage = `Sunucu Hatası: ${error.status}\nMesaj: ${error.message}`;
+      }
+    }
+    return throwError(errorMessage);
+  }
 
   override getList(pageRequest: PageRequest): Observable<QuestionListItemDto> {
     const newRequest: { [key: string]: string | number } = {
@@ -44,22 +67,26 @@ export class QuestionService extends QuestionBaseService {
   }
 
   override delete(id: number): Observable<DeleteQuestionResponse> {
-    return this.httpClient.delete<DeleteQuestionResponse>(`${this.apiUrl}/` + id);
+    return this.httpClient.delete<DeleteQuestionResponse>(`${this.apiUrl}/` + id)
+    .pipe(catchError(this.handleError.bind(this))
+    );
   }
 
   override update(request: UpdateQuestionRequest): Observable<UpdateQuestionResponse> {
-    return this.httpClient.put<UpdateQuestionResponse>(`${this.apiUrl}`, request);
+    return this.httpClient.put<UpdateQuestionResponse>(`${this.apiUrl}`, request)
+    .pipe(catchError(this.handleError.bind(this))
+    );
   }
 
   override create(request: CreateQuestionRequest): Observable<CreateQuestionResponse> {
-    return this.httpClient.post<CreateQuestionResponse>(`${this.apiUrl}`, request);
+    return this.httpClient.post<CreateQuestionResponse>(`${this.apiUrl}`, request)
+    .pipe(catchError(this.handleError.bind(this))
+    );
   }
-
   override getById(id: number): Observable<GetbyidQuestionResponse> {
     const newRequest: { [key: string]: string | number } = {
       id: id
     };
-
     return this.httpClient.get<GetbyidQuestionResponse>(`${this.apiUrl}/${id}`, {
       params: newRequest
     }).pipe(

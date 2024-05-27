@@ -17,20 +17,20 @@ import { CommonModule } from '@angular/common';
 
 loginForm!:FormGroup
 submitted = false;
+passwordFieldType: string = 'password';
     constructor(private formBuilder:FormBuilder,
       private authService:AuthService,
       private router:Router, 
       private toastrService:AppToastrService
     ){}
-  
     ngOnInit(): void {
+      window.scroll(0,0);
       this.createLoginForm();
       if(this.authService.loggedIn()){
         this.toastrService.message("Zaten giriş yaptınız. Ana sayfaya yönlendiriliyorsunuz.", "Bilgilendirme", ToastrMessageType.Info)
         this.router.navigate(['/']);
       }
     }
-  
     createLoginForm(){
       this.loginForm=this.formBuilder.group({
         email:["",[Validators.required,Validators.email]],
@@ -39,6 +39,9 @@ submitted = false;
     }
     get formControls() {
       return this.loginForm.controls;
+    }
+    togglePasswordVisibility(): void {
+      this.passwordFieldType = this.passwordFieldType === 'password' ? 'text' : 'password';
     }
     login(){
       this.submitted = true;
@@ -49,10 +52,18 @@ submitted = false;
           this.router.navigate(['/'])
         }
         ,(error:any)=>{
-          
         })
+      } else {
+        this.markFormGroupTouched(this.loginForm);
       }
     }
-
+    private markFormGroupTouched(formGroup: FormGroup): void {
+      Object.values(formGroup.controls).forEach(control => {
+        control.markAsTouched();
+        if (control instanceof FormGroup) {
+          this.markFormGroupTouched(control);
+        }
+      });
+    }
 }
 

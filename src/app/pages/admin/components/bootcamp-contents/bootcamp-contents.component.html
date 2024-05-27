@@ -14,18 +14,42 @@
           <div class="mb-4">
             <label for="bootcampId" class="block text-gray-700 text-sm font-bold mb-2">Bootcamp:</label>
             <select formControlName="bootcampId" id="bootcampId" name="bootcampId"
-              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+              class="form-control shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
               <option *ngFor="let bootcamps of bootcampList.items" [value]="bootcamps.id">{{bootcamps.name}}</option>
             </select>
+            <div
+            *ngIf="submitted && bootcampContentUpdateForm.get('bootcampId').invalid"
+            class="error-message"
+          >
+            <div *ngIf="bootcampContentUpdateForm.get('bootcampId').hasError('required')">
+              Bu alan zorunludur.
+            </div>
+            </div>
             <div class="mb-4">
               <label for="videoUrl" class="block text-gray-700 text-sm font-bold mb-1">Video Linki:</label>
               <input formControlName="videoUrl" type="text" id="videoUrl"
-                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                class="form-control shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            </div>
+            <div
+            *ngIf="submitted && bootcampContentUpdateForm.get('videoUrl').invalid"
+            class="error-message"
+          >
+            <div *ngIf="bootcampContentUpdateForm.get('videoUrl').hasError('required')">
+              Bu alan zorunludur.
+            </div>
             </div>
             <div class="mb-4">
               <label for="content" class="block text-gray-700 text-sm font-bold mb-1">İçerik:</label>
               <editor formControlName="content" apiKey="849f053lmmlilkvi8b7tqmqf3hg389ebnye9gsig2lhbbbun"
                 [init]="{ plugins: 'lists link image table code help wordcount' }"></editor>
+                <div
+                *ngIf="submitted && bootcampContentUpdateForm.get('content').invalid"
+                class="error-message"
+              >
+                <div *ngIf="bootcampContentUpdateForm.get('content').hasError('required')">
+                  Bu alan zorunludur.
+                </div>
+                </div>
             </div>
           </div>
 
@@ -107,19 +131,43 @@
           <div class="mb-4">
             <label for="bootcampId" class="block text-gray-700 text-sm font-bold mb-2">Bootcamp:</label>
             <select formControlName="bootcampId" id="bootcampId" name="bootcampId"
-              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+              class="form-control shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
               <option *ngFor="let bootcamps of bootcampList.items" [value]="bootcamps.id">{{bootcamps.name}}</option>
             </select>
+            <div
+            *ngIf="submitted && bootcampContentCreateForm.get('bootcampId').invalid"
+            class="error-message"
+          >
+            <div *ngIf="bootcampContentCreateForm.get('bootcampId').hasError('required')">
+              Bu alan zorunludur.
+            </div>
+            </div>
             <div class="mb-4">
               <label for="videoUrl" class="block text-gray-700 text-sm font-bold mb-1">Video Linki:</label>
               <input formControlName="videoUrl" type="text" id="videoUrl"
                 placeholder="Video linkini yapıştırın veya seçin"
-                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-            </div>
+                class="form-control shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                <div
+                *ngIf="submitted && bootcampContentCreateForm.get('videoUrl').invalid"
+                class="error-message"
+              >
+                <div *ngIf="bootcampContentCreateForm.get('videoUrl').hasError('required')">
+                  Bu alan zorunludur.
+                </div>
+                </div>
+              </div>
             <div class="mb-4">
               <label for="content" class="block text-gray-700 text-sm font-bold mb-1">İçerik:</label>
               <editor formControlName="content" apiKey="849f053lmmlilkvi8b7tqmqf3hg389ebnye9gsig2lhbbbun"
-                [init]="{ plugins: 'lists link image table code help wordcount' }"></editor>
+                [init]="{ plugins: 'lists link image table code help wordcount' }"></editor> 
+                <div
+                *ngIf="submitted && bootcampContentCreateForm.get('content').invalid"
+                class="error-message"
+              >
+                <div *ngIf="bootcampContentCreateForm.get('content').hasError('required')">
+                  Bu alan zorunludur.
+                </div>
+                </div>
             </div>
           </div>
         </div>
