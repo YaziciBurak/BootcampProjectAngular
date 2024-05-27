@@ -13,22 +13,23 @@ import { TokenModel } from '../../models/responses/users/token-model';
 import { EmployeeForRegisterRequest } from '../../models/requests/users/employee-for-register-request';
 import { InstructorForRegisterRequest } from '../../models/requests/users/instructor-for-register-request';
 import { ToastrService } from 'ngx-toastr';
+import { ApplicantVerifyEmailRequest } from '../../models/requests/applicant/applicant-verify-email-request';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService extends AuthBaseService {
-  fullname!:string;
-  userId!:string;
-  token:any;
-  jwtHelper:JwtHelperService = new JwtHelperService;
+  fullname!: string;
+  userId!: string;
+  token: any;
+  jwtHelper: JwtHelperService = new JwtHelperService;
   private loggedInSubject = new BehaviorSubject<boolean>(this.loggedIn());
   loggedIn$ = this.loggedInSubject.asObservable();
-  claims:string[]=[]
+  claims: string[] = []
 
 
-  private readonly apiUrl:string = `${environment.API_URL}/Auth`
-  constructor(private httpClient:HttpClient,private storageService:LocalStorageService, private toastr:ToastrService) {super() }
+  private readonly apiUrl: string = `${environment.API_URL}/Auth`
+  constructor(private httpClient: HttpClient, private storageService: LocalStorageService, private toastr: ToastrService) { super() }
 
   private handleError(error: HttpErrorResponse): Observable<never> {
     let errorMessage = 'Bir hata oluştu';
@@ -54,9 +55,10 @@ export class AuthService extends AuthBaseService {
   }
 
   override register(userforRegisterRequest: ApplicantForRegisterRequest)
-      :Observable<UserForRegisterResponse> {
-    return this.httpClient.post<UserForRegisterResponse>(`${this.apiUrl}/register`,userforRegisterRequest)
+    : Observable<UserForRegisterResponse> {
+    return this.httpClient.post<UserForRegisterResponse>(`${this.apiUrl}/register`, userforRegisterRequest)
   }
+
 
 override RegisterEmployee(employeeforRegisterRequest: EmployeeForRegisterRequest)
   :Observable<UserForRegisterResponse> {
@@ -108,31 +110,31 @@ private getErrorMessage(error: HttpErrorResponse): string {
         return 'Kullanıcı adı veya şifre hatalı';
       default:
         return 'Giriş yaparken hata oluştu';
+
     }
   }
-}
-  getDecodedToken(){
-    try{
-      this.token=this.storageService.getToken();
+  getDecodedToken() {
+    try {
+      this.token = this.storageService.getToken();
       return this.jwtHelper.decodeToken(this.token)
     }
-    catch(error){
+    catch (error) {
       return error;
     }
   }
 
-  loggedIn():boolean{
-    this.token=this.storageService.getToken();
+  loggedIn(): boolean {
+    this.token = this.storageService.getToken();
     let isExpired = this.jwtHelper.isTokenExpired(this.token);
     return !isExpired;
   }
-  getUserName():string{
+  getUserName(): string {
     var decoded = this.getDecodedToken();
-    var propUserName = Object.keys(decoded).filter(x=>x.endsWith("/name"))[0]
-    return this.fullname=decoded[propUserName];
+    var propUserName = Object.keys(decoded).filter(x => x.endsWith("/name"))[0]
+    return this.fullname = decoded[propUserName];
   }
 
-  getCurrentUserId():string{
+  getCurrentUserId(): string {
     var decoded = this.getDecodedToken();
 
     if (!decoded) {
@@ -144,27 +146,29 @@ private getErrorMessage(error: HttpErrorResponse): string {
 
   }
 
-  logOut(){
+  logOut() {
     this.storageService.removeToken();
     this.toastr.success('Çıkış yapıldı', 'Başarılı');
-    this.loggedInSubject.next(false); 
+    this.loggedInSubject.next(false);
     setTimeout(() => {
       window.location.reload();
     }, 800);   
   }
-  getRoles():string[]{
-    if(this.storageService.getToken()){
+  getRoles(): string[] {
+    if (this.storageService.getToken()) {
       var decoded = this.getDecodedToken()
-      var role = Object.keys(decoded).filter(x=>x.endsWith("/role"))[0]
-      this.claims=decoded[role]
+      var role = Object.keys(decoded).filter(x => x.endsWith("/role"))[0]
+      this.claims = decoded[role]
     }
     return this.claims;
   }
-  isAdmin(){
-    if(this.claims.includes("Admin")){
+  isAdmin() {
+    if (this.claims.includes("Admin")) {
       return true;
     }
     return false;
   }
-  
+  verifyEmail(request: ApplicantVerifyEmailRequest) {
+    return this.httpClient.post(`${this.apiUrl}/VerifyEmail`, request);
+  }
 }

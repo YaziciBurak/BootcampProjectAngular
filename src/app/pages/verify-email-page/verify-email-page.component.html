@@ -1,0 +1,47 @@
+<div class="relative flex">
+    <img loading="lazy" src="/assets/img/fixed-top.svg" class="mt-4" style="z-index: 0" />
+
+    <div class="flex flex-col ml-36  2xl:mt-2 2xl:ml-60 max-w-full w-[274px] max-md:ml-2.5 absolute top-12"
+        style="z-index: 1">
+        <div class="text-2xl font-bold leading-10 text-indigo-900 2xl:text-3xl">
+            E-Mail Onayı
+        </div>
+
+    </div>
+</div>
+<div class="flex justify-center mt-16">
+    <div class=" flex flex-col items-center pt-6 pb-12 text-base rounded-lg border border-solid bg-slate-50
+    border-neutral-200 max-w-[400px] max-md:px-5">
+
+        <img *ngIf="success === null" loading="lazy" src="/assets/img/email-waiting.png"
+            class="mt-4 max-w-[250px] self-center mx-12" />
+        <img *ngIf="success === true" loading="lazy" src="/assets/img/email-verify.png"
+            class="mt-4 max-w-[250px] self-center mx-12" />
+        <img *ngIf="success === false" loading="lazy" src="/assets/img/email-notverifyed.png"
+            class="mt-4 max-w-[360px] self-center " />
+
+
+        <div *ngIf="success === null" class="flex flex-col items-center">
+            <h1 class="text-4xl font-bold mt-4">Mail onaylanıyor...</h1>
+            <p class="text-lg  mt-4 mx-4">Mail adresinizi onaylıyoruz.</p>
+        </div>
+
+        <div *ngIf="success === true" class="flex flex-col items-center">
+            <h1 class="text-4xl font-bold mt-4 mx-8">Mailiniz onaylandı!</h1>
+            <p class="text-lg  mt-4 mx-4"> Şimdi giriş yapabilirsiniz.</p>
+            <p class="text-lg  mx-4">Giriş yapmak için lütfen
+                <a routerLink="/login" class="text-indigo-600 underline">tıklayın!</a>
+            </p>
+        </div>
+
+        <div *ngIf="success === false" class="flex flex-col items-center">
+            <h1 class="text-4xl font-bold mt-4 ">Mail onaylanamadı!</h1>
+            <p class="text-lg  mt-4 mx-8">Lütfen kayıt olduğunuzdan emin olun ve tekrar deneyin.
+                Kayıt için
+                <button routerLink="/register" class="text-indigo-600 underline">tıklayın.</button>
+            </p>
+
+        </div>
+
+    </div>
+</div>

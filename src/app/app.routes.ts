@@ -17,6 +17,7 @@ import { MyCertificatesPageComponent } from './pages/my-certificates-page/my-cer
 import { AdminPanelGuard } from './core/guards/login/admin-panel.guard';
 import { LoginGuard } from './core/guards/login/login.guard';
 import { HomepageFaqComponent } from './pages/homepage/homepage-faq/homepage-faq.component';
+import { VerifyEmailPageComponent } from './pages/verify-email-page/verify-email-page.component';
 
 
 export const routes: Routes = [
@@ -43,7 +44,8 @@ export const routes: Routes = [
     { path: 'quiz', component: QuizPageComponent },
     { path: 'quiz/:quizId', component: QuizPageComponent },
     { path: 'mycertificates', component: MyCertificatesPageComponent },
-    { path: 'sss', component: HomepageFaqComponent }
+    { path: 'sss', component: HomepageFaqComponent },
+    { path: 'verify', component: VerifyEmailPageComponent }
 
 
 ];

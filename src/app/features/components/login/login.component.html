@@ -1,9 +1,10 @@
-<div class="relative flex ">
-  <img loading="lazy" src="/assets/img/fixed-top.svg" class="mt-4" style="z-index: 0;" />
+<div class="relative flex">
+  <img loading="lazy" src="/assets/img/fixed-top.svg" class="mt-4" style="z-index: 0" />
 
-  <div class="flex flex-col ml-40 absolute top-8  2xl:ml-60 2xl:mt-8" style="z-index: 1;">
-    <div class="text-2xl font-bold text-slate-900 2xl:text-4xl">
-      Öğrenci Girişi
+  <div class="flex flex-col ml-36 -mt-4 2xl:mt-2 2xl:ml-60 max-w-full w-[274px] max-md:ml-2.5 absolute top-12"
+    style="z-index: 1">
+    <div class="text-3xl font-bold leading-10 text-indigo-950">
+      Öğrenci Giriş
     </div>
     <div class="flex gap-3 mt-2 text-base leading-7 whitespace-nowrap font-semibold">
       <div class="text-indigo-950">Ana Sayfa</div>
@@ -12,6 +13,7 @@
     </div>
   </div>
 </div>
+
 
 <form [formGroup]="loginForm">
   <div class="flex justify-center mt-16 mb-32">
@@ -31,6 +33,7 @@
       <input formControlName="email" type="email" id="email" placeholder="Email yazınız  . . ." autocomplete="email"
         class="form-control justify-center  outline-none items-start px-5 py-3 mt-2.5 text-gray-500  whitespace-nowrap bg-white rounded-md border border-solid border-neutral-200 max-md:px-5 max-md:max-w-full"
         required="" />
+
         <div
         *ngIf="submitted && loginForm.get('email').invalid"
         class="error-message"
@@ -67,6 +70,7 @@
         </div>
         </div>
           <div class="flex gap-4 mt-5 w-full max-md:max-w-full font-semibold ">
+
         <div class="flex flex-1 gap-2 leading-7 text-slate-900">
           <input id="remember" aria-describedby="remember" type="checkbox" class="shrink-0 my-auto w-5 h-5 bg-white rounded border border-solid border-zinc-200 
         text-purple-700  focus:ring-purple-700 " />
