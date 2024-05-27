@@ -60,57 +60,56 @@ export class AuthService extends AuthBaseService {
   }
 
 
-override RegisterEmployee(employeeforRegisterRequest: EmployeeForRegisterRequest)
-  :Observable<UserForRegisterResponse> {
-return this.httpClient.post<UserForRegisterResponse>(`${this.apiUrl}/RegisterEmployee`,employeeforRegisterRequest)
-}
-override RegisterInstructor(instructorforRegisterRequest: InstructorForRegisterRequest)
-  :Observable<UserForRegisterResponse> {
-return this.httpClient.post<UserForRegisterResponse>(`${this.apiUrl}/RegisterInstructor`,instructorforRegisterRequest)
-}
+  override RegisterEmployee(employeeforRegisterRequest: EmployeeForRegisterRequest)
+    : Observable<UserForRegisterResponse> {
+    return this.httpClient.post<UserForRegisterResponse>(`${this.apiUrl}/RegisterEmployee`, employeeforRegisterRequest)
+  }
+  override RegisterInstructor(instructorforRegisterRequest: InstructorForRegisterRequest)
+    : Observable<UserForRegisterResponse> {
+    return this.httpClient.post<UserForRegisterResponse>(`${this.apiUrl}/RegisterInstructor`, instructorforRegisterRequest)
+  }
 
-override RegisterApplicant(applicantforRegisterRequest: ApplicantForRegisterRequest):Observable<UserForRegisterResponse> 
-{
-return this.httpClient.post<UserForRegisterResponse>(`${this.apiUrl}/RegisterApplicant`,applicantforRegisterRequest)
-.pipe(catchError(this.handleError.bind(this))
-  );
-}
+  override RegisterApplicant(applicantforRegisterRequest: ApplicantForRegisterRequest): Observable<UserForRegisterResponse> {
+    return this.httpClient.post<UserForRegisterResponse>(`${this.apiUrl}/RegisterApplicant`, applicantforRegisterRequest)
+      .pipe(catchError(this.handleError.bind(this))
+      );
+  }
 
-  login(userLoginRequest:UserForLoginRequest):Observable<AccessTokenModel<TokenModel>>
-  {
-    return this.httpClient.post<AccessTokenModel<TokenModel>>(`${this.apiUrl}/login`,userLoginRequest)
-    .pipe(
-      map(response => {
-        this.storageService.setToken(response.accessToken.token);
-        this.loggedInSubject.next(true);  
-        setTimeout(() => {
-          window.location.reload();
-        }, 500);  
-        return response;
-      }),
-      catchError(responseError => {
-        const errorMessage = this.getErrorMessage(responseError);
-        this.toastr.error(errorMessage, 'Hata');
-        return throwError(responseError);
-      })
-    );
-}
-private getErrorMessage(error: HttpErrorResponse): string {
-  if (error.error instanceof ErrorEvent) {
-    // Client-side error
-    return `Error: ${error.error.message}`;
-  } else {
-    // Server-side error
-    switch (error.status) {
-      case 400:
-        return 'Hatalı istek';
-      case 404:
-        return 'Kullanıcı bulunamadı';
-      case 500:
-        return 'Kullanıcı adı veya şifre hatalı';
-      default:
-        return 'Giriş yaparken hata oluştu';
+  login(userLoginRequest: UserForLoginRequest): Observable<AccessTokenModel<TokenModel>> {
+    return this.httpClient.post<AccessTokenModel<TokenModel>>(`${this.apiUrl}/login`, userLoginRequest)
+      .pipe(
+        map(response => {
+          this.storageService.setToken(response.accessToken.token);
+          this.loggedInSubject.next(true);
+          setTimeout(() => {
+            window.location.reload();
+          }, 500);
+          return response;
+        }),
+        catchError(responseError => {
+          const errorMessage = this.getErrorMessage(responseError);
+          this.toastr.error(errorMessage, 'Hata');
+          return throwError(responseError);
+        })
+      );
+  }
+  private getErrorMessage(error: HttpErrorResponse): string {
+    if (error.error instanceof ErrorEvent) {
+      // Client-side error
+      return `Error: ${error.error.message}`;
+    } else {
+      // Server-side error
+      switch (error.status) {
+        case 400:
+          return 'Hatalı istek';
+        case 404:
+          return 'Kullanıcı bulunamadı';
+        case 500:
+          return 'Kullanıcı adı veya şifre hatalı';
+        default:
+          return 'Giriş yaparken hata oluştu';
 
+      }
     }
   }
   getDecodedToken() {
@@ -152,7 +151,7 @@ private getErrorMessage(error: HttpErrorResponse): string {
     this.loggedInSubject.next(false);
     setTimeout(() => {
       window.location.reload();
-    }, 800);   
+    }, 800);
   }
   getRoles(): string[] {
     if (this.storageService.getToken()) {
