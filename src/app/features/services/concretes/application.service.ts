@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, catchError, map, throwError } from 'rxjs';
+import { Observable, catchError, map, of, throwError } from 'rxjs';
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { ApplicationBaseService } from '../abstracts/application-base.service';
 import { GetbyidApplicationResponse } from '../../models/responses/application/getbyid-application-response';
@@ -77,8 +77,8 @@ export abstract class ApplicationService extends ApplicationBaseService {
 
   override delete(id: number): Observable<DeleteApplicationResponse> {
     return this.httpClient.delete<DeleteApplicationResponse>(`${this.apiUrl}/` + id)
-    .pipe(catchError(this.handleError.bind(this))
-    );
+      .pipe(catchError(this.handleError.bind(this))
+      );
   }
 
   override update(application: UpdateApplicationRequest): Observable<UpdateApplicationResponse> {
@@ -92,6 +92,8 @@ export abstract class ApplicationService extends ApplicationBaseService {
     const loggedInUserId = this.authService.getCurrentUserId();
     if (!loggedInUserId || loggedInUserId === undefined) {
       this.router.navigate(['/login']);
+      return of();
+
     }
 
     const applicationRequest: CreateApplicationRequest = {
