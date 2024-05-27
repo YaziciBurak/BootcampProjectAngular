@@ -1,54 +1,64 @@
 <div class="flex h-screen bg-gray-200">
-    <!-- Sidebar -->
-    <div class="w-64 bg-yellowImg border-r ">
-      <!-- Sidebar Content -->
-      <div class="p-4">
-        <h1 class="text-xl mb-2 font-semibold">Admin Panel</h1>
-  
-        <button routerLink="/admin" class="block w-full p-2 rounded mb-2 bg-gray-300 text-left hover:bg-gray-400 hover:text-black">
+  <!-- Sidebar -->
+  <div class="w-64 bg-white border-r ">
+    <!-- Sidebar Content -->
+    <div class="p-4">
+      <h1 class="text-xl mb-2 font-semibold">Admin Panel</h1>
+
+      <button routerLink="/admin"
+        class="block w-full p-2 rounded mb-2 bg-gray-300 text-left hover:bg-gray-400 hover:text-black">
         <i class="fa-solid fa-house me-1"></i>
-          <span class="inline-block">Ana Sayfa</span> <span class="caret"></span>
-        </button>
-        <!-- Tablolar Butonu -->
-        <button class="block w-full p-2 rounded mb-2 bg-gray-300 text-left hover:bg-gray-400 hover:text-black" (click)="toggleDropdown()">
+        <span class="inline-block">Ana Sayfa</span> <span class="caret"></span>
+      </button>
+      <!-- Tablolar Butonu -->
+      <button class="block w-full p-2 rounded mb-2 bg-gray-300 text-left hover:bg-gray-400 hover:text-black"
+        (click)="toggleDropdown()">
         <i class="fa-solid fa-table-list me-1"></i>
-          <span class="inline-block">Tablolar</span> <span class="caret"></span>
-        </button>
-        <!-- Dropdown Menüsü -->
-        <div class="dropdown-menu" [ngClass]="{'hidden': !isDropdownOpen}">
-          <ul>
-            <li><a class="block p=2 px-5 text-gray-800 hover:bg-gray-200" routerLink="applicant">Adaylar</a></li>
-            <li><a class="block p=2 px-5 text-gray-800 hover:bg-gray-200" routerLink="applicant-bootcamp-contents">Aday Bootcamp İçerik</a></li>
-            <li><a class="block p=2 px-5 text-gray-800 hover:bg-gray-200" routerLink="application">Başvuru</a></li>
-            <li><a class="block p=2 px-5 text-gray-800 hover:bg-gray-200" routerLink="admin-bootcamp">Bootcampler</a></li>
-            <li><a class="block p=2 px-5 text-gray-800 hover:bg-gray-200" routerLink="bootcamp-contents">Bootcamp İçerik</a></li>
-            <li><a class="block p=2 px-5 text-gray-800 hover:bg-gray-200" routerLink="bootcamp-image">Bootcamp Resim</a></li>
-            <li><a class="block p=2 px-5 text-gray-800 hover:bg-gray-200" routerLink="applicationState">Başvuru Durumu</a></li>
-            <li><a class="block p=2 px-5 text-gray-800 hover:bg-gray-200" routerLink="bootcampState">Bootcamp Durumu</a></li>
-            <li><a class="block p=2 px-5 text-gray-800 hover:bg-gray-200" routerLink="blacklist">Blacklists</a></li>
-            <li><a class="block p=2 px-5 text-gray-800 hover:bg-gray-200" routerLink="instructor">Eğitmen</a></li>
-            <li><a class="block p=2 px-5 text-gray-800 hover:bg-gray-200" routerLink="instructor-image">Eğitmen Resim</a></li>
-            <li><a class="block p=2 px-5 text-gray-800 hover:bg-gray-200" routerLink="employee">Çalışan</a></li>
-          </ul>
-        </div>
-        <!-- Quiz Tabloları Butonu -->
-        <button class="block w-full p-2 rounded mb-2 bg-gray-300 text-left hover:bg-gray-400 hover:text-black" (click)="toggleQuizDropDown()">
-          <i class="fa-solid fa-clipboard me-1"></i>
-          <span class="inline-block">Quiz Tabloları</span> <span class="caret"></span>
-        </button>
-        <!-- Dropdown Menüsü -->
-        <div class="dropdown-menu" [ngClass]="{'hidden': !isQuizDropDownOpen}">
-          <ul>
-            <li><a class="block p=2 px-5 text-gray-800 hover:bg-gray-200" routerLink="quiz">Quiz</a></li>
-            <li><a class="block p=2 px-5 text-gray-800 hover:bg-gray-200" routerLink="questions">Questions</a></li>
-            <li><a class="block p=2 px-5 text-gray-800 hover:bg-gray-200" routerLink="quiz-questions">QuizQuestions</a></li>
-            <li><a class="block p=2 px-5 text-gray-800 hover:bg-gray-200" routerLink="result">Results</a></li>
-          </ul>
-        </div>
+        <span class="inline-block">Tablolar</span> <span class="caret"></span>
+      </button>
+      <!-- Dropdown Menüsü -->
+      <div class="dropdown-menu" [ngClass]="{'hidden': !isDropdownOpen}">
+        <ul>
+          <li><a class="block p=2 px-5 text-gray-800 hover:bg-gray-200" routerLink="applicant">Adaylar</a></li>
+          <li><a class="block p=2 px-5 text-gray-800 hover:bg-gray-200" routerLink="applicant-bootcamp-contents">Aday
+              Bootcamp İçerik</a></li>
+          <li><a class="block p=2 px-5 text-gray-800 hover:bg-gray-200" routerLink="application">Başvuru</a></li>
+          <li><a class="block p=2 px-5 text-gray-800 hover:bg-gray-200" routerLink="admin-bootcamp">Bootcampler</a></li>
+          <li><a class="block p=2 px-5 text-gray-800 hover:bg-gray-200" routerLink="bootcamp-contents">Bootcamp
+              İçerik</a></li>
+          <li><a class="block p=2 px-5 text-gray-800 hover:bg-gray-200" routerLink="bootcamp-image">Bootcamp Resim</a>
+          </li>
+          <li><a class="block p=2 px-5 text-gray-800 hover:bg-gray-200" routerLink="applicationState">Başvuru Durumu</a>
+          </li>
+          <li><a class="block p=2 px-5 text-gray-800 hover:bg-gray-200" routerLink="bootcampState">Bootcamp Durumu</a>
+          </li>
+          <li><a class="block p=2 px-5 text-gray-800 hover:bg-gray-200" routerLink="blacklist">Blacklists</a></li>
+          <li><a class="block p=2 px-5 text-gray-800 hover:bg-gray-200" routerLink="instructor">Eğitmen</a></li>
+          <li><a class="block p=2 px-5 text-gray-800 hover:bg-gray-200" routerLink="instructor-image">Eğitmen Resim</a>
+          </li>
+          <li><a class="block p=2 px-5 text-gray-800 hover:bg-gray-200" routerLink="employee">Çalışan</a></li>
+        </ul>
+      </div>
+      <!-- Quiz Tabloları Butonu -->
+      <button class="block w-full p-2 rounded mb-2 bg-gray-300 text-left hover:bg-gray-400 hover:text-black"
+        (click)="toggleQuizDropDown()">
+        <i class="fa-solid fa-clipboard me-1"></i>
+        <span class="inline-block">Quiz Tabloları</span> <span class="caret"></span>
+      </button>
+      <!-- Dropdown Menüsü -->
+      <div class="dropdown-menu" [ngClass]="{'hidden': !isQuizDropDownOpen}">
+        <ul>
+          <li><a class="block p=2 px-5 text-gray-800 hover:bg-gray-200" routerLink="quiz">Quiz</a></li>
+          <li><a class="block p=2 px-5 text-gray-800 hover:bg-gray-200" routerLink="questions">Questions</a></li>
+          <li><a class="block p=2 px-5 text-gray-800 hover:bg-gray-200" routerLink="quiz-questions">QuizQuestions</a>
+          </li>
+          <li><a class="block p=2 px-5 text-gray-800 hover:bg-gray-200" routerLink="result">Results</a></li>
+        </ul>
       </div>
     </div>
-    <!-- Main Content -->
-    <div class="flex-1 p-4">
-        <router-outlet></router-outlet>
-    </div>
   </div>
+  <!-- Main Content -->
+  <div class="flex-1 p-4">
+    <router-outlet></router-outlet>
+  </div>
+</div>
