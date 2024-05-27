@@ -7,6 +7,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { formatDate, formatDate1 } from '../../core/helpers/format-date';
 import { ApplicationService } from '../../features/services/concretes/application.service';
 import { DomSanitizer, SafeHtml, SafeStyle } from '@angular/platform-browser';
+import { ToastrService } from 'ngx-toastr';
+import { timer } from 'rxjs';
 
 @Component({
   selector: 'app-bootcamp-detail-page',
@@ -25,7 +27,8 @@ export class BootcampDetailPageComponent implements OnInit {
     private bootcampService: BootcampService,
     private activatedRoute: ActivatedRoute,
     private applicationService: ApplicationService,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private toastr:ToastrService
   ) { }
 
   ngOnInit(): void {
@@ -33,31 +36,31 @@ export class BootcampDetailPageComponent implements OnInit {
     this.activatedRoute.params.subscribe((params: { [x: string]: number; }) => {
       if (params["bootcampId"]) {
         this.getBootcampById(params["bootcampId"])
-      } else { console.log("getById bootcamp error") }
+      }
     })
   }
   getBootcampById(bootcampId: number): void {
     this.bootcampService.getById(bootcampId).subscribe(
       (response: GetbyidBootcampResponse) => {
-        console.log("geliyor " + response.name);
-        console.log("ifApplicantApplied" + response.ifApplicantApplied);
         this.getByIdBootcampResponse = response;
         this.bootcampDetail = this.sanitizer.bypassSecurityTrustHtml(response.detail);
         console.log(this.bootcampDetail);
       },
       (error: any) => {
-        console.error('Error fetching bootcamp:', error);
-        console.log("getBootcampById error");
+        this.toastr.error('Error fetching bootcamp:', error);
       }
     );
   }
   applyForBootcamp(id: number): void {
     this.applicationService.applyForBootcamp(id).subscribe(response => {
-
-    },
-      (error) => {
-        console.error('başvuru yaparken hata oluştu', error);
+      this.toastr.success("Başvurunuz alınmıştır, teşekkürler!")
+    }, 
+      () => {
+        this.toastr.error('Bu bootcampe başvurdunuz. Tekrar başvuramazsınız.');
       });
+      setTimeout(() => {
+        window.location.reload();
+      }, 6000);
   }
 
   isDeadlinePassed(deadline: Date): boolean {

@@ -57,7 +57,6 @@ export class AdminBootcampsComponent implements OnInit {
     this.bootcampUpdateForm = this.formBuilder.group({
       name: ['', [Validators.required]],
       instructorId: ['', [Validators.required]],
-      instructorFirstName: ['', [Validators.required]],
       endDate: ['', [Validators.required]],
       detail: ['', [Validators.required]],
       deadLine: ['', [Validators.required]],

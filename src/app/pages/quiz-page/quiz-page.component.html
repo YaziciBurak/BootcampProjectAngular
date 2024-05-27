@@ -117,7 +117,7 @@
 
   <div *ngIf="isPassed === null" class="flex flex-row-reverse mr-20 mt-16">
     <button type="submit"
-      class="flex justify-center items-center px-10 py-4 mt-8 font-bold text-center text-black capitalize bg-amber-400 border-2 border-black border-solid shadow-sm leading-[112%] rounded-[50px] max-md:px-5 max-md:mt-6 max-md:max-w-full"
+      class="flex justify-center items-center px-10 py-4 mt-8 font-bold text-center text-black capitalize bg-amber-400 hover:brightness-110 border-2 border-black border-solid shadow-sm leading-[112%] rounded-[50px] max-md:px-5 max-md:mt-6 max-md:max-w-full"
       style="box-shadow: 8.799px 8.799px 0px 0px black;">
       <div class="flex gap-3 text-xl">
         <div>Sınavı Bitir!</div>
@@ -129,7 +129,7 @@
 
 <div *ngIf="isPassed === true" class="flex flex-row-reverse mr-20 mt-16">
   <button (click)="createCertificate()"
-    class="flex justify-center items-center px-10 py-4 mt-8 font-bold text-center text-black capitalize bg-amber-400 border-2 border-black border-solid shadow-sm leading-[112%] rounded-[50px] max-md:px-5 max-md:mt-6 max-md:max-w-full"
+    class="flex justify-center items-center px-10 py-4 mt-8 font-bold text-center text-black capitalize bg-amber-400 border-2 hover:brightness-110 border-black border-solid shadow-sm leading-[112%] rounded-[50px] max-md:px-5 max-md:mt-6 max-md:max-w-full"
     style="box-shadow: 8.799px 8.799px 0px 0px black;">
     <div class="flex gap-3 text-xl">
       <div>Sertifika Oluştur</div>
@@ -140,7 +140,7 @@
 
 <div *ngIf="isPassed === false" class="flex flex-row-reverse mr-20 mt-16">
   <button (click)="retakeQuiz(createdQuiz.bootcampId)" type="submit"
-    class="flex justify-center items-center px-10 py-4 mt-8 font-bold text-center text-black capitalize bg-amber-400 border-2 border-black border-solid shadow-sm leading-[112%] rounded-[50px] max-md:px-5 max-md:mt-6 max-md:max-w-full"
+    class="flex justify-center items-center px-10 py-4 mt-8 font-bold text-center text-black capitalize bg-amber-400 border-2 hover:brightness-110 border-black border-solid shadow-sm leading-[112%] rounded-[50px] max-md:px-5 max-md:mt-6 max-md:max-w-full"
     style="box-shadow: 8.799px 8.799px 0px 0px black;">
     <div class="flex gap-3 text-xl">
       <div>Yeniden Sınava Gir</div>

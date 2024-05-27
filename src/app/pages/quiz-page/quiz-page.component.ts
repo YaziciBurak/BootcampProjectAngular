@@ -1,16 +1,16 @@
-import { Component, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { CreateQuizResponse } from '../../features/models/responses/quiz/create-quiz-response';
-import { ActivatedRoute, OnSameUrlNavigation, Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { BootcampContentPageComponent } from '../bootcamp-content-page/bootcamp-content-page.component';
-import { FormGroup, FormsModule, NgForm, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, NgForm, ReactiveFormsModule } from '@angular/forms';
 import { FinishQuizRequest } from '../../features/models/requests/quiz/finish-quiz-request';
 import { QuizService } from '../../features/services/concretes/quiz.service';
 import { PassedResultComponent } from '../../shared/components/passed-result/passed-result.component';
 import { NotpassedResultComponent } from '../../shared/components/notpassed-result/notpassed-result.component';
 import { FinishQuizResponse } from '../../features/models/responses/quiz/finish-quiz-response';
 import { CertificateService } from '../../features/services/concretes/certificate.service';
-import { CreateCertificateRequest } from '../../features/models/requests/certificate/create-certificate-request';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -37,6 +37,7 @@ export class QuizPageComponent implements OnInit {
     private route: ActivatedRoute,
     private quizService: QuizService,
     private certificateService: CertificateService,
+    private toastr:ToastrService
 
   ) {
 
@@ -130,9 +131,6 @@ export class QuizPageComponent implements OnInit {
     );
   }
 
-
-
-
   createCertificate(): void {
     this.certificateService.create({
       applicantId: this.createdQuiz.applicantId,
@@ -152,14 +150,14 @@ export class QuizPageComponent implements OnInit {
         a.click();
         window.URL.revokeObjectURL(url);
         document.body.removeChild(a);
-
+        this.toastr.success("Sertifikanız başarıyla oluşturuldu.");
         // 1 sn sonra anasayfaya yönlendir
         setTimeout(() => {
           this.router.navigate(["/homepage"]);
         }, 1000);
       },
       error => {
-        console.error('Sertifika oluşturma sırasında hata oluştu', error);
+        this.toastr.error('Sertifika oluşturma sırasında hata oluştu');
       }
 
     );
@@ -177,7 +175,7 @@ export class QuizPageComponent implements OnInit {
         });
       },
       error => {
-        console.error('Quiz oluşturma sırasında hata oluştu', error);
+        this.toastr.error('Quiz oluşturma sırasında hata oluştu');
       }
     );
   }

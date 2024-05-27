@@ -87,6 +87,8 @@ export abstract class ApplicationService extends ApplicationBaseService {
 
   override create(application: CreateApplicationRequest): Observable<CreateApplicationResponse> {
     return this.httpClient.post<CreateApplicationResponse>(`${this.apiUrl}`, application)
+    .pipe(catchError(this.handleError.bind(this))
+    );
   }
   override applyForBootcamp(id: number): Observable<CreateApplicationResponse> {
     const loggedInUserId = this.authService.getCurrentUserId();
