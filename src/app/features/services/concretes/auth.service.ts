@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AuthBaseService } from '../abstracts/auth-base.service';
-import { BehaviorSubject, Observable, catchError, map, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, map, tap, throwError } from 'rxjs';
 import { ApplicantForRegisterRequest } from '../../models/requests/users/applicant-for-register-request';
 import { UserForRegisterResponse } from '../../models/responses/users/user-for-register-response';
 import { HttpClient, HttpErrorResponse, HttpResponse } from '@angular/common/http';
@@ -59,7 +59,6 @@ export class AuthService extends AuthBaseService {
     return this.httpClient.post<UserForRegisterResponse>(`${this.apiUrl}/register`, userforRegisterRequest)
   }
 
-
   override RegisterEmployee(employeeforRegisterRequest: EmployeeForRegisterRequest)
     : Observable<UserForRegisterResponse> {
     return this.httpClient.post<UserForRegisterResponse>(`${this.apiUrl}/RegisterEmployee`, employeeforRegisterRequest)
@@ -80,6 +79,7 @@ export class AuthService extends AuthBaseService {
       .pipe(
         map(response => {
           this.storageService.setToken(response.accessToken.token);
+          this.storageService.setRefreshToken(response.accessToken.refreshToken);
           this.loggedInSubject.next(true);
           setTimeout(() => {
             window.location.reload();
@@ -93,6 +93,20 @@ export class AuthService extends AuthBaseService {
         })
       );
   }
+ refreshToken(): Observable<any> {
+  const refreshToken = this.storageService.getRefreshToken();
+  return this.httpClient.get<AccessTokenModel<TokenModel>>(`${this.apiUrl}/RefreshToken`, {
+    params: {
+      refreshToken: refreshToken
+    }
+  }).pipe(
+    tap((response: AccessTokenModel<TokenModel>) => {
+      this.storageService.setToken(response.accessToken.token);
+      this.storageService.setRefreshToken(response.accessToken.refreshToken);
+    })
+  );
+}
+
   private getErrorMessage(error: HttpErrorResponse): string {
     if (error.error instanceof ErrorEvent) {
       // Client-side error
@@ -121,7 +135,6 @@ export class AuthService extends AuthBaseService {
       return error;
     }
   }
-
   loggedIn(): boolean {
     this.token = this.storageService.getToken();
     let isExpired = this.jwtHelper.isTokenExpired(this.token);
