@@ -68,8 +68,8 @@
 
         <div class="flex flex-col gap-3 pl-6">
           <div class="flex gap-4" [ngClass]="{
-              'bg-[#34C759]': isPassed !== null && questionResults[questionResponse.id].correctAnswer === 'A',
-              'bg-[#FF0000]': isPassed !== null && questionResults[questionResponse.id].correctAnswer !== 'A' && questionResults[questionResponse.id].studentAnswer === 'A',
+              'bg-[#34C759] opacity-60': isPassed !== null && questionResults[questionResponse.id].correctAnswer === 'A',
+              'bg-[#FF3B30] opacity-60': isPassed !== null && questionResults[questionResponse.id].correctAnswer !== 'A' && questionResults[questionResponse.id].studentAnswer === 'A',
             }">
             <input [disabled]="isPassed!==null" type="radio" id="option1_{{ questionResponse.id }}"
               name="question_{{ questionResponse.id }}" value="A" #answerA="ngModel" ngModel required
@@ -78,8 +78,8 @@
               class="text-xl leading-5 text-indigo-950">{{questionResponse.answerA}}</label>
           </div>
           <div class="flex gap-4" [ngClass]="{
-              'bg-[#34C759]': isPassed !== null && questionResults[questionResponse.id].correctAnswer === 'B',
-              'bg-[#FF0000]': isPassed !== null && questionResults[questionResponse.id].correctAnswer !== 'B' && questionResults[questionResponse.id].studentAnswer === 'B',
+              'bg-[#34C759] opacity-60': isPassed !== null && questionResults[questionResponse.id].correctAnswer === 'B',
+              'bg-[#FF3B30] opacity-60': isPassed !== null && questionResults[questionResponse.id].correctAnswer !== 'B' && questionResults[questionResponse.id].studentAnswer === 'B',
             }">
             <input [disabled]="isPassed!==null" type="radio" id="option2_{{ questionResponse.id }}"
               name="question_{{ questionResponse.id }}" value="B" #answerB="ngModel" ngModel required
@@ -88,8 +88,8 @@
               class="text-xl leading-5 text-indigo-950">{{questionResponse.answerB}}</label>
           </div>
           <div class="flex gap-4" [ngClass]="{
-              'bg-[#34C759]': isPassed !== null && questionResults[questionResponse.id].correctAnswer === 'C',
-              'bg-[#FF0000]': isPassed !== null && questionResults[questionResponse.id].correctAnswer !== 'C' && questionResults[questionResponse.id].studentAnswer === 'C',
+              'bg-[#34C759] opacity-60': isPassed !== null && questionResults[questionResponse.id].correctAnswer === 'C',
+              'bg-[#FF3B30] opacity-60': isPassed !== null && questionResults[questionResponse.id].correctAnswer !== 'C' && questionResults[questionResponse.id].studentAnswer === 'C',
             }">
             <input [disabled]="isPassed!==null" type="radio" id="option3_{{ questionResponse.id }}"
               name="question_{{ questionResponse.id }}" value="C" #answerC="ngModel" ngModel required
@@ -98,8 +98,8 @@
               class="text-xl leading-5 text-indigo-950">{{questionResponse.answerC }}</label>
           </div>
           <div class="flex gap-4" [ngClass]="{
-              'bg-[#34C759]': isPassed !== null && questionResults[questionResponse.id].correctAnswer === 'D',
-              'bg-[#FF0000]': isPassed !== null && questionResults[questionResponse.id].correctAnswer !== 'D' && questionResults[questionResponse.id].studentAnswer === 'D',
+              'bg-[#34C759] opacity-60': isPassed !== null && questionResults[questionResponse.id].correctAnswer === 'D',
+              'bg-[#FF3B30] opacity-60': isPassed !== null && questionResults[questionResponse.id].correctAnswer !== 'D' && questionResults[questionResponse.id].studentAnswer === 'D',
             }">
             <input [disabled]="isPassed!==null" type="radio" id="option4_{{ questionResponse.id }}"
               name="question_{{ questionResponse.id }}" value="D" #answerD="ngModel" ngModel required
