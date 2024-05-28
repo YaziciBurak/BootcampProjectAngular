@@ -190,7 +190,7 @@
       <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full" role="dialog" aria-modal="true" aria-labelledby="modal-headline">
         <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
           <div class="mb-4">
-            <label for="reason" class="block text-gray-700 text-sm font-bold mb-2">Reason:</label>
+            <label for="reason" class="block text-gray-700 text-sm font-bold mb-2">Blackliste eklenme sebebi:</label>
             <input formControlName="reason" type="text" id="reason" class="form-control shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
             <div
             *ngIf="submitted && blacklistCreateForm.get('reason').invalid"
@@ -202,7 +202,7 @@
              </div>
           </div> 
           <div class="mb-4">
-            <label for="date" class="block text-gray-700 text-sm font-bold mb-2">Date:</label>
+            <label for="date" class="block text-gray-700 text-sm font-bold mb-2">Tarih:</label>
             <input formControlName="date" type="date" id="date" class="form-control shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
             <div
             *ngIf="submitted && blacklistCreateForm.get('date').invalid"

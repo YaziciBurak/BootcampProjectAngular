@@ -61,7 +61,7 @@
       <tbody>
         <tr *ngFor="let instructorImages of instructorImageList.items">
           <td class="px-6 py-4 whitespace-nowrap border-b border-gray-200">{{ instructorImages.instructorFirstName}} {{ instructorImages.instructorLastName}}</td>
-          <td class="px-6 py-4 whitespace-nowrap border-b border-gray-200">{{ instructorImages.imagePath}} </td>
+          <td><img [src]="instructorImages.imagePath" alt="instructor resmi" style="width: 140px; height: 80px;"></td>
           <td class="px-6 py-4 whitespace-nowrap border-b border-gray-200">
             <button (click)="delete(instructorImages.id)" class="px-3 py-1 bg-red-500 text-white rounded-md hover:bg-red-600 focus:outline-none focus:bg-red-600">
               Sil
@@ -118,7 +118,7 @@
               </div>
               </div>    
             <div class="mb-4">
-                <label for="imagePath" class="block text-gray-700 text-sm font-bold mb-2">Resim Yol:</label>
+                <label for="imagePath" class="block text-gray-700 text-sm font-bold mb-2">Resim Yolu:</label>
                 <input  formControlName="imagePath" type="text" id="imagePath" class="form-control shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                 <div
                 *ngIf="submitted && instructorImageCreateForm.get('imagePath').invalid"

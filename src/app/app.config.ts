@@ -9,6 +9,6 @@ import { provideToastr } from 'ngx-toastr';
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
-    provideHttpClient(withInterceptors([AuthInterceptor])), provideAnimationsAsync(), provideAnimationsAsync(), provideAnimationsAsync(), provideAnimationsAsync(), provideToastr(),provideAnimationsAsync()
+    provideHttpClient(withInterceptors([AuthInterceptor])),provideToastr(),provideAnimationsAsync()
     ]
 };

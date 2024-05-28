@@ -20,7 +20,6 @@ import Swal from 'sweetalert2';
   styleUrl: './bootcamp-state-list-group.component.css'
 })
 export class BootcampStateListGroupComponent implements OnInit {
-  formMessage: string | null = null;
   bootcampStateUpdateForm: FormGroup;
   bootcampStateCreateForm: FormGroup;
   selectedBootcampState: any;

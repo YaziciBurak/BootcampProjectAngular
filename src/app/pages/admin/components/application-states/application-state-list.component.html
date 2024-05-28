@@ -10,7 +10,7 @@
     <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full" role="dialog" aria-modal="true" aria-labelledby="modal-headline">
       <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
         <div class="mb-4">
-          <label for="name" class="block text-gray-700 text-sm font-bold mb-2">Güncellenecek Application State Adı:</label>
+          <label for="name" class="block text-gray-700 text-sm font-bold mb-2">Güncellenecek Başvuru Durumu :</label>
           <input formControlName="name" type="text" id="name" class="form-control shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
           <div
           *ngIf="submitted && applicationStateUpdateForm.get('name').invalid"
@@ -36,24 +36,24 @@
 </form>
 
 <!-- Table for displaying data -->
-<div class="overflow-x-auto">
+<div class="overflow-x-auto bg-white shadow-md rounded-lg">
   <table class="min-w-full">
     <thead>
-      <tr>
-        <th class="px-6 py-3 bg-gray-800 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Name</th>
-        <th class="px-6 py-3 bg-gray-800 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Delete</th>
-        <th class="px-6 py-3 bg-gray-800 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Update</th>
+      <tr class="bg-gray-800 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
+        <th class="px-6 py-3">Başvuru Durumu</th>
+        <th class="px-6 py-3">Sil</th>
+        <th class="px-6 py-3">Güncelle</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let appState of applicationStateList.items">
-        <td class="px-6 py-4 whitespace-nowrap border-b border-gray-200">{{ appState.name }}</td>
-        <td class="px-6 py-4 whitespace-nowrap border-b border-gray-200">
+      <tr *ngFor="let appState of applicationStateList.items" class="bg-gray-100">
+        <td class="px-6 py-4">{{ appState.name }}</td>
+        <td class="px-6 py-4">
           <button (click)="delete(appState.id)" class="px-3 py-1 bg-red-500 text-white rounded-md hover:bg-red-600 focus:outline-none focus:bg-red-600">
             Sil
           </button>
         </td>
-        <td class="px-6 py-4 whitespace-nowrap border-b border-gray-200">
+        <td class="px-6 py-4">
           <button (click)="openUpdateModal(appState)" class="px-3 py-1 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
             Güncelle
           </button>
@@ -63,10 +63,12 @@
   </table>
 </div>
 
+
+
 <!-- Button to add new Application State -->
-<div class="flex justify-center">
-  <button (click)="openAddModal()" class="px-4 py-2  bg-green-500 text-white rounded-md focus:outline-none mt-4">
-    Application State Ekle
+<div class="flex justify-center mt-4">
+  <button (click)="openAddModal()" class="px-4 py-2 bg-green-500 text-white rounded-md focus:outline-none hover:bg-green-600">
+    Başvuru Durumu Ekle
   </button>
 </div>
 
@@ -82,7 +84,7 @@
       <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full" role="dialog" aria-modal="true" aria-labelledby="modal-headline">
         <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
           <div class="mb-4">
-            <label for="name" class="block text-gray-700 text-sm font-bold mb-2">Eklenecek Application durumu:</label>
+            <label for="name" class="block text-gray-700 text-sm font-bold mb-2">Eklenecek Başvuru durumu:</label>
             <input formControlName="name" type="text" id="name" class="form-control shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
             <div
             *ngIf="submitted && applicationStateCreateForm.get('name').invalid"
