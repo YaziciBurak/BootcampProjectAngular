@@ -63,4 +63,11 @@ export class ApplicantBootcampContentsComponent implements OnInit {
       }
     });
   }
+  getShortenedText(text: string): string {
+    const maxLength = 20;
+    if (text.length > maxLength) {
+      return text.substring(0, maxLength) + '...';
+    }
+    return text;
+  }
 }

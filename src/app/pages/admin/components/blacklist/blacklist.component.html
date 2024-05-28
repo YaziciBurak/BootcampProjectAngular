@@ -10,7 +10,7 @@
             <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full" role="dialog" aria-modal="true" aria-labelledby="modal-headline">
                 <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                     <div class="mb-4">
-                        <label for="reason" class="block text-gray-700 text-sm font-bold mb-2">Güncellenecek Blacklist Reason Adı:</label>
+                        <label for="reason" class="block text-gray-700 text-sm font-bold mb-2">Güncellenecek Blacklist Sebebi :</label>
                         <input formControlName="reason" type="text" id="reason" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                         <div
                         *ngIf="submitted && blacklistForm.get('reason').invalid"
@@ -42,11 +42,11 @@
     <table class="min-w-full">
       <thead>
         <tr>
-          <th class="px-6 py-3 bg-gray-800 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Applicant</th>
-          <th class="px-6 py-3 bg-gray-800 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Reason</th>
-          <th class="px-6 py-3 bg-gray-800 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Date</th>
-          <th class="px-6 py-3 bg-gray-800 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Delete</th>
-          <th class="px-6 py-3 bg-gray-800 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Update</th>
+          <th class="px-6 py-3 bg-gray-800 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Aday</th>
+          <th class="px-6 py-3 bg-gray-800 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Sebep</th>
+          <th class="px-6 py-3 bg-gray-800 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Tarih</th>
+          <th class="px-6 py-3 bg-gray-800 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Sil</th>
+          <th class="px-6 py-3 bg-gray-800 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Güncelle</th>
         </tr>
       </thead>
       <tbody>

@@ -1,0 +1,66 @@
+<div class="container mx-auto px-4 py-8">
+  <h1 class="text-3xl font-bold mb-4">Hoş Geldiniz!</h1>
+  
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div class="bg-white rounded-lg shadow-md p-8 text-center">
+      <!-- Bootcampler -->
+      <h2 class="text-xl font-semibold mb-4">Sitemizdeki Toplam Bootcamp Sayısı</h2>
+      <div class="flex items-center justify-center mb-4">
+        <div class="rounded-full bg-blue-500 text-white w-16 h-16 flex items-center justify-center mr-4">
+          <i class="fas fa-graduation-cap text-3xl"></i>
+        </div>
+        <span class="text-4xl font-bold">{{ totalBootcamps }}</span>
+      </div>
+    </div>
+    <!-- Eğitmenler -->
+    <div class="bg-white rounded-lg shadow-md p-8 text-center">
+      <h2 class="text-xl font-semibold mb-4">Sitemizdeki Toplam Eğitmen Sayısı</h2>
+      <div class="flex items-center justify-center mb-4">
+        <div class="rounded-full bg-green-500 text-white w-16 h-16 flex items-center justify-center mr-4">
+          <i class="fas fa-chalkboard-teacher text-3xl"></i>
+        </div>
+        <span class="text-4xl font-bold">{{ totalInstructors }}</span>
+      </div>
+    </div>
+<!-- Adaylar -->
+    <div class="bg-white rounded-lg shadow-md p-8 text-center">
+      <h2 class="text-xl font-semibold mb-4">Sitemizdeki Toplam Aday Sayısı</h2>
+      <div class="flex items-center justify-center mb-4">
+        <div class="rounded-full bg-yellow-500 text-white w-16 h-16 flex items-center justify-center mr-4">
+          <i class="fas fa-user-graduate text-3xl"></i>
+        </div>
+        <span class="text-4xl font-bold">{{ totalApplicant }}</span>
+      </div>
+    </div>
+<!--  Aday Başvuruları -->
+<div class="bg-white rounded-lg shadow-md p-8 text-center">
+  <h2 class="text-xl font-semibold mb-4">Sitemizdeki Toplam Başvuru Sayısı</h2>
+  <div class="flex items-center justify-center mb-4">
+    <div class="rounded-full bg-indigo-700 text-white w-16 h-16 flex items-center justify-center mr-4">
+      <i class="fas fa-file-alt text-3xl"></i>
+    </div>
+    <span class="text-4xl font-bold">{{ totalApplication }}</span>
+  </div>
+</div>
+ <!--Çalışanlar-->
+ <div class="bg-white rounded-lg shadow-md p-8 text-center">
+  <h2 class="text-xl font-semibold mb-4">Sitemizdeki Toplam Çalışan Sayısı</h2>
+  <div class="flex items-center justify-center mb-4">
+    <div class="rounded-full bg-rose-600 text-white w-16 h-16 flex items-center justify-center mr-4">
+      <i class="fas fa-user-tie text-3xl"></i>
+    </div>
+    <span class="text-4xl font-bold">{{ totalEmployee }}</span>
+  </div>
+</div>
+<!--Quizler-->
+<div class="bg-white rounded-lg shadow-md p-8 text-center">
+  <h2 class="text-xl font-semibold mb-4">Sitemizdeki Toplam Quiz Sayısı</h2>
+  <div class="flex items-center justify-center mb-4">
+    <div class="rounded-full bg-lime-500 text-white w-16 h-16 flex items-center justify-center mr-4">
+      <i class="fas fa-tasks text-3xl"></i>
+    </div>
+    <span class="text-4xl font-bold">{{ totalQuiz }}</span>
+  </div>
+</div>
+</div>
+</div>

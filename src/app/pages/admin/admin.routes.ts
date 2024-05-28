@@ -16,9 +16,12 @@ import { ApplicationComponent } from './components/application/application.compo
 import { BootcampContentsComponent } from './components/bootcamp-contents/bootcamp-contents.component';
 import { ApplicantBootcampContentsComponent } from './components/applicant-bootcamp-contents/applicant-bootcamp-contents.component';
 import { InstructorImageComponent } from './components/instructor-image/instructor-image.component';
+import { AdminHomepageComponent } from './pages/admin-homepage/admin-homepage.component';
 
 export const AdminRoutes: Routes = [
+  { path: '', redirectTo: 'admin-homepage', pathMatch: 'full' },
   { path: "", component: AdminComponent, children: [   
+    { path:'admin-homepage', component:AdminHomepageComponent},
     { path: 'bootcampState', component: BootcampStateListGroupComponent },
     { path:'applicationState', component:ApplicationStateListComponent},
     { path:'bootcamp-image', component:BootcampImageComponent},
