@@ -35,7 +35,7 @@ export class BootcampContentsComponent implements OnInit {
     private bootcampService: BootcampService,
     private formBuilder: FormBuilder,
     private change: ChangeDetectorRef,
-    private toastr:ToastrService
+    private toastr: ToastrService
   ) { }
   ngOnInit(): void {
     this.loadBootcampContent();
@@ -44,7 +44,7 @@ export class BootcampContentsComponent implements OnInit {
   }
 
   loadBootcampContent() {
-    const pageRequest: PageRequest = { pageIndex: 0, pageSize: 30 };
+    const pageRequest: PageRequest = { pageIndex: 0, pageSize: 40 };
     this.getBootcampContents(pageRequest);
     this.getBootcamps(pageRequest);
   }
@@ -104,7 +104,7 @@ export class BootcampContentsComponent implements OnInit {
         next: () => {
         },
         error: (error) => {
-          this.toastr.error("Eklenemedi",error);
+          this.toastr.error("Eklenemedi", error);
           this.change.markForCheck();
         },
         complete: () => {
@@ -115,36 +115,36 @@ export class BootcampContentsComponent implements OnInit {
         }
       });
     } else {
-    this.markFormGroupTouched(this.bootcampContentCreateForm);
-  }
+      this.markFormGroupTouched(this.bootcampContentCreateForm);
+    }
   }
   update() {
     this.submitted = true;
-    if(this.bootcampContentUpdateForm.valid) {
-    const id = this.selectedBootcampContent.id;
-    const bootcampId = this.bootcampContentUpdateForm.value.bootcampId;
-    const videoUrl = this.bootcampContentUpdateForm.value.videoUrl;
-    const content = this.bootcampContentUpdateForm.value.content;
+    if (this.bootcampContentUpdateForm.valid) {
+      const id = this.selectedBootcampContent.id;
+      const bootcampId = this.bootcampContentUpdateForm.value.bootcampId;
+      const videoUrl = this.bootcampContentUpdateForm.value.videoUrl;
+      const content = this.bootcampContentUpdateForm.value.content;
 
-    const request: UpdateBootcampcontentRequest = {
-      id: id,
-      bootcampId: bootcampId,
-      videoUrl: videoUrl,
-      content: content
-    };
-    this.bootcampContentService.update(request).subscribe({
-      next: () => {
-        this.closeModal(); // Modal'ı kapat
-        this.loadBootcampContent(); // Verileri yeniden getir
-        this.toastr.success("Güncelleme başarılı!");
-      },
-      error: (error) => {
-        this.toastr.error('Güncelleme işlemi başarısız:', error);
-      }
-    });
-  } else {
-  this.markFormGroupTouched(this.bootcampContentUpdateForm);
-  }
+      const request: UpdateBootcampcontentRequest = {
+        id: id,
+        bootcampId: bootcampId,
+        videoUrl: videoUrl,
+        content: content
+      };
+      this.bootcampContentService.update(request).subscribe({
+        next: () => {
+          this.closeModal(); // Modal'ı kapat
+          this.loadBootcampContent(); // Verileri yeniden getir
+          this.toastr.success("Güncelleme başarılı!");
+        },
+        error: (error) => {
+          this.toastr.error('Güncelleme işlemi başarısız:', error);
+        }
+      });
+    } else {
+      this.markFormGroupTouched(this.bootcampContentUpdateForm);
+    }
   }
   openUpdateModal(application: any) {
     this.bootcampContentService.getById(application.id).subscribe({

@@ -32,11 +32,11 @@ export class QuestionsComponent implements OnInit {
   submitted = false;
 
   constructor(private questionService: QuestionService,
-     private bootcampService: BootcampService,
-      private formBuilder: FormBuilder, 
-      private change: ChangeDetectorRef,
-      private toastr:ToastrService
-    ) { }
+    private bootcampService: BootcampService,
+    private formBuilder: FormBuilder,
+    private change: ChangeDetectorRef,
+    private toastr: ToastrService
+  ) { }
 
   ngOnInit(): void {
     this.loadQuestions();
@@ -45,7 +45,7 @@ export class QuestionsComponent implements OnInit {
   }
 
   loadQuestions() {
-    const pageRequest: PageRequest = { pageIndex: 0, pageSize: 20 };
+    const pageRequest: PageRequest = { pageIndex: 0, pageSize: 100 };
     this.getQuestions(pageRequest);
     this.getBootcamps(pageRequest);
   }
@@ -111,7 +111,7 @@ export class QuestionsComponent implements OnInit {
       let question: CreateQuestionRequest = Object.assign({}, this.questionCreateForm.value);
       this.questionService.create(question).subscribe({
         error: (error) => {
-          this.toastr.error("Eklenemedi!",error)
+          this.toastr.error("Eklenemedi!", error)
           this.change.markForCheck();
         },
         complete: () => {
@@ -127,39 +127,39 @@ export class QuestionsComponent implements OnInit {
   }
   update() {
     this.submitted = true;
-    if(this.questionUpdateForm.valid){
-    const id = this.selectedQuestion.id;
-    const bootcampId = this.questionUpdateForm.value.bootcampId;
-    const text = this.questionUpdateForm.value.text;
-    const answerA = this.questionUpdateForm.value.answerA;
-    const answerB = this.questionUpdateForm.value.answerB;
-    const answerC = this.questionUpdateForm.value.answerC;
-    const answerD = this.questionUpdateForm.value.answerD;
-    const correctAnswer = this.questionUpdateForm.value.correctAnswer;
+    if (this.questionUpdateForm.valid) {
+      const id = this.selectedQuestion.id;
+      const bootcampId = this.questionUpdateForm.value.bootcampId;
+      const text = this.questionUpdateForm.value.text;
+      const answerA = this.questionUpdateForm.value.answerA;
+      const answerB = this.questionUpdateForm.value.answerB;
+      const answerC = this.questionUpdateForm.value.answerC;
+      const answerD = this.questionUpdateForm.value.answerD;
+      const correctAnswer = this.questionUpdateForm.value.correctAnswer;
 
-    const request: UpdateQuestionRequest = {
-      id: id,
-      bootcampId: bootcampId,
-      text: text,
-      answerA: answerA,
-      answerB: answerB,
-      answerC: answerC,
-      answerD: answerD,
-      correctAnswer: correctAnswer
-    };
-    this.questionService.update(request).subscribe({
-      next: () => {
-        this.closeModal(); // Modal'ı kapat
-        this.loadQuestions(); // Verileri yeniden getir
-        this.toastr.success("Güncelleme başarılı!");
-      },
-      error: (error) => {
-        this.toastr.error('Güncelleme işlemi başarısız:', error);
-      }
-    });
-  } else {
-    this.markFormGroupTouched(this.questionUpdateForm);
-  }
+      const request: UpdateQuestionRequest = {
+        id: id,
+        bootcampId: bootcampId,
+        text: text,
+        answerA: answerA,
+        answerB: answerB,
+        answerC: answerC,
+        answerD: answerD,
+        correctAnswer: correctAnswer
+      };
+      this.questionService.update(request).subscribe({
+        next: () => {
+          this.closeModal(); // Modal'ı kapat
+          this.loadQuestions(); // Verileri yeniden getir
+          this.toastr.success("Güncelleme başarılı!");
+        },
+        error: (error) => {
+          this.toastr.error('Güncelleme işlemi başarısız:', error);
+        }
+      });
+    } else {
+      this.markFormGroupTouched(this.questionUpdateForm);
+    }
   }
   openUpdateModal(question: any) {
     this.questionService.getById(question.id).subscribe({

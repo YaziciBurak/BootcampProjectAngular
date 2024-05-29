@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-import { ChangeDetectorRef, Component,OnInit, } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { BootcampListItemDto } from '../../../../features/models/responses/bootcamp/bootcamp-list-item-dto';
 import { BootcampService } from '../../../../features/services/concretes/bootcamp.service';
@@ -59,9 +59,9 @@ export class AdminBootcampsComponent implements OnInit {
       instructorId: ['', [Validators.required]],
       endDate: ['', [Validators.required]],
       detail: ['', [Validators.required]],
-      deadLine: ['', [Validators.required]],
-      startDate: ['',[Validators.required]],
-      bootcampStateId: ['',[Validators.required]]
+      deadline: ['', [Validators.required]],
+      startDate: ['', [Validators.required]],
+      bootcampStateId: [0, [Validators.required]]
     });
   }
 
@@ -69,16 +69,16 @@ export class AdminBootcampsComponent implements OnInit {
     this.bootcampCreateForm = this.formBuilder.group({
       name: ['', [Validators.required]],
       instructorId: ['', [Validators.required]],
-      bootcampStateId: ['',[Validators.required]],
-      detail: ['',[Validators.required]],
-      deadLine: ['',[Validators.required]],
+      bootcampStateId: [0, [Validators.required]],
+      detail: ['', [Validators.required]],
+      deadline: ['', [Validators.required]],
       endDate: ['', [Validators.required]],
-      startDate: ['',[Validators.required]]
+      startDate: ['', [Validators.required]]
     })
   }
 
   loadBootcamps() {
-    const pageRequest: PageRequest = { pageIndex: 0, pageSize: 25 };
+    const pageRequest: PageRequest = { pageIndex: 0, pageSize: 40 };
     this.getBootcamps(pageRequest);
     this.getInstructors();
     this.getBootcampStates();
@@ -131,7 +131,7 @@ export class AdminBootcampsComponent implements OnInit {
       let bootcamp: CreateBootcampRequest = Object.assign({}, this.bootcampCreateForm.value);
       this.bootcampService.create(bootcamp).subscribe({
         error: (error) => {
-          this.toastr.error("Eklenemedi!",error);
+          this.toastr.error("Eklenemedi!", error);
           this.change.markForCheck();
         },
         complete: () => {
@@ -141,7 +141,7 @@ export class AdminBootcampsComponent implements OnInit {
           this.loadBootcamps();
         }
       });
-    }  else {
+    } else {
       this.markFormGroupTouched(this.bootcampCreateForm);
     }
   }
@@ -156,12 +156,12 @@ export class AdminBootcampsComponent implements OnInit {
       const updatedInstructorLastName = this.bootcampUpdateForm.value.instructorLastName;
       const updatedBootcampStateName = this.selectedBootcamp.bootcampStateName;
       const bootcampImagePath = this.selectedBootcamp.bootcampImagePath;
-      const deadLine = this.bootcampUpdateForm.value.deadLine;
+      const deadline = this.bootcampUpdateForm.value.deadline;
       const detail = this.bootcampUpdateForm.value.detail;
       const startDate = this.bootcampUpdateForm.value.startDate;
       const endDate = this.bootcampUpdateForm.value.endDate;
       const updatedName = this.bootcampUpdateForm.value.name;
-  
+
       const request: UpdateBootcampRequest = {
         id: id,
         instructorId: instructorId,
@@ -171,13 +171,13 @@ export class AdminBootcampsComponent implements OnInit {
         instructorLastName: updatedInstructorLastName,
         bootcampStateName: updatedBootcampStateName,
         bootcampImagePath: bootcampImagePath,
-        deadline: deadLine,
+        deadline: deadline,
         detail: detail,
         name: updatedName,
         startDate: startDate,
         endDate: endDate
       };
-  
+
       this.bootcampService.update(request).subscribe({
         next: () => {
           this.closeModal(); // Modal'ı kapat
@@ -186,7 +186,7 @@ export class AdminBootcampsComponent implements OnInit {
         },
         error: (error) => {
           this.toastr.error('Güncelleme işlemi başarısız:', error);
-        } 
+        }
       });
     } else {
       this.markFormGroupTouched(this.bootcampUpdateForm);
@@ -200,7 +200,7 @@ export class AdminBootcampsComponent implements OnInit {
           name: this.selectedBootcamp.name,
           detail: this.selectedBootcamp.detail,
           startDate: formatDate(this.selectedBootcamp.startDate),
-          deadline: formatDate(this.selectedBootcamp.deadLine),
+          deadline: formatDate(this.selectedBootcamp.deadline),
           endDate: formatDate(this.selectedBootcamp.endDate),
           instructorId: this.selectedBootcamp.instructorId,
           bootcampStateId: this.selectedBootcamp.bootcampStateId
@@ -210,8 +210,8 @@ export class AdminBootcampsComponent implements OnInit {
       },
       error: (error) => {
         this.toastr.error('Veri getirme işlemi başarısız:', error);
-      } 
-    }); 
+      }
+    });
   }
   openAddModal() {
     this.bootcampCreateForm.reset();
