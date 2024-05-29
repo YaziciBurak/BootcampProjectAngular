@@ -134,12 +134,12 @@ export class AuthService extends AuthBaseService {
   }
   refreshToken(): Observable<any> {
     return this.httpClient
-      .get<AccessTokenModel<TokenModel>>(`${this.apiUrl}/RefreshToken`, {
+      .get<TokenModel>(`${this.apiUrl}/RefreshToken`, {
         withCredentials: true,
       })
       .pipe(
-        tap((response: AccessTokenModel<TokenModel>) => {
-          this.storageService.setToken(response.accessToken.token);
+        tap((response: TokenModel) => {
+          this.storageService.setToken(response.token);
         })
       );
   }
