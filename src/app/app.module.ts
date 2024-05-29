@@ -1,11 +1,11 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; // Ekle
-import { ToastrModule } from 'ngx-toastr'; // Ekle
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; 
+import { ToastrModule } from 'ngx-toastr'; 
 import { EditorModule } from '@tinymce/tinymce-angular';
 
-import { AppComponent } from './app.component';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+
 
 @NgModule({
 
