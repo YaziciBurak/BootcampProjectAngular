@@ -46,11 +46,13 @@ export class AuthInterceptor implements HttpInterceptor {
           !authRequest.url.includes('/login')
         ) {
           if (!this.isRefreshing) {
+            console.log("refreshing token");
             this.isRefreshing = true;
             this.refreshTokenSubject.next(null);
 
             return this.authService.refreshToken().pipe(
               switchMap((response) => {
+                console.log("refreshed token", response.token);
                 this.isRefreshing = false;
                 this.refreshTokenSubject.next(response.token);
                 this.storageService.setToken(response.token);
@@ -64,12 +66,14 @@ export class AuthInterceptor implements HttpInterceptor {
                 );
               }),
               catchError((err) => {
+                console.error("failed to refresh token", err);
                 this.isRefreshing = false;
                 this.storageService.removeToken();
                 return throwError(err);
               })
             );
           } else {
+            console.log("idk what this is");
             return this.refreshTokenSubject.pipe(
               filter((token) => token !== null),
               take(1),
@@ -85,6 +89,7 @@ export class AuthInterceptor implements HttpInterceptor {
             );
           }
         } else {
+          console.error("omg", error);
           return throwError(error);
         }
       })
