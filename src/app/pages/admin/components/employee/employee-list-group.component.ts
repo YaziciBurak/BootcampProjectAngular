@@ -51,8 +51,7 @@ export class EmployeeListGroupComponent implements OnInit {
       dateOfBirth: ["", Validators.required],
       nationalIdentity: ["",[Validators.required,Validators.pattern('^[0-9]*$'),Validators.minLength(11)]],
       email: ["",[Validators.required,Validators.email]],
-      position: ["", Validators.required],
-      password: ["", Validators.required,Validators.minLength(6)]
+      position: ["", [Validators.required]],
     });
   }
   createForm() {
@@ -63,8 +62,8 @@ export class EmployeeListGroupComponent implements OnInit {
       dateOfBirth: ["", Validators.required],
       nationalIdentity: ["",[Validators.required,Validators.pattern('^[0-9]*$'),Validators.minLength(11)]],
       email: ["",[Validators.required,Validators.email]],
-      position: ["", Validators.required],
-      password: ["", Validators.required,Validators.minLength(6)]
+      position: ["", [Validators.required]],
+      password: ["", [Validators.required,Validators.minLength(6)]]
     })
   }
 

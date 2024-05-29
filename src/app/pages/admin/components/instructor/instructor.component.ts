@@ -59,7 +59,6 @@ export class InstructorComponent implements OnInit {
       nationalIdentity: ["",[Validators.required,Validators.pattern('^[0-9]*$'),Validators.minLength(11)]],
       email: ["",[Validators.required,Validators.email]],
       companyName: ["", Validators.required],
-      //password: ["", Validators.required,Validators.minLength(6)]
     });
   }
   createForm() {
