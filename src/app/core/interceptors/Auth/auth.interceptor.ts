@@ -21,7 +21,7 @@ export class AuthInterceptor implements HttpInterceptor {
   constructor(
     private storageService: LocalStorageService,
     private authService: AuthService
-  ) {}
+  ) { }
 
   intercept(
     req: HttpRequest<any>,
@@ -52,16 +52,13 @@ export class AuthInterceptor implements HttpInterceptor {
             return this.authService.refreshToken().pipe(
               switchMap((response) => {
                 this.isRefreshing = false;
-                this.refreshTokenSubject.next(response.accessToken.token);
-                this.storageService.setToken(response.accessToken.token);
-                this.storageService.setRefreshToken(
-                  response.accessToken.refreshToken
-                );
+                this.refreshTokenSubject.next(response.token);
+                this.storageService.setToken(response.token);
 
                 return next.handle(
                   authRequest.clone({
                     setHeaders: {
-                      Authorization: `Bearer ${response.accessToken.token}`,
+                      Authorization: `Bearer ${response.token}`,
                     },
                   })
                 );
@@ -69,7 +66,6 @@ export class AuthInterceptor implements HttpInterceptor {
               catchError((err) => {
                 this.isRefreshing = false;
                 this.storageService.removeToken();
-                this.storageService.removeRefreshToken();
                 return throwError(err);
               })
             );
