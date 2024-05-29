@@ -2,7 +2,6 @@ import { Component, OnChanges, OnDestroy, OnInit } from '@angular/core';
 import { RouterModule, RouterOutlet } from '@angular/router';
 import { NavbarComponent } from '../../shared/components/navbar/navbar.component';
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
 import { BootcampListGroupComponent } from '../../features/components/bootcamps/bootcamp-list-group/bootcamp-list-group.component';
 import { HomepageIllustrationComponent } from './homepage-illustration/homepage-illustration.component';
 import { HomepageSecondComponent } from './homepage-second/homepage-second.component';
@@ -19,18 +18,28 @@ import { FooterComponent } from '../../shared/components/footer/footer.component
 @Component({
   selector: 'app-homepage',
   standalone: true,
-  imports: [RouterOutlet, RouterModule, CommonModule, HttpClientModule, NavbarComponent, BootcampListGroupComponent, HomepageIllustrationComponent,
-    HomepageSecondComponent, HomepageTickerComponent, HomepageBootcamplistComponent, HomepageSubscribeComponent, HomepageInstructorlistComponent,
-    HomepageStatisticsComponent, HomepageFaqComponent, FooterComponent
+  imports: [
+    RouterOutlet,
+    RouterModule,
+    CommonModule,
+    NavbarComponent,
+    BootcampListGroupComponent,
+    HomepageIllustrationComponent,
+    HomepageSecondComponent,
+    HomepageTickerComponent,
+    HomepageBootcamplistComponent,
+    HomepageSubscribeComponent,
+    HomepageInstructorlistComponent,
+    HomepageStatisticsComponent,
+    HomepageFaqComponent,
+    FooterComponent,
   ],
   templateUrl: './homepage.component.html',
-  styleUrl: './homepage.component.css'
+  styleUrl: './homepage.component.css',
 })
 export class HomepageComponent implements OnInit {
-  constructor() { }
+  constructor() {}
   ngOnInit(): void {
     window.scrollTo(0, 0);
   }
 }
-
-

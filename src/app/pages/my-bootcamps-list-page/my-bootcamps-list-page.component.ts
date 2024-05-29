@@ -8,16 +8,15 @@ import { DynamicQuery } from '../../core/models/dynamic-query';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
 import { SharedModule } from '../../shared/shared.module';
 import { BootcampContentService } from '../../features/services/concretes/bootcamp-content.service';
 
 @Component({
   selector: 'app-my-bootcamps-list-page',
   standalone: true,
-  imports: [CommonModule, RouterModule, FormsModule, HttpClientModule, SharedModule],
+  imports: [CommonModule, RouterModule, FormsModule, SharedModule],
   templateUrl: './my-bootcamps-list-page.component.html',
-  styleUrl: './my-bootcamps-list-page.component.css'
+  styleUrl: './my-bootcamps-list-page.component.css',
 })
 export class MyBootcampsListPageComponent implements OnInit {
   activeFilter: 'all' | 'continue' | 'finished' = 'all';
@@ -35,46 +34,47 @@ export class MyBootcampsListPageComponent implements OnInit {
     hasNext: false,
     hasPrevious: false,
     pages: 0,
-    items: []
+    items: [],
   };
-  constructor(private authService: AuthService, private applicationService: ApplicationService,
-    private activatedRoute: ActivatedRoute, private bootcampContentService: BootcampContentService,) { }
+  constructor(
+    private authService: AuthService,
+    private applicationService: ApplicationService,
+    private activatedRoute: ActivatedRoute,
+    private bootcampContentService: BootcampContentService
+  ) {}
   readonly PAGE_SIZE = 3;
   ngOnInit(): void {
-
-
     this.getMyAllBootcamps({ pageIndex: 0, pageSize: this.PAGE_SIZE });
-    this.activatedRoute.params.subscribe(params => {
-      const bootcampId = params["bootcampId"];
+    this.activatedRoute.params.subscribe((params) => {
+      const bootcampId = params['bootcampId'];
       console.log(bootcampId);
       if (bootcampId) {
-        this.getBootcampContentByBootcampId({ pageIndex: 0, pageSize: this.PAGE_SIZE }, bootcampId);
+        this.getBootcampContentByBootcampId(
+          { pageIndex: 0, pageSize: this.PAGE_SIZE },
+          bootcampId
+        );
       } else {
         this.getList({ pageIndex: 0, pageSize: this.PAGE_SIZE });
       }
     });
-
-  };
+  }
   getBootcampContentByBootcampId(pageRequest: PageRequest, bootcampId: number) {
-    this.bootcampContentService.getbybootcampId(pageRequest, bootcampId).subscribe(
-      (response) => {
-        console.log("Bootcamp Content:", response);
-      },
-      (error) => {
-        console.error("Error:", error);
-      }
-    );
+    this.bootcampContentService
+      .getbybootcampId(pageRequest, bootcampId)
+      .subscribe(
+        (response) => {
+          console.log('Bootcamp Content:', response);
+        },
+        (error) => {
+          console.error('Error:', error);
+        }
+      );
   }
 
-
-
-
-
   getList(pageRequest: PageRequest) {
-
     this.applicationService.getList(pageRequest).subscribe((response) => {
       this.applicationList = response;
-    })
+    });
   }
   updateCurrentBootcampPageNumber(pageNumber: number): void {
     console.log(`Updating current page number to: ${pageNumber}`);
@@ -104,7 +104,10 @@ export class MyBootcampsListPageComponent implements OnInit {
   }
   setCurrentPageNumber(pageNumber: number): void {
     this.currentPageNumber = pageNumber - 1;
-    const pageRequest = { pageIndex: this.currentPageNumber, pageSize: this.PAGE_SIZE };
+    const pageRequest = {
+      pageIndex: this.currentPageNumber,
+      pageSize: this.PAGE_SIZE,
+    };
     switch (this.activeFilter) {
       case 'all':
         this.getMyAllBootcamps(pageRequest);
@@ -115,11 +118,8 @@ export class MyBootcampsListPageComponent implements OnInit {
       case 'finished':
         this.getMyFinishedBootcamps(pageRequest);
         break;
-
     }
   }
-
-
 
   getMyAllBootcamps(pageRequest: PageRequest): void {
     this.activeFilter = 'all';
@@ -135,14 +135,18 @@ export class MyBootcampsListPageComponent implements OnInit {
             field: 'applicationStateId',
             operator: 'eq',
             value: '2',
-          }
-
-        ]
-      }
-    }
-    this.applicationService.getListApplicationByDynamic({ pageIndex: pageRequest.pageIndex, pageSize: pageRequest.pageSize }, query).subscribe((response) => {
-      this.applicationList = response;
-    })
+          },
+        ],
+      },
+    };
+    this.applicationService
+      .getListApplicationByDynamic(
+        { pageIndex: pageRequest.pageIndex, pageSize: pageRequest.pageSize },
+        query
+      )
+      .subscribe((response) => {
+        this.applicationList = response;
+      });
   }
 
   getMyContinueBootcamps(pageRequest: PageRequest): void {
@@ -158,20 +162,21 @@ export class MyBootcampsListPageComponent implements OnInit {
           {
             field: 'applicationStateId',
             operator: 'eq',
-            value: '2'
+            value: '2',
           },
           {
             field: 'bootcamp.endDate',
             operator: 'gte',
-            value: `${this.todayYear}-${this.todayMonth}-${this.todayDate}`
-          }
-
-        ]
-      }
-    }
-    this.applicationService.getListApplicationByDynamic(pageRequest, query).subscribe((response) => {
-      this.applicationList = response;
-    })
+            value: `${this.todayYear}-${this.todayMonth}-${this.todayDate}`,
+          },
+        ],
+      },
+    };
+    this.applicationService
+      .getListApplicationByDynamic(pageRequest, query)
+      .subscribe((response) => {
+        this.applicationList = response;
+      });
   }
 
   getMyFinishedBootcamps(pageRequest: PageRequest): void {
@@ -187,32 +192,20 @@ export class MyBootcampsListPageComponent implements OnInit {
           {
             field: 'applicationStateId',
             operator: 'eq',
-            value: '2'
+            value: '2',
           },
           {
             field: 'bootcamp.endDate',
             operator: 'lt',
-            value: `${this.todayYear}-${this.todayMonth}-${this.todayDate}`
-          }
-
-        ]
-      }
-    }
-    this.applicationService.getListApplicationByDynamic(pageRequest, query).subscribe((response) => {
-      this.applicationList = response;
-    })
+            value: `${this.todayYear}-${this.todayMonth}-${this.todayDate}`,
+          },
+        ],
+      },
+    };
+    this.applicationService
+      .getListApplicationByDynamic(pageRequest, query)
+      .subscribe((response) => {
+        this.applicationList = response;
+      });
   }
-
-
-
-
 }
-
-
-
-
-
-
-
-
-

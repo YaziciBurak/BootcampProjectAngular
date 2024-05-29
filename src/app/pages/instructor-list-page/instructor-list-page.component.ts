@@ -1,5 +1,4 @@
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { InstructorListItemDto } from '../../features/models/responses/instructor/instructor-list-item-dto';
@@ -9,9 +8,9 @@ import { PageRequest } from '../../core/models/page-request';
 @Component({
   selector: 'app-instructor-list-page',
   standalone: true,
-  imports: [CommonModule, HttpClientModule, RouterModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './instructor-list-page.component.html',
-  styleUrl: './instructor-list-page.component.css'
+  styleUrl: './instructor-list-page.component.css',
 })
 export class InstructorListPageComponent implements OnInit {
   instructorList: InstructorListItemDto = {
@@ -21,17 +20,17 @@ export class InstructorListPageComponent implements OnInit {
     hasNext: false,
     hasPrevious: false,
     pages: 0,
-    items: []
+    items: [],
   };
   private PAGE_SIZE = 100;
-  constructor(private instructorService: InstructorService) { }
+  constructor(private instructorService: InstructorService) {}
   ngOnInit(): void {
-    window.scrollTo(0,0);
+    window.scrollTo(0, 0);
     this.getList({ pageIndex: 0, pageSize: this.PAGE_SIZE });
   }
   getList(pageRequest: PageRequest): void {
     this.instructorService.getList(pageRequest).subscribe((response) => {
       this.instructorList = response;
-    })
+    });
   }
 }

@@ -1,9 +1,20 @@
 import { Injectable } from '@angular/core';
 import { AuthBaseService } from '../abstracts/auth-base.service';
-import { BehaviorSubject, Observable, catchError, map, throwError } from 'rxjs';
+import {
+  BehaviorSubject,
+  Observable,
+  catchError,
+  map,
+  tap,
+  throwError,
+} from 'rxjs';
 import { ApplicantForRegisterRequest } from '../../models/requests/users/applicant-for-register-request';
 import { UserForRegisterResponse } from '../../models/responses/users/user-for-register-response';
-import { HttpClient, HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpResponse,
+} from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
 import { LocalStorageService } from './local-storage.service';
 import { JwtHelperService } from '@auth0/angular-jwt';
@@ -16,20 +27,25 @@ import { ToastrService } from 'ngx-toastr';
 import { ApplicantVerifyEmailRequest } from '../../models/requests/applicant/applicant-verify-email-request';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService extends AuthBaseService {
   fullname!: string;
   userId!: string;
   token: any;
-  jwtHelper: JwtHelperService = new JwtHelperService;
+  jwtHelper: JwtHelperService = new JwtHelperService();
   private loggedInSubject = new BehaviorSubject<boolean>(this.loggedIn());
   loggedIn$ = this.loggedInSubject.asObservable();
-  claims: string[] = []
+  claims: string[] = [];
 
-
-  private readonly apiUrl: string = `${environment.API_URL}/Auth`
-  constructor(private httpClient: HttpClient, private storageService: LocalStorageService, private toastr: ToastrService) { super() }
+  private readonly apiUrl: string = `${environment.API_URL}/Auth`;
+  constructor(
+    private httpClient: HttpClient,
+    private storageService: LocalStorageService,
+    private toastr: ToastrService
+  ) {
+    super();
+  }
 
   private handleError(error: HttpErrorResponse): Observable<never> {
     let errorMessage = 'Bir hata oluştu';
@@ -54,31 +70,54 @@ export class AuthService extends AuthBaseService {
     return throwError(errorMessage);
   }
 
-  override register(userforRegisterRequest: ApplicantForRegisterRequest)
-    : Observable<UserForRegisterResponse> {
-    return this.httpClient.post<UserForRegisterResponse>(`${this.apiUrl}/register`, userforRegisterRequest)
+  override register(
+    userforRegisterRequest: ApplicantForRegisterRequest
+  ): Observable<UserForRegisterResponse> {
+    return this.httpClient.post<UserForRegisterResponse>(
+      `${this.apiUrl}/register`,
+      userforRegisterRequest
+    );
   }
 
-
-  override RegisterEmployee(employeeforRegisterRequest: EmployeeForRegisterRequest)
-    : Observable<UserForRegisterResponse> {
-    return this.httpClient.post<UserForRegisterResponse>(`${this.apiUrl}/RegisterEmployee`, employeeforRegisterRequest)
+  override RegisterEmployee(
+    employeeforRegisterRequest: EmployeeForRegisterRequest
+  ): Observable<UserForRegisterResponse> {
+    return this.httpClient.post<UserForRegisterResponse>(
+      `${this.apiUrl}/RegisterEmployee`,
+      employeeforRegisterRequest
+    );
   }
-  override RegisterInstructor(instructorforRegisterRequest: InstructorForRegisterRequest)
-    : Observable<UserForRegisterResponse> {
-    return this.httpClient.post<UserForRegisterResponse>(`${this.apiUrl}/RegisterInstructor`, instructorforRegisterRequest)
+  override RegisterInstructor(
+    instructorforRegisterRequest: InstructorForRegisterRequest
+  ): Observable<UserForRegisterResponse> {
+    return this.httpClient.post<UserForRegisterResponse>(
+      `${this.apiUrl}/RegisterInstructor`,
+      instructorforRegisterRequest
+    );
   }
 
-  override RegisterApplicant(applicantforRegisterRequest: ApplicantForRegisterRequest): Observable<UserForRegisterResponse> {
-    return this.httpClient.post<UserForRegisterResponse>(`${this.apiUrl}/RegisterApplicant`, applicantforRegisterRequest)
-      .pipe(catchError(this.handleError.bind(this))
-      );
+  override RegisterApplicant(
+    applicantforRegisterRequest: ApplicantForRegisterRequest
+  ): Observable<UserForRegisterResponse> {
+    return this.httpClient
+      .post<UserForRegisterResponse>(
+        `${this.apiUrl}/RegisterApplicant`,
+        applicantforRegisterRequest
+      )
+      .pipe(catchError(this.handleError.bind(this)));
   }
 
-  login(userLoginRequest: UserForLoginRequest): Observable<AccessTokenModel<TokenModel>> {
-    return this.httpClient.post<AccessTokenModel<TokenModel>>(`${this.apiUrl}/login`, userLoginRequest)
+  login(
+    userLoginRequest: UserForLoginRequest
+  ): Observable<AccessTokenModel<TokenModel>> {
+    return this.httpClient
+      .post<AccessTokenModel<TokenModel>>(
+        `${this.apiUrl}/login`,
+        userLoginRequest,
+        { withCredentials: true }
+      )
       .pipe(
-        map(response => {
+        map((response) => {
           this.storageService.setToken(response.accessToken.token);
           this.loggedInSubject.next(true);
           setTimeout(() => {
@@ -86,13 +125,25 @@ export class AuthService extends AuthBaseService {
           }, 500);
           return response;
         }),
-        catchError(responseError => {
+        catchError((responseError) => {
           const errorMessage = this.getErrorMessage(responseError);
           this.toastr.error(errorMessage, 'Hata');
           return throwError(responseError);
         })
       );
   }
+  refreshToken(): Observable<any> {
+    return this.httpClient
+      .get<AccessTokenModel<TokenModel>>(`${this.apiUrl}/RefreshToken`, {
+        withCredentials: true,
+      })
+      .pipe(
+        tap((response: AccessTokenModel<TokenModel>) => {
+          this.storageService.setToken(response.accessToken.token);
+        })
+      );
+  }
+
   private getErrorMessage(error: HttpErrorResponse): string {
     if (error.error instanceof ErrorEvent) {
       // Client-side error
@@ -108,20 +159,17 @@ export class AuthService extends AuthBaseService {
           return 'Kullanıcı adı veya şifre hatalı';
         default:
           return 'Giriş yaparken hata oluştu';
-
       }
     }
   }
   getDecodedToken() {
     try {
       this.token = this.storageService.getToken();
-      return this.jwtHelper.decodeToken(this.token)
-    }
-    catch (error) {
+      return this.jwtHelper.decodeToken(this.token);
+    } catch (error) {
       return error;
     }
   }
-
   loggedIn(): boolean {
     this.token = this.storageService.getToken();
     let isExpired = this.jwtHelper.isTokenExpired(this.token);
@@ -129,8 +177,10 @@ export class AuthService extends AuthBaseService {
   }
   getUserName(): string {
     var decoded = this.getDecodedToken();
-    var propUserName = Object.keys(decoded).filter(x => x.endsWith("/name"))[0]
-    return this.fullname = decoded[propUserName];
+    var propUserName = Object.keys(decoded).filter((x) =>
+      x.endsWith('/name')
+    )[0];
+    return (this.fullname = decoded[propUserName]);
   }
 
   getCurrentUserId(): string {
@@ -140,9 +190,10 @@ export class AuthService extends AuthBaseService {
       // Token çözümlenemedi veya yoksa null döndür
       return null;
     }
-    var propUserId = Object.keys(decoded).filter(x => x.endsWith("/nameidentifier"))[0]
-    return this.userId = decoded[propUserId]
-
+    var propUserId = Object.keys(decoded).filter((x) =>
+      x.endsWith('/nameidentifier')
+    )[0];
+    return (this.userId = decoded[propUserId]);
   }
 
   logOut() {
@@ -155,14 +206,14 @@ export class AuthService extends AuthBaseService {
   }
   getRoles(): string[] {
     if (this.storageService.getToken()) {
-      var decoded = this.getDecodedToken()
-      var role = Object.keys(decoded).filter(x => x.endsWith("/role"))[0]
-      this.claims = decoded[role]
+      var decoded = this.getDecodedToken();
+      var role = Object.keys(decoded).filter((x) => x.endsWith('/role'))[0];
+      this.claims = decoded[role];
     }
     return this.claims;
   }
   isAdmin() {
-    if (this.claims.includes("Admin")) {
+    if (this.claims.includes('Admin')) {
       return true;
     }
     return false;

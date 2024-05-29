@@ -1,5 +1,4 @@
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterModule } from '@angular/router';
@@ -16,9 +15,9 @@ import { AuthService } from '../../features/services/concretes/auth.service';
 @Component({
   selector: 'app-application-list-page',
   standalone: true,
-  imports: [CommonModule, RouterModule, FormsModule, HttpClientModule, SharedModule],
+  imports: [CommonModule, RouterModule, FormsModule, SharedModule],
   templateUrl: './application-list-page.component.html',
-  styleUrl: './application-list-page.component.css'
+  styleUrl: './application-list-page.component.css',
 })
 export class ApplicationListPageComponent implements OnInit {
   activeFilter: 'all' | 'accepted' | 'rejected' | 'waiting' = 'all';
@@ -32,27 +31,29 @@ export class ApplicationListPageComponent implements OnInit {
     hasNext: false,
     hasPrevious: false,
     pages: 0,
-    items: []
+    items: [],
   };
-  constructor(private authService: AuthService, private applicationService: ApplicationService, private activatedRoute: ActivatedRoute) { }
+  constructor(
+    private authService: AuthService,
+    private applicationService: ApplicationService,
+    private activatedRoute: ActivatedRoute
+  ) {}
   readonly PAGE_SIZE = 3;
   ngOnInit(): void {
-
     this.getAllApplications({ pageIndex: 0, pageSize: this.PAGE_SIZE });
-
-
-  };
+  }
   getList(pageRequest: PageRequest) {
-
     this.applicationService.getList(pageRequest).subscribe((response) => {
       this.applicationList = response;
-    })
+    });
   }
-
 
   setCurrentPageNumber(pageNumber: number): void {
     this.currentPageNumber = pageNumber - 1;
-    const pageRequest = { pageIndex: this.currentPageNumber, pageSize: this.PAGE_SIZE };
+    const pageRequest = {
+      pageIndex: this.currentPageNumber,
+      pageSize: this.PAGE_SIZE,
+    };
     switch (this.activeFilter) {
       case 'all':
         this.getAllApplications(pageRequest);
@@ -77,12 +78,13 @@ export class ApplicationListPageComponent implements OnInit {
         field: 'applicantId',
         operator: 'eq',
         value: loggedInUserId.toString(),
-
-      }
-    }
-    this.applicationService.getListApplicationByDynamic(pageRequest, query).subscribe((response) => {
-      this.applicationList = response;
-    })
+      },
+    };
+    this.applicationService
+      .getListApplicationByDynamic(pageRequest, query)
+      .subscribe((response) => {
+        this.applicationList = response;
+      });
   }
 
   getAcceptedApplications(pageRequest: PageRequest): void {
@@ -99,15 +101,15 @@ export class ApplicationListPageComponent implements OnInit {
             field: 'applicationStateId',
             operator: 'eq',
             value: '2',
-
-          }
-
-        ]
-      }
-    }
-    this.applicationService.getListApplicationByDynamic(pageRequest, query).subscribe((response) => {
-      this.applicationList = response;
-    })
+          },
+        ],
+      },
+    };
+    this.applicationService
+      .getListApplicationByDynamic(pageRequest, query)
+      .subscribe((response) => {
+        this.applicationList = response;
+      });
   }
 
   getRejectedApplications(pageRequest: PageRequest): void {
@@ -124,15 +126,15 @@ export class ApplicationListPageComponent implements OnInit {
             field: 'applicationStateId',
             operator: 'eq',
             value: '3',
-
-          }
-
-        ]
-      }
-    }
-    this.applicationService.getListApplicationByDynamic(pageRequest, query).subscribe((response) => {
-      this.applicationList = response;
-    })
+          },
+        ],
+      },
+    };
+    this.applicationService
+      .getListApplicationByDynamic(pageRequest, query)
+      .subscribe((response) => {
+        this.applicationList = response;
+      });
   }
 
   getWaitingApplications(pageRequest: PageRequest): void {
@@ -149,15 +151,15 @@ export class ApplicationListPageComponent implements OnInit {
             field: 'applicationStateId',
             operator: 'eq',
             value: '1',
-
-          }
-
-        ]
-      }
-    }
-    this.applicationService.getListApplicationByDynamic(pageRequest, query).subscribe((response) => {
-      this.applicationList = response;
-    })
+          },
+        ],
+      },
+    };
+    this.applicationService
+      .getListApplicationByDynamic(pageRequest, query)
+      .subscribe((response) => {
+        this.applicationList = response;
+      });
   }
 
   getPageNumbers(): number[] {
