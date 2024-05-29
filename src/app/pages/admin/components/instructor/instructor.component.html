@@ -166,7 +166,7 @@
           <div class="mb-4">
             <label for="userName" class="block text-gray-700 text-sm font-bold mb-2">Eğitmen Kullanıcı Adı:</label>
             <input formControlName="userName" type="text" id="userName" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-            <div *ngIf="submitted && instructorUpdateForm.get('userName').invalid" class="error-message">
+            <div *ngIf="submitted && instructorCreateForm.get('userName').invalid" class="error-message">
               <div *ngIf="instructorCreateForm.get('userName').hasError('required')">
                 Kullanıcı adı zorunludur.
               </div>
@@ -219,7 +219,7 @@
           </div>
           <div class="mb-4">
             <label for="password" class="block text-gray-700 text-sm font-bold mb-2">Eğitmen Şifre:</label>
-            <input formControlName="password" type="text" id="password" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            <input formControlName="password" type="password" id="password" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
             <div *ngIf="submitted && instructorCreateForm.get('password').invalid" class="error-message">
               <div *ngIf="instructorCreateForm.get('password').hasError('required')">
                 Şifre alanı zorunludur.
@@ -232,7 +232,7 @@
           <div class="mb-4">
             <label for="nationalIdentity" class="block text-gray-700 text-sm font-bold mb-2">Eğitmen Kimlik Bilgileri:</label>
             <input formControlName="nationalIdentity" type="text" id="nationalIdentity" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-            <div *ngIf="submitted && instructorUpdateForm.get('nationalIdentity').invalid" class="error-message">
+            <div *ngIf="submitted && instructorCreateForm.get('nationalIdentity').invalid" class="error-message">
               <div *ngIf="instructorCreateForm.get('nationalIdentity').hasError('required')">
                 Kimlik alanı zorunludur.
               </div>

@@ -55,8 +55,8 @@ export class BootcampDetailPageComponent implements OnInit {
     this.applicationService.applyForBootcamp(id).subscribe(response => {
       this.toastr.success("Başvurunuz alınmıştır, teşekkürler!")
     }, 
-      () => {
-        this.toastr.error('Bu bootcampe başvurdunuz. Tekrar başvuramazsınız.');
+      (error) => {
+        this.toastr.error(error);
       });
       setTimeout(() => {
         window.location.reload();

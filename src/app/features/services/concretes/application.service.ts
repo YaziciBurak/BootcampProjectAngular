@@ -103,7 +103,9 @@ export abstract class ApplicationService extends ApplicationBaseService {
       bootcampId: id,
       applicationStateId: 1
     };
-    return this.httpClient.post<CreateApplicationResponse>(`${this.apiUrl}`, applicationRequest)
+    return this.httpClient.post<CreateApplicationResponse>(`${this.apiUrl}`, applicationRequest) 
+    .pipe(catchError(this.handleError.bind(this))
+  );
   }
 
   override getById(applicationId: number): Observable<GetbyidApplicationResponse> {
