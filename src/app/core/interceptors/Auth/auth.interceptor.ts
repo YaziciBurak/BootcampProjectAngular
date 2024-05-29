@@ -1,5 +1,11 @@
 import { Injectable } from '@angular/core';
-import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpErrorResponse } from '@angular/common/http';
+import {
+  HttpEvent,
+  HttpInterceptor,
+  HttpHandler,
+  HttpRequest,
+  HttpErrorResponse,
+} from '@angular/common/http';
 import { Observable, throwError, BehaviorSubject } from 'rxjs';
 import { catchError, switchMap, filter, take } from 'rxjs/operators';
 import { LocalStorageService } from '../../../features/services/concretes/local-storage.service';
@@ -8,25 +14,37 @@ import { AuthService } from '../../../features/services/concretes/auth.service';
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
   private isRefreshing = false;
-  private refreshTokenSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+  private refreshTokenSubject: BehaviorSubject<any> = new BehaviorSubject<any>(
+    null
+  );
 
-  constructor(private storageService: LocalStorageService, private authService: AuthService) {}
+  constructor(
+    private storageService: LocalStorageService,
+    private authService: AuthService
+  ) {}
 
-  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+  intercept(
+    req: HttpRequest<any>,
+    next: HttpHandler
+  ): Observable<HttpEvent<any>> {
     const token = this.storageService.getToken();
 
     let authRequest = req;
     if (token) {
       authRequest = req.clone({
         setHeaders: {
-          Authorization: `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       });
     }
 
     return next.handle(authRequest).pipe(
-      catchError(error => {
-        if (error instanceof HttpErrorResponse && error.status === 401 && !authRequest.url.includes('/login')) {
+      catchError((error) => {
+        if (
+          error instanceof HttpErrorResponse &&
+          error.status === 401 &&
+          !authRequest.url.includes('/login')
+        ) {
           if (!this.isRefreshing) {
             this.isRefreshing = true;
             this.refreshTokenSubject.next(null);
@@ -36,13 +54,17 @@ export class AuthInterceptor implements HttpInterceptor {
                 this.isRefreshing = false;
                 this.refreshTokenSubject.next(response.accessToken.token);
                 this.storageService.setToken(response.accessToken.token);
-                this.storageService.setRefreshToken(response.accessToken.refreshToken);
+                this.storageService.setRefreshToken(
+                  response.accessToken.refreshToken
+                );
 
-                return next.handle(authRequest.clone({
-                  setHeaders: {
-                    Authorization: `Bearer ${response.accessToken.token}`
-                  }
-                }));
+                return next.handle(
+                  authRequest.clone({
+                    setHeaders: {
+                      Authorization: `Bearer ${response.accessToken.token}`,
+                    },
+                  })
+                );
               }),
               catchError((err) => {
                 this.isRefreshing = false;
@@ -53,13 +75,17 @@ export class AuthInterceptor implements HttpInterceptor {
             );
           } else {
             return this.refreshTokenSubject.pipe(
-              filter(token => token !== null),
+              filter((token) => token !== null),
               take(1),
-              switchMap((token) => next.handle(authRequest.clone({
-                setHeaders: {
-                  Authorization: `Bearer ${token}`
-                }
-              })))
+              switchMap((token) =>
+                next.handle(
+                  authRequest.clone({
+                    setHeaders: {
+                      Authorization: `Bearer ${token}`,
+                    },
+                  })
+                )
+              )
             );
           }
         } else {

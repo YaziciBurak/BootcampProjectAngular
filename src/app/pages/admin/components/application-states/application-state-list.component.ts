@@ -1,7 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { ApplicationStateService } from '../../../../features/services/concretes/application-state.service';
 import { PageRequest } from '../../../../core/models/page-request';
@@ -15,12 +20,17 @@ import Swal from 'sweetalert2';
 @Component({
   selector: 'app-application-state-list',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule, RouterModule, HttpClientModule, CommonModule, SharedModule],
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    RouterModule,
+    CommonModule,
+    SharedModule,
+  ],
   templateUrl: './application-state-list.component.html',
-  styleUrl: './application-state-list.component.css'
+  styleUrl: './application-state-list.component.css',
 })
 export class ApplicationStateListComponent implements OnInit {
-
   formMessage: string | null = null;
   applicationStateUpdateForm: FormGroup;
   applicationStateCreateForm: FormGroup;
@@ -35,8 +45,8 @@ export class ApplicationStateListComponent implements OnInit {
     private applicationStateService: ApplicationStateService,
     private formBuilder: FormBuilder,
     private change: ChangeDetectorRef,
-    private toastr:ToastrService
-  ) { }
+    private toastr: ToastrService
+  ) {}
 
   ngOnInit(): void {
     this.loadApplicationStates();
@@ -46,13 +56,13 @@ export class ApplicationStateListComponent implements OnInit {
 
   updateForm() {
     this.applicationStateUpdateForm = this.formBuilder.group({
-      name: ['', [Validators.required]]
+      name: ['', [Validators.required]],
     });
   }
   createForm() {
     this.applicationStateCreateForm = this.formBuilder.group({
-      name: ['', [Validators.required]]
-    })
+      name: ['', [Validators.required]],
+    });
   }
 
   loadApplicationStates() {
@@ -61,27 +71,29 @@ export class ApplicationStateListComponent implements OnInit {
   }
 
   getApplicationStates(pageRequest: PageRequest) {
-    this.applicationStateService.getList(pageRequest).subscribe(response => {
+    this.applicationStateService.getList(pageRequest).subscribe((response) => {
       this.applicationStateList = response;
     });
   }
   add() {
     this.submitted = true;
     if (this.applicationStateCreateForm.valid) {
-      let applicationState: CreateApplicationstateRequest = Object.assign({}, this.applicationStateCreateForm.value);
+      let applicationState: CreateApplicationstateRequest = Object.assign(
+        {},
+        this.applicationStateCreateForm.value
+      );
       this.applicationStateService.create(applicationState).subscribe({
-        next: () => {
-        },
+        next: () => {},
         error: (error) => {
-          this.toastr.error("Eklenemedi",error)
+          this.toastr.error('Eklenemedi', error);
           this.change.markForCheck();
         },
         complete: () => {
-          this.toastr.success("Başarıyla eklendi!");
+          this.toastr.success('Başarıyla eklendi!');
           this.change.markForCheck();
           this.closeModal();
           this.loadApplicationStates();
-        }
+        },
       });
     } else {
       this.markFormGroupTouched(this.applicationStateCreateForm);
@@ -90,7 +102,7 @@ export class ApplicationStateListComponent implements OnInit {
   delete(id: number) {
     Swal.fire({
       title: 'Emin misiniz?',
-      text: "Bu veriyi silmek istediğinizden emin misiniz?",
+      text: 'Bu veriyi silmek istediğinizden emin misiniz?',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
@@ -113,37 +125,39 @@ export class ApplicationStateListComponent implements OnInit {
   }
   update() {
     this.submitted = true;
-    if(this.applicationStateUpdateForm.valid) {
-    const id = this.selectedAppState.id;
-    const request: UpdateApplicationstateRequest = {
-      id: id,
-      name: this.applicationStateUpdateForm.value.name
-    };
-    this.applicationStateService.update(request).subscribe({
-      next: () => {
-        this.showUpdateModal = false; // Modal'ı kapat
-        this.loadApplicationStates(); // Verileri yeniden getir
-        this.toastr.success("Güncelleme başarılı!");
-      },
-      error: (error) => {
-        this.toastr.error('Güncelleme işlemi başarısız:', error);
-      }
-    });
-  } else {
-    this.markFormGroupTouched(this.applicationStateUpdateForm);
-  }
+    if (this.applicationStateUpdateForm.valid) {
+      const id = this.selectedAppState.id;
+      const request: UpdateApplicationstateRequest = {
+        id: id,
+        name: this.applicationStateUpdateForm.value.name,
+      };
+      this.applicationStateService.update(request).subscribe({
+        next: () => {
+          this.showUpdateModal = false; // Modal'ı kapat
+          this.loadApplicationStates(); // Verileri yeniden getir
+          this.toastr.success('Güncelleme başarılı!');
+        },
+        error: (error) => {
+          this.toastr.error('Güncelleme işlemi başarısız:', error);
+        },
+      });
+    } else {
+      this.markFormGroupTouched(this.applicationStateUpdateForm);
+    }
   }
   openUpdateModal(appState: any) {
     this.applicationStateService.getById(appState.id).subscribe({
       next: (response) => {
         this.selectedAppState = { ...response };
-        this.applicationStateUpdateForm.patchValue({ name: this.selectedAppState.name }); // Modal içindeki formu güncelle
+        this.applicationStateUpdateForm.patchValue({
+          name: this.selectedAppState.name,
+        }); // Modal içindeki formu güncelle
         this.showUpdateModal = true; // Modal'ı aç
         return appState.id;
       },
       error: (error) => {
         this.toastr.error('Veri getirme işlemi başarısız:', error);
-      }
+      },
     });
   }
   openAddModal() {
@@ -157,7 +171,7 @@ export class ApplicationStateListComponent implements OnInit {
     this.submitted = false;
   }
   private markFormGroupTouched(formGroup: FormGroup): void {
-    Object.values(formGroup.controls).forEach(control => {
+    Object.values(formGroup.controls).forEach((control) => {
       control.markAsTouched();
       if (control instanceof FormGroup) {
         this.markFormGroupTouched(control);
@@ -165,11 +179,3 @@ export class ApplicationStateListComponent implements OnInit {
     });
   }
 }
-
-
-
-
-
-
-
-
