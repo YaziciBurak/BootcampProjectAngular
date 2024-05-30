@@ -51,24 +51,25 @@ export class AuthService extends AuthBaseService {
     let errorMessage = 'Bir hata oluştu';
 
     if (error.error instanceof ErrorEvent) {
-      // Client-side hata
-      errorMessage = `Hata: ${error.error.message}`;
+        // Client-side hata
+        errorMessage = `Hata: ${error.error.message}`;
     } else {
-      // Backend hatası
-      if (error.error && error.error.message) {
-        errorMessage = error.error.message;
-      } else if (error.status === 500 && error.error) {
-        // Hata mesajını backend'den alınan response'un ilk satırından ayıklayın
-        const backendErrorMessage = error.error.split('\n')[0];
-        if (backendErrorMessage.includes('BusinessException')) {
-          errorMessage = backendErrorMessage.split(': ')[1]; // Sadece hata mesajını al
+        // Backend hatası
+        if (error.error && typeof error.error.message === 'string') {
+            errorMessage = error.error.message;
+        } else if (error.status === 500 && typeof error.error === 'string') {
+            // Hata mesajını backend'den alınan response'un ilk satırından ayıklayın
+            const backendErrorMessage = error.error.split('\n')[0];
+            if (backendErrorMessage.includes('BusinessException')) {
+                errorMessage = backendErrorMessage.split(': ')[1]; // Sadece hata mesajını al
+            }
+        } else {
+            errorMessage = `Sunucu Hatası: ${error.status}\nMesaj: ${error.message}`;
         }
-      } else {
-        errorMessage = `Sunucu Hatası: ${error.status}\nMesaj: ${error.message}`;
-      }
     }
     return throwError(errorMessage);
-  }
+}
+
 
   override register(
     userforRegisterRequest: ApplicantForRegisterRequest

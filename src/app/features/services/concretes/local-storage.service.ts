@@ -30,15 +30,4 @@ export class LocalStorageService {
   getToken(){
     return localStorage.getItem("token")
   }
-  setRefreshToken(refreshToken: string) {
-    localStorage.setItem("refreshToken", refreshToken);
-  }
-
-  removeRefreshToken() {
-    localStorage.removeItem("refreshToken");
-  }
-  
-  getRefreshToken() {
-    return localStorage.getItem("refreshToken");
-  }
 }
