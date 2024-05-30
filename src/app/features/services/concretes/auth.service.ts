@@ -125,12 +125,8 @@ export class AuthService extends AuthBaseService {
           }, 500);
           return response;
         }),
-        catchError((responseError) => {
-          const errorMessage = this.getErrorMessage(responseError);
-          this.toastr.error(errorMessage, 'Hata');
-          return throwError(responseError);
-        })
-      );
+        catchError((this.handleError.bind(this))
+      ));
   }
   refreshToken(): Observable<any> {
     return this.httpClient
