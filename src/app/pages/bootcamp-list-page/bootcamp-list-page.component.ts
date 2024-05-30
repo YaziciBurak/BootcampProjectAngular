@@ -60,8 +60,8 @@ export class BootcampListPageComponent implements OnInit {
     private instructorService: InstructorService,
     private activatedRoute: ActivatedRoute,
     private router: Router
-  ) {}
-  readonly PAGE_SIZE = 3;
+  ) { }
+  readonly PAGE_SIZE = 6;
 
   ngOnInit(): void {
     initFlowbite();
