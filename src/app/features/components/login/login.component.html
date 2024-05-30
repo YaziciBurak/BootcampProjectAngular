@@ -48,11 +48,11 @@
         <div class="mt-6 text-lg font-bold leading-5 text-slate-900 max-md:max-w-full">
           <label for="password">Şifre</label>
         </div>
-        <div class="relative">
+        <div class="relative flex items-center">
           <input formControlName="password" [type]="passwordFieldType" id="password" placeholder="Şifre yazınız . . ."
-          class="form-control justify-center  outline-none items-start px-5 py-3 mt-2.5 text-gray-500  whitespace-nowrap bg-white rounded-md border border-solid border-neutral-200 max-md:px-5 max-md:max-w-full"
+            class="form-control flex-grow outline-none px-5 py-3 mt-2.5 text-gray-500 bg-white rounded-md border border-solid border-neutral-200"
             autocomplete="current-password" />
-          <button type="button" (click)="togglePasswordVisibility()" id="password-toggle" class="absolute inset-y-0 right-0 pr-3 flex items-center">
+          <button type="button" (click)="togglePasswordVisibility()" id="password-toggle" class="absolute right-4 mt-2.5">
             <svg *ngIf="passwordFieldType === 'password'" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor">
               <path d="M12 3C7 3 2.7 7.1 1 12c1.7 4.9 6 9 11 9s9.3-4.1 11-9c-1.7-4.9-6-9-11-9zm0 16c-3.9 0-7.2-2.8-8.7-7 1.5-4.2 4.8-7 8.7-7s7.2 2.8 8.7 7c-1.5 4.2-4.8 7-8.7 7zm0-11c-2.2 0-4 1.8-4 4s1.8 4 4 4 4-1.8 4-4-1.8-4-4-4zm0 6c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/>
             </svg>
@@ -61,6 +61,7 @@
             </svg>
           </button>
         </div>
+        
         <div
         *ngIf="submitted && loginForm.get('password').invalid"
         class="error-message"

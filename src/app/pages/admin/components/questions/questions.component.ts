@@ -1,7 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { QuestionListItemDto } from '../../../../features/models/responses/question/question-list-item-dto';
 import { QuestionService } from '../../../../features/services/concretes/question.service';
@@ -16,9 +21,9 @@ import Swal from 'sweetalert2';
 @Component({
   selector: 'app-questions',
   standalone: true,
-  imports: [HttpClientModule, FormsModule, ReactiveFormsModule, CommonModule, RouterModule],
+  imports: [FormsModule, ReactiveFormsModule, CommonModule, RouterModule],
   templateUrl: './questions.component.html',
-  styleUrl: './questions.component.css'
+  styleUrl: './questions.component.css',
 })
 export class QuestionsComponent implements OnInit {
   formMessage: string | null = null;
@@ -28,15 +33,17 @@ export class QuestionsComponent implements OnInit {
   showUpdateModal: boolean = false;
   showCreateModal: boolean = false;
   bootcampList: BootcampListItemDto;
-  questionList: QuestionListItemDto;
   submitted = false;
+  currentPageNumber: number = 0;
+  questionList: QuestionListItemDto;
 
-  constructor(private questionService: QuestionService,
-     private bootcampService: BootcampService,
-      private formBuilder: FormBuilder, 
-      private change: ChangeDetectorRef,
-      private toastr:ToastrService
-    ) { }
+  constructor(
+    private questionService: QuestionService,
+    private bootcampService: BootcampService,
+    private formBuilder: FormBuilder,
+    private change: ChangeDetectorRef,
+    private toastr: ToastrService
+  ) { }
 
   ngOnInit(): void {
     this.loadQuestions();
@@ -45,10 +52,20 @@ export class QuestionsComponent implements OnInit {
   }
 
   loadQuestions() {
-    const pageRequest: PageRequest = { pageIndex: 0, pageSize: 20 };
+    const pageRequest: PageRequest = { pageIndex: this.currentPageNumber, pageSize: 10 };
     this.getQuestions(pageRequest);
     this.getBootcamps(pageRequest);
   }
+  setCurrentPageNumber(pageNumber: number): void {
+    this.currentPageNumber = pageNumber - 1; 
+    if (this.currentPageNumber < 0) {
+      this.currentPageNumber = 0;
+    } else if (this.currentPageNumber >= this.questionList.pages) {
+      this.currentPageNumber = this.questionList.pages - 1;
+    }
+    this.loadQuestions(); 
+  }
+
   updateForm() {
     this.questionUpdateForm = this.formBuilder.group({
       bootcampId: ['', [Validators.required]],
@@ -57,7 +74,7 @@ export class QuestionsComponent implements OnInit {
       answerB: ['', [Validators.required]],
       answerC: ['', [Validators.required]],
       answerD: ['', [Validators.required]],
-      correctAnswer: ['', [Validators.required]]
+      correctAnswer: ['', [Validators.required]],
     });
   }
   createForm() {
@@ -68,23 +85,23 @@ export class QuestionsComponent implements OnInit {
       answerB: ['', [Validators.required]],
       answerC: ['', [Validators.required]],
       answerD: ['', [Validators.required]],
-      correctAnswer: ['', [Validators.required]]
-    })
+      correctAnswer: ['', [Validators.required]],
+    });
   }
   getQuestions(pageRequest: PageRequest) {
-    this.questionService.getList(pageRequest).subscribe(response => {
+    this.questionService.getList(pageRequest).subscribe((response) => {
       this.questionList = response;
     });
   }
   getBootcamps(pageRequest: PageRequest) {
-    this.bootcampService.getList(pageRequest).subscribe(response => {
+    this.bootcampService.getList(pageRequest).subscribe((response) => {
       this.bootcampList = response;
     });
   }
   delete(id: number) {
     Swal.fire({
       title: 'Emin misiniz?',
-      text: "Bu veriyi silmek istediğinizden emin misiniz?",
+      text: 'Bu veriyi silmek istediğinizden emin misiniz?',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
@@ -108,18 +125,21 @@ export class QuestionsComponent implements OnInit {
   add() {
     this.submitted = true;
     if (this.questionCreateForm.valid) {
-      let question: CreateQuestionRequest = Object.assign({}, this.questionCreateForm.value);
+      let question: CreateQuestionRequest = Object.assign(
+        {},
+        this.questionCreateForm.value
+      );
       this.questionService.create(question).subscribe({
         error: (error) => {
-          this.toastr.error("Eklenemedi!",error)
+          this.toastr.error('Eklenemedi!', error);
           this.change.markForCheck();
         },
         complete: () => {
-          this.toastr.success("Başarıyla eklendi!");
+          this.toastr.success('Başarıyla eklendi!');
           this.change.markForCheck();
           this.closeModal();
           this.loadQuestions();
-        }
+        },
       });
     } else {
       this.markFormGroupTouched(this.questionCreateForm);
@@ -127,39 +147,39 @@ export class QuestionsComponent implements OnInit {
   }
   update() {
     this.submitted = true;
-    if(this.questionUpdateForm.valid){
-    const id = this.selectedQuestion.id;
-    const bootcampId = this.questionUpdateForm.value.bootcampId;
-    const text = this.questionUpdateForm.value.text;
-    const answerA = this.questionUpdateForm.value.answerA;
-    const answerB = this.questionUpdateForm.value.answerB;
-    const answerC = this.questionUpdateForm.value.answerC;
-    const answerD = this.questionUpdateForm.value.answerD;
-    const correctAnswer = this.questionUpdateForm.value.correctAnswer;
+    if (this.questionUpdateForm.valid) {
+      const id = this.selectedQuestion.id;
+      const bootcampId = this.questionUpdateForm.value.bootcampId;
+      const text = this.questionUpdateForm.value.text;
+      const answerA = this.questionUpdateForm.value.answerA;
+      const answerB = this.questionUpdateForm.value.answerB;
+      const answerC = this.questionUpdateForm.value.answerC;
+      const answerD = this.questionUpdateForm.value.answerD;
+      const correctAnswer = this.questionUpdateForm.value.correctAnswer;
 
-    const request: UpdateQuestionRequest = {
-      id: id,
-      bootcampId: bootcampId,
-      text: text,
-      answerA: answerA,
-      answerB: answerB,
-      answerC: answerC,
-      answerD: answerD,
-      correctAnswer: correctAnswer
-    };
-    this.questionService.update(request).subscribe({
-      next: () => {
-        this.closeModal(); // Modal'ı kapat
-        this.loadQuestions(); // Verileri yeniden getir
-        this.toastr.success("Güncelleme başarılı!");
-      },
-      error: (error) => {
-        this.toastr.error('Güncelleme işlemi başarısız:', error);
-      }
-    });
-  } else {
-    this.markFormGroupTouched(this.questionUpdateForm);
-  }
+      const request: UpdateQuestionRequest = {
+        id: id,
+        bootcampId: bootcampId,
+        text: text,
+        answerA: answerA,
+        answerB: answerB,
+        answerC: answerC,
+        answerD: answerD,
+        correctAnswer: correctAnswer,
+      };
+      this.questionService.update(request).subscribe({
+        next: () => {
+          this.closeModal(); // Modal'ı kapat
+          this.loadQuestions(); // Verileri yeniden getir
+          this.toastr.success('Güncelleme başarılı!');
+        },
+        error: (error) => {
+          this.toastr.error('Güncelleme işlemi başarısız:', error);
+        },
+      });
+    } else {
+      this.markFormGroupTouched(this.questionUpdateForm);
+    }
   }
   openUpdateModal(question: any) {
     this.questionService.getById(question.id).subscribe({
@@ -173,14 +193,14 @@ export class QuestionsComponent implements OnInit {
           answerB: this.selectedQuestion.answerB,
           answerC: this.selectedQuestion.answerC,
           answerD: this.selectedQuestion.answerD,
-          correctAnswer: this.selectedQuestion.correctAnswer
+          correctAnswer: this.selectedQuestion.correctAnswer,
         });
         this.showUpdateModal = true; // Modal'ı aç
         return response;
       },
       error: (error) => {
         this.toastr.error('Veri getirme işlemi başarısız:', error);
-      }
+      },
     });
   }
 
@@ -197,14 +217,14 @@ export class QuestionsComponent implements OnInit {
   }
 
   getShortenedText(text: string): string {
-    const maxLength = 20;
+    const maxLength = 25;
     if (text.length > maxLength) {
       return text.substring(0, maxLength) + '...';
     }
     return text;
   }
   private markFormGroupTouched(formGroup: FormGroup): void {
-    Object.values(formGroup.controls).forEach(control => {
+    Object.values(formGroup.controls).forEach((control) => {
       control.markAsTouched();
       if (control instanceof FormGroup) {
         this.markFormGroupTouched(control);
@@ -212,4 +232,3 @@ export class QuestionsComponent implements OnInit {
     });
   }
 }
-

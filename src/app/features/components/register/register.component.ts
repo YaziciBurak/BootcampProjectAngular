@@ -26,8 +26,8 @@ export class RegisterComponent {
 
   createRegisterForm(){
    this.registerForm=this.formBuilder.group({
-    firstName:["",[Validators.required, Validators.pattern('^[a-zA-ZçÇğĞıİöÖşŞüÜ]+$'), Validators.minLength(2)]],  
-    lastName:["",[Validators.required,Validators.pattern('^[a-zA-ZçÇğĞıİöÖşŞüÜ]+$'),Validators.minLength(2)]],  
+    firstName:["",[Validators.required, Validators.pattern('^[a-zA-ZçÇğĞıİöÖşŞüÜ ]+$'), Validators.minLength(2)]],  
+    lastName:["",[Validators.required,Validators.pattern('^[a-zA-ZçÇğĞıİöÖşŞüÜ ]+$'),Validators.minLength(2)]],  
     userName:["",[Validators.required, Validators.minLength(4)]],
     email:["",[Validators.required, Validators.email]],
     password:["",[Validators.required, Validators.minLength(6)]]
@@ -39,7 +39,7 @@ export class RegisterComponent {
     if(this.registerForm.valid){
       let registerModel = Object.assign({},this.registerForm.value);
       this.authService.RegisterApplicant(registerModel).subscribe((response)=>{
-        this.toastr.success("Kayıt Başarılı")
+        this.toastr.success("Kayıt Başarılı", "E-posta onayı için gelen kutunu kontrol etmeyi unutma.")
         this.router.navigate(['login']);
       },   error => {
         // Hata mesajını Toastr ile kullanıcıya göster

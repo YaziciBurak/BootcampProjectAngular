@@ -22,7 +22,6 @@
   padding: 0;
 }
 
-/* SVG boyutlarını artırın */
 #password-toggle .icon {
   width: 24px; /* SVG genişliği */
   height: 24px; /* SVG yüksekliği */

@@ -1,15 +1,24 @@
-
-import { ChangeDetectorRef,ElementRef, Component, Input, OnInit } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  ElementRef,
+  Component,
+  Input,
+  OnInit,
+} from '@angular/core';
 
 import { Router, RouterLink, RouterModule } from '@angular/router';
-import { HttpClientModule } from '@angular/common/http';
 import { LoginComponent } from '../../../features/components/login/login.component';
 import { RegisterComponent } from '../../../features/components/register/register.component';
 import { BootcampListGroupComponent } from '../../../features/components/bootcamps/bootcamp-list-group/bootcamp-list-group.component';
 import { CommonModule } from '@angular/common';
 import { MenuItem } from 'primeng/api';
 import { AuthService } from '../../../features/services/concretes/auth.service';
-import { Dropdown, DropdownOptions, InstanceOptions, initFlowbite } from 'flowbite';
+import {
+  Dropdown,
+  DropdownOptions,
+  InstanceOptions,
+  initFlowbite,
+} from 'flowbite';
 import { BootcampService } from '../../../features/services/concretes/bootcamp.service';
 import { FormsModule } from '@angular/forms';
 import { GetlistBootcampResponse } from '../../../features/models/responses/bootcamp/getlist-bootcamp-response';
@@ -17,9 +26,16 @@ import { GetlistBootcampResponse } from '../../../features/models/responses/boot
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [RouterModule, HttpClientModule, LoginComponent, RegisterComponent, BootcampListGroupComponent, CommonModule, FormsModule],
+  imports: [
+    RouterModule,
+    LoginComponent,
+    RegisterComponent,
+    BootcampListGroupComponent,
+    CommonModule,
+    FormsModule,
+  ],
   templateUrl: './navbar.component.html',
-  styleUrl: './navbar.component.css'
+  styleUrl: './navbar.component.css',
 })
 export class NavbarComponent {
   @Input() searchQuery: string;
@@ -30,13 +46,13 @@ export class NavbarComponent {
   searchResults: GetlistBootcampResponse[] = [];
   searchDropdown: Dropdown;
 
-  constructor(private bootcampService: BootcampService,
-     private authService: AuthService,
-      private router: Router,
-      private change:ChangeDetectorRef,
-      private elementRef: ElementRef
-    ) { }
-
+  constructor(
+    private bootcampService: BootcampService,
+    private authService: AuthService,
+    private router: Router,
+    private change: ChangeDetectorRef,
+    private elementRef: ElementRef
+  ) {}
 
   ngOnInit(): void {
     initFlowbite();
@@ -52,17 +68,22 @@ export class NavbarComponent {
     };
     const instanceOptions: InstanceOptions = {
       id: 'dropdownSearchResults',
-      override: true
+      override: true,
     };
-    this.searchDropdown = new Dropdown($targetEl, $triggerEl, options, instanceOptions);
+    this.searchDropdown = new Dropdown(
+      $targetEl,
+      $triggerEl,
+      options,
+      instanceOptions
+    );
   }
 
   logOut() {
     this.authService.logOut();
-    this.router.navigate(['homepage'])
+    this.router.navigate(['homepage']);
   }
   ngAfterViewInit(): void {
-    this.authService.loggedIn$.subscribe(isLoggedIn => {
+    this.authService.loggedIn$.subscribe((isLoggedIn) => {
       this.isLoggedIn = isLoggedIn;
       this.change.detectChanges();
     });
@@ -86,12 +107,10 @@ export class NavbarComponent {
     const isUserLoggedIn = await this.authService.loggedIn();
     if (isUserLoggedIn) {
       this.isLoggedIn = true;
-    }
-    else {
+    } else {
       this.isLoggedIn = false;
     }
     if (this.authService.isAdmin()) {
-
       this.isAdmin = true;
     }
   }
@@ -101,19 +120,24 @@ export class NavbarComponent {
       this.searchDropdown.hide();
     }
 
-    this.bootcampService.getListBootcampByDynamic(
-      { pageIndex: 0, pageSize: 5 },
-      {
-        filter: {
-          field: "name",
-          operator: "contains",
-          value: query
+    this.bootcampService
+      .getListBootcampByDynamic(
+        { pageIndex: 0, pageSize: 5 },
+        {
+          filter: {
+            field: 'name',
+            operator: 'contains',
+            value: query,
+          },
         }
-      },
-    ).subscribe(response => {
-      this.searchResults = response.items;
-      this.searchDropdown.show();
-    }, error => console.error("failed to search bootcamps:", error))
+      )
+      .subscribe(
+        (response) => {
+          this.searchResults = response.items;
+          this.searchDropdown.show();
+        },
+        (error) => console.error('failed to search bootcamps:', error)
+      );
   }
   goToFAQ(): void {
     const homepageContent = document.getElementById('homepage-content');
@@ -122,10 +146,8 @@ export class NavbarComponent {
       if (faqSection) {
         faqSection.scrollIntoView({ behavior: 'smooth' });
       }
-    }
-    else {
+    } else {
       this.router.navigate(['/sss']);
     }
   }
 }
-

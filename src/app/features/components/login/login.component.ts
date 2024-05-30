@@ -5,6 +5,7 @@ import { UserForLoginRequest } from '../../models/requests/users/user-for-login-
 import { Router, RouterModule } from '@angular/router';
 import { AppToastrService, ToastrMessageType } from '../../services/concretes/app-toastr.service';
 import { CommonModule } from '@angular/common';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
@@ -21,13 +22,13 @@ passwordFieldType: string = 'password';
     constructor(private formBuilder:FormBuilder,
       private authService:AuthService,
       private router:Router, 
-      private toastrService:AppToastrService
+      private toastrService:AppToastrService,
+      private toastr:ToastrService
     ){}
     ngOnInit(): void {
       window.scroll(0,0);
       this.createLoginForm();
       if(this.authService.loggedIn()){
-        this.toastrService.message("Zaten giriş yaptınız. Ana sayfaya yönlendiriliyorsunuz.", "Bilgilendirme", ToastrMessageType.Info)
         this.router.navigate(['/']);
       }
     }
@@ -51,7 +52,8 @@ passwordFieldType: string = 'password';
           this.toastrService.message("Giriş Başarılı.", "Merhaba", ToastrMessageType.Success)
           this.router.navigate(['/'])
         }
-        ,(error:any)=>{
+        ,(error:any)=>{ 
+          this.toastr.error(error)
         })
       } else {
         this.markFormGroupTouched(this.loginForm);

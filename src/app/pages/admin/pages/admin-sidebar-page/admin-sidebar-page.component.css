@@ -1,0 +1,74 @@
+/* Reset */
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: Arial, sans-serif; /* Varsayılan font tanımlaması */
+  }
+  
+  /* Ana wrapper */
+  .wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+  }
+  
+  /* Header */
+  .header {
+    background-color: #333;
+    color: white;
+    padding: 1rem;
+    text-align: center;
+  }
+  
+  /* Ana içerik */
+  .content {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+  }
+  
+  /* Sidebar */
+  .sidebar {
+    width: 16rem;
+    border-right: 1px solid #e5e7eb;
+    overflow-y: auto;
+    flex-shrink: 0;
+  }
+  
+  /* Ana içerik alanı */
+  .main-content {
+    flex: 1;
+    padding: 1rem;
+    overflow: auto;
+  }
+  
+  /* Sidebar içerikleri */
+  .sidebar .dropdown-menu ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .sidebar .dropdown-menu ul li a {
+    display: block;
+    padding: 0.75rem 1rem;
+    color: #ffffff; /* Metin rengi beyaz */
+    text-decoration: none;
+    transition: background-color 0.4s ease;
+  }
+  
+  .sidebar .dropdown-menu ul li a:hover {
+    background-color: #5d6775; /* Hover arka plan rengi */
+  }
+  
+  /* Dropdown menüleri */
+  .sidebar .dropdown-menu {
+    margin-left: 1rem;
+  }
+  
+  /* Font Awesome ikonları */
+  .sidebar .dropdown-menu i {
+    width: 1.5rem;
+    text-align: center;
+  }
+  

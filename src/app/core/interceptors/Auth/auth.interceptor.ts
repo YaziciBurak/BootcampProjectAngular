@@ -1,19 +1,98 @@
-import { HttpInterceptorFn } from "@angular/common/http";
-import { inject } from "@angular/core";
-import { LocalStorageService } from "../../../features/services/concretes/local-storage.service";
+import { Injectable } from '@angular/core';
+import {
+  HttpEvent,
+  HttpInterceptor,
+  HttpHandler,
+  HttpRequest,
+  HttpErrorResponse,
+} from '@angular/common/http';
+import { Observable, throwError, BehaviorSubject } from 'rxjs';
+import { catchError, switchMap, filter, take } from 'rxjs/operators';
+import { LocalStorageService } from '../../../features/services/concretes/local-storage.service';
+import { AuthService } from '../../../features/services/concretes/auth.service';
 
+@Injectable()
+export class AuthInterceptor implements HttpInterceptor {
+  private isRefreshing = false;
+  private refreshTokenSubject: BehaviorSubject<any> = new BehaviorSubject<any>(
+    null
+  );
 
-export const AuthInterceptor: HttpInterceptorFn=(req,next)=>{
-    const storageService = inject(LocalStorageService);
+  constructor(
+    private storageService: LocalStorageService,
+    private authService: AuthService
+  ) { }
 
-    const token = storageService.getToken();
+  intercept(
+    req: HttpRequest<any>,
+    next: HttpHandler
+  ): Observable<HttpEvent<any>> {
+    const token = this.storageService.getToken();
 
-    const authRequest = req.clone({
-      setHeaders:{
-        Authorization:`Bearer ${token}`
-      }
+    let authRequest = req;
+    if (token) {
+      authRequest = req.clone({
+        setHeaders: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+    }
 
-    })
-    return next(authRequest);
+    return next.handle(authRequest).pipe(
+      catchError((error) => {
+        if (
+          error instanceof HttpErrorResponse &&
+          error.status === 401 &&
+          !authRequest.url.includes('/login')
+        ) {
+          if (!this.isRefreshing) {
+            console.log("refreshing token");
+            this.isRefreshing = true;
+            this.refreshTokenSubject.next(null);
+
+            return this.authService.refreshToken().pipe(
+              switchMap((response) => {
+                console.log("refreshed token", response.token);
+                this.isRefreshing = false;
+                this.refreshTokenSubject.next(response.token);
+                this.storageService.setToken(response.token);
+
+                return next.handle(
+                  authRequest.clone({
+                    setHeaders: {
+                      Authorization: `Bearer ${response.token}`,
+                    },
+                  })
+                );
+              }),
+              catchError((err) => {
+                console.error("failed to refresh token", err);
+                this.isRefreshing = false;
+                this.storageService.removeToken();
+                return throwError(err);
+              })
+            );
+          } else {
+            console.log("idk what this is");
+            return this.refreshTokenSubject.pipe(
+              filter((token) => token !== null),
+              take(1),
+              switchMap((token) =>
+                next.handle(
+                  authRequest.clone({
+                    setHeaders: {
+                      Authorization: `Bearer ${token}`,
+                    },
+                  })
+                )
+              )
+            );
+          }
+        } else {
+          console.error("omg", error);
+          return throwError(error);
+        }
+      })
+    );
+  }
 }
-

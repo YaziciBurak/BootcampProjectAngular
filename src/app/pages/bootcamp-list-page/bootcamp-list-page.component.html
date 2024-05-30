@@ -11,8 +11,8 @@
 
 <div class="flex flex-row justify-between mx-20 2xl:mx-40 mt-20">
   <div class="flex flex-row gap-6 text-2xl text-slate-500">
-    <button (click)="getAllBootcamps({pageIndex:0, pageSize: PAGE_SIZE}); setFocus(0)" class="hover:text-indigo-600 "
-      [class.text-indigo-600]="focusedButton === 0">Tümünü Gör</button>
+    <button routerLink="/bootcamps" (click)="getAllBootcamps({pageIndex:0, pageSize: PAGE_SIZE}); setFocus(0)"
+      class="hover:text-indigo-600 " [class.text-indigo-600]="focusedButton === 0">Tümünü Gör</button>
     <button (click)="getContinuingBootcamps({pageIndex: currentPageNumber, pageSize: PAGE_SIZE}); setFocus(1)"
       class="hover:text-indigo-600 " [class.text-indigo-600]="focusedButton === 1">Başvurusu Devam Edenler</button>
     <button (click)="getDeadlinePassedBootcamps({pageIndex: currentPageNumber, pageSize: PAGE_SIZE}); setFocus(2)"
@@ -20,36 +20,42 @@
   </div>
 
 
-  <div class=" flex flex-row gap-3 ">
+  <div class="flex flex-row gap-3 relative">
     <div class="text-2xl text-slate-500 self-center">Filtrele:</div>
-    <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown"
-      class="text-slate-500 text-2xl bg-white hover:text-indigo-600   border-solid border-gray border-2  px-6 py-1 text-center inline-flex items-center "
-      type="button"> {{ filterText }} <svg class="w-4 h-4 ms-3 mt-1" aria-hidden="true"
-        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="m1 1 4 4 4-4" />
-      </svg>
-    </button>
-    <!-- Dropdown menu -->
-    <div id="dropdown" class="flex hidden bg-white divide-y divide-gray-100  rounded-lg shadow dark:bg-gray-700">
-      <ul class=" flex flex-col py-2 text-xl text-slate-500 ml-2 mr-10 " aria-labelledby="dropdownDefaultButton">
-        <li routerLink="/bootcamps">
-          <a class="block px-4 py-2 hover:cursor-pointer">Bütün Bootcampler</a>
-        </li>
-        <ng-container *ngFor="let instructors of instructors.items">
-          <li routerLink="/bootcamps/instructor/{{instructors.id}}"
-            [ngClass]="{'': selectedInstructorId === instructors.id}"
-            (click)="onSelectedInstructor(instructors.id, instructors.firstName + ' ' + instructors.lastName)">
-            <a class="block px-4 py-2 hover:cursor-pointer ">{{instructors.firstName}} {{instructors.lastName}}</a>
+    <div class="relative">
+      <button (click)="toggleDropdown()"
+        class=" flex flex-nowrap text-slate-500 text-2xl bg-white hover:text-indigo-600 border-solid border-gray border-2 px-6 py-2  "
+        type="button">
+        <span class="flex flex-row">{{ filterText }}</span>
+        <svg class="w-4 h-4 ms-3 mt-1 self-center" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+          viewBox="0 0 10 6">
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"
+            d="m1 1 4 4 4-4" />
+        </svg>
+      </button>
+      <!-- Dropdown menu -->
+      <div id="dropdown" [ngClass]="{'hidden': !isDropdownVisible, 'block': isDropdownVisible}"
+        class="flex flex-nowrap absolute left-0 mt-2 w-52 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-10">
+        <ul class="py-1">
+          <li routerLink="/bootcamps">
+            <a class="block px-4 py-2 text-xl text-slate-500 hover:bg-gray-100 hover:cursor-pointer">Bütün
+              Bootcampler</a>
           </li>
-        </ng-container>
-      </ul>
+          <ng-container *ngFor="let instructor of instructors.items">
+            <li routerLink="/bootcamps/instructor/{{instructor.id}}"
+              [ngClass]="{'font-semibold text-indigo-600': selectedInstructorId === instructor.id}"
+              (click)="onSelectedInstructor(instructor.id, instructor.firstName + ' ' + instructor.lastName)">
+              <a class="block px-4 py-2 text-xl text-slate-500 hover:bg-gray-100 hover:cursor-pointer">{{instructor.firstName}}
+                {{instructor.lastName}}</a>
+            </li>
+          </ng-container>
+        </ul>
+      </div>
     </div>
-
-    <img loading="lazy" src="/assets/img/filter.png" class=" ">
-
+    <img loading="lazy" src="/assets/img/filter.png" class="self-center">
   </div>
-
 </div>
+
 
 <!--dışarıdaki çerçeve-->
 <div class="flex flex-row justify-center mx-20 2xl:mx-60 mt-16 mb-20 border-2">

@@ -1,7 +1,9 @@
 export interface CreateBootcampRequest {
-    name:string;
-    instructorId:string;
-    bootcampstate:number;
-    startDate:Date;
-    endDate:Date;
+    name: string;
+    instructorId: string;
+    bootcampStateId: number;
+    startDate: Date;
+    endDate: Date;
+    detail: string;
+    deadline: Date;
 }

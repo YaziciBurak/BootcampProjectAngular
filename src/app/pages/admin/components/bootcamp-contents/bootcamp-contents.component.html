@@ -39,7 +39,7 @@
             </div>
             </div>
             <div class="mb-4">
-              <label for="content" class="block text-gray-700 text-sm font-bold mb-1">İçerik:</label>
+              <label for="content" class="block text-gray-700 text-sm font-bold mb-1">Bootcamp İçerik:</label>
               <editor formControlName="content" apiKey="849f053lmmlilkvi8b7tqmqf3hg389ebnye9gsig2lhbbbun"
                 [init]="{ plugins: 'lists link image table code help wordcount' }"></editor>
                 <div
@@ -76,12 +76,13 @@
       <tr>
         <th class="px-6 py-3 bg-gray-800 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Bootcamp
           Adı </th>
-        <th class="px-6 py-3 bg-gray-800 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Video Url
+        <th class="px-6 py-3 bg-gray-800 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Video Linki
         </th>
-
-        <th class="px-6 py-3 bg-gray-800 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Delete
+        <th class="px-6 py-3 bg-gray-800 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Bootcamp İçerik
         </th>
-        <th class="px-6 py-3 bg-gray-800 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Update
+        <th class="px-6 py-3 bg-gray-800 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Sil
+        </th>
+        <th class="px-6 py-3 bg-gray-800 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Güncelle
         </th>
       </tr>
     </thead>
@@ -91,6 +92,7 @@
         <td class="px-6 py-4 whitespace-nowrap border-b border-gray-200">
           <a href="{{ bootcampContents.videoUrl }}" target="_blank"> {{ bootcampContents.videoUrl}}</a>
         </td>
+        <td class="px-6 py-4 whitespace-nowrap border-b border-gray-200">{{ getShortenedText(bootcampContents.content)}} </td>
 
         <td class="px-6 py-4 whitespace-nowrap border-b border-gray-200">
           <button (click)="delete(bootcampContents.id)"
@@ -157,7 +159,7 @@
                 </div>
               </div>
             <div class="mb-4">
-              <label for="content" class="block text-gray-700 text-sm font-bold mb-1">İçerik:</label>
+              <label for="content" class="block text-gray-700 text-sm font-bold mb-1">Bootcamp İçerik:</label>
               <editor formControlName="content" apiKey="849f053lmmlilkvi8b7tqmqf3hg389ebnye9gsig2lhbbbun"
                 [init]="{ plugins: 'lists link image table code help wordcount' }"></editor> 
                 <div

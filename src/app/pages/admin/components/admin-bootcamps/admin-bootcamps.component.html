@@ -15,56 +15,44 @@
             <label for="name" class="block text-gray-700 text-sm font-bold mb-2">Güncellenecek Bootcamp Adı:</label>
             <input formControlName="name" type="text" id="name"
               class="form-control shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-              <div
-              *ngIf="submitted && bootcampUpdateForm.get('name').invalid"
-              class="error-message"
-            >
+            <div *ngIf="submitted && bootcampUpdateForm.get('name').invalid" class="error-message">
               <div *ngIf="bootcampUpdateForm.get('name').hasError('required')">
                 Bootcamp adı zorunludur.
               </div>
             </div>
-            </div>
+          </div>
           <div class="mb-4">
             <label for="startDate" class="block text-gray-700 text-sm font-bold mb-2">Başlangıç Tarihi:</label>
             <input formControlName="startDate" type="date" id="startDate"
               class="form-control shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-              <div
-              *ngIf="submitted && bootcampUpdateForm.get('startDate').invalid"
-              class="error-message"
-            >
+            <div *ngIf="submitted && bootcampUpdateForm.get('startDate').invalid" class="error-message">
               <div *ngIf="bootcampUpdateForm.get('startDate').hasError('required')">
                 Başlangıç tarihi alanı zorunludur.
               </div>
             </div>
-            </div>
+          </div>
           <div class="mb-4">
             <label for="endDate" class="block text-gray-700 text-sm font-bold mb-2">Bitiş Tarihi:</label>
             <input formControlName="endDate" type="date" id="endDate"
               class="form-control shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-              <div
-              *ngIf="submitted && bootcampUpdateForm.get('endDate').invalid"
-              class="error-message"
-            >
+            <div *ngIf="submitted && bootcampUpdateForm.get('endDate').invalid" class="error-message">
               <div *ngIf="bootcampUpdateForm.get('endDate').hasError('required')">
                 Bitiş tarihi alanı zorunludur.
               </div>
             </div>
-            </div>
+          </div>
           <div class="mb-4">
             <label for="instructorId" class="block text-gray-700 text-sm font-bold mb-2">Eğitmen:</label>
             <select formControlName="instructorId" id="instructorId"
               class="form-control shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
               <option *ngFor="let instructor of instructorList.items" [value]="instructor.id">{{instructor.firstName}}
-                {{instructor.lastName}}</option> 
+                {{instructor.lastName}}</option>
             </select>
-            <div
-            *ngIf="submitted && bootcampUpdateForm.get('instructorId').invalid"
-            class="error-message"
-          >
-            <div *ngIf="bootcampUpdateForm.get('instructorId').hasError('required')">
-              Eğitmen alanı zorunludur.
+            <div *ngIf="submitted && bootcampUpdateForm.get('instructorId').invalid" class="error-message">
+              <div *ngIf="bootcampUpdateForm.get('instructorId').hasError('required')">
+                Eğitmen alanı zorunludur.
+              </div>
             </div>
-          </div>
           </div>
           <div class="mb-4">
             <label for="bootcampStateId" class="block text-gray-700 text-sm font-bold mb-2">Bootcamp Durumu:</label>
@@ -73,40 +61,32 @@
               <option *ngFor="let bootcampState of bootcampStateList.items" [value]="bootcampState.id">{{
                 bootcampState.name }} </option>
             </select>
-            <div
-              *ngIf="submitted && bootcampUpdateForm.get('bootcampStateId').invalid"
-              class="error-message"
-            >
+            <div *ngIf="submitted && bootcampUpdateForm.get('bootcampStateId').invalid" class="error-message">
               <div *ngIf="bootcampUpdateForm.get('bootcampStateId').hasError('required')">
                 Bootcamp durumu alanı zorunludur.
               </div>
             </div>
             <div class="mb-4">
-              <label for="detail" class="block text-gray-700 text-sm font-bold mb-2">Bootcamp Detail:</label>
+              <label for="detail" class="block text-gray-700 text-sm font-bold mb-2">Bootcamp Detay:</label>
               <editor formControlName="detail" apiKey="849f053lmmlilkvi8b7tqmqf3hg389ebnye9gsig2lhbbbun"
-                [init]="{ plugins: 'lists link image table code help wordcount' }"></editor> 
-                <div
-                *ngIf="submitted && bootcampUpdateForm.get('detail').invalid"
-                class="error-message"
-              >
+                [init]="{ plugins: 'lists link image table code help wordcount' }"></editor>
+              <div *ngIf="submitted && bootcampUpdateForm.get('detail').invalid" class="error-message">
                 <div *ngIf="bootcampUpdateForm.get('detail').hasError('required')">
                   Bootcamp detay alanı zorunludur.
                 </div>
               </div>
             </div>
             <div class="mb-4">
-              <label for="deadLine" class="block text-gray-700 text-sm font-bold mb-2">Bootcamp Deadline:</label>
-              <input formControlName="deadLine" type="date" id="deadLine"
+              <label for="deadline" class="block text-gray-700 text-sm font-bold mb-2">Bootcamp Son Başvuru
+                Tarihi:</label>
+              <input formControlName="deadline" type="date" id="deadline"
                 class="form-control shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                <div
-                *ngIf="submitted && bootcampUpdateForm.get('deadLine').invalid"
-                class="error-message"
-                 >
-                <div *ngIf="bootcampUpdateForm.get('deadLine').hasError('required')">
+              <div *ngIf="submitted && bootcampUpdateForm.get('deadline').invalid" class="error-message">
+                <div *ngIf="bootcampUpdateForm.get('deadline').hasError('required')">
                   Bootcamp deadline alanı zorunludur.
                 </div>
               </div>
-              </div>
+            </div>
           </div>
 
         </div>
@@ -127,40 +107,32 @@
 
 
 <div class="overflow-x-auto">
-  <table class="min-w-full">
-    <thead>
+  <table class="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
+    <thead class="bg-gray-800 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
       <tr>
-        <th class="px-6 py-3 bg-gray-800 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Bootcamp
-          Name</th>
-        <th class="px-6 py-3 bg-gray-800 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
-          Instructor Full Name</th>
-        <th class="px-6 py-3 bg-gray-800 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Bootcamp
-          State Name</th>
-
-        <th class="px-6 py-3 bg-gray-800 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Bootcamp
-          Deadline</th>
-        <th class="px-6 py-3 bg-gray-800 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Delete
-        </th>
-        <th class="px-6 py-3 bg-gray-800 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Update
-        </th>
+        <th class="px-6 py-3">Bootcamp Adı</th>
+        <th class="px-6 py-3">Eğitmen Ad/Soyad</th>
+        <th class="px-6 py-3">Bootcamp Durumu</th>
+        <th class="px-6 py-3">Bootcamp Son Başvuru Tarihi</th>
+        <th class="px-6 py-3">Sil</th>
+        <th class="px-6 py-3">Güncelle</th>
       </tr>
     </thead>
-    <tbody>
-      <tr *ngFor="let bootcamps of bootcampList.items">
-        <td class="px-6 py-4 whitespace-nowrap border-b border-gray-200">{{ bootcamps.name }}</td>
-        <td class="px-6 py-4 whitespace-nowrap border-b border-gray-200">{{ bootcamps.instructorFirstName}}
-          {{bootcamps.instructorLastName}}</td>
-        <td class="px-6 py-4 whitespace-nowrap border-b border-gray-200">{{ bootcamps.bootcampStateName }}</td>
-
-        <td class="px-6 py-4 whitespace-nowrap border-b border-gray-200">{{ bootcamps.deadline }}</td>
-        <td class="px-6 py-4 whitespace-nowrap border-b border-gray-200">
-          <button (click)="delete(bootcamps.id)"
+    <tbody class="divide-y divide-gray-200">
+      <tr *ngFor="let bootcamp of bootcampList.items">
+        <td class="px-6 py-4 whitespace-nowrap">{{ bootcamp.name }}</td>
+        <td class="px-6 py-4 whitespace-nowrap">{{ bootcamp.instructorFirstName }} {{ bootcamp.instructorLastName }}
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap">{{ bootcamp.bootcampStateName }}</td>
+        <td class="px-6 py-4 whitespace-nowrap">{{ bootcamp.deadline }}</td>
+        <td class="px-6 py-4 whitespace-nowrap">
+          <button (click)="delete(bootcamp.id)"
             class="px-3 py-1 bg-red-500 text-white rounded-md hover:bg-red-600 focus:outline-none focus:bg-red-600">
             Sil
           </button>
         </td>
-        <td class="px-6 py-4 whitespace-nowrap border-b border-gray-200">
-          <button (click)="openUpdateModal(bootcamps)"
+        <td class="px-6 py-4 whitespace-nowrap">
+          <button (click)="openUpdateModal(bootcamp)"
             class="px-3 py-1 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
             Güncelle
           </button>
@@ -169,6 +141,7 @@
     </tbody>
   </table>
 </div>
+
 <div class="flex justify-center mb-4">
   <button (click)="openAddModal()"
     class="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 focus:outline-none focus:bg-green-600 mt-3">
@@ -193,41 +166,32 @@
             <label for="name" class="block text-gray-700 text-sm font-bold mb-2">Eklenecek Bootcamp Adı:</label>
             <input formControlName="name" type="text" id="name"
               class="form-control shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-              <div
-              *ngIf="submitted && bootcampCreateForm.get('name').invalid"
-              class="error-message"
-               >
+            <div *ngIf="submitted && bootcampCreateForm.get('name').invalid" class="error-message">
               <div *ngIf="bootcampCreateForm.get('name').hasError('required')">
                 Bootcamp adı zorunludur.
               </div>
             </div>
-            </div>
+          </div>
           <div class="mb-4">
             <label for="startDate" class="block text-gray-700 text-sm font-bold mb-2">Başlangıç Tarihi:</label>
             <input formControlName="startDate" type="date" id="startDate"
               class="form-control shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-              <div
-              *ngIf="submitted && bootcampCreateForm.get('startDate').invalid"
-              class="error-message"
-               >
+            <div *ngIf="submitted && bootcampCreateForm.get('startDate').invalid" class="error-message">
               <div *ngIf="bootcampCreateForm.get('startDate').hasError('required')">
                 Başlangıç tarihi alanı zorunludur.
               </div>
             </div>
-            </div>
+          </div>
           <div class="mb-4">
             <label for="endDate" class="block text-gray-700 text-sm font-bold mb-2">Bitiş Tarihi:</label>
             <input formControlName="endDate" type="date" id="endDate"
               class="form-control shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-              <div
-              *ngIf="submitted && bootcampCreateForm.get('endDate').invalid"
-              class="error-message"
-            >
+            <div *ngIf="submitted && bootcampCreateForm.get('endDate').invalid" class="error-message">
               <div *ngIf="bootcampCreateForm.get('endDate').hasError('required')">
                 Bitiş tarihi alanı zorunludur.
               </div>
             </div>
-            </div>
+          </div>
           <div class="mb-4">
             <label for="instructorId" class="block text-gray-700 text-sm font-bold mb-2">Eğitmen:</label>
             <select formControlName="instructorId" id="instructorId"
@@ -235,14 +199,11 @@
               <option *ngFor="let instructor of instructorList.items" [value]="instructor.id">{{instructor.firstName}}
                 {{instructor.lastName}}</option>
             </select>
-            <div
-            *ngIf="submitted && bootcampCreateForm.get('instructorId').invalid"
-            class="error-message"
-          >
-            <div *ngIf="bootcampCreateForm.get('instructorId').hasError('required')">
-              Eğitmen alanı zorunludur.
+            <div *ngIf="submitted && bootcampCreateForm.get('instructorId').invalid" class="error-message">
+              <div *ngIf="bootcampCreateForm.get('instructorId').hasError('required')">
+                Eğitmen alanı zorunludur.
+              </div>
             </div>
-          </div>
           </div>
           <div class="mb-4">
             <label for="bootcampStateId" class="block text-gray-700 text-sm font-bold mb-2">Bootcamp Durumu:</label>
@@ -250,41 +211,33 @@
               class="form-control shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
               <option *ngFor="let bootcampState of bootcampStateList.items" [value]="bootcampState.id">{{
                 bootcampState.name }} </option>
-                 <div
-                 *ngIf="submitted && bootcampCreateForm.get('bootcampStateId').invalid"
-                 class="error-message"
-               >
-                 <div *ngIf="bootcampCreateForm.get('bootcampStateId').hasError('required')">
-                   Bootcamp durumu alanı zorunludur.
-                 </div>
-               </div>
+              <div *ngIf="submitted && bootcampCreateForm.get('bootcampStateId').invalid" class="error-message">
+                <div *ngIf="bootcampCreateForm.get('bootcampStateId').hasError('required')">
+                  Bootcamp durumu alanı zorunludur.
+                </div>
+              </div>
             </select>
             <div class="mb-4">
-              <label for="detail" class="block text-gray-700 text-sm font-bold mb-2">Bootcamp Detail:</label>
+              <label for="detail" class="block text-gray-700 text-sm font-bold mb-2">Bootcamp Detay:</label>
               <editor formControlName="detail" apiKey="849f053lmmlilkvi8b7tqmqf3hg389ebnye9gsig2lhbbbun"
                 [init]="{ plugins: 'lists link image table code help wordcount' }"></editor>
-                <div
-                *ngIf="submitted && bootcampCreateForm.get('detail').invalid"
-                class="error-message"
-              >
+              <div *ngIf="submitted && bootcampCreateForm.get('detail').invalid" class="error-message">
                 <div *ngIf="bootcampCreateForm.get('detail').hasError('required')">
                   Bootcamp detay alanı zorunludur.
                 </div>
               </div>
             </div>
             <div class="mb-4">
-              <label for="deadLine" class="block text-gray-700 text-sm font-bold mb-2">Bootcamp Deadline:</label>
-              <input formControlName="deadLine" type="date" id="deadLine"
+              <label for="deadline" class="block text-gray-700 text-sm font-bold mb-2">Bootcamp Son Başvuru
+                Tarihi:</label>
+              <input formControlName="deadline" type="date" id="deadline"
                 class="form-control shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                <div
-                *ngIf="submitted && bootcampCreateForm.get('deadLine').invalid"
-                class="error-message"
-                 >
-                <div *ngIf="bootcampCreateForm.get('deadLine').hasError('required')">
-                  Bootcamp deadline alanı zorunludur.
+              <div *ngIf="submitted && bootcampCreateForm.get('deadline').invalid" class="error-message">
+                <div *ngIf="bootcampCreateForm.get('deadline').hasError('required')">
+                  Bootcamp Son Başvuru alanı zorunludur.
                 </div>
               </div>
-              </div>
+            </div>
           </div>
 
         </div>

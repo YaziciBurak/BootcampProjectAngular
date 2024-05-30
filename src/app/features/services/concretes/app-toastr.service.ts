@@ -11,7 +11,7 @@ export class AppToastrService {
   message(message: string, title: string, messageType: ToastrMessageType, toastrOptions?: Partial<ToastrOptions>){
     this.toastr[messageType](message, title,{
       positionClass: toastrOptions?.position ?? ToastrPosition.TopRight,
-      timeOut: toastrOptions?.timeOut ?? 4000,
+      timeOut: toastrOptions?.timeOut ?? 7000,
       progressBar: toastrOptions?.progressBar ?? true,
       closeButton: toastrOptions?.closeButton ?? true,
 
