@@ -38,7 +38,7 @@
           <!-- Validation Messages -->
           <div *ngIf="submitted && registerForm.get('firstName').invalid" class="error-message">
             <div *ngIf="registerForm.get('firstName').hasError('required')">
-              İsim alanı zorunludur.
+              Bu alan zorunludur!
             </div>
             <div *ngIf="registerForm.get('firstName').hasError('pattern')">
               İsim yalnızca harflerden oluşabilir.
@@ -57,7 +57,7 @@
             type="text" placeholder="Soyad yazınız  . . ." />
           <div *ngIf="submitted && registerForm.get('lastName').invalid" class="error-message">
             <div *ngIf="registerForm.get('lastName').hasError('required')">
-              Soyadı alanı zorunludur.
+              Bu alan zorunludur!
             </div>
             <div *ngIf="registerForm.get('lastName').hasError('pattern')">
               Soyadı yalnızca harflerden oluşabilir.
@@ -77,7 +77,7 @@
         class="form-control justify-center items-start px-5 py-3 mt-2.5 text-gray-500 whitespace-nowrap bg-white rounded-md border border-solid border-neutral-200 max-md:px-5 max-md:max-w-full" />
       <div *ngIf="submitted && registerForm.get('userName').invalid" class="error-message">
         <div *ngIf="registerForm.get('userName').hasError('required')">
-          Kullanıcı adı zorunludur.
+          Bu alan zorunludur!
         </div>
         <div *ngIf="registerForm.get('userName').hasError('minlength')">
           Kullanıcı adı en az 4 karakter olmalıdır.
@@ -90,7 +90,7 @@
         class="form-control justify-center items-start px-5 py-3 mt-2.5 text-gray-500 whitespace-nowrap bg-white rounded-md border border-solid border-neutral-200 max-md:px-5 max-md:max-w-full" />
       <div *ngIf="submitted && registerForm.get('email').invalid" class="error-message">
         <div *ngIf="registerForm.get('email').hasError('required')">
-          Email alanı zorunludur.
+          Bu alan zorunludur!
         </div>
         <div *ngIf="registerForm.get('email').hasError('email')">
           Email alanı email formatında olmak zorundadır.
@@ -103,7 +103,7 @@
         class="form-control justify-center items-start px-5 py-3 mt-2.5 text-gray-500 whitespace-nowrap bg-white rounded-md border border-solid border-neutral-200 max-md:px-5 max-md:max-w-full" />
       <div *ngIf="submitted && registerForm.get('password').invalid" class="error-message">
         <div *ngIf="registerForm.get('password').hasError('required')">
-          Şifre alanı zorunludur.
+          Bu alan zorunludur!
         </div>
         <div *ngIf="registerForm.get('password').hasError('minlength')">
           Şifre en az 6 karakter olmalıdır.
