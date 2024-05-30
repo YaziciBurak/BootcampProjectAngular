@@ -10,6 +10,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SharedModule } from '../../shared/shared.module';
 import { BootcampContentService } from '../../features/services/concretes/bootcamp-content.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-my-bootcamps-list-page',
@@ -40,8 +41,9 @@ export class MyBootcampsListPageComponent implements OnInit {
     private authService: AuthService,
     private applicationService: ApplicationService,
     private activatedRoute: ActivatedRoute,
-    private bootcampContentService: BootcampContentService
-  ) {}
+    private bootcampContentService: BootcampContentService,
+    private toastr:ToastrService
+    ) {}
   readonly PAGE_SIZE = 3;
   ngOnInit(): void {
     this.getMyAllBootcamps({ pageIndex: 0, pageSize: this.PAGE_SIZE });
@@ -62,11 +64,11 @@ export class MyBootcampsListPageComponent implements OnInit {
     this.bootcampContentService
       .getbybootcampId(pageRequest, bootcampId)
       .subscribe(
-        (response) => {
-          console.log('Bootcamp Content:', response);
+        () => {
+         
         },
         (error) => {
-          console.error('Error:', error);
+          this.toastr.error('Hata:', error);
         }
       );
   }
