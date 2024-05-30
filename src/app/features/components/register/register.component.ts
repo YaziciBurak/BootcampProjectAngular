@@ -26,8 +26,8 @@ export class RegisterComponent {
 
   createRegisterForm(){
    this.registerForm=this.formBuilder.group({
-    firstName:["",[Validators.required, Validators.pattern('^[a-zA-ZçÇğĞıİöÖşŞüÜ]+$'), Validators.minLength(2)]],  
-    lastName:["",[Validators.required,Validators.pattern('^[a-zA-ZçÇğĞıİöÖşŞüÜ]+$'),Validators.minLength(2)]],  
+    firstName:["",[Validators.required, Validators.pattern('^[a-zA-ZçÇğĞıİöÖşŞüÜ ]+$'), Validators.minLength(2)]],  
+    lastName:["",[Validators.required,Validators.pattern('^[a-zA-ZçÇğĞıİöÖşŞüÜ ]+$'),Validators.minLength(2)]],  
     userName:["",[Validators.required, Validators.minLength(4)]],
     email:["",[Validators.required, Validators.email]],
     password:["",[Validators.required, Validators.minLength(6)]]

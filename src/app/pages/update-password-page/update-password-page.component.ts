@@ -3,7 +3,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../features/services/concretes/auth.service';
 import { ApplicantService } from '../../features/services/concretes/applicant.service';
-import { animate, state, style, transition, trigger } from '@angular/animations';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -11,20 +10,7 @@ import { ToastrService } from 'ngx-toastr';
   standalone: true,
   imports: [CommonModule,ReactiveFormsModule,FormsModule],
   templateUrl: './update-password-page.component.html',
-  styleUrl: './update-password-page.component.css',
-  animations: [
-    trigger('inputFocus', [
-      state('true', style({
-        borderColor: '#66afe9',
-        boxShadow: '0 0 5px rgba(102, 175, 233, 0.6)'
-      })),
-      state('false', style({
-        borderColor: '#ccc',
-        boxShadow: 'none'
-      })),
-      transition('false <=> true', animate('300ms ease-in-out'))
-    ])
-  ]
+  styleUrl: './update-password-page.component.css'
 })
 export class UpdatePasswordPageComponent implements OnInit{
   updatePasswordForm:FormGroup;

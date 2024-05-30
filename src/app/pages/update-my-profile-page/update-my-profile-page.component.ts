@@ -11,13 +11,6 @@ import { RouterModule } from '@angular/router';
 import { AuthService } from '../../features/services/concretes/auth.service';
 import { ApplicantService } from '../../features/services/concretes/applicant.service';
 import { formatDateString } from '../../core/helpers/format-date';
-import {
-  animate,
-  state,
-  style,
-  transition,
-  trigger,
-} from '@angular/animations';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -25,26 +18,7 @@ import { ToastrService } from 'ngx-toastr';
   standalone: true,
   imports: [CommonModule, RouterModule, ReactiveFormsModule, FormsModule],
   templateUrl: './update-my-profile-page.component.html',
-  styleUrl: './update-my-profile-page.component.css',
-  animations: [
-    trigger('inputFocus', [
-      state(
-        'true',
-        style({
-          borderColor: '#66afe9',
-          boxShadow: '0 0 5px rgba(102, 175, 233, 0.6)',
-        })
-      ),
-      state(
-        'false',
-        style({
-          borderColor: '#ccc',
-          boxShadow: 'none',
-        })
-      ),
-      transition('false <=> true', animate('300ms ease-in-out')),
-    ]),
-  ],
+  styleUrl: './update-my-profile-page.component.css'
 })
 export class UpdateMyProfilePageComponent implements OnInit {
   applicantUpdateForm: FormGroup;
@@ -71,7 +45,7 @@ export class UpdateMyProfilePageComponent implements OnInit {
         '',
         [
           Validators.required,
-          Validators.pattern('^[a-zA-ZçÇğĞıİöÖşŞüÜ]+$'),
+          Validators.pattern('^[a-zA-ZçÇğĞıİöÖşŞüÜ ]+$'),
           Validators.minLength(2),
         ],
       ],
@@ -79,7 +53,7 @@ export class UpdateMyProfilePageComponent implements OnInit {
         '',
         [
           Validators.required,
-          Validators.pattern('^[a-zA-ZçÇğĞıİöÖşŞüÜ]+$'),
+          Validators.pattern('^[a-zA-ZçÇğĞıİöÖşŞüÜ ]+$'),
           Validators.minLength(2),
         ],
       ],

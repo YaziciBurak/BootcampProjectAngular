@@ -48,8 +48,8 @@ export class ApplicantsComponent implements OnInit {
   updateForm() {
     this.applicantUpdateForm = this.formBuilder.group({
       userName: ["",[Validators.required,Validators.minLength(4)]],
-      firstName:["",[Validators.required, Validators.pattern('^[a-zA-ZçÇğĞıİöÖşŞüÜ]+$'), Validators.minLength(2)]],  
-      lastName:["",[Validators.required,Validators.pattern('^[a-zA-ZçÇğĞıİöÖşŞüÜ]+$'),Validators.minLength(2)]], 
+      firstName:["",[Validators.required, Validators.pattern('^[a-zA-ZçÇğĞıİöÖşŞüÜ ]+$'), Validators.minLength(2)]],  
+      lastName:["",[Validators.required,Validators.pattern('^[a-zA-ZçÇğĞıİöÖşŞüÜ ]+$'),Validators.minLength(2)]], 
       email: ["",[Validators.required,Validators.email]],
       about: ["",[Validators.required]],
       dateOfBirth: ["",[Validators.required]],
