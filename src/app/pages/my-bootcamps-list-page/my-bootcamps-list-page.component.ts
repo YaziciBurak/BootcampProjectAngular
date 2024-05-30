@@ -41,9 +41,8 @@ export class MyBootcampsListPageComponent implements OnInit {
     private authService: AuthService,
     private applicationService: ApplicationService,
     private activatedRoute: ActivatedRoute,
-    private bootcampContentService: BootcampContentService,
-    private toastr:ToastrService
-    ) {}
+    private bootcampContentService: BootcampContentService
+  ) {}
   readonly PAGE_SIZE = 3;
   ngOnInit(): void {
     this.getMyAllBootcamps({ pageIndex: 0, pageSize: this.PAGE_SIZE });
@@ -56,7 +55,7 @@ export class MyBootcampsListPageComponent implements OnInit {
           bootcampId
         );
       } else {
-        this.getList({ pageIndex: 0, pageSize: this.PAGE_SIZE });
+        this.getMyAllBootcamps({ pageIndex: 0, pageSize: this.PAGE_SIZE });
       }
     });
   }
@@ -68,7 +67,7 @@ export class MyBootcampsListPageComponent implements OnInit {
          
         },
         (error) => {
-          this.toastr.error('Hata:', error);
+          console.error('Error:', error);
         }
       );
   }

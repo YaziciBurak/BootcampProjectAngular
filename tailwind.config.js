@@ -6,10 +6,20 @@ module.exports = {
   ],
   theme: {
     extend: {
-      backgroundImage: {
 
-      }
     },
+
+
+
+
+
+
   },
+
+
+
+
+
+
   plugins: [require('flowbite/plugin')],
 }

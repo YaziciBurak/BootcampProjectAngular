@@ -34,8 +34,8 @@
         Bootcamp içeriklerini bitirmek benim sorumluluğumdadır, sınava girmeye hazırım.
       </div>
       <input type="checkbox" class="self-end mt-3 w-5 h-5 bg-white rounded border border-solid border-zinc-200 
-        text-indigo-700  focus:ring-indigo-700 " [checked]="bootcampContent.hasApplicantBootcampContent"
-        (click)="showConfirmation(bootcampContent.id)"
+        text-indigo-700  focus:ring-indigo-700 " [checked]="bootcampContent.hasApplicantBootcampContent || confirmed"
+        (click)="showConfirmation($event, bootcampContent.id)"
         [disabled]="confirmed || bootcampContent?.hasApplicantBootcampContent" />
 
 
