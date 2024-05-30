@@ -37,7 +37,7 @@ export class QuizPageComponent implements OnInit {
     private route: ActivatedRoute,
     private quizService: QuizService,
     private certificateService: CertificateService,
-    private toastr:ToastrService
+    private toastr: ToastrService
 
   ) {
 
@@ -75,7 +75,6 @@ export class QuizPageComponent implements OnInit {
 
 
       this.timer = minutes + ":" + seconds;
-      console.log('t:', t); // Log the value of t
 
       if (--t < 0) {
 
