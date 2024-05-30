@@ -55,20 +55,16 @@ export class AuthService extends AuthBaseService {
         errorMessage = `Hata: ${error.error.message}`;
     } else {
         // Backend hatası
-        if (error.error && typeof error.error.message === 'string') {
-            errorMessage = error.error.message;
-        } else if (error.status === 500 && typeof error.error === 'string') {
-            // Hata mesajını backend'den alınan response'un ilk satırından ayıklayın
-            const backendErrorMessage = error.error.split('\n')[0];
-            if (backendErrorMessage.includes('BusinessException')) {
-                errorMessage = backendErrorMessage.split(': ')[1]; // Sadece hata mesajını al
-            }
+        if (error.error && typeof error.error === 'object' && error.error.detail) {
+            // Hata mesajını backend'den alınan response'un 'detail' alanından alın
+            errorMessage = error.error.detail;
         } else {
             errorMessage = `Sunucu Hatası: ${error.status}\nMesaj: ${error.message}`;
         }
     }
     return throwError(errorMessage);
 }
+
 
 
   override register(
