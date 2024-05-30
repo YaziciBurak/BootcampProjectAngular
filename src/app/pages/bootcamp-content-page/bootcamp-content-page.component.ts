@@ -21,6 +21,7 @@ import { CreateQuestionRequest } from '../../features/models/requests/question/c
 import { CreateQuizRequest } from '../../features/models/requests/quiz/create-quiz-request';
 import { CreateQuizResponse } from '../../features/models/responses/quiz/create-quiz-response';
 import { QuizPageComponent } from '../quiz-page/quiz-page.component';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-bootcamp-content-page',
@@ -40,7 +41,8 @@ export class BootcampContentPageComponent implements OnInit {
   formatDate = formatDate1;
   content: SafeHtml;
   confirmed: boolean = false;
-  @ViewChild('checkboxRef') checkboxRef!: ElementRef;
+  @ViewChild('checkboxRef', { static: false }) checkboxRef!: ElementRef;
+
 
   constructor(
     private sanitizer: DomSanitizer,
@@ -125,22 +127,34 @@ export class BootcampContentPageComponent implements OnInit {
       );
   }
 
-  showConfirmation(id: number) {
-    if (!this.confirmed) {
-      const confirmation = confirm(
-        'Bootcamp içeriğini bitirdiğinizden emin misiniz?'
-      );
 
-      if (confirmation) {
-        this.confirmed = true; // Kullanıcı tamam dediğinde checkbox'ı devre dışı bırak
-        this.createApplicantBootcampContent(this.bootcampContent.id);
+  showConfirmation(event: Event, id: number) {
+    event.preventDefault(); // Checkbox'un hemen işaretlenmesini engelle
+    console.log('showConfirmation called');
+    Swal.fire({
+      title: 'Onay İsteği',
+      text: 'Bootcamp içeriğini bitirdiğinizden emin misiniz? Bu işlemi geri alamazsınız.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Evet',
+      cancelButtonText: 'Hayır',
+
+    }).then((result) => {
+
+
+      if (result.isConfirmed) {
+        this.confirmed = true;
+        this.createApplicantBootcampContent(id);
       } else {
-        if (this.checkboxRef.nativeElement.checked) {
-          this.checkboxRef.nativeElement.checked = false; // Kullanıcı iptal dediğinde checkbox'ı işaretlemeyi iptal et
-        }
+
+        this.checkboxRef.nativeElement.checked = false; // Kullanıcı "Hayır" dediğinde checkbox işaretli kalmasın
+
       }
-    }
+    }).catch((error) => {
+      console.error('SweetAlert error:', error);
+    });
   }
+
   handleClick(id: number): void {
     this.getExam(id);
   }
