@@ -102,3 +102,25 @@
   </div>
 </div>
 
+<nav *ngIf="quizList.pages > 1" class="flex justify-center">
+  <ul class="pagination flex flex-col md:flex-row">
+    <li [class.disabled]="!quizList.hasPrevious" class="mr-2 mb-2 md:mb-0">
+      <button (click)="setCurrentPageNumber(currentPageNumber)"
+              [disabled]="!quizList.hasPrevious"
+              [ngClass]="{'bg-gray-200 text-gray-600 cursor-not-allowed': !quizList.hasPrevious,
+                          'bg-green-500 hover:bg-green-600 text-white': quizList.hasPrevious}"
+              class="px-4 py-2 rounded-lg">
+        Önceki Sayfa
+      </button>
+    </li>
+    <li [class.disabled]="!quizList.hasNext" class="mr-2">
+      <button (click)="setCurrentPageNumber(currentPageNumber + 2)"
+              [disabled]="!quizList.hasNext"
+              [ngClass]="{'bg-gray-200 text-gray-600 cursor-not-allowed': !quizList.hasNext,
+                          'bg-green-500 hover:bg-green-600 text-white': quizList.hasNext}"
+              class="px-4 py-2 rounded-lg">
+        Sonraki Sayfa
+      </button>
+    </li>
+  </ul>
+</nav>

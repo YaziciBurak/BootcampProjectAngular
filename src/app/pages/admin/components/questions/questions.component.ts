@@ -33,8 +33,9 @@ export class QuestionsComponent implements OnInit {
   showUpdateModal: boolean = false;
   showCreateModal: boolean = false;
   bootcampList: BootcampListItemDto;
-  questionList: QuestionListItemDto;
   submitted = false;
+  currentPageNumber: number = 0;
+  questionList: QuestionListItemDto;
 
   constructor(
     private questionService: QuestionService,
@@ -51,10 +52,20 @@ export class QuestionsComponent implements OnInit {
   }
 
   loadQuestions() {
-    const pageRequest: PageRequest = { pageIndex: 0, pageSize: 100 };
+    const pageRequest: PageRequest = { pageIndex: this.currentPageNumber, pageSize: 10 };
     this.getQuestions(pageRequest);
     this.getBootcamps(pageRequest);
   }
+  setCurrentPageNumber(pageNumber: number): void {
+    this.currentPageNumber = pageNumber - 1; 
+    if (this.currentPageNumber < 0) {
+      this.currentPageNumber = 0;
+    } else if (this.currentPageNumber >= this.questionList.pages) {
+      this.currentPageNumber = this.questionList.pages - 1;
+    }
+    this.loadQuestions(); 
+  }
+
   updateForm() {
     this.questionUpdateForm = this.formBuilder.group({
       bootcampId: ['', [Validators.required]],
@@ -206,7 +217,7 @@ export class QuestionsComponent implements OnInit {
   }
 
   getShortenedText(text: string): string {
-    const maxLength = 20;
+    const maxLength = 25;
     if (text.length > maxLength) {
       return text.substring(0, maxLength) + '...';
     }
