@@ -55,15 +55,20 @@ export class AuthService extends AuthBaseService {
         errorMessage = `Hata: ${error.error.message}`;
     } else {
         // Backend hatası
-        if (error.error && typeof error.error === 'object' && error.error.detail) {
+        if (error.status === 0) {
+            errorMessage = 'Sunucuya ulaşılamadı. Lütfen ağ bağlantınızı kontrol edin veya daha sonra tekrar deneyin.';
+        } else if (error.error && typeof error.error === 'object' && error.error.detail) {
             // Hata mesajını backend'den alınan response'un 'detail' alanından alın
             errorMessage = error.error.detail;
         } else {
             errorMessage = `Sunucu Hatası: ${error.status}\nMesaj: ${error.message}`;
         }
     }
+
+    console.error('Error:', error); // Hata detaylarını konsola yazdır
     return throwError(errorMessage);
 }
+
 
 
 
