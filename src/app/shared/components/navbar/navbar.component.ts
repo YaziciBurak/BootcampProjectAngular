@@ -5,11 +5,9 @@ import {
   Input,
   OnInit,
 } from '@angular/core';
-
 import { Router, RouterLink, RouterModule } from '@angular/router';
 import { LoginComponent } from '../../../features/components/login/login.component';
 import { RegisterComponent } from '../../../features/components/register/register.component';
-import { BootcampListGroupComponent } from '../../../features/components/bootcamps/bootcamp-list-group/bootcamp-list-group.component';
 import { CommonModule } from '@angular/common';
 import { MenuItem } from 'primeng/api';
 import { AuthService } from '../../../features/services/concretes/auth.service';
@@ -30,7 +28,6 @@ import { GetlistBootcampResponse } from '../../../features/models/responses/boot
     RouterModule,
     LoginComponent,
     RegisterComponent,
-    BootcampListGroupComponent,
     CommonModule,
     FormsModule,
   ],

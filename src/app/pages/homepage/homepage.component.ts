@@ -2,11 +2,9 @@ import { Component, OnChanges, OnDestroy, OnInit } from '@angular/core';
 import { RouterModule, RouterOutlet } from '@angular/router';
 import { NavbarComponent } from '../../shared/components/navbar/navbar.component';
 import { CommonModule } from '@angular/common';
-import { BootcampListGroupComponent } from '../../features/components/bootcamps/bootcamp-list-group/bootcamp-list-group.component';
 import { HomepageIllustrationComponent } from './homepage-illustration/homepage-illustration.component';
 import { HomepageSecondComponent } from './homepage-second/homepage-second.component';
 import { HomepageTickerComponent } from './homepage-ticker/homepage-ticker.component';
-
 import { HomepageBootcamplistComponent } from './homepage-bootcamplist/homepage-bootcamplist.component';
 import { HomepageSubscribeComponent } from './homepage-subscribe/homepage-subscribe.component';
 import { HomepageInstructorlistComponent } from './homepage-instructorlist/homepage-instructorlist.component';
@@ -23,7 +21,6 @@ import { FooterComponent } from '../../shared/components/footer/footer.component
     RouterModule,
     CommonModule,
     NavbarComponent,
-    BootcampListGroupComponent,
     HomepageIllustrationComponent,
     HomepageSecondComponent,
     HomepageTickerComponent,
@@ -31,7 +28,7 @@ import { FooterComponent } from '../../shared/components/footer/footer.component
     HomepageSubscribeComponent,
     HomepageInstructorlistComponent,
     HomepageStatisticsComponent,
-    HomepageFaqComponent,
+    HomepageFaqComponent, 
     FooterComponent,
   ],
   templateUrl: './homepage.component.html',
