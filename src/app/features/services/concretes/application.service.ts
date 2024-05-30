@@ -31,7 +31,6 @@ export abstract class ApplicationService extends ApplicationBaseService {
 
   private handleError(error: HttpErrorResponse): Observable<never> {
     let errorMessage = 'Bir hata oluştu';
-
     if (error.error instanceof ErrorEvent) {
         // Client-side hata
         errorMessage = `Hata: ${error.error.message}`;

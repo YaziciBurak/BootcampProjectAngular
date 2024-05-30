@@ -64,8 +64,6 @@ export class AuthService extends AuthBaseService {
             errorMessage = `Sunucu Hatası: ${error.status}\nMesaj: ${error.message}`;
         }
     }
-
-    console.error('Error:', error); // Hata detaylarını konsola yazdır
     return throwError(errorMessage);
 }
 
