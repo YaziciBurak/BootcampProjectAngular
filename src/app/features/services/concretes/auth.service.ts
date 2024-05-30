@@ -173,7 +173,6 @@ export class AuthService extends AuthBaseService {
   loggedIn(): boolean {
     this.token = this.storageService.getToken();
     let isExpired = this.jwtHelper.isTokenExpired(this.token);
-    console.log("isLoggedIn", "token=", this.token, "expired=", isExpired);
     return !isExpired;
   }
   getUserName(): string {
