@@ -39,7 +39,7 @@ export class RegisterComponent {
     if(this.registerForm.valid){
       let registerModel = Object.assign({},this.registerForm.value);
       this.authService.RegisterApplicant(registerModel).subscribe((response)=>{
-        this.toastr.success("Kayıt Başarılı")
+        this.toastr.success("Kayıt Başarılı", "E-posta onayı için gelen kutunu kontrol etmeyi unutma.")
         this.router.navigate(['login']);
       },   error => {
         // Hata mesajını Toastr ile kullanıcıya göster

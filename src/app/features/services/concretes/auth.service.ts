@@ -68,8 +68,6 @@ export class AuthService extends AuthBaseService {
 }
 
 
-
-
   override register(
     userforRegisterRequest: ApplicantForRegisterRequest
   ): Observable<UserForRegisterResponse> {
@@ -140,24 +138,6 @@ export class AuthService extends AuthBaseService {
       );
   }
 
-  private getErrorMessage(error: HttpErrorResponse): string {
-    if (error.error instanceof ErrorEvent) {
-      // Client-side error
-      return `Error: ${error.error.message}`;
-    } else {
-      // Server-side error
-      switch (error.status) {
-        case 400:
-          return 'Hatalı istek';
-        case 404:
-          return 'Kullanıcı bulunamadı';
-        case 500:
-          return 'Kullanıcı adı veya şifre hatalı';
-        default:
-          return 'Giriş yaparken hata oluştu';
-      }
-    }
-  }
   getDecodedToken() {
     try {
       this.token = this.storageService.getToken();

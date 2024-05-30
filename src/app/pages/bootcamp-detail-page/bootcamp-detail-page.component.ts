@@ -54,15 +54,16 @@ export class BootcampDetailPageComponent implements OnInit {
   applyForBootcamp(id: number): void {
     this.applicationService.applyForBootcamp(id).subscribe(
       (response) => {
-        this.toastr.success('Başvurunuz alınmıştır, teşekkürler!');
-      },
+        this.toastr.success('Başvurunuz alınmıştır, teşekkürler!'); 
+         setTimeout(() => {
+          window.location.reload();
+        }, 2000);
+      }, 
       (error) => {
         this.toastr.error(error);
       }
     );
-    setTimeout(() => {
-      window.location.reload();
-    }, 6000);
+   
   }
 
   isDeadlinePassed(deadline: Date): boolean {
