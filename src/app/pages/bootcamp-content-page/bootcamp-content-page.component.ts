@@ -52,9 +52,10 @@ export class BootcampContentPageComponent implements OnInit {
     private bootcampContentService: BootcampContentService,
     private quizService: QuizService,
     private router: Router
-  ) {}
+  ) { }
 
   ngOnInit(): void {
+    window.scroll(0, 0);
     this.activatedRoute.params.subscribe((params: { [x: string]: number }) => {
       if (params['bootcampId']) {
         console.log('ngOnInit', params['bootcampId']);
@@ -120,7 +121,7 @@ export class BootcampContentPageComponent implements OnInit {
     this.applicantBootcampContentService
       .createApplicantBootcampContent(id)
       .subscribe(
-        (response) => {},
+        (response) => { },
         (error) => {
           console.error('başvuru yaparken hata oluştu', error);
         }

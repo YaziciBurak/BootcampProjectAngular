@@ -57,7 +57,7 @@ export class QuizPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
+    window.scroll(0, 0);
     this.startTimer(1 * 60 - 1);
   }
 

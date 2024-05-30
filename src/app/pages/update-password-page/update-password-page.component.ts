@@ -4,53 +4,57 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { AuthService } from '../../features/services/concretes/auth.service';
 import { ApplicantService } from '../../features/services/concretes/applicant.service';
 import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-update-password-page',
   standalone: true,
-  imports: [CommonModule,ReactiveFormsModule,FormsModule],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule],
   templateUrl: './update-password-page.component.html',
   styleUrl: './update-password-page.component.css'
 })
-export class UpdatePasswordPageComponent implements OnInit{
-  updatePasswordForm:FormGroup;
-  applicantId:string;
+export class UpdatePasswordPageComponent implements OnInit {
+  updatePasswordForm: FormGroup;
+  applicantId: string;
   submitted = false;
   constructor(
-    private formBuilder:FormBuilder,
-    private authService:AuthService,
-    private applicantService:ApplicantService,
-    private toastr:ToastrService
-  ) {}
+    private router: Router,
+    private formBuilder: FormBuilder,
+    private authService: AuthService,
+    private applicantService: ApplicantService,
+    private toastr: ToastrService
+  ) { }
   ngOnInit(): void {
     this.getApplicantId();
     this.updateForm();
   }
-  getApplicantId():void {
+  getApplicantId(): void {
     this.applicantId = this.authService.getCurrentUserId();
   }
-  updateForm():void {
+  updateForm(): void {
     this.updatePasswordForm = this.formBuilder.group({
-      password:['',[Validators.required,Validators.minLength(6)]],
-      newPassword:['',[Validators.required,Validators.minLength(6)]]
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      newPassword: ['', [Validators.required, Validators.minLength(6)]]
     })
   }
-  onSubmit():void {
+  onSubmit(): void {
     this.submitted = true;
-    if(this.updatePasswordForm.valid) {
-      const updatePassword = {...this.updatePasswordForm.value, id:this.applicantId};
+    if (this.updatePasswordForm.valid) {
+      const updatePassword = { ...this.updatePasswordForm.value, id: this.applicantId };
       this.applicantService.updatePassword(updatePassword).subscribe({
-        next:(response) => {
-          this.toastr.success('Şifre güncelleme başarılı!');
+        next: (response) => {
+          this.toastr.success('Şifre güncelleme başarılı!'); setTimeout(() => {
+            this.router.navigate(["/homepage"]);
+          }, 4000);
         },
-        error:() => {
+        error: () => {
           this.toastr.error('Hatalı şifre girdiniz!',)
-        } 
+        }
       })
     } else {
       this.markFormGroupTouched(this.updatePasswordForm);
+    }
   }
-}
   private markFormGroupTouched(formGroup: FormGroup): void {
     Object.values(formGroup.controls).forEach(control => {
       control.markAsTouched();

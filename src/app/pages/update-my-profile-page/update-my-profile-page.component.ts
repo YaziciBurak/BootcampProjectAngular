@@ -7,7 +7,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../features/services/concretes/auth.service';
 import { ApplicantService } from '../../features/services/concretes/applicant.service';
 import { formatDateString } from '../../core/helpers/format-date';
@@ -25,11 +25,12 @@ export class UpdateMyProfilePageComponent implements OnInit {
   applicantId: string;
   submitted = false;
   constructor(
+    private router: Router,
     private formBuilder: FormBuilder,
     private authService: AuthService,
     private applicantService: ApplicantService,
     private toastr: ToastrService
-  ) {}
+  ) { }
   ngOnInit(): void {
     this.getApplicantId();
     this.getApplicantData();
@@ -103,6 +104,9 @@ export class UpdateMyProfilePageComponent implements OnInit {
       this.applicantService.update(updateApplicant).subscribe({
         next: (response) => {
           this.toastr.success('Güncelleme Başarılı!');
+          setTimeout(() => {
+            this.router.navigate(["/homepage"]);
+          }, 4000);
         },
         error: (error) => {
           this.toastr.error('update yaparken hata meydana geldi:', error);
