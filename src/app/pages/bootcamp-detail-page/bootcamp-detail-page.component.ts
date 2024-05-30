@@ -56,8 +56,8 @@ export class BootcampDetailPageComponent implements OnInit {
       (response) => {
         this.toastr.success('Başvurunuz alınmıştır, teşekkürler!');
       },
-      () => {
-        this.toastr.error('Bu bootcampe başvurdunuz. Tekrar başvuramazsınız.');
+      (error) => {
+        this.toastr.error(error);
       }
     );
     setTimeout(() => {
