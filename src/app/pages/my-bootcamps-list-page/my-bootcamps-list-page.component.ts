@@ -76,10 +76,6 @@ export class MyBootcampsListPageComponent implements OnInit {
       this.applicationList = response;
     });
   }
-  updateCurrentBootcampPageNumber(pageNumber: number): void {
-    console.log(`Updating current page number to: ${pageNumber}`);
-    this.currentPageNumber = pageNumber;
-  }
   getPageNumbers(): number[] {
     const pageNumbers = [];
     for (let i = 0; i < this.applicationList.pages; i++) {

@@ -33,7 +33,7 @@ export class QuizComponent implements OnInit {
   applicantList: ApplicantListItemDto;
   bootcampList: BootcampListItemDto;
   submitted = false;
-
+  currentPageNumber: number = 0;
   quizList: QuizListItemDto;
   constructor(
     private quizService: QuizService,
@@ -48,7 +48,7 @@ export class QuizComponent implements OnInit {
     this.createForm();
   }
   loadQuizzes() {
-    const pageRequest: PageRequest = { pageIndex: 0, pageSize: 20 };
+    const pageRequest: PageRequest = { pageIndex: this.currentPageNumber, pageSize: 3 };
     this.getQuizzes(pageRequest);
     this.getApplicants(pageRequest);
     this.getBootcamps(pageRequest);
@@ -60,6 +60,15 @@ export class QuizComponent implements OnInit {
       startTime: ['', [Validators.required]],
       endTime: ['', [Validators.required]],
     });
+  }
+  setCurrentPageNumber(pageNumber: number): void {
+    this.currentPageNumber = pageNumber - 1; 
+    if (this.currentPageNumber < 0) {
+      this.currentPageNumber = 0;
+    } else if (this.currentPageNumber >= this.quizList.pages) {
+      this.currentPageNumber = this.quizList.pages - 1;
+    }
+    this.loadQuizzes(); 
   }
   getQuizzes(pageRequest: PageRequest) {
     this.quizService.getList(pageRequest).subscribe((response) => {
