@@ -35,6 +35,7 @@ export class BootcampListPageComponent implements OnInit {
   currentInstructor!: GetlistInstructorResponse;
   selectedInstructorName: string | null = null;
   focusedButton: number | null = null;
+  isDropdownVisible = false;
   filterText: string = 'Eğitmenler';
   activeFilter: 'all' | 'deadlinePassed' | 'continuing' | 'instructor' = 'all';
   today = new Date();
@@ -63,8 +64,8 @@ export class BootcampListPageComponent implements OnInit {
   readonly PAGE_SIZE = 3;
 
   ngOnInit(): void {
-    this.getInstructors();
     initFlowbite();
+    this.getInstructors();
     window.scrollTo(0, 0);
     this.activatedRoute.paramMap.subscribe((params) => {
       const instructorId = params.get('instructorId');
@@ -90,12 +91,16 @@ export class BootcampListPageComponent implements OnInit {
       this.selectedInstructorId = instructorId;
       this.selectedInstructorName = instructorName;
       this.filterText = instructorName;
+      this.isDropdownVisible = false;
       this.getBootcampListByInstructor(
         { pageIndex: this.currentPageNumber, pageSize: this.PAGE_SIZE },
         instructorId
       );
       this.activeFilter = 'instructor';
     });
+  }
+  toggleDropdown() {
+    this.isDropdownVisible = !this.isDropdownVisible;
   }
 
   isExpired(endDate: Date): boolean {
@@ -116,9 +121,6 @@ export class BootcampListPageComponent implements OnInit {
   }
 
   getBootcampListByInstructor(pageRequest: PageRequest, instructorId: string) {
-    console.log(
-      `Fetching bootcamps for instructor ${instructorId} with page ${pageRequest.pageIndex}`
-    );
     this.bootcampService
       .getListBootcampByInstructorId(pageRequest, instructorId)
       .subscribe((response) => {
