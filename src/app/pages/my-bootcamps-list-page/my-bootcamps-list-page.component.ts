@@ -42,8 +42,8 @@ export class MyBootcampsListPageComponent implements OnInit {
     private applicationService: ApplicationService,
     private activatedRoute: ActivatedRoute,
     private bootcampContentService: BootcampContentService
-  ) {}
-  readonly PAGE_SIZE = 3;
+  ) { }
+  readonly PAGE_SIZE = 6;
   ngOnInit(): void {
     this.getMyAllBootcamps({ pageIndex: 0, pageSize: this.PAGE_SIZE });
     this.activatedRoute.params.subscribe((params) => {
@@ -64,7 +64,7 @@ export class MyBootcampsListPageComponent implements OnInit {
       .getbybootcampId(pageRequest, bootcampId)
       .subscribe(
         () => {
-         
+
         },
         (error) => {
           console.error('Error:', error);

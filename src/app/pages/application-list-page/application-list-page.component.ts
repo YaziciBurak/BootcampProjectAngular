@@ -37,8 +37,8 @@ export class ApplicationListPageComponent implements OnInit {
     private authService: AuthService,
     private applicationService: ApplicationService,
     private activatedRoute: ActivatedRoute
-  ) {}
-  readonly PAGE_SIZE = 3;
+  ) { }
+  readonly PAGE_SIZE = 6;
   ngOnInit(): void {
     this.getAllApplications({ pageIndex: 0, pageSize: this.PAGE_SIZE });
   }
