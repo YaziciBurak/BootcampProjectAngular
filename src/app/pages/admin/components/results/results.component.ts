@@ -29,14 +29,14 @@ export class ResultsComponent implements OnInit {
     private quizService: QuizService,
     private formBuilder: FormBuilder,
     private change: ChangeDetectorRef,
-    private toastr:ToastrService
+    private toastr: ToastrService
   ) { }
   ngOnInit(): void {
     this.loadResults();
     this.createForm();
   }
   loadResults() {
-    const pageRequest: PageRequest = { pageIndex: 0, pageSize: 20 }
+    const pageRequest: PageRequest = { pageIndex: 0, pageSize: 200 }
     this.getResults(pageRequest);
     this.getQuizzes(pageRequest);
   }
@@ -63,7 +63,7 @@ export class ResultsComponent implements OnInit {
       let question: CreateResultRequest = Object.assign({}, this.resultCreateForm.value);
       this.resultService.create(question).subscribe({
         error: (error) => {
-          this.toastr.error("Eklenemedi",error);
+          this.toastr.error("Eklenemedi", error);
           this.change.markForCheck();
         },
         complete: () => {
