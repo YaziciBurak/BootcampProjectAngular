@@ -1,9 +1,24 @@
-<div class="flex flex-col md:flex-row  content-center flex-wrap  text-slate-900 pt-12 pb-6 px-8 2xl:px-20">
-  <div
-    class="flex flex-col md:flex-row lg:flex-row justify-center md:justify-start lg:justify-start gap-5 text-base font-medium">
+<div class="flex flex-row md:flex-row  flex-wrap  text-slate-900 pt-6 pb-6 px-2 lg:px-8 pt-12 2xl:px-20">
+  <div class="flex flex-row lg:flex-row  md:justify-start lg:justify-start gap-5 text-base font-medium">
+    <div>
+      <button data-collapse-toggle="navbar-hamburger" type="button" class=" md:hidden text-slate-900 focus:outline-none"
+        aria-controls="navbar-hamburger" aria-expanded="false">
+        <span class="sr-only">Open main menu</span>
+        <svg class="w-8 h-8" fill="none" aria-hidden="true" stroke="currentColor" viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+        </svg>
+      </button>
+
+    </div>
     <img routerLink="homepage" loading="lazy" src="/assets/img/techventure3.png"
-      class=" w-[180px] hover:cursor-pointer" />
-    <div class="flex gap-6 ml-2 2xl:gap-10 2xl:ml-8 max-md:flex-wrap max-md:max-w-full">
+      class=" w-[120px] md:w-[180px] hover:cursor-pointer" />
+
+
+
+
+    <div class="hidden md:flex gap-6 ml-2 2xl:gap-10 2xl:ml-8 max-md:flex-wrap max-md:max-w-full">
+
       <button routerLink="homepage" class="my-auto hover:text-indigo-600 capitalize text-lg">
         Ana Sayfa
       </button>
@@ -14,7 +29,7 @@
       <button (click)="goToFAQ()" class="hover:text-indigo-600 capitalize text-lg">SSS</button>
 
       <div
-        class=" hidden md:block md:flex gap-1.5 px-4 items-center md:w-44 xl:w-64 2xl:w-96 border border-gray-300 rounded-full text-slate-400 max-md:flex-wrap">
+        class=" hidden lg:block lg:flex gap-1.5 px-4 items-center md:w-44 xl:w-64 2xl:w-96 border border-gray-300 rounded-full text-slate-400 max-md:flex-wrap">
 
         <img loading="lazy" src="/assets/img/search-icon.svg" id="search-icon" />
         <input [ngModel]="searchQuery" (ngModelChange)="onSearchInput($event)" type="text" id="search-bar"
@@ -41,8 +56,7 @@
     </div>
   </div>
 
-  <div class="flex flex-row gap-5 md:justify-end lg:justify-end md:ml-auto lg:ml-auto items-start text-base font-bold"
-    id="navbar-default">
+  <div class="flex flex-row gap-5 justify-end ml-auto items-center text-sm font-bold md:text-base" id="navbar-default">
     <!-- Kullanıcı giriş yapmışsa -->
     <ng-container *ngIf="isLoggedIn; else guestMenu">
       <!-- Kullanıcı admin mi? -->
@@ -107,14 +121,27 @@
     <!-- Giriş yapmamışsa -->
     <ng-template #guestMenu>
       <button routerLink="/login"
-        class="px-5 py-3 bg-amber-400 border border-blue-950 border-opacity-20 rounded-[50px] hover:brightness-110"
+        class=" px-2 py-1 xl:px-5 xl:py-3 bg-amber-400 border border-blue-950 border-opacity-20 rounded-[50px] hover:brightness-110"
         style="box-shadow: 5px 5px 0px 0px black;">
         Giriş Yap
       </button>
       <button routerLink="/register"
-        class="px-5 py-3 bg-amber-400 border border-blue-950 border-opacity-20 rounded-[50px] hover:brightness-110"
+        class="px-2 py-1 xl:px-5 xl:py-3 bg-amber-400 border border-blue-950 border-opacity-20 rounded-[50px] hover:brightness-110"
         style="box-shadow: 5px 5px 0px 0px black;">
         Kayıt Ol
       </button>
     </ng-template>
+  </div>
+  <div id="navbar-hamburger" class="hidden w-full text-indigo-900 text-2xl font-medium mt-12 ">
+    <ul class=" flex flex-col ">
+      <button routerLink="homepage" class="py-2 my-auto hover:text-indigo-600 capitalize text-lg hover:bg-gray-100">
+        Ana Sayfa
+      </button>
+      <button routerLink="bootcamps"
+        class="py-2 hover:text-indigo-600 capitalize text-lg hover:bg-gray-100">Bootcampler</button>
+      <button routerLink="instructors" class="py-2 hover:text-indigo-600 capitalize text-lg hover:bg-gray-100">
+        Eğitmenler
+      </button>
+      <button (click)="goToFAQ()" class="py-2 hover:text-indigo-600 capitalize text-lg hover:bg-gray-100">SSS</button>
+    </ul>
   </div>

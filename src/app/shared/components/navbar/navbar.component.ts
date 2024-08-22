@@ -42,14 +42,14 @@ export class NavbarComponent {
   userLogged!: boolean;
   searchResults: GetlistBootcampResponse[] = [];
   searchDropdown: Dropdown;
-
+  isMenuOpen = false;
   constructor(
     private bootcampService: BootcampService,
     private authService: AuthService,
     private router: Router,
     private change: ChangeDetectorRef,
     private elementRef: ElementRef
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     initFlowbite();
@@ -146,5 +146,8 @@ export class NavbarComponent {
     } else {
       this.router.navigate(['/sss']);
     }
+  }
+  toggleMenu() {
+    this.isMenuOpen = !this.isMenuOpen;
   }
 }
