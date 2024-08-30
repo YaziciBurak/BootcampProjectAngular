@@ -1,62 +1,74 @@
 <div class="relative flex">
-  <img loading="lazy" src="/assets/img/fixed-top.svg" class="mt-4" style="z-index: 0;" />
+  <div class="flex flex-col">
+    <img loading="lazy" src="/assets/img/fixed-top.svg" class="mt-4" style="z-index: 0" />
+    <img loading="lazy" src="/assets/img/fixed-top.svg" class="sm:hidden" style="z-index: 0" />
 
+  </div>
   <div
-    class="flex flex-row ml-32 absolute top-12 gap-3 mt-2 text-base leading-7 whitespace-nowrap font-semibold 2xl:ml-60"
+    class="flex flex-row ml-12  absolute top-8 md:top-12 md:ml-24 lg:ml-36 2xl:ml-60 2xl:mt-10 gap-3  text-xl  font-semibold"
     tyle="z-index: 1;">
-    <div class="text-indigo-950">Profilim</div>
-    <div class="text-gray-400 text-xl">></div>
+    <div class="text-indigo-950 hidden md:block">Profilim</div>
+    <div class="text-gray-400 text-xl hidden md:block">></div>
     <div class="text-indigo-950">Bootcamplerim</div>
     <div class="text-gray-400 text-xl">></div>
     <div class="text-indigo-600"> {{createdQuiz.bootcampName}}</div>
   </div>
 </div>
 
-<div *ngIf="isPassed === null" class="flex flex-row mx-20 justify-between mb-16 ">
-  <div class="text-3xl font-bold mt-16  lg:text-4xl">
+<div *ngIf="isPassed === null" class="flex flex-col-reverse mt-12 md:flex-row mx-6 md:mx-20 justify-between mb-16 ">
+  <div class="text-3xl font-bold  lg:text-4xl">
     {{createdQuiz.bootcampName}}
   </div>
   <div
-    class="flex mt-20 px-7 pt-3.5 pb-5 mb-0.5  text-3xl font-semibold leading-7 border-2 border-solid border-blue-950 border-opacity-20 max-w-[397px] rounded-[77.221px] text-slate-900">
-    <div class="flex gap-2.5">
-      <img loading="lazy" src="/assets/img/quiz-time-icon.png" class="aspect-square w-[41px]" />
-      <div class="my-auto">Kalan Süre: {{timer}}</div>
-    </div>
+    class="flex flex-row self-end xl:mt-20 px-2 xl:px-7 py-0 xl:pt-3.5 xl:pb-5 mb-0.5 text-lg xl:text-3xl font-semibold leading-7 border-2 border-solid border-blue-950 border-opacity-20 rounded-[77.221px] text-slate-900">
+
+    <img loading="lazy" src="/assets/img/quiz-time-icon.png" class=" h-[40px] xl:w-[41px]" />
+    <div class="pt-1">Kalan Süre: {{timer}}</div>
+
   </div>
 </div>
 <div *ngIf="isPassed === true">
-  <div class="flex flex-row justify-between mx-20 mt-12 2xl:mx-60">
+  <div class="flex flex-col justify-between ml-4 md:flex-row md:mx-20 mt-12 2xl:mx-60">
     <div class="flex flex-row">
       <img loading="lazy" src="/assets/img/confetti.svg" />
-      <div class="self-center  ml-1 text-4xl font-bold text-indigo-900">Tebrikler, sınavı geçtiniz!</div>
+      <div class="self-center  ml-1 text-xl lg:text-4xl font-bold text-indigo-900">Tebrikler, sınavı geçtiniz!</div>
     </div>
-    <div class="flex flex-row">
+    <div class="flex flex-row ml-2">
       <img loading="lazy" src="/assets/img/calculator.svg" />
-      <div class="self-center ml-2 text-3xl font-bold text-indigo-900">Skor:<span class="ml-1">{{score}}</span>/100
+      <div class="self-center ml-2 text-xl lg:text-3xl font-bold text-indigo-900">Skor:<span
+          class="ml-1">{{score}}</span>/100
       </div>
     </div>
   </div>
-  <div class="flex text-xl font-semibold text-indigo-900 ml-44  mb-20 2xl:ml-80">
+  <div
+    class="flex text-xl mt-4 md:mt-0 font-bold md:font-semibold text-indigo-900 ml-8 md:ml-24 lg:ml-44  mb-20 2xl:ml-80">
     Sertifikanızı hemen oluşturabilirsiniz!
   </div>
 </div>
 <div *ngIf="isPassed === false">
-  <div class="flex flex-row justify-between mx-20 mt-12 2xl:mx-60">
+  <div class="flex flex-col justify-between ml-4 md:flex-row md:mx-20 mt-12 2xl:mx-60">
     <div class="flex flex-row">
       <img loading="lazy" src="/assets/img/sad-face.svg" />
-      <div class="self-center  ml-1 text-4xl font-bold text-indigo-900">Üzgünüz, sınavı geçemediniz!</div>
+      <div class="self-center  ml-1 text-xl lg:text-4xl font-bold text-indigo-900">Üzgünüz, sınavı geçemediniz!</div>
     </div>
-    <div class="flex flex-row">
+    <div class="flex flex-row ml-2 ">
       <img loading="lazy" src="/assets/img/calculator.svg" />
-      <div class="self-center ml-2 text-3xl font-bold text-indigo-900">Skor:<span class="ml-1">{{score}}</span>/100
+      <div class="self-center ml-2 text-xl lg:text-3xl font-bold text-indigo-900">Skor:<span
+          class="ml-1">{{score}}</span>/100
       </div>
     </div>
   </div>
-  <div class="flex text-xl font-semibold text-indigo-900 ml-44  mb-20 2xl:ml-80">Sınava yeniden girebilirsiniz!</div>
+  <div
+    class="flex text-xl mt-4 md:mt-0 font-bold md:font-semibold text-indigo-900 ml-8 md:ml-24 lg:ml-44  mb-20 2xl:ml-80">
+    Sınava
+    yeniden
+    girebilirsiniz!
+  </div>
 </div>
 
+
 <form #resultForm="ngForm" (ngSubmit)="finishQuiz(resultForm)" novalidate>
-  <div class="border-2 border-solid border-blue-950 border-opacity-20 ml-20 mr-20 px-12 pb-20 ">
+  <div class="border-2 border-solid border-blue-950 border-opacity-20 mx-6 md:mx-20  md:px-12 pb-20 ">
     <!--tüm soruların içinde olduğu sayfa açılış-->
 
     <ng-container *ngFor="let questionResponse of questions; let i = index">
@@ -66,7 +78,7 @@
           <p>{{ i + 1 }}.</p>{{ questionResponse.text }}
         </div>
 
-        <div class="flex flex-col gap-3 pl-6">
+        <div class="flex flex-col gap-3 pl-6 ">
           <div class="flex gap-4" [ngClass]="{
               'bg-[#34C759] opacity-60': isPassed !== null && questionResults[questionResponse.id].correctAnswer === 'A',
               'bg-[#FF3B30] opacity-60': isPassed !== null && questionResults[questionResponse.id].correctAnswer !== 'A' && questionResults[questionResponse.id].studentAnswer === 'A',
