@@ -1,19 +1,25 @@
 <div class="relative flex">
-  <img loading="lazy" src="/assets/img/fixed-top.svg" class="mt-4" style="z-index: 0;" />
 
-  <div class="flex flex-row ml-36 -mt-1 2xl:mt-2 2xl:ml-60 max-w-full w-[274px] max-md:ml-2.5 absolute top-12"
+  <div class="flex flex-col">
+    <img loading="lazy" src="/assets/img/fixed-top.svg" class="mt-4" style="z-index: 0" />
+    <img loading="lazy" src="/assets/img/fixed-top.svg" class="sm:hidden" style="z-index: 0" />
+
+  </div>
+
+  <div
+    class="flex flex-row ml-12  absolute top-8 md:top-12 md:ml-24 lg:ml-36 2xl:ml-60 2xl:mt-10 gap-3 font-semibold 2xl:text-xl"
     style="z-index: 1;">
 
-    <div class="flex gap-3 mt-2 text-base leading-7 whitespace-nowrap font-semibold">
+
+    <div class="flex gap-3 mt-2  leading-7 whitespace-nowrap font-semibold">
       <div class="text-indigo-950">Profilim</div>
-      <div class="text-gray-400 text-xl">></div>
+      <div class="text-gray-400">></div>
       <div class="text-indigo-600">Bootcamplerim</div>
     </div>
   </div>
 </div>
-
-<div class="flex flex-row justify-between mx-20 2xl:mx-40 mt-20">
-  <div class="flex flex-row gap-6 text-2xl text-slate-500">
+<div class="flex flex-col font-semibold mx-10 md:flex-row justify-between md:mx-20 2xl:mx-40 mt-20">
+  <div class="flex flex-col md:flex-row gap-3 md:gap-6 text-xl md:text-2xl text-slate-500">
     <button (click)="getMyAllBootcamps({pageIndex:0, pageSize: PAGE_SIZE})"
       class="hover:text-indigo-600 focus:text-indigo-600">Tüm Bootcamplerim</button>
     <button (click)="getMyContinueBootcamps({pageIndex: currentPageNumber, pageSize: PAGE_SIZE})"
@@ -26,7 +32,7 @@
 </div>
 
 <!--dışarıdaki çerçeve-->
-<div class="flex flex-row justify-center mx-20 2xl:mx-60 mt-16 mb-20 border-2">
+<div class="flex flex-row justify-center mx-10 md:mx-20 2xl:mx-60 mt-16 mb-20 border-2">
 
 
   <!--kartların içine yerleştiği div-->
@@ -36,7 +42,7 @@
       <div class="flex flex-col md:flex-row lg:flex-row gap-8 justify-center">
 
         <section
-          class="flex flex-col pt-6 2xl:pt-10 bg-white rounded-xl border border-gray-400 border-solid lg:max-w-[320px] lg:max-h-[450px] 2xl:max-w-[360px] 2xl:max-h-[490px]">
+          class="flex flex-col pt-6 mx-4 md:mx-0 2xl:pt-10 bg-white rounded-xl border border-gray-400 border-solid lg:max-w-[320px] lg:max-h-[450px] 2xl:max-w-[360px] 2xl:max-h-[490px]">
           <div class="flex flex-col 2xl:px-8 max-md:px-5 ">
             <img [src]="application.bootcampImagePath" alt="Bootcamp Image" class="px-6 2xl:px-0" />
             <h2 class=" ml-6 mt-2 2xl:ml-0 2xl:mt-6 text-xl font-semibold leading-7 text-slate-900">
@@ -47,7 +53,7 @@
             </div>
           </div>
           <hr class="shrink-0  mt-4 2xl:mt-10 h-px bg-gray-500 border border-gray-500 border-solid max-md:mt-10" />
-          <div class="flex mt-4 mb-4 ml-6 gap-2  2xl:gap-10 2xl:mt-5 2xl:mx-8 ">
+          <div class="flex mt-4 mb-4 gap-3 mx-4 md:mx-8  justify-between 2xl:mt-5 2xl:mx-8 ">
             <div class="flex flex-col my-auto text-lg leading-4">
               <span class="text-black font-semibold">Eğitim Bitişi:</span>
               <time class="mt-3 text-base text-slate-900">
@@ -56,7 +62,7 @@
             </div>
 
             <button [routerLink]="['/bootcampContentByBootcampId', application.bootcampId.toString()]"
-              class="flex gap-2 justify-center px-2 py-1 text-base font-bold leading-5 bg-amber-400 border border-black border-solid shadow-sm rounded-[56.813px] text-slate-900 max-md:px-5 hover:brightness-110"
+              class="flex gap-2 justify-center px-1 md:px-2 py-1 text-base font-bold leading-5 bg-amber-400 border border-black border-solid shadow-sm rounded-[56.813px] text-slate-900  hover:brightness-110"
               style="box-shadow: 4px 4px 0px 0px black;">
               <span class="grow my-auto">Eğitime Git</span>
               <img src="/assets/img/for-all-butons.svg" class="w-[15px] self-center" />

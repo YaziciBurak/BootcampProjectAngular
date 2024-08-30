@@ -1,11 +1,16 @@
 <!--en üstteki resimli başlık-->
 <div class="relative flex">
-  <img loading="lazy" src="/assets/img/fixed-top.svg" class="mt-4" style="z-index: 0;" />
-  <div class="flex flex-row ml-36 -mt-1 2xl:mt-2 2xl:ml-60 max-w-full w-[274px] max-md:ml-2.5 absolute top-12"
+  <div class="flex flex-col">
+    <img loading="lazy" src="/assets/img/fixed-top.svg" class="mt-4" style="z-index: 0" />
+    <img loading="lazy" src="/assets/img/fixed-top.svg" class="sm:hidden" style="z-index: 0" />
+
+  </div>
+  <div
+    class="flex flex-row ml-12  absolute top-8 md:top-12 md:ml-24 lg:ml-36 2xl:ml-60 2xl:mt-10 gap-3  text-xl  font-semibold"
     style="z-index: 1;">
     <div class="flex gap-3 mt-2 text-base leading-7 whitespace-nowrap font-semibold">
-      <div class="text-indigo-950">Ana Sayfa</div>
-      <div class="text-gray-400 text-xl">></div>
+      <div class="text-indigo-950 hidden md:block">Ana Sayfa</div>
+      <div class="text-gray-400 text-xl hidden md:block">></div>
       <div class="text-indigo-950">Bootcampler</div>
       <div class="text-gray-400 text-xl">></div>
       <div class="text-indigo-600" *ngIf="getByIdBootcampResponse !== undefined">{{getByIdBootcampResponse?.name}}</div>
@@ -15,12 +20,12 @@
 
 <!--en üstteki resimli başlık bitiş-->
 
-<div class="flex flex-row  mt-20 mx-32 justify-between 2xl:mx-60">
+<div class="flex flex-col md:flex-row  mt-20 mx-12 lg:mx-32 justify-between 2xl:mx-60">
   <img loading="lazy" [src]="getByIdBootcampResponse.bootcampImagePath"
-    class="  w-[620px] h-[360px]  2xl:w-[780px] 2xl:h-[500px] " />
+    class="  w-[330px] h-[230px] md:h-[360px] md:w-[500px] lg:w-[620px] lg:h-[360px]  2xl:w-[780px] 2xl:h-[500px] " />
 
   <div
-    class="flex flex-col  border-2 border-gray-300 shadow-xl px-6 py-6 h-[360px] w-[300px]  rounded-xl 2xl:w-[400px] 2xl:h-[500px]">
+    class="flex flex-col mt-8 md:mt-0 border-2 border-gray-300 shadow-xl px-6 py-6 h-[360px] w-[300px]  rounded-xl 2xl:w-[400px] 2xl:h-[500px]">
     <div class="text-l 2xl:text-2xl text-white bg-indigo-700 self-center py-3 px-8 rounded-xl">Son Başvuru:<span
         class=" ml-2 font-semibold">{{formatDate(getByIdBootcampResponse.deadline)}}</span></div>
     <div class="text-l 2xl:text-2xl text-black font-bold mt-4 ml-2 2xl:mt-10 2xl:ml-4">Bilgilendirme</div>
@@ -44,17 +49,19 @@
   </div>
 </div>
 
-<div class="flex flex-col px-16  lg:px-32 2xl:px-60">
+<div class="flex flex-col mx-4 items-center sm:items-start md:px-16  lg:px-32 2xl:px-60">
   <div class="flex font-bold text-4xl 2xl:text-5xl mt-12 ">
     {{getByIdBootcampResponse.name}}
   </div>
   <div class="flex flex-row mt-10 ">
     <img loading="lazy" [src]="getByIdBootcampResponse.instructorImagePath" class="max-w-[100px]" />
-    <div class="flex self-center ml-6 text-xl text-indigo-900">{{getByIdBootcampResponse.instructorFirstName}}
+    <div class="flex self-center  ml-1 md:ml-6 text-xl text-indigo-900">
+      {{getByIdBootcampResponse.instructorFirstName}}
       {{getByIdBootcampResponse.instructorLastName}}</div>
-    <div class="flex self-center w-2 h-2 ml-4 bg-gray-400 rounded-full"></div>
-    <img loading="lazy" src="/assets/img/takvim-image.png" class="self-center ml-6" />
-    <div class="flex self-center ml-6 text-xl text-gray-400">Başlangıç {{formatDate(getByIdBootcampResponse.startDate)}}
+    <div class="flex self-center w-2 h-2 ml-1 md:ml-4 bg-gray-400 rounded-full"></div>
+    <img loading="lazy" src="/assets/img/takvim-image.png" class="self-center ml-1 md:ml-6" />
+    <div class="flex self-center ml-2 md:ml-6 text-xl text-gray-400">Başlangıç
+      {{formatDate(getByIdBootcampResponse.startDate)}}
       - Bitiş {{formatDate(getByIdBootcampResponse.endDate)}}</div>
   </div>
   <div class="flex flex-wrap px-8 border-2 border-gray-300 mt-12 leading-loose">

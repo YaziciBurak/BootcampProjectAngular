@@ -1,11 +1,16 @@
 <div class="relative flex">
-  <img loading="lazy" src="/assets/img/fixed-top.svg" class="mt-4 w-full" style="z-index: 0;" />
+  <div class="flex flex-col">
+    <img loading="lazy" src="/assets/img/fixed-top.svg" class="mt-4" style="z-index: 0" />
+    <img loading="lazy" src="/assets/img/fixed-top.svg" class="sm:hidden" style="z-index: 0" />
 
-  <div class="flex flex-row ml-36 absolute top-12  2xl:ml-60 2xl:mt-10 gap-3  text-xl  font-semibold"
+  </div>
+
+  <div
+    class="flex flex-row ml-12  absolute top-8 md:top-12 md:ml-24 lg:ml-36 2xl:ml-60 2xl:mt-10 gap-3  text-xl  font-semibold"
     tyle="z-index: 1;">
     <div class="text-indigo-900">Ana Sayfa</div>
     <div class="text-gray-400 text-xl">></div>
-    <div class="text-indigo-600">Bootcamp</div>
+    <div class="text-indigo-600">Bootcampler</div>
   </div>
 </div>
 
@@ -21,7 +26,7 @@
   </div>
 
 
-  <div class="flex flex-row gap-3 relative">
+  <div class="flex flex-row gap-3 mt-3 self-center relative md:mt-0">
     <div class=" text-slate-500 self-center">Filtrele:</div>
     <div class="relative">
       <button (click)="toggleDropdown()"
