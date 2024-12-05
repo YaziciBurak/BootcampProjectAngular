@@ -162,7 +162,7 @@
               <a routerLink="bootcampDetail/{{bootcamp.id}}" class=" py-2  hover:cursor-pointer ">{{bootcamp.name}}</a>
             </li>
           </ng-container>
-          <li *ngIf="searchResults.length < 1"
+          <li *ngIf="searchQuery !== undefined && searchResults.length < 1"
             class="flex flex-row pl-2 pr-4 py-1 border-b border-gray-200 hover:bg-gray-100">
             Sonuç bulunamadı.
           </li>

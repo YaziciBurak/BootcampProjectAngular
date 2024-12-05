@@ -4,6 +4,7 @@ import {
   Component,
   Input,
   OnInit,
+  Renderer2,
 } from '@angular/core';
 import { Router, RouterLink, RouterModule } from '@angular/router';
 import { LoginComponent } from '../../../features/components/login/login.component';
@@ -48,7 +49,9 @@ export class NavbarComponent {
     private authService: AuthService,
     private router: Router,
     private change: ChangeDetectorRef,
-    private elementRef: ElementRef
+    private renderer: Renderer2,
+    private el: ElementRef
+
   ) { }
 
   ngOnInit(): void {
@@ -83,8 +86,11 @@ export class NavbarComponent {
     this.authService.loggedIn$.subscribe((isLoggedIn) => {
       this.isLoggedIn = isLoggedIn;
       this.change.detectChanges();
+
     });
+
   }
+
   checkUserRoles() {
     this.isLoggedIn = this.authService.loggedIn();
     this.isAdmin = this.authService.isAdmin();
@@ -113,7 +119,7 @@ export class NavbarComponent {
   }
 
   onSearchInput(query: string) {
-    if (!query) {
+    if (!query || query == "") {
       this.searchDropdown.hide();
     }
 
@@ -130,6 +136,7 @@ export class NavbarComponent {
       )
       .subscribe(
         (response) => {
+          this.searchQuery = query;
           this.searchResults = response.items;
           this.searchDropdown.show();
         },
