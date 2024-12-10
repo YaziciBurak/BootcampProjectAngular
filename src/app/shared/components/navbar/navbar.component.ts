@@ -6,13 +6,14 @@ import {
   OnInit,
   Renderer2,
 } from '@angular/core';
-import { Router, RouterLink, RouterModule } from '@angular/router';
+import { NavigationSkipped, NavigationStart, Router, RouterLink, RouterModule } from '@angular/router';
 import { LoginComponent } from '../../../features/components/login/login.component';
 import { RegisterComponent } from '../../../features/components/register/register.component';
 import { CommonModule } from '@angular/common';
 import { MenuItem } from 'primeng/api';
 import { AuthService } from '../../../features/services/concretes/auth.service';
 import {
+  Collapse,
   Dropdown,
   DropdownOptions,
   InstanceOptions,
@@ -76,6 +77,32 @@ export class NavbarComponent {
       options,
       instanceOptions
     );
+
+    this.initHamburgerMenu();
+  }
+
+  initHamburgerMenu() {
+    // set the target element that will be collapsed or expanded (eg. navbar menu)
+    const $targetEl = document.getElementById('navbar-hamburger');
+
+    // optionally set a trigger element (eg. a button, hamburger icon)
+    const $triggerEl = document.getElementById('hamburger-open');
+
+    // optional options with default values and callback functions
+    const options = {};
+
+    const instanceOptions = {
+      id: 'targetEl',
+      override: true
+    };
+
+    const collapse = new Collapse($targetEl, $triggerEl, options, instanceOptions);
+
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationStart || event instanceof NavigationSkipped) {
+        collapse.collapse();
+      }
+    });
   }
 
   logOut() {
