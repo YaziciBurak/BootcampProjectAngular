@@ -74,7 +74,7 @@
 
       <ng-template #userMenu>
         <img loading="lazy" src="/assets/img/profile-icon.svg" class="hidden lg:block self-center mr-1" />
-        <button id="dropdownNewButton" data-dropdown-toggle="dropdownMenu"
+        <button id="profile"
           class="px-2 py-1 xl:px-5 xl:py-3 bg-amber-400 border border-blue-950 border-opacity-20 rounded-[50px] hover:brightness-110 inline-flex items-center"
           type="button" style="box-shadow: 5px 5px 0px 0px black;">
           Profilim
@@ -84,9 +84,9 @@
               d="m1 1 4 4 4-4" />
           </svg>
         </button>
-        <div id="dropdownMenu"
-          class="flex hidden bg-white divide-y divide-gray-300 rounded-lg shadow dark:bg-gray-700 z-30 ">
-          <ul class="flex flex-col font-semibold text-indigo-900" aria-labelledby="dropdownNewButton">
+        <div id="profile-menu"
+          class="  flex hidden bg-white divide-y divide-gray-300 rounded-lg shadow dark:bg-gray-700 z-30 ">
+          <ul class="flex flex-col font-semibold text-indigo-900" aria-labelledby="profile">
             <li class="flex flex-row pl-2 pr-4 py-1 border-b border-gray-200 hover:bg-gray-100">
               <img loading="lazy" src="/assets/img/update-profile-icon.svg" class="self-center mr-1" />
               <a routerLink="updateMyProfile" class="block py-2 pr-6 hover:cursor-pointer">Profilimi Güncelle</a>

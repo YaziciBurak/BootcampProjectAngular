@@ -28,8 +28,6 @@ import { GetlistBootcampResponse } from '../../../features/models/responses/boot
   standalone: true,
   imports: [
     RouterModule,
-    LoginComponent,
-    RegisterComponent,
     CommonModule,
     FormsModule,
   ],
@@ -79,6 +77,7 @@ export class NavbarComponent {
     );
 
     this.initHamburgerMenu();
+    this.initProfileMenu();
   }
 
   initHamburgerMenu() {
@@ -101,6 +100,31 @@ export class NavbarComponent {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationStart || event instanceof NavigationSkipped) {
         collapse.collapse();
+      }
+    });
+  }
+
+  initProfileMenu() {
+    // set the target element that will be collapsed or expanded (eg. navbar menu)
+    const $targetEl = document.getElementById('profile-menu');
+
+    // optionally set a trigger element (eg. a button, hamburger icon)
+    const $triggerEl = document.getElementById('profile');
+
+    // optional options with default values and callback functions
+
+    const options: DropdownOptions = {
+
+    };
+    const instanceOptions = {
+      id: 'targetEl',
+      override: true
+    };
+
+    const dropdown = new Dropdown($targetEl, $triggerEl, options);
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationStart || event instanceof NavigationSkipped) {
+        dropdown.hide(); // Collapse yerine hide kullanılır
       }
     });
   }
