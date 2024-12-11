@@ -1,11 +1,16 @@
 <!--en üstteki resimli başlık-->
 <div class="relative flex">
-  <img loading="lazy" src="/assets/img/fixed-top.svg" class="mt-4" style="z-index: 0;" />
-  <div class="flex flex-row ml-36 -mt-1 2xl:mt-2 2xl:ml-60 max-w-full w-[274px] max-md:ml-2.5 absolute top-12"
+  <div class="flex flex-col">
+    <img loading="lazy" src="/assets/img/fixed-top.svg" class="mt-4" style="z-index: 0" />
+    <img loading="lazy" src="/assets/img/fixed-top.svg" class="sm:hidden" style="z-index: 0" />
+
+  </div>
+  <div
+    class="flex flex-row ml-12  absolute top-8 md:top-12 md:ml-24 lg:ml-36 2xl:ml-60 2xl:mt-10 gap-3  text-xl  font-semibold"
     style="z-index: 1;">
     <div class="flex gap-3 mt-2 text-base leading-7 whitespace-nowrap font-semibold">
-      <div class="text-indigo-950">Profilim</div>
-      <div class="text-gray-400 text-xl">></div>
+      <div class="text-indigo-950 hidden md:block">Profilim</div>
+      <div class="text-gray-400 text-xl hidden md:block">></div>
       <div class="text-indigo-950">Bootcamplerim</div>
       <div class="text-gray-400 text-xl">></div>
       <div class="text-indigo-600" *ngIf="bootcampContent !== undefined">{{bootcampContent?.bootcampName}}</div>
@@ -16,24 +21,24 @@
 <!--en üstteki resimli başlık bitiş-->
 
 
-<div class="mx-20 2xl:mx-32">
-  <div class="mt-12 text-3xl  2xl:mt-16 2xl:text-4xl font-bold" *ngIf="bootcampContent !== undefined">
+<div class="mx-8 md:mx-20 2xl:mx-32 ">
+  <div class="mt-12 text-3xl  2xl:mt-16 2xl:text-4xl font-bold ml-6 md:ml-0" *ngIf="bootcampContent !== undefined">
     {{bootcampContent.bootcampName}}</div>
-  <div class="mt-10 flex flex-row">
-    <iframe class="2xl:w-[1200px] 2xl:h-[600px]" width="800" height="400" [src]="videoUrl" title="YouTube video player"
-      frameborder="0"
+  <div class="mt-10 flex flex-col items-center md:flex-row max-w-full">
+    <iframe class="min-h-[300px] w-full md:w-[800px] md:h-[400px] 2xl:w-[1200px] 2xl:h-[600px] max-w-full"
+      [src]="videoUrl" title="YouTube video player" frameborder="0"
       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
       referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
     <div
-      class="flex flex-col ml-12 border-2 border-gray-300 shadow-xl px-8 py-6 h-[400px] w-[300px] 2xl:ml-32  2xl:h-[500px] rounded-xl">
+      class="flex flex-col mt-6 md:mt-0 md:ml-12 border-2 border-gray-300 shadow-xl px-8 py-6 h-[400px] w-[300px] 2xl:ml-32  2xl:h-[500px] rounded-xl">
       <div class="text-l 2xl:text-2xl text-white bg-indigo-700 px-10 p-3 rounded-xl">BİLGİLENDİRME</div>
       <div class="text-l 2xl:text-2xl text-black font-bold mt-4">{{bootcampContent.bootcampName}}</div>
       <div class=" flex flex-col  text-m 2xl:text-xl text-black mt-2">
         <span>Aşağıdaki checkbox işaretlendiğinde sınava gir butonu aktif olacaktır!</span>
         Bootcamp içeriklerini bitirmek benim sorumluluğumdadır, sınava girmeye hazırım.
       </div>
-      <input type="checkbox" class="self-end mt-3 w-5 h-5 bg-white rounded border border-solid border-zinc-200 
+      <input type="checkbox" class="self-end mt-0 xl:mt-3 w-5 h-5 bg-white rounded border border-solid border-zinc-200 
         text-indigo-700  focus:ring-indigo-700 " [checked]="bootcampContent.hasApplicantBootcampContent || confirmed"
         (click)="showConfirmation($event, bootcampContent.id)"
         [disabled]="confirmed || bootcampContent?.hasApplicantBootcampContent" />
@@ -41,7 +46,7 @@
 
 
 
-      <button (click)="handleClick(bootcampContent.bootcampId)" class="flex mt-6 justify-center gap-4 px-6 py-4 font-bold leading-5 bg-amber-400 hover:brightness-110
+      <button (click)="handleClick(bootcampContent.bootcampId)" class="flex mt-auto justify-center gap-4 px-2 py-3 xl:px-6 xl:py-4 font-bold leading-5 bg-amber-400 hover:brightness-110
         text-xl border border-black border-solid rounded-[56.813px] text-slate-900 max-md:px-5 2xl:mt-8"
         [ngClass]="{'opacity-50 cursor-not-allowed': !confirmed && !bootcampContent?.hasApplicantBootcampContent || bootcampContent.ifApplicantPassed}"
         [disabled]="!confirmed && !bootcampContent?.hasApplicantBootcampContent || bootcampContent.ifApplicantPassed"
@@ -57,7 +62,8 @@
 
 
 </div>
-<div class="flex flex-wrap mx-20 px-8 py-6 border-2 border-gray-300 mt-12 leading-loose rounded-xl shadow-xl 2xl:mx-32">
+<div
+  class="flex flex-wrap mx-4 lg:mx-20 px-8 py-6 border-2 border-gray-300 mt-12 leading-loose rounded-xl shadow-xl 2xl:mx-32">
   <div [innerHTML]="content" class="no-tailwindcss-base remove-all "> </div>
 
 </div>

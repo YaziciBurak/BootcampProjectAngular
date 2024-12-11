@@ -4,14 +4,16 @@ import {
   Component,
   Input,
   OnInit,
+  Renderer2,
 } from '@angular/core';
-import { Router, RouterLink, RouterModule } from '@angular/router';
+import { NavigationSkipped, NavigationStart, Router, RouterLink, RouterModule } from '@angular/router';
 import { LoginComponent } from '../../../features/components/login/login.component';
 import { RegisterComponent } from '../../../features/components/register/register.component';
 import { CommonModule } from '@angular/common';
 import { MenuItem } from 'primeng/api';
 import { AuthService } from '../../../features/services/concretes/auth.service';
 import {
+  Collapse,
   Dropdown,
   DropdownOptions,
   InstanceOptions,
@@ -26,8 +28,6 @@ import { GetlistBootcampResponse } from '../../../features/models/responses/boot
   standalone: true,
   imports: [
     RouterModule,
-    LoginComponent,
-    RegisterComponent,
     CommonModule,
     FormsModule,
   ],
@@ -42,14 +42,16 @@ export class NavbarComponent {
   userLogged!: boolean;
   searchResults: GetlistBootcampResponse[] = [];
   searchDropdown: Dropdown;
-
+  isMenuOpen = false;
   constructor(
     private bootcampService: BootcampService,
     private authService: AuthService,
     private router: Router,
     private change: ChangeDetectorRef,
-    private elementRef: ElementRef
-  ) {}
+    private renderer: Renderer2,
+    private el: ElementRef
+
+  ) { }
 
   ngOnInit(): void {
     initFlowbite();
@@ -73,6 +75,58 @@ export class NavbarComponent {
       options,
       instanceOptions
     );
+
+    this.initHamburgerMenu();
+    this.initProfileMenu();
+  }
+
+  initHamburgerMenu() {
+    // set the target element that will be collapsed or expanded (eg. navbar menu)
+    const $targetEl = document.getElementById('navbar-hamburger');
+
+    // optionally set a trigger element (eg. a button, hamburger icon)
+    const $triggerEl = document.getElementById('hamburger-open');
+
+    // optional options with default values and callback functions
+    const options = {};
+
+    const instanceOptions = {
+      id: 'targetEl',
+      override: true
+    };
+
+    const collapse = new Collapse($targetEl, $triggerEl, options, instanceOptions);
+
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationStart || event instanceof NavigationSkipped) {
+        collapse.collapse();
+      }
+    });
+  }
+
+  initProfileMenu() {
+    // set the target element that will be collapsed or expanded (eg. navbar menu)
+    const $targetEl = document.getElementById('profile-menu');
+
+    // optionally set a trigger element (eg. a button, hamburger icon)
+    const $triggerEl = document.getElementById('profile');
+
+    // optional options with default values and callback functions
+
+    const options: DropdownOptions = {
+
+    };
+    const instanceOptions = {
+      id: 'targetEl',
+      override: true
+    };
+
+    const dropdown = new Dropdown($targetEl, $triggerEl, options);
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationStart || event instanceof NavigationSkipped) {
+        dropdown.hide(); // Collapse yerine hide kullanılır
+      }
+    });
   }
 
   logOut() {
@@ -83,8 +137,11 @@ export class NavbarComponent {
     this.authService.loggedIn$.subscribe((isLoggedIn) => {
       this.isLoggedIn = isLoggedIn;
       this.change.detectChanges();
+
     });
+
   }
+
   checkUserRoles() {
     this.isLoggedIn = this.authService.loggedIn();
     this.isAdmin = this.authService.isAdmin();
@@ -113,7 +170,7 @@ export class NavbarComponent {
   }
 
   onSearchInput(query: string) {
-    if (!query) {
+    if (!query || query == "") {
       this.searchDropdown.hide();
     }
 
@@ -130,6 +187,7 @@ export class NavbarComponent {
       )
       .subscribe(
         (response) => {
+          this.searchQuery = query;
           this.searchResults = response.items;
           this.searchDropdown.show();
         },
@@ -146,5 +204,8 @@ export class NavbarComponent {
     } else {
       this.router.navigate(['/sss']);
     }
+  }
+  toggleMenu() {
+    this.isMenuOpen = !this.isMenuOpen;
   }
 }

@@ -1,28 +1,34 @@
 <div class="relative flex">
-    <img loading="lazy" src="/assets/img/fixed-top.svg" class="mt-4" style="z-index: 0;" />
 
-    <div class="flex flex-row ml-36 -mt-1 2xl:mt-2 2xl:ml-60 max-w-full w-[274px] max-md:ml-2.5 absolute top-12"
+    <div class="flex flex-col">
+        <img loading="lazy" src="/assets/img/fixed-top.svg" class="mt-4" style="z-index: 0" />
+        <img loading="lazy" src="/assets/img/fixed-top.svg" class="sm:hidden" style="z-index: 0" />
+
+    </div>
+
+    <div class="flex flex-row ml-12  absolute top-8 md:top-12 md:ml-24 lg:ml-36 2xl:ml-60 2xl:mt-10 gap-3 font-semibold 2xl:text-xl"
         style="z-index: 1;">
 
-        <div class="flex gap-3 mt-2 text-base leading-7 whitespace-nowrap font-semibold">
+
+        <div class="flex gap-3 mt-2  leading-7 whitespace-nowrap font-semibold">
             <div class="text-indigo-950">Profilim</div>
-            <div class="text-gray-400 text-xl">></div>
+            <div class="text-gray-400">></div>
             <div class="text-indigo-600">Sertifikalarım</div>
         </div>
     </div>
 </div>
-
-<div class="flex flex-col justify-center px-5 py-2 mx-24 mt-20 gap-10">
+<div class="flex flex-col justify-center px-5 py-2 mx-6 xl:mx-24 mt-20 gap-10">
     <ng-container *ngFor="let certificate of certificateList.items">
-        <div class="flex flex-row border border-solid border-gray-300 rounded-lg inline-flex px-5 py-2  ">
+        <div
+            class="flex flex-col items-center md:flex-row border border-solid border-gray-300 rounded-lg inline-flex px-5 py-2  ">
             <img loading="lazy" src="/assets/img/certificate.svg"
                 class="w-[150px] h-[100px] 2xl:w-[211px] 2xl:h-[154px]" />
-            <div class="flex flex-col self-center ml-8 gap-4">
+            <div class="flex flex-col items-center ml-0  md:ml-8 gap-4">
                 <div class="text-2xl font-bold text-indigo-900">{{certificate.bootcampName}}</div>
                 <div class="text-lg font-semibold text-indigo-900">{{formatDate(certificate.createdDate)}}</div>
             </div>
             <button (click)="downloadCertificate(certificate.applicantId, certificate.bootcampId)"
-                class="flex flex-row self-center ml-auto gap-2 bg-indigo-700 rounded-full py-2 px-3 hover:brightness-110">
+                class="flex flex-row gap-2 md:ml-auto bg-indigo-700 rounded-full py-2 px-3 hover:brightness-110">
                 <div class="  self-center text-xl font-semibold text-white">Sertifika İndir</div>
                 <img loading="lazy" src="/assets/img/download-icon.svg" />
             </button>

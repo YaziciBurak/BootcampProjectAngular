@@ -1,23 +1,32 @@
+<!--en üstteki resimli başlık-->
+<div class="relative flex">
+  <div class="flex flex-col">
+    <img loading="lazy" src="/assets/img/fixed-top.svg" class="mt-4" style="z-index: 0" />
+    <img loading="lazy" src="/assets/img/fixed-top.svg" class="sm:hidden" style="z-index: 0" />
 
-  <!--en üstteki resimli başlık-->
-  <div class="relative flex">
-    <img loading="lazy" src="/assets/img/fixed-top.svg" class="mt-4 w-full" style="z-index: 0;" />
-  
-    <div class="flex flex-row ml-36 absolute top-12  2xl:ml-60 2xl:mt-10 gap-3  text-xl  font-semibold"
-      style="z-index: 1;">
-      <div class="text-indigo-900">Ana Sayfa</div>
-      <div class="text-gray-400 text-xl">></div>
-      <div class="text-indigo-600">Eğitmenler</div>
-    </div>
   </div>
- <!--en üstteki resimli başlık bitiş-->
+
+  <div
+    class="flex flex-row ml-12  absolute top-8 md:top-12 md:ml-24 lg:ml-36 2xl:ml-60 2xl:mt-10 gap-3  text-xl  font-semibold"
+    tyle="z-index: 1;">
+    <div class="text-indigo-900">Ana Sayfa</div>
+    <div class="text-gray-400 text-xl">></div>
+    <div class="text-indigo-600">Eğitmenler</div>
+  </div>
+</div>
+<!--en üstteki resimli başlık bitiş-->
 
 <div class="flex flex-wrap justify-center gap-16 my-24 2xl:gap-36 ">
- <!--1 tane kart başlangıç--> <ng-container *ngFor="let instructors of instructorList.items"><div class="flex flex-col items-center w-[300px] h-[370px] px-4 py-4 border-gray-300 rounded-xl shadow-xl border-2">
- <div class=" mt-10  flex justify-center w-[240px] h-[200px]  bg-gray-100 rounded-full" style="z-index: 0;" >
-  <img loading="lazy" [src]="instructors.instructorImagePath" alt="image" class= " -mt-10 w-[300px] h-[250px] " style="z-index: 1;"/>
- </div>
- <div class="mt-4 text-indigo-900 text-2xl font-bold">{{instructors.firstName}} {{instructors.lastName}}</div>
- <div class="mt-2 text-indigo-600 text-xl ">{{instructors.companyName}}</div>
-<!--1 tane kart bitiş--> </div></ng-container>
-<!--kartların konumu ayarlamak için en dıştaki bitiş--></div>
+  <!--1 tane kart başlangıç--> <ng-container *ngFor="let instructors of instructorList.items">
+    <div class="flex flex-col items-center w-[300px] h-[370px] px-4 py-4 border-gray-300 rounded-xl shadow-xl border-2">
+      <div class=" mt-10  flex justify-center w-[240px] h-[200px]  bg-gray-100 rounded-full" style="z-index: 0;">
+        <img loading="lazy" [src]="instructors.instructorImagePath" alt="image" class=" -mt-10 w-[300px] h-[250px] "
+          style="z-index: 1;" />
+      </div>
+      <div class="mt-4 text-indigo-900 text-2xl font-bold">{{instructors.firstName}} {{instructors.lastName}}</div>
+      <div class="mt-2 text-indigo-600 text-xl ">{{instructors.companyName}}</div>
+      <!--1 tane kart bitiş-->
+    </div>
+  </ng-container>
+  <!--kartların konumu ayarlamak için en dıştaki bitiş-->
+</div>

@@ -1,9 +1,23 @@
-<div class="flex flex-col md:flex-row  content-center flex-wrap  text-slate-900 pt-12 pb-6 px-8 2xl:px-20">
-  <div
-    class="flex flex-col md:flex-row lg:flex-row justify-center md:justify-start lg:justify-start gap-5 text-base font-medium">
+<div class="flex flex-row md:flex-row  flex-wrap  text-slate-900 pt-6 pb-6 px-2 lg:px-8 pt-12 2xl:px-20">
+  <div class="flex flex-row lg:flex-row  md:justify-start lg:justify-start gap-5 text-base font-medium">
+    <div>
+      <button type="button" class=" md:hidden text-slate-900 focus:outline-none" id="hamburger-open">
+        <span class="sr-only">Open main menu</span>
+        <svg class="w-8 h-8" fill="none" aria-hidden="true" stroke="currentColor" viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+        </svg>
+      </button>
+
+    </div>
     <img routerLink="homepage" loading="lazy" src="/assets/img/techventure3.png"
-      class=" w-[180px] hover:cursor-pointer" />
-    <div class="flex gap-6 ml-2 2xl:gap-10 2xl:ml-8 max-md:flex-wrap max-md:max-w-full">
+      class=" w-[120px] md:w-[180px] hover:cursor-pointer" />
+
+
+
+
+    <div class="hidden md:flex gap-6 ml-2 2xl:gap-10 2xl:ml-8 max-md:flex-wrap max-md:max-w-full">
+
       <button routerLink="homepage" class="my-auto hover:text-indigo-600 capitalize text-lg">
         Ana Sayfa
       </button>
@@ -14,7 +28,7 @@
       <button (click)="goToFAQ()" class="hover:text-indigo-600 capitalize text-lg">SSS</button>
 
       <div
-        class=" hidden md:block md:flex gap-1.5 px-4 items-center md:w-44 xl:w-64 2xl:w-96 border border-gray-300 rounded-full text-slate-400 max-md:flex-wrap">
+        class=" hidden lg:block lg:flex gap-1.5 px-4 items-center md:w-44 xl:w-64 2xl:w-96 border border-gray-300 rounded-full text-slate-400 max-md:flex-wrap">
 
         <img loading="lazy" src="/assets/img/search-icon.svg" id="search-icon" />
         <input [ngModel]="searchQuery" (ngModelChange)="onSearchInput($event)" type="text" id="search-bar"
@@ -41,8 +55,7 @@
     </div>
   </div>
 
-  <div class="flex flex-row gap-5 md:justify-end lg:justify-end md:ml-auto lg:ml-auto items-start text-base font-bold"
-    id="navbar-default">
+  <div class="flex flex-row gap-5 justify-end ml-auto items-center text-sm font-bold md:text-base" id="navbar-default">
     <!-- Kullanıcı giriş yapmışsa -->
     <ng-container *ngIf="isLoggedIn; else guestMenu">
       <!-- Kullanıcı admin mi? -->
@@ -53,16 +66,16 @@
           Admin Panel
         </button>
         <button (click)="logOut()"
-          class="px-5 py-3 bg-amber-400 border border-blue-950 border-opacity-20 rounded-[50px] hover:brightness-110"
+          class="px-2 py-1 xl:px-5 xl:py-3 bg-amber-400 border border-blue-950 border-opacity-20 rounded-[50px] hover:brightness-110"
           style="box-shadow: 5px 5px 0px 0px black;">
           Çıkış Yap
         </button>
       </ng-container>
 
       <ng-template #userMenu>
-        <img loading="lazy" src="/assets/img/profile-icon.svg" class="self-center mr-1" />
-        <button id="dropdownNewButton" data-dropdown-toggle="dropdownMenu"
-          class="px-5 py-3 bg-amber-400 border border-blue-950 border-opacity-20 rounded-[50px] hover:brightness-110 inline-flex items-center"
+        <img loading="lazy" src="/assets/img/profile-icon.svg" class="hidden lg:block self-center mr-1" />
+        <button id="profile"
+          class="px-2 py-1 xl:px-5 xl:py-3 bg-amber-400 border border-blue-950 border-opacity-20 rounded-[50px] hover:brightness-110 inline-flex items-center"
           type="button" style="box-shadow: 5px 5px 0px 0px black;">
           Profilim
           <svg class="w-4 h-4 ms-3 mt-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
@@ -71,9 +84,9 @@
               d="m1 1 4 4 4-4" />
           </svg>
         </button>
-        <div id="dropdownMenu"
-          class="flex hidden bg-white divide-y divide-gray-300 rounded-lg shadow dark:bg-gray-700 z-10">
-          <ul class="flex flex-col font-semibold text-indigo-900" aria-labelledby="dropdownNewButton">
+        <div id="profile-menu"
+          class="  flex hidden bg-white divide-y divide-gray-300 rounded-lg shadow dark:bg-gray-700 z-30 ">
+          <ul class="flex flex-col font-semibold text-indigo-900" aria-labelledby="profile">
             <li class="flex flex-row pl-2 pr-4 py-1 border-b border-gray-200 hover:bg-gray-100">
               <img loading="lazy" src="/assets/img/update-profile-icon.svg" class="self-center mr-1" />
               <a routerLink="updateMyProfile" class="block py-2 pr-6 hover:cursor-pointer">Profilimi Güncelle</a>
@@ -97,7 +110,7 @@
           </ul>
         </div>
         <button (click)="logOut()"
-          class="px-5 py-3 bg-amber-400 border border-blue-950 border-opacity-20 rounded-[50px] hover:brightness-110"
+          class="px-2 py-1 xl:px-5 xl:py-3 bg-amber-400 border border-blue-950 border-opacity-20 rounded-[50px] hover:brightness-110"
           style="box-shadow: 5px 5px 0px 0px black;">
           Çıkış Yap
         </button>
@@ -107,14 +120,52 @@
     <!-- Giriş yapmamışsa -->
     <ng-template #guestMenu>
       <button routerLink="/login"
-        class="px-5 py-3 bg-amber-400 border border-blue-950 border-opacity-20 rounded-[50px] hover:brightness-110"
+        class=" px-2 py-1 xl:px-5 xl:py-3 bg-amber-400 border border-blue-950 border-opacity-20 rounded-[50px] hover:brightness-110"
         style="box-shadow: 5px 5px 0px 0px black;">
         Giriş Yap
       </button>
       <button routerLink="/register"
-        class="px-5 py-3 bg-amber-400 border border-blue-950 border-opacity-20 rounded-[50px] hover:brightness-110"
+        class="px-2 py-1 xl:px-5 xl:py-3 bg-amber-400 border border-blue-950 border-opacity-20 rounded-[50px] hover:brightness-110"
         style="box-shadow: 5px 5px 0px 0px black;">
         Kayıt Ol
       </button>
     </ng-template>
+  </div>
+  <div id="navbar-hamburger" class="hidden w-full text-indigo-900 text-2xl font-medium mt-12 ">
+    <ul class=" flex flex-col ">
+      <button routerLink="homepage" class="py-2 my-auto hover:text-indigo-600 capitalize text-lg hover:bg-gray-100">
+        Ana Sayfa
+      </button>
+      <button routerLink="bootcamps"
+        class="py-2 hover:text-indigo-600 capitalize text-lg hover:bg-gray-100">Bootcampler</button>
+      <button routerLink="instructors" class="py-2 hover:text-indigo-600 capitalize text-lg hover:bg-gray-100">
+        Eğitmenler
+      </button>
+      <button (click)="goToFAQ()" class="py-2 hover:text-indigo-600 capitalize text-lg hover:bg-gray-100">SSS</button>
+    </ul>
+    <div class="flex flex-col mx-16">
+      <div class="flex gap-1.5 px-4 items-center border border-gray-300 rounded-full text-slate-400 ">
+
+        <img loading="lazy" src="/assets/img/search-icon.svg" id="search-icon" />
+        <input [ngModel]="searchQuery" (ngModelChange)="onSearchInput($event)" type="text" id="search-bar"
+          placeholder="Search For Course . . ." autocomplete="off"
+          class="  border-none bg-transparent text-opacity-20 font-thin" />
+
+      </div>
+      <div id="dropdownSearchResults" class="flex text-lg rounded-lg shadow ">
+        <ul class=" flex flex-col  font-semibold text-indigo-900  " aria-labelledby="dropdownSearchResult">
+          <ng-container *ngFor="let bootcamp of searchResults">
+            <li class="flex flex-row pl-2 pr-4 py-1 border-b border-gray-200 hover:bg-gray-100 ">
+              <img loading="lazy" src="{{bootcamp.bootcampImagePath}}"
+                class="self-center mr-1 max-w-[32px] max-h-[32px]" />
+              <a routerLink="bootcampDetail/{{bootcamp.id}}" class=" py-2  hover:cursor-pointer ">{{bootcamp.name}}</a>
+            </li>
+          </ng-container>
+          <li *ngIf="searchQuery !== undefined && searchResults.length < 1"
+            class="flex flex-row pl-2 pr-4 py-1 border-b border-gray-200 hover:bg-gray-100">
+            Sonuç bulunamadı.
+          </li>
+        </ul>
+      </div>
+    </div>
   </div>

@@ -1,14 +1,19 @@
 <div class="relative flex">
 
-  <img loading="lazy" src="/assets/img/fixed-top.svg" class="mt-4" style="z-index: 0;" />
+  <div class="flex flex-col">
+    <img loading="lazy" src="/assets/img/fixed-top.svg" class="mt-4" style="z-index: 0" />
+    <img loading="lazy" src="/assets/img/fixed-top.svg" class="sm:hidden" style="z-index: 0" />
 
-  <div class="flex flex-row ml-36 -mt-1 2xl:mt-2 2xl:ml-60 max-w-full w-[274px] max-md:ml-2.5 absolute top-12"
+  </div>
+
+  <div
+    class="flex flex-row ml-12  absolute top-8 md:top-12 md:ml-24 lg:ml-36 2xl:ml-60 2xl:mt-10 gap-3 font-semibold 2xl:text-xl"
     style="z-index: 1;">
 
 
-    <div class="flex gap-3 mt-2 text-base leading-7 whitespace-nowrap font-semibold">
+    <div class="flex gap-3 mt-2  leading-7 whitespace-nowrap font-semibold">
       <div class="text-indigo-950">Profilim</div>
-      <div class="text-gray-400 text-xl">></div>
+      <div class="text-gray-400">></div>
       <div class="text-indigo-600">Profilimi Güncelle</div>
     </div>
   </div>
@@ -39,10 +44,7 @@
           <input formControlName="firstName" id="firstName" name="firstName"
             class="form-control justify-center items-start px-5 py-3 mt-2.5 text-base text-black capitalize bg-white rounded-md border border-solid border-neutral-200 max-md:px-5"
             type="text" placeholder="Ad yazınız . . ." />
-            <div
-            *ngIf="submitted && applicantUpdateForm.get('firstName').invalid"
-            class="error-message"
-          >
+          <div *ngIf="submitted && applicantUpdateForm.get('firstName').invalid" class="error-message">
             <div *ngIf="applicantUpdateForm.get('firstName').hasError('required')">
               İsim alanı zorunludur.
             </div>
@@ -63,10 +65,7 @@
           <input formControlName="lastName" id="lastName" name="lastName"
             class="form-control justify-center items-start px-5 py-3 mt-2.5 text-base text-black capitalize bg-white rounded-md border border-solid border-neutral-200 max-md:px-5"
             type="text" placeholder="Soyad yazınız . . ." />
-            <div
-            *ngIf="submitted && applicantUpdateForm.get('lastName').invalid"
-            class="error-message"
-          >
+          <div *ngIf="submitted && applicantUpdateForm.get('lastName').invalid" class="error-message">
             <div *ngIf="applicantUpdateForm.get('lastName').hasError('required')">
               Soyadı alanı zorunludur.
             </div>
@@ -77,9 +76,9 @@
               Soyadı en az 2 harfli olmalı.
             </div>
           </div>
-          </div>
-        
-          </div>
+        </div>
+
+      </div>
 
       <div class="mt-4 text-lg font-bold leading-5 text-slate-900 max-md:mt-10 max-md:max-w-full">
         <label for="userName">Kullanıcı Adı</label>
@@ -87,10 +86,7 @@
       <input formControlName="userName" id="userName" name="userName" type="text"
         placeholder="Kullanıcı adı yazınız . . ."
         class="form-control justify-center items-start px-5 py-3 mt-2.5 text-black whitespace-nowrap bg-white rounded-md border border-solid border-neutral-200 max-md:px-5 max-md:max-w-full" />
-        <div
-        *ngIf="submitted && applicantUpdateForm.get('userName').invalid"
-        class="error-message"
-      >
+      <div *ngIf="submitted && applicantUpdateForm.get('userName').invalid" class="error-message">
         <div *ngIf="applicantUpdateForm.get('userName').hasError('required')">
           Kullanıcı adı zorunludur.
         </div>
@@ -98,15 +94,12 @@
           Kullanıcı adı en az 4 karakter olmalıdır.
         </div>
       </div>
-        <div class="mt-4 text-lg font-bold leading-5 text-slate-900 max-md:mt-10 max-md:max-w-full">
+      <div class="mt-4 text-lg font-bold leading-5 text-slate-900 max-md:mt-10 max-md:max-w-full">
         <label for="email">Email</label>
       </div>
       <input formControlName="email" id="email" name="email" type="email" placeholder="Email yazınız . . ."
         class="form-control justify-center items-start px-5 py-3 mt-2.5 text-black whitespace-nowrap bg-white rounded-md border border-solid border-neutral-200 max-md:px-5 max-md:max-w-full" />
-        <div
-        *ngIf="submitted && applicantUpdateForm.get('email').invalid"
-        class="error-message"
-      >
+      <div *ngIf="submitted && applicantUpdateForm.get('email').invalid" class="error-message">
         <div *ngIf="applicantUpdateForm.get('email').hasError('required')">
           Email alanı zorunludur.
         </div>
@@ -120,10 +113,7 @@
       <input formControlName="nationalIdentity" id="nationalIdentity" name="nationalIdentity" type="text"
         placeholder="T.C. kimlik yazınız . . ."
         class="form-control justify-center items-start px-5 py-3 mt-2.5 text-black whitespace-nowrap bg-white rounded-md border border-solid border-neutral-200 max-md:px-5 max-md:max-w-full" />
-        <div
-        *ngIf="submitted && applicantUpdateForm.get('nationalIdentity').invalid"
-        class="error-message"
-      >
+      <div *ngIf="submitted && applicantUpdateForm.get('nationalIdentity').invalid" class="error-message">
         <div *ngIf="applicantUpdateForm.get('nationalIdentity').hasError('required')">
           Kimlik alanı zorunludur.
         </div>
@@ -133,21 +123,18 @@
         <div *ngIf="applicantUpdateForm.get('nationalIdentity').hasError('pattern')">
           Kimlik numarası sadece sayılardan oluşabilir.
         </div>
-        </div>
+      </div>
       <div class="mt-4 text-lg font-bold leading-5 text-slate-900 max-md:mt-10 max-md:max-w-full">
         <label for="dateOfBirth">Doğum Tarihi</label>
       </div>
       <input formControlName="dateOfBirth" id="dateOfBirth" name="dateOfBirth" type="date"
         placeholder="Doğum tarihinizi giriniz . . ."
         class="form-control justify-center items-start px-5 py-3 mt-2.5 text-black whitespace-nowrap bg-white rounded-md border border-solid border-neutral-200 max-md:px-5 max-md:max-w-full" />
-        <div
-        *ngIf="submitted && applicantUpdateForm.get('nationalIdentity').invalid"
-        class="error-message"
-      >
+      <div *ngIf="submitted && applicantUpdateForm.get('nationalIdentity').invalid" class="error-message">
         <div *ngIf="applicantUpdateForm.get('dateOfBirth').hasError('required')">
           Doğum tarihi boş bırakılamaz.
         </div>
-        </div>
+      </div>
       <div class="mt-4 text-lg font-bold leading-5 text-slate-900 max-md:mt-10 max-md:max-w-full">
         <label for="about">Hakkımda</label>
       </div>
