@@ -146,12 +146,29 @@ API_URL="http://localhost:5278/api" npm run prod:build
 
 ## Screenshots
 
+### Admin Panel
 ![Admin Panel](screenshots/adminpanel.png)
+
+### My Applications
 ![My Applications](screenshots/applications.png)
+
+### Bootcamp Content
 ![Bootcamp Content](screenshots/bootcampcontent.png)
+
+### Bootcamp Detail
 ![Bootcamp Detail](screenshots/bootcampdetail.png)
+
+### My Certificates
 ![My Certificates](screenshots/certificate.png)
+
+### Certificate Example
 ![Certificate Example](screenshots/certificatexample.png)
+
+### Quiz Fail
 ![Quiz Fail](screenshots/quizfail.png)
+
+### Quiz Pass
 ![Quiz Pass](screenshots/quizpass.png)
+
+### Update My Profile
 ![Update My Profile](screenshots/updateprofile.png)
